@@ -46,7 +46,7 @@ export class LoginPageComponent {
     if (this.loginForm.status === 'VALID') {
       this.route.navigate(['dashboard'])
     }
-    this.chatservice.getUsersData({ ...this.loginForm.value, isAdmin: true }).subscribe((res: any) => {
+    this.chatservice.getUserData({ ...this.loginForm.value, isAdmin: true }).subscribe((res: any) => {
       console.log(res, '45:::');
     })
   }
