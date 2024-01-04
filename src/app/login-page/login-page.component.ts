@@ -58,12 +58,13 @@ export class LoginPageComponent {
       this.chatservice.getUserData({ ...this.loginForm.value, isAdmin: true }).subscribe((res: any) => {
         localStorage.setItem('userData' , JSON.stringify(res))
         console.log(res, '45:::');
-      })
-      if(this.RoleDetails !== 'Admin') {
+        if(this.RoleDetails !== 'Admin') {
           this.route.navigate(['User-page'])
-      } else {
-        this.route.navigate(['dashboard'])
-      }
+        } else {
+          this.route.navigate(['dashboard'])
+        }
+      })
+      
     }
   }
 }
