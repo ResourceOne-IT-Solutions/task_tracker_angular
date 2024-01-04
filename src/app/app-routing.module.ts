@@ -5,12 +5,14 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { DashBoardComponent } from './dash-board/dash-board.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { guardGuard } from './services/auth/guard.guard';
+import { UserPageComponent } from './user-page/user-page.component';
 
 const routes: Routes = [
   { path: '', component: WellComePageComponent },
   { path: 'login_page', component: LoginPageComponent },
   { path: 'dashboard', component: DashBoardComponent, canActivate: [guardGuard] },
-  { path: 'create-user', component: CreateUserComponent }
+  { path: 'create-user', component: CreateUserComponent },
+  { path: 'User-page', component: UserPageComponent }
 ];
 
 @NgModule({

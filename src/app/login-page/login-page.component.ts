@@ -14,6 +14,7 @@ export class LoginPageComponent {
   est: any;
   pstDate: any;
   cstDate: any;
+  RoleDetails: any;
   constructor(private route: Router, private fb: FormBuilder, private chatservice: ChatService) { }
   'loginForm': FormGroup;
   ngOnInit() {
@@ -29,6 +30,11 @@ export class LoginPageComponent {
     this.loginForm.valueChanges.subscribe((res: any) => {
       this.UserDataa = false;
     })
+    this.chatservice.RoleData.subscribe((res: any) => {
+      this.RoleDetails = res;
+      console.log(res, '28:::::')
+    }
+    )
     setInterval(() => {
       let Estdate = new Date();
       this.est = Estdate.toLocaleTimeString('en-US', {
@@ -51,9 +57,13 @@ export class LoginPageComponent {
     if (this.loginForm.valid) {
       this.chatservice.getUserData({ ...this.loginForm.value, isAdmin: true }).subscribe((res: any) => {
         localStorage.setItem('userData' , JSON.stringify(res))
-        this.route.navigate(['dashboard'])
         console.log(res, '45:::');
       })
+      if(this.RoleDetails !== 'Admin') {
+          this.route.navigate(['User-page'])
+      } else {
+        this.route.navigate(['dashboard'])
+      }
     }
   }
 }

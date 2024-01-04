@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ChatService } from '../services/chat.service';
 
 @Component({
   selector: 'app-well-come-page',
@@ -8,12 +9,11 @@ import { Router } from '@angular/router';
 })
 export class WellComePageComponent {
 
-  constructor(private Router: Router) {
+  constructor(private Router: Router, private chatservice: ChatService) {
   }
-  userDash() {
-    this.Router.navigate(['/login_page']);
-  }
-  adminDash() {
+
+  LoginPage(role: any) {
+    this.chatservice.getRoleData(role);
     this.Router.navigate(['/login_page']);
   }
 }
