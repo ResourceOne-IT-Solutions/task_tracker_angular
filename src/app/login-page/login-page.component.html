@@ -1,15 +1,89 @@
-<div>
-    <form action="">
+<!-- <div>
+    <form action="" [formGroup]="loginForm">
         <div>
-            Admin:<input type="text">
+            Admin:<input type="text" formControlName="userId">
         </div>
         <div>
-            Password:<input type="password">
+            Password:<input type="password"  formControlName="password">
         </div>
+        <p class="errorMsg" *ngIf="UserDataa">UserName or Password Not Matched...</p>
         <div>
            <button (click)="AdminLogin()">Submit</button>
         </div>
     </form>
+
+    <h2>EST - {{est}}</h2>
+    <h2>PST - {{pstDate}}</h2>
+    <h2>CST - {{cstDate}}</h2>
+</div> -->
+
+<!-- 
+
+
+
+<section class="vh-100">
+   <div class="container-fluid h-custom">
+     <div class="row d-flex justify-content-center align-items-center h-100">
+       <div class="col-md-9 col-lg-6 col-xl-5">
+         <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+           class="img-fluid" alt="Sample image">
+       </div>
+       <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+         <form [formGroup]="loginForm" (ngSubmit)="loginSubmit()">
+           <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
+             <p class="lead fw-normal mb-0 me-3">Sign in with</p>
+           </div>
+ 
+           <div class="divider d-flex align-items-center my-4">
+             <p class="text-center fw-bold mx-3 mb-0">Or</p>
+           </div>
+ 
+         
+           <div class="form-outline mb-4">
+              <label class="form-label" for="form3Example3">Email address</label>
+             <input type="email" id="form3Example3" formControlName="name" class="form-control form-control-lg"
+               placeholder="Enter a valid  name" />
+           </div>
+ 
+          
+           <div class="form-outline mb-3">
+              <label class="form-label" for="form3Example4">Password</label>
+             <input type="password" id="form3Example4"  formControlName="password" class="form-control form-control-lg"
+               placeholder="Enter password" />
+           </div>
+           <button class="btn btn-primary" type="submit">Login</button>
+ 
+           
+ 
+ 
+         </form>
+       </div>
+     </div>
+   </div>
+  
+ </section> 
+ -->
+
+
+<div class="Main-Conatiner">
+    <div class="wrapper">
+        <div class="logo">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRrgJnM9FLGc_bijjNnpD5Fxu6wd6QEwjP2g&usqp=CAU"
+                alt="">
+        </div>
+        <div class="text-center mt-4 name">
+            Login Details Form
+        </div>
+        <form class="p-3 mt-3" [formGroup]="loginForm">
+            <div class="form-field d-flex align-items-center">
+                <span class="far fa-user"></span>
+                <input type="text" name="userName" id="userName" formControlName="userId" placeholder="Username">
+            </div>
+            <div class="form-field d-flex align-items-center">
+                <input type="password" name="password" id="pwd" formControlName="password" placeholder="Password">
+            </div>
+            <p class="btn btn-danger" *ngIf="loginForm.invalid && UserDataa">UserName or Password Not Matched...</p>
+            <button class="LoginButton mt-3" type="button" (click)="AdminLogin()">Login</button>
+        </form>
+    </div>
 </div>
-
-

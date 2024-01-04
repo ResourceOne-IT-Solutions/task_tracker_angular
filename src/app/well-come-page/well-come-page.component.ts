@@ -7,8 +7,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./well-come-page.component.scss']
 })
 export class WellComePageComponent {
-  constructor(private route:Router){}
-  User_Login_page(){
-    this.route.navigate(['login_page'])
+
+  constructor(private Router: Router) {
+  }
+  userDash() {
+    this.Router.navigate(['/login_page']);
+  }
+  adminDash() {
+    this.Router.navigate(['/login_page']);
   }
 }
