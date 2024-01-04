@@ -1,3 +1,11 @@
+<div>
+    <h1 class="m-2">Admin Page</h1>
+    <div>
+        <button class="btn btn-primary m-2" (click)="creatTicket()">Create Ticket</button>
+        <button class="btn btn-primary m-2" (click)="addNewUser()">Add User</button>
+        <button class="btn btn-primary m-2" (click)="addNewClient()">Add Client</button>
+    </div>
+</div>
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
     <!--- Note that these columns can be defined in any order.
@@ -34,10 +42,67 @@
         <th mat-header-cell *matHeaderCellDef> Action</th>
         <td mat-cell *matCellDef="let element">
 
-            <button mat-raised-button color="primary">Edit</button>
+            <button mat-raised-button color="primary" (click)="editUser(element)">Edit</button>
             <button mat-raised-button color="warn">Delete</button>
         </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+
+<ng-template #userModel let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">{{modelHeader}}</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group" [formGroup]="userForm">
+                    <input type="text" placeholder="first name" class="form-control m-2" formControlName="fname">
+                    <input type="text" placeholder="last name" class="form-control m-2" formControlName="lname">
+                    <input type="email" placeholder="email" class="form-control m-2" formControlName="email">
+                    <input type="number" placeholder="phone number" class="form-control m-2" formControlName="phone">
+                    <input type="date" placeholder="date of birth" class="form-control m-2" formControlName="dob">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
+        <button class="btn btn-sm btn-primary" (click)="addUser(d)" *ngIf="modelHeader==='Add New User'">Add
+            User</button>
+        <button class="btn btn-sm btn-primary" (click)="updateUser(d)"
+            *ngIf="modelHeader==='Update User'">Update</button>
+
+    </div>
+</ng-template>
+
+<ng-template #addClient let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Add New Client</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group" [formGroup]="clientForm">
+                    <input type="text" placeholder="first name" class="form-control m-2" formControlName="name">
+                    <!-- <input type="text" placeholder="location" class="form-control m-2" formControlName="location"> -->
+                    <select class="form-control m-2" formControlName="location">
+                        <option value="" disabled selected class="hide">Select Your Location</option>
+                        <option *ngFor="let city of cities" value="city">{{city}}</option>
+                    </select>
+                    <input type="email" placeholder="email" class="form-control m-2" formControlName="email">
+                    <input type="number" placeholder="phone number" class="form-control m-2" formControlName="mobile">
+                    <!-- <input type="text" placeholder="technologies" class="form-control m-2" formControlName="technologies"> -->
+                    <ng-multiselect-dropdown placeholder="select technologies" [settings]="dropdownSettings"
+                        [data]="technologies" class="form-control m-2" formControlName="technologies">
+                    </ng-multiselect-dropdown>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
+        <button class="btn btn-sm btn-primary" (click)="newClient(d)">Add New Client</button>
+    </div>
+</ng-template>
