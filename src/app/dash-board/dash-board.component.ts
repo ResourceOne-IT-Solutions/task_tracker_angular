@@ -15,16 +15,16 @@ export interface PeriodicElement {
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'mahesh', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'emmanuel', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'naresh', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'bhaskar', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: '', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
+  { position: 1, name: 'mahesh', weight: 1.0079, symbol: 'H' },
+  { position: 2, name: 'emmanuel', weight: 4.0026, symbol: 'He' },
+  { position: 3, name: 'naresh', weight: 6.941, symbol: 'Li' },
+  { position: 4, name: 'bhaskar', weight: 9.0122, symbol: 'Be' },
+  { position: 5, name: '', weight: 10.811, symbol: 'B' },
+  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
+  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
+  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
+  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
+  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
 ];
 @Component({
   selector: 'app-dash-board',
@@ -32,19 +32,16 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./dash-board.component.scss']
 })
 export class DashBoardComponent {
-  displayedColumns: string[] = ['firstName', 'designation', 'empId', 'dob' , 'action'];
-  dataSource = ELEMENT_DATA;
+  displayedColumns: string[] = ['firstName', 'designation', 'empId', 'dob', 'action'];
+  dataSource: any;
   user: any;
-  TableData :any =[]
-  constructor(private chatservice :ChatService){}
- ngOnInit(){
-   this.user = localStorage.getItem('userData')
-   console.log(this.user)
-  for(let i =0 ; i<10 ; i++){
-    this.TableData.push(JSON.parse(this.user))
+  constructor(private chatservice: ChatService) { }
+  ngOnInit() {
+    this.user = localStorage.getItem('userData')
+    console.log(this.user)
+    this.chatservice.getAllUsers().subscribe(res => {
+      this.dataSource = res
+    })
+
   }
-  console.log(this.TableData ,"12345::::")
-  console.log(Object.keys(JSON.parse(this.user)) )
-  this.dataSource = this.TableData
- }
 }

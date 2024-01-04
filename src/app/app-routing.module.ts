@@ -7,10 +7,10 @@ import { CreateUserComponent } from './create-user/create-user.component';
 import { guardGuard } from './services/auth/guard.guard';
 
 const routes: Routes = [
-  {path:'',component:WellComePageComponent},
-  {path:'login_page',component:LoginPageComponent},
-  {path:'dashboard', component:DashBoardComponent , canActivate : [guardGuard]},
-  {path: 'create-user' , component:CreateUserComponent}
+  { path: '', component: WellComePageComponent },
+  { path: 'login_page', component: LoginPageComponent },
+  { path: 'dashboard', component: DashBoardComponent, canActivate: [guardGuard] },
+  { path: 'create-user', component: CreateUserComponent }
 ];
 
 @NgModule({

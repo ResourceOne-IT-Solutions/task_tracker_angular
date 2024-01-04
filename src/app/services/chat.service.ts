@@ -8,11 +8,14 @@ import { BehaviorSubject } from 'rxjs';
 export class ChatService {
   url = 'http://192.168.10.30:1234/users/login'
   userData = new BehaviorSubject({})
-  constructor(private http : HttpClient) { }
-  getUserData(data :any){
-    return this.http.post(`${this.url}` , data)
+  constructor(private http: HttpClient) { }
+  getUserData(data: any) {
+    return this.http.post(`${this.url}`, data)
   }
-  updateUserData(data:any){
+  getAllUsers() {
+    return this.http.get('http://192.168.10.30:1234/users')
+  }
+  updateUserData(data: any) {
     this.userData.next(data)
   }
 }

@@ -7,13 +7,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./create-user.component.scss']
 })
 export class CreateUserComponent {
-  'createUserForm' :  FormGroup  ;
-  constructor(private fb :FormBuilder){
-   this.createUserForm = this.fb.group({
-    email : ['' , [Validators.required]],
-    password : ['' , [Validators.required]],
-    name :['' , [Validators.required]]
-   })
+  'createUserForm': FormGroup;
+  constructor(private fb: FormBuilder) {
+    this.createUserForm = this.fb.group({
+      email: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+      name: ['', [Validators.required]]
+    })
   }
 
 }
