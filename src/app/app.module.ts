@@ -20,6 +20,8 @@ import {MatTableModule} from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import {  MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown'
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +45,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatFormFieldModule,
     MatIconModule,
     MatCardModule,
-    MatDialogModule
+    MatDialogModule,
+    NgbModule,
+    NgMultiSelectDropDownModule
   ],
   providers: [guardGuard],
   bootstrap: [AppComponent]

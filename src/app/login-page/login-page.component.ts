@@ -17,6 +17,11 @@ export class LoginPageComponent {
   constructor(private route: Router, private fb: FormBuilder, private chatservice: ChatService) { }
   'loginForm': FormGroup;
   ngOnInit() {
+    const user :any = localStorage.getItem('userData')
+    const userData = JSON.parse(user)
+    if(userData && userData.userId){
+      this.route.navigate(['/dashboard'])
+    }
     this.loginForm = this.fb.group({
       userId: ['', [Validators.required]],
       password: ['', [Validators.required]]
@@ -43,11 +48,12 @@ export class LoginPageComponent {
 
   AdminLogin() {
     this.UserDataa = true;
-    if (this.loginForm.status === 'VALID') {
-      this.route.navigate(['dashboard'])
+    if (this.loginForm.valid) {
+      this.chatservice.getUserData({ ...this.loginForm.value, isAdmin: true }).subscribe((res: any) => {
+        localStorage.setItem('userData' , JSON.stringify(res))
+        this.route.navigate(['dashboard'])
+        console.log(res, '45:::');
+      })
     }
-    this.chatservice.getUserData({ ...this.loginForm.value, isAdmin: true }).subscribe((res: any) => {
-      console.log(res, '45:::');
-    })
   }
 }
