@@ -6,12 +6,15 @@
 
 .wrapper {
     max-width: 350px;
-    min-height: 500px;
+    min-height: 466px;
     margin: auto;
-
     background-color: #ecf0f3;
     border-radius: 15px;
     box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
+
+    .LoginRole {
+        font-size: 18px;
+    }
 
     .logo {
         width: 80px;
@@ -58,5 +61,29 @@
             -3px -3px 3px #fff;
         letter-spacing: 1.3px;
         border: none;
+    }
+
+    .LoginButton:hover {
+        background: green;
+    }
+
+    .timezone {
+        display: flex;
+        gap: 14px;
+        text-align: center;
+        justify-content: center;
+
+        .countryTime {
+            width: 91px;
+            // border: 1px solid;
+            height: 81px;
+            border-radius: 50%;
+            box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #e7cfcf;
+
+            p {
+                margin: 18px;
+                font-weight: 550;
+            }
+        }
     }
 }

@@ -1,0 +1,56 @@
+.welcomepage{
+    text-align: center;
+    font-size: 32px;
+    margin: 7px;
+}
+.userDetails{
+    width: 30%;
+    box-shadow: 0 0 4px 0px #000;
+    border-radius: 6px;
+    text-align: center;
+    margin: 30px auto;
+    padding: 8px;
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+    color: white;
+    font-weight: bold;
+    border: 3px solid #f1f1f1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    padding: 20px;
+    text-align: center;
+    .profileImg{
+        img{
+            width: 150px;
+            border-radius: 76px;
+            border: 1px solid #000;
+            margin: 5px 0 18px 0;
+        }
+    }
+    .usersinfo{
+        font-size: 17px;
+        font-weight: 500;
+    }
+}
+
+.bg-image {
+    /* The image used */
+    background-image: url("https://png.pngtree.com/background/20210709/original/pngtree-gray-cement-wall-matte-advertising-background-picture-image_915277.jpg");
+    
+    /* Add the blur effect */
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+    
+    /* Full height */
+    height: 100%; 
+    
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+  /* Position text in the middle of the page/image */

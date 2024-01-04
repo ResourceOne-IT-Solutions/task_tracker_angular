@@ -6,6 +6,12 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class ChatService {
+   RoleData = new BehaviorSubject('');
+   getRoleData(role:any){
+    console.log(role,'11')
+    this.RoleData.next(role)
+   }
+  
   url = 'http://192.168.10.30:1234/users/login'
   constructor(private http: HttpClient) { }
   getUserData(data: any) {
