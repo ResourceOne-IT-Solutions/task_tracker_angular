@@ -13,7 +13,7 @@ export class WellComePageComponent {
   }
 
   LoginPage(role: any) {
-    this.chatservice.getRoleData(role);
     this.Router.navigate(['/login_page']);
+    this.chatservice.getRoleData(role);
   }
 }
