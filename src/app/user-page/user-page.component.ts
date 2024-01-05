@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ChatService } from '../services/chat.service';
 
 @Component({
   selector: 'app-user-page',
@@ -7,10 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserPageComponent implements OnInit {
   UserData: any;
+  constructor(private chatservice:ChatService){}
   ngOnInit(): void {
-   const local:any =  localStorage.getItem('userData');
-   this.UserData = JSON.parse(local);
-   console.log(this.UserData , 'user')
+    this.chatservice.UserLoginData.subscribe((res) =>{
+      this.UserData = res;
+      console.log(res,'000',this.UserData)
+    })
   }
 
 }

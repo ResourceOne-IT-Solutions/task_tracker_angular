@@ -8,11 +8,15 @@ import { BehaviorSubject } from 'rxjs';
 export class ChatService {
    RoleData = new BehaviorSubject('');
    getRoleData(role:any){
-    console.log(role,'11')
     this.RoleData.next(role)
    }
+   //User Behavior
+    UserLoginData = new BehaviorSubject('');
+    UserLogin(data:any){
+      this.UserLoginData.next(data)
+    }
   
-  url = 'http://192.168.10.30:1234/users/login'
+  url = 'http://192.168.10.30:1234/users/login';
   constructor(private http: HttpClient) { }
   getUserData(data: any) {
     return this.http.post(`${this.url}`, data)

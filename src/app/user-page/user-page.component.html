@@ -1,12 +1,56 @@
-
-<p class="welcomepage">Wellcome To Users Page</p>
-<div class="bg-image"></div>
-<div class="userDetails">
-    <div class="profileImg">
-        <img src="{{UserData.profileImageUrl}}" alt="no images">
+<div class="Container">
+    <div class="userinfo">
+        <img src="{{UserData.profileImageUrl}}" alt="">
+        <p>{{UserData.firstName}}</p> &nbsp;&nbsp;
+        <span>({{UserData.empId}} )</span>
     </div>
-    <p><span class="usersinfo">FirstName :</span>  {{UserData.firstName}}<p>
-    <p><span class="usersinfo">LastName :</span> {{UserData.lastName}} <p>
-    <p><span class="usersinfo">Mobile :</span> {{UserData.mobile}} <p>
-    <p><span class="usersinfo">Designation :</span> {{UserData.designation}} <p>
+    <div class="employeList">
+        <div class="main-userDetails">
+            <div class="Profile">
+                <p class="userslabel">Profile Image</p>
+                <img src="{{UserData.profileImageUrl}}" alt="">
+            </div>
+            <div class="Employeee_Role">
+                <div class="Role">
+                    <p class="userslabel">Role</p>
+                    <p>{{UserData.designation}}</p>
+                </div>
+                <div class="Team">
+                    <p class="userslabel">Team</p>
+                    <p>Angular Community</p>
+                </div>
+            </div>
+            <div class="Employeee_Join">
+                <div class="Jion">
+                    <p class="userslabel">Joined On</p>
+                    <p>{{UserData.joinedDate}}</p>
+                </div>
+                <div class="Team">
+                    <p class="userslabel">Working from</p>
+                    <p>Angular Community</p>
+                </div>
+            </div>
+        </div>
+        <div class="main-employeDetails">
+            <div>
+                <p class="userslabel">Employeee Details</p>
+                <p>Emp ID : {{UserData.empId}}</p>
+                <p>First Name : {{UserData.firstName}}</p>
+                <p>Last Name : {{UserData.lastName}}</p>
+                <p>Email : {{UserData.email}}</p>
+                <p>Phone : {{UserData.mobile}}</p>
+                <p>Role : {{UserData.designation}}</p>
+            </div>
+            <div>
+                <p class="userslabel">Stats</p>
+                <p>Total Tickes</p>
+            </div>
+            <div>
+                <p class="userslabel">Last LoggedIn Data</p>
+                <p>Browser :</p>
+                <p>Ip Address :</p>
+                <p>Login Time Invalid Date :</p>
+            </div>
+        </div>
+    </div>
 </div>
