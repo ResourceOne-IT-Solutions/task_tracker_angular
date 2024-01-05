@@ -16,7 +16,7 @@ export class ChatService {
       this.UserLoginData.next(data)
     }
   
-  url = 'http://192.168.10.30:1234/users/login';
+  url = 'http://192.168.10.30:1234/login';
   constructor(private http: HttpClient) { }
   getUserData(data: any) {
     return this.http.post(`${this.url}`, data)
