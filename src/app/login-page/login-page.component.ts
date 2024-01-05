@@ -54,14 +54,15 @@ export class LoginPageComponent {
 
   AdminLogin() {
     this.UserDataa = true;
+    const isAdmin = this.RoleDetails === 'Admin'
     if (this.loginForm.valid) {
-      this.chatservice.getUserData({ ...this.loginForm.value, isAdmin: true }).subscribe((res: any) => {
+      this.chatservice.getUserData({ ...this.loginForm.value, isAdmin }).subscribe((res: any) => {
         localStorage.setItem('userData' , JSON.stringify(res))
         console.log(res, '45:::');
-        if(this.RoleDetails !== 'Admin') {
-          this.route.navigate(['User-page'])
-        } else {
+        if(isAdmin) {
           this.route.navigate(['dashboard'])
+        } else {
+          this.route.navigate(['User-page'])
         }
       })
       
