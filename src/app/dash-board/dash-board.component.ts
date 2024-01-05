@@ -132,6 +132,7 @@ export class DashBoardComponent {
     this.userModelData = userDetails
     console.log(this.userModelData, "12345")
     if (this.userModelData && this.userModelData?.email) {
+      this.chatservice.UserLogin(userDetails)
       this.modalService.open(this.userDetailsModel)
     }
   }
@@ -145,5 +146,9 @@ export class DashBoardComponent {
   }
   updateClient(dismiss:any){
     dismiss()
+  }
+  UserPage(dismiss:any){
+    dismiss()
+    this.router.navigate(['/User-page'])
   }
 }

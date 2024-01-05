@@ -18,12 +18,7 @@ export class LoginPageComponent {
   constructor(private route: Router, private fb: FormBuilder, private chatservice: ChatService) { }
   'loginForm': FormGroup;
   ngOnInit() {
-    const user: any = localStorage.getItem('userData')
     this.chatservice.getAllUsers().subscribe(res => console.log(res,'222::::'))
-    const userData = JSON.parse(user)
-    if (userData && userData.userId) {
-      this.route.navigate(['/dashboard'])
-    }
     this.loginForm = this.fb.group({
       userId: ['', [Validators.required]],
       password: ['', [Validators.required]]
@@ -58,7 +53,7 @@ export class LoginPageComponent {
     const isAdmin = this.RoleDetails === 'Admin'
     if (this.loginForm.valid) {
       this.chatservice.getUserData({ ...this.loginForm.value, isAdmin }).subscribe((res: any) => {
-        // localStorage.setItem('userData', JSON.stringify(res))
+         localStorage.setItem('userData', JSON.stringify(res))
         this.chatservice.UserLogin(res)
         console.log(res, '45:::');
         if (isAdmin) {

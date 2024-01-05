@@ -10,9 +10,9 @@ import { UserPageComponent } from './user-page/user-page.component';
 const routes: Routes = [
   { path: '', component: WellComePageComponent },
   { path: 'login_page', component: LoginPageComponent },
-  { path: 'dashboard', component: DashBoardComponent, canActivate: [guardGuard] },
+  { path: 'dashboard', component: DashBoardComponent },
   { path: 'create-user', component: CreateUserComponent },
-  { path: 'User-page', component: UserPageComponent }
+  { path: 'User-page', component: UserPageComponent  }
 ];
 
 @NgModule({
