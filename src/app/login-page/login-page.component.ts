@@ -68,7 +68,6 @@ export class LoginPageComponent {
           this.route.navigate(['User-page'])
         } 
       })
-
     }
   }
 }
