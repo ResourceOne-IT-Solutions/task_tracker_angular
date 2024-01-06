@@ -22,8 +22,6 @@ import {  MatPaginatorModule } from '@angular/material/paginator';
 import { UserPageComponent } from './user-page/user-page.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TableComponent } from './reusable/table/table.component';
-import {MatAutocompleteSelectedEvent, MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatChipInputEvent, MatChipsModule} from '@angular/material/chips';
 @NgModule({
   declarations: [
     AppComponent,
