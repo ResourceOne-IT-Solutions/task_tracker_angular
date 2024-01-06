@@ -28,9 +28,6 @@ export class ChatService {
   getAllClients() {
     return this.http.get(this.BE_URL+'/clients')
   }
-  getAllTickets() {
-    return this.http.get('http://192.168.10.30:1234/tickets')
-  }
   AddNewUsers(data:any){
     return this.http.post(this.BE_URL+'/users/create',data)
   }
