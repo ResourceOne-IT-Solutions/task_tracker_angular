@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core
 import { ChatService } from '../services/chat.service';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -15,21 +15,29 @@ export class DashBoardComponent {
   @ViewChild('userModel', { static: false }) userModel: any;
   @ViewChild('clientModel', { static: false }) clientModel: any;
   @ViewChild('userDetailsModel', { static: false }) userDetailsModel: any;
+  @ViewChild('ticketModel', { static: false }) ticketModel: any;
+
 
 
   phone: any;
   modelHeader: string = ''
   'userForm': FormGroup;
   'clientForm': FormGroup;
+  'TicketCreationForm': FormGroup
   displayUserColumns: string[] = ['firstName', 'designation', 'empId', 'profileImageUrl', 'dob', 'action'];
   cities = ['New York', 'New Jersey', 'Los Angeles'];
   displayclientColumns: string[] = ['firstName', 'mobile', 'technology', 'email', 'action']
+  displayTicketColumns: string[] = ['client', 'status', 'user', 'technology','receivedDate' , 'addOnResource']
+
   user: any;
-  userList: any = [];
   dropdownSettings: any;
   technologies: any = [];
+  userList: any = [];
   clientData: any = [];
-  displayUsers: boolean = false;
+  ticketData :any =[];
+  displayUsers: boolean = true;
+  displayClient: boolean = false;
+  displayTickets: boolean = false;
   userModelData: any;
   constructor(private chatservice: ChatService, private router: Router, private modalService: NgbModal, private fb: FormBuilder) {
     this.userForm = this.fb.group({
@@ -42,14 +50,25 @@ export class DashBoardComponent {
     this.clientForm = this.fb.group({
       name: ['', Validators.required],
       location: ['', Validators.required],
-      mobile: ['', Validators.required],
+      mobile: ['', [Validators.required ,this.validateNumberLength.bind(this)] ],
       technologies: ['', Validators.required],
       email: ['', Validators.required],
+    })
+    this.TicketCreationForm = this.fb.group({
+      clientName: ['', Validators.required],
+      userName: ['', Validators.required],
+      technologies: ['', Validators.required],
+      targetDate: ['', Validators.required],
+      resourceHelp:['' , Validators.required],
+      description : ['', Validators.required],
     })
   }
   ngOnInit() {
     this.chatservice.getAllClients().subscribe((res: any) => {
       this.clientData = res
+    })
+    this.chatservice.getAllTickets().subscribe((res: any) => {
+      this.ticketData = res
     })
     this.technologies = [
       { id: 1, technology: 'Angular' },
@@ -73,7 +92,8 @@ export class DashBoardComponent {
     this.modelHeader = 'Add New Client'
     this.openPopup(this.clientModel)
   }
-  creatTicket() {
+  OpenTicketModel() {
+    this.modalService.open(this.ticketModel)
   }
   openUserModel() {
     this.userForm.reset()
@@ -150,5 +170,16 @@ export class DashBoardComponent {
   UserPage(dismiss:any){
     dismiss()
     this.router.navigate(['/User-page'])
+  }
+  createTicket(dismiss :any){
+    dismiss()
+    console.log(this.TicketCreationForm.value)
+    this.TicketCreationForm.reset()
+  }
+  validateNumberLength(control: AbstractControl): { [key: string]: boolean } | null {
+    if (control.value && control.value.toString().length > 10) {
+      return { 'maxLengthExceeded': true };
+    }
+    return null;
   }
 }
