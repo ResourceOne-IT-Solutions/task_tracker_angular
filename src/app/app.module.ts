@@ -51,7 +51,7 @@ import { APP_BASE_HREF } from '@angular/common';
     MatDialogModule,
     NgbModule,
   ],
-  providers: [guardGuard, { provide: APP_BASE_HREF, useValue: '/task_tracker_angular' }],
+  providers: [guardGuard, { provide: APP_BASE_HREF, useValue: '/task_tracker_angular/' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
