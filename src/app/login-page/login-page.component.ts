@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ChatService } from '../services/chat.service';
-import { catchError } from 'rxjs';
 
 @Component({
   selector: 'app-login-page',
@@ -12,6 +11,7 @@ import { catchError } from 'rxjs';
 export class LoginPageComponent {
   UserData: any;
   UserDataa: boolean = false;
+  LoginBoolean: boolean = true;
   est: any;
   pstDate: any;
   cstDate: any;
@@ -50,12 +50,11 @@ export class LoginPageComponent {
   }
 
   AdminLogin() {
-    console.log(this.loginForm ,'52:::')
     this.UserDataa = true;
+    this.LoginBoolean= false;
     const isAdmin = this.RoleDetails === 'Admin'
     if (this.loginForm.valid) {
       this.chatservice.getUserData({ ...this.loginForm.value, isAdmin }).subscribe((res: any) => {
-        console.log(res,'57::')
          localStorage.setItem('userData', JSON.stringify(res))
         this.chatservice.UserLogin(res)
         console.log(res, '45:::');

@@ -30,4 +30,7 @@ export class ChatService {
   AddNewUsers(data:any){
     return this.http.post('http://192.168.10.30:1234/users/create',data)
   }
+  getAllTickets(){
+    return this.http.get('http://192.168.10.30:1234/tickets')
+  }
 }

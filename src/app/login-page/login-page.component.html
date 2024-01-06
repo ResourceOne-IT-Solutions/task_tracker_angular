@@ -16,7 +16,7 @@
                 <input type="password" name="password" id="pwd" formControlName="password" placeholder="Password">
             </div>
             <p class="btn btn-danger" *ngIf="loginForm.invalid && UserDataa">UserName or Password Not Matched...</p>
-            <button class="LoginButton mt-3" type="button" (click)="AdminLogin()">Login</button>
+            <button class="LoginButton mt-3" type="button" (click)="AdminLogin()">{{LoginBoolean ? 'Login':'Loading..'}}</button>
         </form>
         <div class="timezone">
             <div class="countryTime">
