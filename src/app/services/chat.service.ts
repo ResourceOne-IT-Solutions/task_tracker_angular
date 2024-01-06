@@ -15,20 +15,24 @@ export class ChatService {
     UserLogin(data:any){
       this.UserLoginData.next(data)
     }
-  
-  url = 'http://192.168.10.30:1234/login';
+  BE_SERVER= "https://task-tracker-server-2njm.onrender.com"
+  BE_LOCAL = 'http://192.168.10.30:1234/login';
+  BE_URL = this.BE_SERVER
   constructor(private http: HttpClient) { }
   getUserData(data: any) {
-    return this.http.post(`${this.url}`, data)
+    return this.http.post(this.BE_URL+'/login', data)
   }
   getAllUsers() {
-    return this.http.get('http://192.168.10.30:1234/users')
+    return this.http.get(this.BE_URL+'/users')
   }
   getAllClients() {
-    return this.http.get('http://192.168.10.30:1234/clients')
+    return this.http.get(this.BE_URL+'/clients')
+  }
+  getAllTickets() {
+    return this.http.get('http://192.168.10.30:1234/tickets')
   }
   AddNewUsers(data:any){
-    return this.http.post('http://192.168.10.30:1234/users/create',data)
+    return this.http.post(this.BE_URL+'/users/create',data)
   }
   getAllTickets(){
     return this.http.get('http://192.168.10.30:1234/tickets')

@@ -22,6 +22,7 @@ import {  MatPaginatorModule } from '@angular/material/paginator';
 import { UserPageComponent } from './user-page/user-page.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TableComponent } from './reusable/table/table.component';
+import { APP_BASE_HREF } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,7 +51,7 @@ import { TableComponent } from './reusable/table/table.component';
     MatDialogModule,
     NgbModule,
   ],
-  providers: [guardGuard],
+  providers: [guardGuard, { provide: APP_BASE_HREF, useValue: '/task_tracker_angular/' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

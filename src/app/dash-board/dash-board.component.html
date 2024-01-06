@@ -1,16 +1,23 @@
 <div>
     <h1 class="m-2">Admin Page</h1>
     <div>
-        <button class="btn btn-primary m-2" (click)="displayUsers=true">User List</button>
-        <button class="btn btn-primary m-2" (click)="displayUsers=false">Client List</button>
-        <button class="btn btn-primary m-2" (click)="creatTicket()">Create Ticket</button>
+        <button class="btn btn-primary m-2"
+            (click)="displayUsers=true ; displayTickets = false ; displayClient= false">User List</button>
+        <button class="btn btn-primary m-2"
+            (click)="displayUsers=false ; displayTickets = false ; displayClient= true">Client List</button>
+        <button class="btn btn-primary m-2"
+            (click)="displayUsers=false ; displayTickets = true ; displayClient= false">Tickets</button>
+        <button class="btn btn-primary m-2" (click)="OpenTicketModel()">Create Ticket</button>
         <button class="btn btn-primary m-2" (click)="openUserModel()">Add User</button>
         <button class="btn btn-primary m-2" (click)="openClientModel()">Add Client</button>
     </div>
 </div>
-<app-table *ngIf="displayUsers"  [data]="userList" (editData)="editUser($event)" (userDetails)="openUserDetails($event)" [displayedColumns]="displayUserColumns"></app-table>
-<app-table *ngIf="!displayUsers" [data]="clientData" (editData)="editClient($event)" [displayedColumns]="displayclientColumns"></app-table>
-
+<app-table *ngIf="displayUsers" [data]="userList" (editData)="editUser($event)" (userDetails)="openUserDetails($event)"
+    [displayedColumns]="displayUserColumns"></app-table>
+<app-table *ngIf="displayClient" [data]="clientData" (editData)="editClient($event)"
+    [displayedColumns]="displayclientColumns"></app-table>
+<app-table *ngIf="displayTickets" [data]="ticketData" (editData)="editClient($event)"
+    [displayedColumns]="displayTicketColumns"></app-table>
 <ng-template #userModel let-d="dismiss">
     <div class="modal-header">
         <h4 class="modal-title">{{modelHeader}}</h4>
@@ -54,14 +61,16 @@
                     </select>
                     <input type="email" placeholder="email" class="form-control m-2" formControlName="email">
                     <input type="number" placeholder="phone number" class="form-control m-2" formControlName="mobile">
-                    <input type="text" placeholder="technologies" class="form-control m-2" formControlName="technologies">
+                    <input type="text" placeholder="technologies" class="form-control m-2"
+                        formControlName="technologies">
                 </div>
             </div>
         </div>
     </div>
     <div class="modal-footer">
         <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
-        <button class="btn btn-sm btn-primary" (click)="newClient(d)" *ngIf="modelHeader==='Add New Client'">Add New Client</button>
+        <button class="btn btn-sm btn-primary" (click)="newClient(d)" *ngIf="modelHeader==='Add New Client'">Add New
+            Client</button>
         <button class="btn btn-sm btn-primary" (click)="updateClient(d)"
             *ngIf="modelHeader==='Update Client'">Update</button>
     </div>
@@ -73,7 +82,7 @@
     <div class="modal-body p-2 m-0">
         <div class="d-flex">
             <div>
-                <img  [src]="userModelData.profileImageUrl">
+                <img [src]="userModelData.profileImageUrl">
             </div>
             <div>
                 <h1>Name : {{userModelData.firstName}}</h1>
@@ -89,5 +98,42 @@
     <div class="modal-footer">
         <button class="btn btn-sm btn-primary" (click)="UserPage(d)">Goto UserPage</button>
         <button class="btn btn-sm btn-danger" (click)="cancel(d)">Close</button>
+    </div>
+</ng-template>
+<ng-template #ticketModel let-d="dismiss">
+    <div class="modal-header p-2 m-0">
+        <h4 class="modal-title p-0 m-0">Creat Ticket</h4>
+    </div>
+    <div class="modal-body m-2">
+            <form [formGroup]="TicketCreationForm">
+                <label class="ms-2">Client</label>
+                <select class="form-control m-2" formControlName="clientName">
+                    <option value="" disabled selected class="hide">Select Client</option>
+                    <option *ngFor="let client of clientData" [value]="client">{{client.firstName}}</option>
+                </select>
+                <label class="ms-2">User</label>
+                <select class="form-control m-2" formControlName="userName">
+                    <option value="" disabled selected class="hide">Select User</option>
+                    <option *ngFor="let user of userList" value="user">{{user.firstName}}</option>
+                </select>
+                <label class="ms-2">Technologies</label>
+                <select class="form-control m-2" formControlName="technologies">
+                    <option value="" disabled selected class="hide">Select technologies</option>
+                    <option *ngFor="let client of cities" [value]="client">{{client}}</option>
+                </select>
+                <label class="ms-2">Assign Resource (Optional)</label>
+                <select class="form-control m-2" formControlName="resourceHelp">
+                    <option value="" disabled selected class="hide">Select Resource</option>
+                    <option *ngFor="let user of userList" [value]="user">{{user.firstName}}</option>
+                </select>
+                <label class="ms-2">Taget Date</label>
+                <input class="form-control m-2" type="date" formControlName="targetDate" />
+                <label class="ms-2">Description</label>
+                <textarea class="form-control m-2" placeholder="description" formControlName="description"></textarea>
+            </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-sm btn-primary" (click)="createTicket(d)">Create Ticket</button>
+        <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
     </div>
 </ng-template>
