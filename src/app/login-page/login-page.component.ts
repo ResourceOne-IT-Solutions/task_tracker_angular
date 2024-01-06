@@ -11,6 +11,7 @@ import { ChatService } from '../services/chat.service';
 export class LoginPageComponent {
   UserData: any;
   UserDataa: boolean = false;
+  LoginBoolean: boolean = true;
   est: any;
   pstDate: any;
   cstDate: any;
@@ -50,6 +51,7 @@ export class LoginPageComponent {
 
   AdminLogin() {
     this.UserDataa = true;
+    this.LoginBoolean= false;
     const isAdmin = this.RoleDetails === 'Admin'
     if (this.loginForm.valid) {
       this.chatservice.getUserData({ ...this.loginForm.value, isAdmin }).subscribe((res: any) => {

@@ -41,16 +41,29 @@
                 <p>Phone : {{UserData.mobile}}</p>
                 <p>Role : {{UserData.designation}}</p>
             </div>
-            <div>
-                <p class="userslabel">Stats</p>
-                <p>Total Tickes</p>
-            </div>
+           
             <div>
                 <p class="userslabel">Last LoggedIn Data</p>
                 <p>Browser :</p>
                 <p>Ip Address :</p>
                 <p>Login Time Invalid Date :</p>
             </div>
+            <div>
+                <p class="userslabel">Stats</p>
+                <div class="pieChart">
+                    <canvas id="piechart">
+                        
+                    </canvas>
+                    </div>
+                    <p class="tickets">Total Tickets : {{userTickets.length}}</p>
+               </div>
         </div>
     </div>
 </div>
+
+<app-table
+[data]="userTickets"
+[displayedColumns]="displayColumns"
+>
+</app-table>
+
