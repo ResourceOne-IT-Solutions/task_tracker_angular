@@ -17,8 +17,8 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/task-tracker",
-            "baseHref": "/task_tracker_angular",
+            "outputPath": "dist/task_tracker_angular",
+            "baseHref": "/task_tracker_angular/",
 
             "index": "src/index.html",
             "main": "src/main.ts",
