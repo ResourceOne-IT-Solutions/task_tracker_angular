@@ -16,10 +16,12 @@ export class LoginPageComponent {
   pstDate: any;
   cstDate: any;
   RoleDetails: any;
+  ErrorMsg: any;
+  navigateData: any;
+  ErrorHandling:boolean=true;
   constructor(private route: Router, private fb: FormBuilder, private chatservice: ChatService) { }
   'loginForm': FormGroup;
   ngOnInit() {
-    this.chatservice.getAllUsers().subscribe(res => console.log(res,'222::::'))
     this.loginForm = this.fb.group({
       userId: ['', [Validators.required]],
       password: ['', [Validators.required]]
@@ -29,6 +31,11 @@ export class LoginPageComponent {
     })
     this.chatservice.RoleData.subscribe((res: any) => {
       this.RoleDetails = res;
+      if(this.RoleDetails === "Admin"){
+        this.navigateData = "User";
+      }else{
+        this.navigateData = "Admin";
+      }
       console.log(res, '28:::::')
     }
     )
@@ -54,17 +61,24 @@ export class LoginPageComponent {
     this.LoginBoolean= false;
     const isAdmin = this.RoleDetails === 'Admin'
     if (this.loginForm.valid) {
-      this.chatservice.getUserData({ ...this.loginForm.value, isAdmin }).subscribe((res: any) => {
+      this.chatservice.getUserData({ ...this.loginForm.value, isAdmin }).pipe().subscribe((res: any) => {
          localStorage.setItem('userData', JSON.stringify(res))
         this.chatservice.UserLogin(res)
-        console.log(res, '45:::');
         if (isAdmin) {
-          console.log(isAdmin, '63:::::')
           this.route.navigate(['dashboard'])
         } else {
           this.route.navigate(['User-page'])
         } 
+      },(err:any) =>{
+        this.LoginBoolean= true;
+        this.ErrorMsg = err.error.error;
       })
     }
+  }
+  getNavigate(){
+  const data =  this.chatservice.getRoleData(this.navigateData);
+  console.log(data,'1230')
+    this.loginForm.reset();
+    this.ErrorHandling = false;
   }
 }
