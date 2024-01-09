@@ -1,8 +1,11 @@
 <table mat-table [dataSource]="dataSource" matSort>
     <ng-container *ngFor="let col of displayedColumns" [matColumnDef]="col">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ col }}</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>        
+            {{col}}
+      </th>
+    
       <td mat-cell *matCellDef="let element">
-        <span *ngIf = "col !== 'profileImageUrl' && col !== 'client' && col !== 'user' && col !== 'addOnResource'">
+        <span *ngIf = "col !== 'profileImageUrl'  && col!=='TicketRaised' && col !== 'client' && col !== 'user' && col !== 'addOnResource'">
             {{ element[col] }}
         </span>
         <span *ngIf ="col == 'client' || col == 'user'">
@@ -18,6 +21,10 @@
             <button mat-raised-button color="primary" (click)="edit(element)">Edit</button>
             <button mat-raised-button color="warn" (click)="Delete(element)">Delete</button>
         </span>
+        <span *ngIf = "col=='TicketRaised'">
+            <button mat-raised-button color="warn" (click)="update(element)">Update users</button>
+        </span>
+     
         <span *ngIf = "col=='profileImageUrl'" (click)="openUserDetails(element)">
             <img [src]=" element[col]"  class="profileImage" />
         </span>
