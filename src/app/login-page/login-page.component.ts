@@ -36,7 +36,6 @@ export class LoginPageComponent {
       }else{
         this.navigateData = "Admin";
       }
-      console.log(res, '28:::::')
     }
     )
     setInterval(() => {
