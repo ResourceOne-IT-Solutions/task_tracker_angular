@@ -60,7 +60,7 @@ export class LoginPageComponent {
     this.LoginBoolean= false;
     const isAdmin = this.RoleDetails === 'Admin'
     if (this.loginForm.valid) {
-      this.chatservice.getUserData({ ...this.loginForm.value, isAdmin }).pipe().subscribe((res: any) => {
+      this.chatservice.getUserData({ ...this.loginForm.value, isAdmin }).subscribe((res: any) => {
          localStorage.setItem('userData', JSON.stringify(res))
         this.chatservice.UserLogin(res)
         if (isAdmin) {
@@ -76,8 +76,7 @@ export class LoginPageComponent {
   }
   getNavigate(){
   const data =  this.chatservice.getRoleData(this.navigateData);
-  console.log(data,'1230')
     this.loginForm.reset();
-    this.ErrorHandling = false;
+    this.ErrorMsg = '';
   }
 }
