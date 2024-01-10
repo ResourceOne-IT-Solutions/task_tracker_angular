@@ -14,6 +14,7 @@ Chart.register(...registerables)
   styleUrls: ['./user-page.component.scss']
 })
 export class UserPageComponent implements OnInit {
+  date = new Date();
   @ViewChild('updateModel', { static: false }) updateModel: any;
   userstatus = ['In Progess', 'Pending', 'Resolved'];
   UserData: any;
@@ -31,10 +32,12 @@ export class UserPageComponent implements OnInit {
     { columnDef: 'status', header: 'status', cell: (element: any) => `${element['status']}`, isText: true },
     { columnDef: 'user', header: 'user name', cell: (element: any) => `${element['user'].name || '--'}`, isText: true },
     { columnDef: 'technology', header: 'Technology', cell: (element: any) => `${element['technology']}`, isText: true },
-    { columnDef: 'receivedDate', header: 'receivedDate', cell: (element: any) => `${element['receivedDate']}`, isText: true  },
+    { columnDef: 'description', header: 'Description', cell: (element: any) => `${element['description']}`, isText: true },
+    { columnDef: 'comments', header: 'comments', cell: (element: any) => `${element['comments']}`, isText: true },
+    { columnDef: 'receivedDate', header: 'receivedDate', cell: (element: any) => `${element['receivedDate'] }`, isText: true  },
     { columnDef: 'TicketRaised', header: 'Ticket Rise', cell: (element: any) => 'Update Ticket', isButton : true },
   ];
-  displayColumns = ["client", "status", "user", "technology", "recivedDate", "TicketRaised"]
+  displayColumns = ["client", "status", "user", "technology", "recivedDate", "TicketRaised" , "description" ,"comments"]
   constructor(private chatservice: ChatService, private fb: FormBuilder, private modalService: NgbModal, private location: LocationStrategy) {
     history.pushState(null, '', window.location.href);
     // check if back or forward button is pressed.
@@ -53,18 +56,15 @@ export class UserPageComponent implements OnInit {
   ngOnInit(): void {
     this.chatservice.UserLoginData.subscribe((res) => {
       this.UserData = res;
-      console.log(res,'555555555', this.UserData)
     })
     this.chatservice.getAllTickets().subscribe((res: any) => {
       this.userTickets = res.filter((item: any) =>
         item.user.id === this.UserData._id
       )
-      console.log(res, '239:::', this.userTickets)
       this.Resolved = this.userTickets.filter((val: any) => val.status === 'Resolved').length,
         this.Assigned = this.userTickets.filter((val: any) => val.status === 'Assigned').length,
         this.pending = this.userTickets.filter((val: any) => val.status === 'Pending').length,
         this.inprogress = this.userTickets.filter((val: any) => val.status === 'In Progress').length
-      console.log(this.Resolved, '30000', this.Assigned)
       this.pieChart(this.Resolved, this.Assigned, this.pending, this.inprogress);
     })
   }
@@ -83,7 +83,7 @@ export class UserPageComponent implements OnInit {
   }
   
   update(userDetails: any) {
-    // console.log(userDetails , '666')
+    this.modelHeader = 'Update Ticket'
     this.userID = userDetails._id;
   
     this.openPopup(this.updateModel)
@@ -99,12 +99,19 @@ export class UserPageComponent implements OnInit {
   }
   updateUser(dismiss: any) {
     if (this.updateForm.valid) {
-      this.chatservice.updateUsers(this.userID, this.updateForm.value,).subscribe(res => {
+      this.chatservice.updateUsers(this.userID, this.updateForm.value,).subscribe((res:any) => {
+       this.userTickets = this.userTickets.map((val:any) => {
+          if( val._id === res._id ){
+            val = res;
+            return res
+          }
+          return val
+
+        })
   
-        console.log(res, '83')
+        this.updateForm.reset();
       })
       dismiss();
-      this.updateForm.reset();
   
     }
   
