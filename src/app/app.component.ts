@@ -9,7 +9,5 @@ import { Router } from '@angular/router';
 export class AppComponent {
   title = 'Task-Tracker';
   constructor(private route:Router){}
-  ngOnInit(){
-    this.route.navigate([''])
-  }
+
 }

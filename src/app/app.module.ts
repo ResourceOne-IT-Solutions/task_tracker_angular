@@ -19,6 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
 import {MatTableModule} from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import {  MatPaginatorModule } from '@angular/material/paginator';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { UserPageComponent } from './user-page/user-page.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TableComponent } from './reusable/table/table.component';
@@ -50,6 +51,7 @@ import { APP_BASE_HREF } from '@angular/common';
     MatCardModule,
     MatDialogModule,
     NgbModule,
+    MatGridListModule
   ],
   providers: [guardGuard, { provide: APP_BASE_HREF, useValue: '/task_tracker_angular/' }],
   bootstrap: [AppComponent]

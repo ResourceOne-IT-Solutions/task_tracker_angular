@@ -15,9 +15,14 @@
             <div class="form-field d-flex align-items-center">
                 <input type="password" name="password" id="pwd" formControlName="password" placeholder="Password">
             </div>
-            <p class="btn btn-danger" *ngIf="loginForm.invalid && UserDataa">UserName or Password Not Matched...</p>
-            <button class="LoginButton mt-3" type="button" (click)="AdminLogin()">{{LoginBoolean ? 'Login':'Loading..'}}</button>
+            <p *ngIf="ErrorMsg" class="text-danger text-center"> {{ErrorMsg}}</p>
+            <!-- <p class="btn btn-danger" *ngIf="loginForm.invalid && UserDataa">{{ErrorMsg}}@@@</p> -->
+            <button class="LoginButton mt-3" type="button" (click)="AdminLogin()">{{LoginBoolean ?
+                'Login':'Loading..'}}</button>
         </form>
+        <div class="Navigate">
+            <a  href="javascript:void(0);" (click)="getNavigate()">click Here To {{navigateData}}</a>
+        </div>
         <div class="timezone">
             <div class="countryTime">
                 <p>{{est}}</p>

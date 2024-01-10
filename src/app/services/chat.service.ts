@@ -16,22 +16,53 @@ export class ChatService {
       this.UserLoginData.next(data)
     }
   BE_SERVER= "https://task-tracker-server-2njm.onrender.com"
-  BE_LOCAL = 'http://192.168.10.30:1234/login';
-  BE_URL = this.BE_SERVER
+  BE_LOCAL = 'http://192.168.10.30:1234';
+  BE_URL = this.BE_LOCAL
   constructor(private http: HttpClient) { }
   getUserData(data: any) {
     return this.http.post(this.BE_URL+'/login', data)
   }
+
+  // Users calls
+
   getAllUsers() {
     return this.http.get(this.BE_URL+'/users')
-  }
-  getAllClients() {
-    return this.http.get(this.BE_URL+'/clients')
   }
   AddNewUsers(data:any){
     return this.http.post(this.BE_URL+'/users/create',data)
   }
+  UpdateUsers(data:any){
+    return this.http.put(this.BE_URL+'/users/update',data)
+  }
+
+  // client calls
+
+  getAllClients() {
+    return this.http.get(this.BE_URL+'/clients')
+  }
+  AddNewClient(data:any){
+    return this.http.post(this.BE_URL+'/clients/create',data)
+  }
+  updateClient(data:any){
+    return this.http.put(this.BE_URL+'/clients/update',data)
+  }
+
+  // tickets api calls
+
   getAllTickets(){
     return this.http.get(this.BE_URL+'/tickets')
   }
+
+  createNewTicket(data:any){
+    return this.http.post(this.BE_URL+'/client/create',data)
+  }
+  updateTicket(data:any){
+    return this.http.put(this.BE_URL+'/client/update',data)
+  }
+
+  updateUsers(data:any ,userdata:any ){
+    
+    const userdetails = {id:data, data :userdata}
+   return this.http.put(this.BE_LOCAL+'/tickets/update',userdetails);
+   }
 }
