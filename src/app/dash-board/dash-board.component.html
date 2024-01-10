@@ -69,8 +69,8 @@
     [tableColumns]="userColumns"></app-table>
 <app-table *ngIf="displayClient" [data]="clientData" (editData)="editClient($event)"
     [tableColumns]="clientColumns"></app-table>
- <app-table *ngIf="displayTickets" [data]="ticketData" (editData)="editClient($event)"
-    [tableColumns]="ticketColumns"></app-table> 
+<app-table *ngIf="displayTickets" [data]="ticketData" (editData)="assignTicket($event)"
+    [tableColumns]="ticketColumns"></app-table>
 
 <!--User Model-->
 
@@ -183,9 +183,9 @@
     <div class="modal-body m-2">
         <form [formGroup]="TicketCreationForm">
             <label class="ms-2">Client</label>
-            <select class="form-control m-2" formControlName="clientName">
+            <select class="form-control m-2" formControlName="client">
                 <option value="" disabled selected class="hide">Select Client</option>
-                <option *ngFor="let client of clientData" [value]="client">{{client.firstName}}</option>
+                <option *ngFor="let client of clientData" [ngValue]="client">{{client.firstName}}</option>
             </select>
             <!-- <label class="ms-2">User</label>
             <select class="form-control m-2" formControlName="userName">
@@ -195,7 +195,7 @@
             <label class="ms-2">Technologies</label>
             <select class="form-control m-2" formControlName="technologies">
                 <option value="" disabled selected class="hide">Select technologies</option>
-                <option *ngFor="let client of cities" [value]="client">{{client}}</option>
+                <option *ngFor="let client of technology" [value]="client">{{client}}</option>
             </select>
             <!-- <label class="ms-2">Assign Resource (Optional)</label>
             <select class="form-control m-2" formControlName="resourceHelp">
@@ -210,6 +210,22 @@
     </div>
     <div class="modal-footer">
         <button class="btn btn-sm btn-primary" (click)="createTicket(d)">Create Ticket</button>
+        <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
+    </div>
+</ng-template>
+<ng-template #assignTicketModel let-d="dismiss">
+    <div class="modal-header p-2 m-0">
+        <h4 class="modal-title p-0 m-0">Assign Ticket</h4>
+    </div>
+    <div class="modal-body m-2">
+        <p>client Name : {{ticketDetails.client.name}}</p>
+        <p class="d-flex">{{assignUser}} : <select [(ngModel)]="AssignedUser" class="form-control m-2">
+                <option value="" disabled selected class="hide">Select User</option>
+                <option *ngFor="let user of userList" [ngValue]="user">{{user.firstName}}</option>
+            </select> </p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-sm btn-primary" (click)="ticketAssign()">Assign</button>
         <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
     </div>
 </ng-template>

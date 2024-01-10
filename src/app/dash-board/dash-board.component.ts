@@ -16,8 +16,7 @@ export class DashBoardComponent {
   @ViewChild('clientModel', { static: false }) clientModel: any;
   @ViewChild('userDetailsModel', { static: false }) userDetailsModel: any;
   @ViewChild('ticketModel', { static: false }) ticketModel: any;
-
-
+  @ViewChild('assignTicketModel', { static: false }) assignTicketModel: any;
 
   phone: any;
   modelHeader: string = ''
@@ -44,10 +43,12 @@ export class DashBoardComponent {
     { columnDef: 'status', header: 'status', cell: (element: any) => `${element['status']}`, isText: true },
     { columnDef: 'user', header: 'user name', cell: (element: any) => `${element['user'].name || '--'}`, isText: true },
     { columnDef: 'technology', header: 'Technology', cell: (element: any) => `${element['technology']}`, isText: true },
-    { columnDef: 'receivedDate', header: 'receivedDate', cell: (element: any) => `${element['receivedDate']}`, isText: true  },
-    { columnDef: 'addOnResource', header: 'Helped By', cell: (element: any) => `${element['addOnResource']?.map((res:any)=>res.name)?.toString() || '--'}`, isText: true  },
+    { columnDef: 'receivedDate', header: 'receivedDate', cell: (element: any) => `${element['receivedDate']}`, isText: true },
+    { columnDef: 'addOnResource', header: 'Helped By', cell: (element: any) => `${element['addOnResource']?.map((res: any) => res.name)?.toString() || '--'}`, isText: true },
+    { columnDef: 'assignTicket', header: 'assignTicket', cell: (element: any) => element['user']?.name ? 'Add Resource' :'Assign User' , isButton: true },
   ];
   cities = ['New York', 'New Jersey', 'Los Angeles'];
+  technology = ['React Saga', 'Angular', 'Python', 'Vue Js', 'JQuery']
   user: any;
   dropdownSettings: any;
   technologies: any = [];
@@ -61,6 +62,9 @@ export class DashBoardComponent {
   userDetails: any;
   adminDetails: any;
   clientDetails: any;
+  ticketDetails: any;
+  assignUser: any;
+  AssignedUser:any
   constructor(private chatservice: ChatService, private router: Router, private modalService: NgbModal, private fb: FormBuilder) {
     this.userForm = this.fb.group({
       fname: ['', Validators.required],
@@ -81,7 +85,7 @@ export class DashBoardComponent {
 
     })
     this.TicketCreationForm = this.fb.group({
-      clientName: ['', Validators.required],
+      client: ['', Validators.required],
       technologies: ['', Validators.required],
       targetDate: ['', Validators.required],
       description: ['', Validators.required],
@@ -168,7 +172,10 @@ export class DashBoardComponent {
       id: this.userDetails._id,
       data: Data
     }
-    this.chatservice.UpdateUsers(payload).subscribe(res => console.log(res, "resss"))
+    this.chatservice.UpdateUsers(payload).subscribe((res:any) =>{
+      this.clientData = this.clientData.map((element: any) => element._id === res._id ? res : element)
+
+    })
     this.userForm.reset()
   }
   editUser(userData: any) {
@@ -219,7 +226,11 @@ export class DashBoardComponent {
       data: data
     }
     console.log(data, "playload")
-    this.chatservice.updateClient(payload).subscribe(res => console.log(res, "client update"))
+    this.chatservice.updateClient(payload).subscribe((res: any) => {
+      console.log(res, "client update")
+      this.clientData = this.clientData.map((element: any) => element._id === res._id ? res : element)
+      console.log(this.clientData, "updating client")
+    })
   }
   editClient(clientDetails: any) {
     this.modelHeader = 'Update Client'
@@ -256,6 +267,24 @@ export class DashBoardComponent {
 
   // ticket functions
   createTicket(dismiss: any) {
+    console.log(this.TicketCreationForm.value, "create ticket")
+    if (this.TicketCreationForm.valid) {
+      const payload = {
+        client: {
+          name: this.TicketCreationForm.value.client.firstName,
+          id: this.TicketCreationForm.value.client._id,
+          mobile: this.TicketCreationForm.value.client.mobile
+        },
+        user: {
+          name: '',
+          id: ''
+        },
+        technology: this.TicketCreationForm.value.technologies,
+        description: this.TicketCreationForm.value.description,
+        targetDate: this.TicketCreationForm.value.targetDate
+      }
+      this.chatservice.createNewTicket(payload).subscribe((res: any) => console.log(res, "created ticket"))
+    }
     dismiss()
     this.TicketCreationForm.reset()
   }
@@ -270,6 +299,26 @@ export class DashBoardComponent {
     return null;
   }
 
+  assignTicket(ticket:any){
+    this.ticketDetails = ticket
+    this.assignUser = ticket.user?.name ? 'Assign Resource' : 'Assign User'
+    this.modalService.open(this.assignTicketModel)
+    console.log(ticket , "ticket")
+  }
+  ticketAssign(){
+    console.log(this.AssignedUser, "assgined")
+    const payload = {
+      id : this.ticketDetails._id,
+      data :{
+        user:{
+          name: this.AssignedUser.firstName + '' + this.AssignedUser.lastName,
+          id : this.AssignedUser._id
+        }
+      }
+    }
+    console.log(payload , 'payload')
+    this.chatservice.updateTicket(payload).subscribe(res=>console.log(res , "updated ticket"))
+  }
   // tickets piechart 
   pieChart(resolved: any, assigned: any, pending: any, inprogress: any) {
     console.log(resolved, '13', assigned)
