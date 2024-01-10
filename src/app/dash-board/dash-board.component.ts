@@ -117,7 +117,7 @@ export class DashBoardComponent {
       designation: 'angular',
       profileImageUrl: '',
     }
-    this.chatservice.AddNewUsers(Data).subscribe(res => console.log(res, '98:::::'))
+    this.chatservice.AddNewUsers(Data).subscribe(res => console.log(res,))
     dismiss();
     this.userForm.reset();
   }
@@ -136,10 +136,9 @@ export class DashBoardComponent {
       email: clientDetails.email
     })
   }
-  editUser(userDetails: any) {
+  editUser(userDetails: any) {    
     this.modelHeader = 'Update User'
     this.openPopup(this.userModel)
-    console.log(userDetails)
     this.userForm.patchValue({
       fname: userDetails.firstName,
       lname: userDetails.lastName,
@@ -150,7 +149,6 @@ export class DashBoardComponent {
   }
   openUserDetails(userDetails: any) {
     this.userModelData = userDetails
-    console.log(this.userModelData, "12345")
     if (this.userModelData && this.userModelData?.email) {
       this.chatservice.UserLogin(userDetails)
       this.modalService.open(this.userDetailsModel)
@@ -162,7 +160,6 @@ export class DashBoardComponent {
     this.clientForm.reset()
   }
   newClient(dismiss: any) {
-    console.log(this.clientForm.value, "68::::")
   }
   updateClient(dismiss:any){
     dismiss()
@@ -173,7 +170,6 @@ export class DashBoardComponent {
   }
   createTicket(dismiss :any){
     dismiss()
-    console.log(this.TicketCreationForm.value)
     this.TicketCreationForm.reset()
   }
   validateNumberLength(control: AbstractControl): { [key: string]: boolean } | null {
