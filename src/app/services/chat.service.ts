@@ -60,8 +60,7 @@ export class ChatService {
     return this.http.put(this.BE_URL+'/client/update',data)
   }
 
-  updateUsers(data:any ,userdata:any ){
-    
+  updateUsers(data:any ,userdata:any ){  
     const userdetails = {id:data, data :userdata}
    return this.http.put(this.BE_LOCAL+'/tickets/update',userdetails);
    }
