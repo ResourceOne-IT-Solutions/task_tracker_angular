@@ -22,18 +22,44 @@ export class ChatService {
   getUserData(data: any) {
     return this.http.post(this.BE_URL+'/login', data)
   }
+
+  // Users calls
+
   getAllUsers() {
     return this.http.get(this.BE_URL+'/users')
-  }
-  getAllClients() {
-    return this.http.get(this.BE_URL+'/clients')
   }
   AddNewUsers(data:any){
     return this.http.post(this.BE_URL+'/users/create',data)
   }
+  UpdateUsers(data:any){
+    return this.http.put(this.BE_URL+'/users/update',data)
+  }
+
+  // client calls
+
+  getAllClients() {
+    return this.http.get(this.BE_URL+'/clients')
+  }
+  AddNewClient(data:any){
+    return this.http.post(this.BE_URL+'/clients/create',data)
+  }
+  updateClient(data:any){
+    return this.http.put(this.BE_URL+'/clients/update',data)
+  }
+
+  // tickets api calls
+
   getAllTickets(){
     return this.http.get('http://192.168.10.30:1234/tickets')
   }
+
+  createNewTicket(data:any){
+    return this.http.post(this.BE_URL+'/client/create',data)
+  }
+  updateTicket(data:any){
+    return this.http.put(this.BE_URL+'/client/update',data)
+  }
+
   updateUsers(data:any ,userdata:any ){
     
     const userdetails = {id:data, data :userdata}
