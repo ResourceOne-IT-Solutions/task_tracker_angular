@@ -1,9 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit ,ViewChild} from '@angular/core';
 import { ChatService } from '../services/chat.service';
 import { Chart, registerables } from 'node_modules/chart.js';
 import { from } from 'rxjs';
+import { LocationStrategy } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 Chart.register(...registerables)
 @Component({
   selector: 'app-user-page',
@@ -14,14 +16,25 @@ export class UserPageComponent implements OnInit {
   @ViewChild('updateModel', { static: false }) updateModel: any;
   userstatus = ['In Progess', 'Pending', 'Resolved'];
   UserData: any;
+  userTickets: any = [];
   modelHeader: string = ''
   userID:any = [];
   updateForm: FormGroup;
-  userTickets: any=[];
   Resolved: any;
   Assigned: any;
   pending: any;
   inprogress: any;
+  displayColumns = ["client", "status", "user", "technology", "recivedDate"]
+  stepper: any;
+
+  constructor(private chatservice: ChatService, private location: LocationStrategy) {
+    history.pushState(null, '', window.location.href);
+    // check if back or forward button is pressed.
+    this.location.onPopState(() => {
+      history.pushState(null, '', window.location.href);
+      // this.stepper.previous();
+    });
+
   displayColumns = ["client","status","user","technology","recivedDate","TicketRaised"]
   constructor(private chatservice: ChatService , private fb : FormBuilder ,  private modalService: NgbModal,) { 
     this.updateForm = this.fb.group({
@@ -40,22 +53,25 @@ export class UserPageComponent implements OnInit {
       this.userTickets = res.filter((item: any) =>
         item.user.id === this.UserData._id
       )
+      console.log(res, '239:::', this.userTickets)
       this.Resolved = this.userTickets.filter((val: any) => val.status === 'Resolved').length,
-      this.Assigned = this.userTickets.filter((val: any) => val.status === 'Assigned').length,
-      this.pending = this.userTickets.filter((val: any) => val.status === 'Pending').length,
-      this.inprogress = this.userTickets.filter((val: any) => val.status === 'In Progress').length
-      this.pieChart(this.Resolved, this.Assigned,this.pending,this.inprogress);
+        this.Assigned = this.userTickets.filter((val: any) => val.status === 'Assigned').length,
+        this.pending = this.userTickets.filter((val: any) => val.status === 'Pending').length,
+        this.inprogress = this.userTickets.filter((val: any) => val.status === 'In Progress').length
+      console.log(this.Resolved, '30000', this.Assigned)
+      this.pieChart(this.Resolved, this.Assigned, this.pending, this.inprogress);
     })
+  }
   }
 
   pieChart(resolved: any, assigned: any,pending:any,inprogress:any) {
     new Chart('piechart', {
       type: 'pie',
       data: {
-        labels: ["Resolved", "Assigned","Pending","In Progress"],
+        labels: ["Resolved", "Assigned", "Pending", "In Progress"],
         datasets: [{
           label: this.UserData.firstName,
-          data: [resolved, assigned,pending,inprogress],
+          data: [resolved, assigned, pending, inprogress],
         }]
       },
     
