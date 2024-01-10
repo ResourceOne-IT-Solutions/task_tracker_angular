@@ -15,7 +15,7 @@
             <div class="form-field d-flex align-items-center">
                 <input type="password" name="password" id="pwd" formControlName="password" placeholder="Password">
             </div>
-            <p *ngIf="ErrorHandling" class="text-danger text-center"> {{ErrorMsg}}</p>
+            <p *ngIf="ErrorMsg" class="text-danger text-center"> {{ErrorMsg}}</p>
             <!-- <p class="btn btn-danger" *ngIf="loginForm.invalid && UserDataa">{{ErrorMsg}}@@@</p> -->
             <button class="LoginButton mt-3" type="button" (click)="AdminLogin()">{{LoginBoolean ?
                 'Login':'Loading..'}}</button>
