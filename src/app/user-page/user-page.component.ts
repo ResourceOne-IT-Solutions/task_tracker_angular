@@ -53,6 +53,7 @@ export class UserPageComponent implements OnInit {
   ngOnInit(): void {
     this.chatservice.UserLoginData.subscribe((res) => {
       this.UserData = res;
+      console.log(res,'555555555', this.UserData)
     })
     this.chatservice.getAllTickets().subscribe((res: any) => {
       this.userTickets = res.filter((item: any) =>
