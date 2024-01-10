@@ -14,11 +14,11 @@ export class TableComponent {
   @Input() displayedColumns: any
   @ViewChild(MatPaginator) 'paginator': MatPaginator;
   @ViewChild(MatSort) 'sort': MatSort;
-  @Output() editData = new EventEmitter()
+  @Output() editData = new EventEmitter();
+  @Output() updateData = new EventEmitter();
   @Output() userDetails = new EventEmitter()
 
   ngOnInit() {
-    console.log(this.data, "123")
     this.dataSource.data = this.data
   }
   ngOnChanges(change: SimpleChanges) {
@@ -31,8 +31,10 @@ export class TableComponent {
     this.dataSource.sort = this.sort;
   }
   edit(data: any) {
-    console.log(data, "edit")
     this.editData.emit(data)
+  }
+  update(data: any) {
+    this.updateData.emit(data);
   }
   Delete(data: any) {
 

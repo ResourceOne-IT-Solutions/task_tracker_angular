@@ -125,7 +125,7 @@ export class DashBoardComponent {
       designation: 'angular',
       profileImageUrl: '',
     }
-    this.chatservice.AddNewUsers(Data).subscribe(res => console.log(res, '98:::::'))
+    this.chatservice.AddNewUsers(Data).subscribe(res => console.log(res,))
     dismiss();
     this.userForm.reset();
   }
@@ -216,10 +216,20 @@ export class DashBoardComponent {
       applicationType: clientDetails.applicationType
     })
   }
+  editUser(userDetails: any) {    
+    this.modelHeader = 'Update User'
+    this.openPopup(this.userModel)
+    this.userForm.patchValue({
+      fname: userDetails.firstName,
+      lname: userDetails.lastName,
+      email: userDetails.email,
+      phone: userDetails.mobile,
+      dob: new Date(userDetails.dob).toISOString().split('T')[0]
+    })
+  }
 
   openUserDetails(userDetails: any) {
     this.userModelData = userDetails
-    console.log(this.userModelData, "12345")
     if (this.userModelData && this.userModelData?.email) {
       this.chatservice.UserLogin(userDetails)
       this.modalService.open(this.userDetailsModel)
@@ -231,7 +241,12 @@ export class DashBoardComponent {
     this.clientForm.reset()
   }
 
-  UserPage(dismiss: any) {
+  newClient(dismiss: any) {
+  }
+  updateClient(dismiss:any){
+    dismiss()
+  }
+  UserPage(dismiss:any){
     dismiss()
     this.router.navigate(['/User-page'])
   }
@@ -239,7 +254,6 @@ export class DashBoardComponent {
   // ticket functions
   createTicket(dismiss: any) {
     dismiss()
-    console.log(this.TicketCreationForm.value)
     this.TicketCreationForm.reset()
   }
 
