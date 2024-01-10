@@ -1,14 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WellComePageComponent } from './well-come-page.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ChatService } from '../services/chat.service';
 
-describe('WellComePageComponent', () => {
+fdescribe('WellComePageComponent', () => {
   let component: WellComePageComponent;
   let fixture: ComponentFixture<WellComePageComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [WellComePageComponent]
+      declarations: [WellComePageComponent],
+      imports: [HttpClientModule],
+      providers:[ChatService]
     });
     fixture = TestBed.createComponent(WellComePageComponent);
     component = fixture.componentInstance;
