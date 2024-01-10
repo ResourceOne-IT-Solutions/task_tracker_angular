@@ -24,6 +24,7 @@ import { UserPageComponent } from './user-page/user-page.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TableComponent } from './reusable/table/table.component';
 import { APP_BASE_HREF } from '@angular/common';
+import { MainDashboardComponent } from './main-dashboard/main-dashboard.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,6 +34,7 @@ import { APP_BASE_HREF } from '@angular/common';
     CreateUserComponent,
     UserPageComponent,
     TableComponent,
+    MainDashboardComponent,
   ],
   imports: [
     BrowserModule,
