@@ -23,12 +23,31 @@ export class DashBoardComponent {
   modelHeader: string = ''
   'userForm': FormGroup;
   'clientForm': FormGroup;
-  'TicketCreationForm': FormGroup
-  displayUserColumns: string[] = ['firstName', 'designation', 'empId', 'profileImageUrl', 'dob', 'action'];
+  'TicketCreationForm': FormGroup;
+  userColumns: Array<Column> = [
+    { columnDef: 'firstName', header: 'first name', cell: (element: any) => `${element['firstName']}`, isText: true },
+    { columnDef: 'designation', header: 'Designation', cell: (element: any) => `${element['designation']}`, isText: true },
+    { columnDef: 'empId', header: 'Employee Id', cell: (element: any) => `${element['empId']}`, isText: true },
+    { columnDef: 'profileImageUrl', header: 'Profile Pic', cell: (element: any) => `${element['profileImageUrl']}`, isImage: true },
+    { columnDef: 'dob', header: 'Date of Birth', cell: (element: any) => `${element['dob']}`, isText: true },
+    { columnDef: 'action', header: 'Action', cell: (element: any) => element === 'btn1' ? 'Edit' : 'Delete', isMultiButton: true },
+  ];
+  clientColumns: Array<Column> = [
+    { columnDef: 'firstName', header: 'client name', cell: (element: any) => `${element['firstName']}`, isText: true },
+    { columnDef: 'mobile', header: 'Mobile', cell: (element: any) => `${element['mobile']}`, isText: true },
+    { columnDef: 'technology', header: 'Technology', cell: (element: any) => `${element['technology']}`, isText: true },
+    { columnDef: 'email', header: 'Email', cell: (element: any) => `${element['email']}`, isText: true },
+    { columnDef: 'action', header: 'Action', cell: (element: any) => element === 'btn1' ? 'Edit' : 'Delete', isMultiButton: true },
+  ];
+  ticketColumns: Array<Column> = [
+    { columnDef: 'client', header: 'client name', cell: (element: any) => `${element['client'].name}`, isText: true },
+    { columnDef: 'status', header: 'status', cell: (element: any) => `${element['status']}`, isText: true },
+    { columnDef: 'user', header: 'user name', cell: (element: any) => `${element['user'].name || '--'}`, isText: true },
+    { columnDef: 'technology', header: 'Technology', cell: (element: any) => `${element['technology']}`, isText: true },
+    { columnDef: 'receivedDate', header: 'receivedDate', cell: (element: any) => `${element['receivedDate']}`, isText: true  },
+    { columnDef: 'addOnResource', header: 'Helped By', cell: (element: any) => `${element['addOnResource']?.map((res:any)=>res.name)?.toString() || '--'}`, isText: true  },
+  ];
   cities = ['New York', 'New Jersey', 'Los Angeles'];
-  displayclientColumns: string[] = ['firstName', 'mobile', 'technology', 'email', 'action']
-  displayTicketColumns: string[] = ['client', 'status', 'user', 'technology', 'receivedDate', 'addOnResource']
-
   user: any;
   dropdownSettings: any;
   technologies: any = [];
@@ -149,7 +168,7 @@ export class DashBoardComponent {
       id: this.userDetails._id,
       data: Data
     }
-    // this.chatservice.UpdateUsers(payload).subscribe(res=>console.log(res, "resss"))
+    this.chatservice.UpdateUsers(payload).subscribe(res => console.log(res, "resss"))
     this.userForm.reset()
   }
   editUser(userData: any) {
@@ -194,13 +213,13 @@ export class DashBoardComponent {
       companyName: this.clientForm.value.companyName,
       technology: this.clientForm.value.technologies,
     }
-    console.log(data , this.clientDetails , this.clientForm.value , "client update1")
-    const payload ={
-      id : this.clientDetails._id,
-      data:data
+    console.log(data, this.clientDetails, this.clientForm.value, "client update1")
+    const payload = {
+      id: this.clientDetails._id,
+      data: data
     }
     console.log(data, "playload")
-    this.chatservice.updateClient(payload).subscribe(res=> console.log(res , "client update"))
+    this.chatservice.updateClient(payload).subscribe(res => console.log(res, "client update"))
   }
   editClient(clientDetails: any) {
     this.modelHeader = 'Update Client'
@@ -230,7 +249,7 @@ export class DashBoardComponent {
     this.clientForm.reset()
   }
 
-  UserPage(dismiss:any){
+  UserPage(dismiss: any) {
     dismiss()
     this.router.navigate(['/User-page'])
   }
@@ -265,4 +284,13 @@ export class DashBoardComponent {
       },
     });
   }
+}
+export interface Column {
+  columnDef: string;
+  header: string;
+  cell: Function;
+  isMultiButton?: boolean;
+  isButton?: boolean;
+  isImage?: boolean;
+  isText?: boolean
 }

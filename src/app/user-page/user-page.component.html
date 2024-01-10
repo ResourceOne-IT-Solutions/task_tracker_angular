@@ -63,9 +63,8 @@
 
 <app-table
 [data]="userTickets"
-[displayedColumns]="displayColumns"
- (updateData)="update($event)"
-
+[tableColumns]="ticketColumns"
+ (editData)="update($event)"
 >
 </app-table>
 

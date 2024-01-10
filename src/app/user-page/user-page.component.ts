@@ -5,6 +5,7 @@ import { from } from 'rxjs';
 import { LocationStrategy } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Column } from '../dash-board/dash-board.component';
 
 Chart.register(...registerables)
 @Component({
@@ -25,6 +26,14 @@ export class UserPageComponent implements OnInit {
   pending: any;
   inprogress: any;
   stepper: any;
+  ticketColumns: Array<Column> = [
+    { columnDef: 'client', header: 'client name', cell: (element: any) => `${element['client'].name}`, isText: true },
+    { columnDef: 'status', header: 'status', cell: (element: any) => `${element['status']}`, isText: true },
+    { columnDef: 'user', header: 'user name', cell: (element: any) => `${element['user'].name || '--'}`, isText: true },
+    { columnDef: 'technology', header: 'Technology', cell: (element: any) => `${element['technology']}`, isText: true },
+    { columnDef: 'receivedDate', header: 'receivedDate', cell: (element: any) => `${element['receivedDate']}`, isText: true  },
+    { columnDef: 'TicketRaised', header: 'Ticket Rise', cell: (element: any) => 'Update Ticket', isButton : true },
+  ];
   displayColumns = ["client", "status", "user", "technology", "recivedDate", "TicketRaised"]
   constructor(private chatservice: ChatService, private fb: FormBuilder, private modalService: NgbModal, private location: LocationStrategy) {
     history.pushState(null, '', window.location.href);
