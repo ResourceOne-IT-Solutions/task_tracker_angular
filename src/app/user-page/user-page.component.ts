@@ -56,7 +56,6 @@ export class UserPageComponent implements OnInit {
   ngOnInit(): void {
     this.chatservice.UserLoginData.subscribe((res) => {
       this.UserData = res;
-      console.log(this.date.toLocaleDateString() , '59:')
     })
     this.chatservice.getAllTickets().subscribe((res: any) => {
       this.userTickets = res.filter((item: any) =>
