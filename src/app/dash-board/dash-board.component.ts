@@ -96,12 +96,19 @@ export class DashBoardComponent {
       this.adminDetails = res;
       console.log(this.adminDetails, "70::")
     })
-    this.pieChart(1, 4, 5, 6)
     this.chatservice.getAllClients().subscribe((res: any) => {
       this.clientData = res
     })
     this.chatservice.getAllTickets().subscribe((res: any) => {
       this.ticketData = res
+      const resolved = this.ticketData.filter((val:any)=> val.status.toLowerCase() == 'resolved').length
+      const pending = this.ticketData.filter((val:any)=> val.status.toLowerCase() == 'pending').length
+      const inprogress = this.ticketData.filter((val:any)=> val.status.toLowerCase() == 'in progress'  || val.status.toLowerCase() == 'in progess').length
+      const assigned = this.ticketData.filter((val:any)=> val.status.toLowerCase() == 'assigned').length
+      const notAssigned = this.ticketData.filter((val:any)=> val.status.toLowerCase() == 'not assigned').length
+      console.log(resolved , pending , inprogress , assigned , notAssigned)
+      this.pieChart(resolved, assigned , pending , inprogress , notAssigned)
+
     })
     this.technologies = [
       { id: 1, technology: 'Angular' },
@@ -320,17 +327,17 @@ export class DashBoardComponent {
     this.chatservice.updateTicket(payload).subscribe(res=>console.log(res , "updated ticket"))
   }
   // tickets piechart 
-  pieChart(resolved: any, assigned: any, pending: any, inprogress: any) {
-    console.log(resolved, '13', assigned)
-    new Chart('piechart', {
+  pieChart(resolved: any, assigned: any, pending: any, inprogress: any , notAssigned :any) {
+    new Chart('pieChart', {
       type: 'pie',
       data: {
-        labels: ["Resolved", "Assigned", "Pending", "In Progress"],
+        labels: ["Resolved", "Assigned", "Pending", "In Progress" , "Not Assigned"],
         datasets: [{
           label: '',
-          data: [resolved, assigned, pending, inprogress],
+          data: [resolved, assigned, pending, inprogress , notAssigned],
         }]
       },
+  
     });
   }
 }
