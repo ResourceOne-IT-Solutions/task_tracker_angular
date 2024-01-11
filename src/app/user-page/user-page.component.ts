@@ -34,7 +34,7 @@ export class UserPageComponent implements OnInit {
     { columnDef: 'technology', header: 'Technology', cell: (element: any) => `${element['technology']}`, isText: true },
     { columnDef: 'description', header: 'Description', cell: (element: any) => `${element['description']}`, isText: true },
     { columnDef: 'comments', header: 'comments', cell: (element: any) => `${element['comments']}`, isText: true },
-    { columnDef: 'receivedDate', header: 'receivedDate', cell: (element: any) => `${element['receivedDate'] }`, isText: true  },
+    { columnDef: 'receivedDate', header: 'receivedDate', cell: (element: any) => `${new Date(element['receivedDate']).toLocaleString()}`, isText: true  },
     { columnDef: 'TicketRaised', header: 'Ticket Rise', cell: (element: any) => 'Update Ticket', isButton : true },
   ];
   displayColumns = ["client", "status", "user", "technology", "recivedDate", "TicketRaised" , "description" ,"comments"]
