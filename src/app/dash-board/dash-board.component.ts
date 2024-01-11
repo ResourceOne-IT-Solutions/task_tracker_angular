@@ -28,7 +28,7 @@ export class DashBoardComponent {
     { columnDef: 'designation', header: 'Designation', cell: (element: any) => `${element['designation']}`, isText: true },
     { columnDef: 'empId', header: 'Employee Id', cell: (element: any) => `${element['empId']}`, isText: true },
     { columnDef: 'profileImageUrl', header: 'Profile Pic', cell: (element: any) => `${element['profileImageUrl']}`, isImage: true },
-    { columnDef: 'dob', header: 'Date of Birth', cell: (element: any) => `${element['dob']}`, isText: true },
+    { columnDef: 'dob', header: 'Date of Birth', cell: (element: any) => `${new Date(element['dob']).toLocaleString()}`, isText: true },
     { columnDef: 'action', header: 'Action', cell: (element: any) => element === 'btn1' ? 'Edit' : 'Delete', isMultiButton: true },
   ];
   clientColumns: Array<Column> = [
@@ -43,7 +43,7 @@ export class DashBoardComponent {
     { columnDef: 'status', header: 'status', cell: (element: any) => `${element['status']}`, isText: true },
     { columnDef: 'user', header: 'user name', cell: (element: any) => `${element['user'].name || '--'}`, isText: true },
     { columnDef: 'technology', header: 'Technology', cell: (element: any) => `${element['technology']}`, isText: true },
-    { columnDef: 'receivedDate', header: 'receivedDate', cell: (element: any) => `${element['receivedDate']}`, isText: true },
+    { columnDef: 'receivedDate', header: 'receivedDate', cell: (element: any) => `${new Date(element['receivedDate']).toLocaleString()}`, isText: true },
     { columnDef: 'addOnResource', header: 'Helped By', cell: (element: any) => `${element['addOnResource']?.map((res: any) => res.name)?.toString() || '--'}`, isText: true },
     { columnDef: 'assignTicket', header: 'assignTicket', cell: (element: any) => element['user']?.name ? 'Add Resource' :'Assign User' , isButton: true },
   ];
