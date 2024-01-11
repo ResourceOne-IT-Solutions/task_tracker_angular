@@ -6,6 +6,7 @@ import { LocationStrategy } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Column } from '../dash-board/dash-board.component';
+import { Router } from '@angular/router';
 
 Chart.register(...registerables)
 @Component({
@@ -38,7 +39,7 @@ export class UserPageComponent implements OnInit {
     { columnDef: 'TicketRaised', header: 'Ticket Rise', cell: (element: any) => 'Update Ticket', isButton : true },
   ];
   displayColumns = ["client", "status", "user", "technology", "recivedDate", "TicketRaised" , "description" ,"comments"]
-  constructor(private chatservice: ChatService, private fb: FormBuilder, private modalService: NgbModal, private location: LocationStrategy) {
+  constructor(private chatservice: ChatService,private router :Router , private fb: FormBuilder, private modalService: NgbModal, private location: LocationStrategy) {
     history.pushState(null, '', window.location.href);
     // check if back or forward button is pressed.
     this.location.onPopState(() => {
@@ -81,7 +82,10 @@ export class UserPageComponent implements OnInit {
   
     });
   }
-  
+  Logout() {
+    localStorage.removeItem('currentTaskUser')
+    this.router.navigate(['/'])
+  }
   update(userDetails: any) {
     this.modelHeader = 'Update Ticket'
     this.userID = userDetails._id;
