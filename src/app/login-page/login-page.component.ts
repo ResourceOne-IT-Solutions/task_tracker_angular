@@ -60,18 +60,20 @@ export class LoginPageComponent {
     this.LoginBoolean= false;
     const isAdmin = this.RoleDetails === 'Admin'
     if (this.loginForm.valid) {
-      this.chatservice.getUserData({ ...this.loginForm.value, isAdmin }).subscribe((res: any) => {
-         localStorage.setItem('userData', JSON.stringify(res))
-        this.chatservice.UserLogin(res)
-        if (isAdmin) {
-          this.route.navigate(['dashboard'])
-        } else {
-          this.route.navigate(['User-page'])
-        } 
+      this.chatservice.currentTaskUser({ ...this.loginForm.value, isAdmin }).subscribe((res: any) => {
+         localStorage.setItem('currentTaskUser', res.token)
+         console.log(res,'65:::')
+         this.route.navigate(['dashboard'])
+         this.chatservice.UserLogin(res)
       },(err:any) =>{
         this.LoginBoolean= true;
         this.ErrorMsg = err.error.error;
       })
+
+      // this.chatservice.currentTaskUser({ ...this.loginForm.value, isAdmin }).subscribe((res:any) =>{
+      //   localStorage.setItem('currentTaskUser', res.token)
+      //   this.route.navigate(['dashboard'])
+      // })
     }
   }
   getNavigate(){
