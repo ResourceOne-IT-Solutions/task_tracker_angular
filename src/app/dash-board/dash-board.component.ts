@@ -315,19 +315,39 @@ export class DashBoardComponent {
     this.modalService.open(this.assignTicketModel)
     console.log(ticket, "ticket")
   }
-  ticketAssign() {
+  ticketAssign(dismiss: any) {
+    dismiss()
     console.log(this.AssignedUser, "assgined")
-    const payload = {
-      id: this.ticketDetails._id,
-      data: {
-        user: {
-          name: this.AssignedUser.firstName + '' + this.AssignedUser.lastName,
-          id: this.AssignedUser._id
+    if (this.assignUser == 'Assign User') {
+      const payload = {
+        id: this.ticketDetails._id,
+        data: {
+          user: {
+            name: this.AssignedUser.firstName + ' ' + this.AssignedUser.lastName,
+            id: this.AssignedUser._id
+          },
+          status: 'Assigned'
         }
       }
+      console.log(payload, 'payload')
+      this.chatservice.updateTicket(payload).subscribe((res:any) => {
+        this.ticketData = this.ticketData.map((element: any) => element._id === res._id ? res : element)
+      })
+    } else if (this.assignUser == 'Assign Resource') {
+      const payload = {
+        id: this.ticketDetails._id,
+        data: {
+          addOnResource: {
+            name: this.AssignedUser.firstName + ' ' + this.AssignedUser.lastName,
+            id: this.AssignedUser._id
+          }
+        }
+      }
+      console.log(payload, 'payload')
+      this.chatservice.updateResuorce(payload).subscribe((res:any) => {
+        this.ticketData = this.ticketData.map((element: any) => element._id === res._id ? res : element)
+      } )
     }
-    console.log(payload, 'payload')
-    this.chatservice.updateTicket(payload).subscribe(res => console.log(res, "updated ticket"))
   }
   // tickets piechart 
   pieChart(resolved: any, assigned: any, pending: any, inprogress: any, notAssigned: any) {
