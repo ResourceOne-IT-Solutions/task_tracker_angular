@@ -28,7 +28,7 @@ export class DashBoardComponent {
     { columnDef: 'designation', header: 'Designation', cell: (element: any) => `${element['designation']}`, isText: true },
     { columnDef: 'empId', header: 'Employee Id', cell: (element: any) => `${element['empId']}`, isText: true },
     { columnDef: 'profileImageUrl', header: 'Profile Pic', cell: (element: any) => `${element['profileImageUrl']}`, isImage: true },
-    { columnDef: 'dob', header: 'Date of Birth', cell: (element: any) => `${element['dob']}`, isText: true },
+    { columnDef: 'dob', header: 'Date of Birth', cell: (element: any) => `${new Date(element['dob']).toLocaleString()}`, isText: true },
     { columnDef: 'action', header: 'Action', cell: (element: any) => element === 'btn1' ? 'Edit' : 'Delete', isMultiButton: true },
   ];
   clientColumns: Array<Column> = [
@@ -43,9 +43,9 @@ export class DashBoardComponent {
     { columnDef: 'status', header: 'status', cell: (element: any) => `${element['status']}`, isText: true },
     { columnDef: 'user', header: 'user name', cell: (element: any) => `${element['user'].name || '--'}`, isText: true },
     { columnDef: 'technology', header: 'Technology', cell: (element: any) => `${element['technology']}`, isText: true },
-    { columnDef: 'receivedDate', header: 'receivedDate', cell: (element: any) => `${element['receivedDate']}`, isText: true },
+    { columnDef: 'receivedDate', header: 'receivedDate', cell: (element: any) => `${new Date(element['receivedDate']).toLocaleString()}`, isText: true },
     { columnDef: 'addOnResource', header: 'Helped By', cell: (element: any) => `${element['addOnResource']?.map((res: any) => res.name)?.toString() || '--'}`, isText: true },
-    { columnDef: 'assignTicket', header: 'assignTicket', cell: (element: any) => element['user']?.name ? 'Add Resource' :'Assign User' , isButton: true },
+    { columnDef: 'assignTicket', header: 'assignTicket', cell: (element: any) => element['user']?.name ? 'Add Resource' : 'Assign User', isButton: true },
   ];
   cities = ['New York', 'New Jersey', 'Los Angeles'];
   technology = ['React Saga', 'Angular', 'Python', 'Vue Js', 'JQuery']
@@ -64,7 +64,7 @@ export class DashBoardComponent {
   clientDetails: any;
   ticketDetails: any;
   assignUser: any;
-  AssignedUser:any
+  AssignedUser: any
   constructor(private chatservice: ChatService, private router: Router, private modalService: NgbModal, private fb: FormBuilder) {
     this.userForm = this.fb.group({
       fname: ['', Validators.required],
@@ -96,12 +96,19 @@ export class DashBoardComponent {
       this.adminDetails = res;
       console.log(this.adminDetails, "70::")
     })
-    this.pieChart(1, 4, 5, 6)
     this.chatservice.getAllClients().subscribe((res: any) => {
       this.clientData = res
     })
     this.chatservice.getAllTickets().subscribe((res: any) => {
       this.ticketData = res
+      const resolved = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'resolved').length
+      const pending = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'pending').length
+      const inprogress = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'in progress' || val.status.toLowerCase() == 'in progess').length
+      const assigned = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'assigned').length
+      const notAssigned = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'not assigned').length
+      console.log(resolved, pending, inprogress, assigned, notAssigned)
+      this.pieChart(resolved, assigned, pending, inprogress, notAssigned)
+
     })
     this.technologies = [
       { id: 1, technology: 'Angular' },
@@ -121,7 +128,10 @@ export class DashBoardComponent {
     })
   }
 
-
+  Logout() {
+    localStorage.removeItem('currentTaskUser')
+    this.router.navigate(['/'])
+  }
 
   openPopup(content: any): void {
     this.modalService.open(content);
@@ -172,7 +182,7 @@ export class DashBoardComponent {
       id: this.userDetails._id,
       data: Data
     }
-    this.chatservice.UpdateUsers(payload).subscribe((res:any) =>{
+    this.chatservice.UpdateUsers(payload).subscribe((res: any) => {
       this.clientData = this.clientData.map((element: any) => element._id === res._id ? res : element)
 
     })
@@ -299,38 +309,58 @@ export class DashBoardComponent {
     return null;
   }
 
-  assignTicket(ticket:any){
+  assignTicket(ticket: any) {
     this.ticketDetails = ticket
     this.assignUser = ticket.user?.name ? 'Assign Resource' : 'Assign User'
     this.modalService.open(this.assignTicketModel)
-    console.log(ticket , "ticket")
+    console.log(ticket, "ticket")
   }
-  ticketAssign(){
+  ticketAssign(dismiss: any) {
+    dismiss()
     console.log(this.AssignedUser, "assgined")
-    const payload = {
-      id : this.ticketDetails._id,
-      data :{
-        user:{
-          name: this.AssignedUser.firstName + '' + this.AssignedUser.lastName,
-          id : this.AssignedUser._id
+    if (this.assignUser == 'Assign User') {
+      const payload = {
+        id: this.ticketDetails._id,
+        data: {
+          user: {
+            name: this.AssignedUser.firstName + ' ' + this.AssignedUser.lastName,
+            id: this.AssignedUser._id
+          },
+          status: 'Assigned'
         }
       }
+      console.log(payload, 'payload')
+      this.chatservice.updateTicket(payload).subscribe((res:any) => {
+        this.ticketData = this.ticketData.map((element: any) => element._id === res._id ? res : element)
+      })
+    } else if (this.assignUser == 'Assign Resource') {
+      const payload = {
+        id: this.ticketDetails._id,
+        data: {
+          addOnResource: {
+            name: this.AssignedUser.firstName + ' ' + this.AssignedUser.lastName,
+            id: this.AssignedUser._id
+          }
+        }
+      }
+      console.log(payload, 'payload')
+      this.chatservice.updateResuorce(payload).subscribe((res:any) => {
+        this.ticketData = this.ticketData.map((element: any) => element._id === res._id ? res : element)
+      } )
     }
-    console.log(payload , 'payload')
-    this.chatservice.updateTicket(payload).subscribe(res=>console.log(res , "updated ticket"))
   }
   // tickets piechart 
-  pieChart(resolved: any, assigned: any, pending: any, inprogress: any) {
-    console.log(resolved, '13', assigned)
-    new Chart('piechart', {
+  pieChart(resolved: any, assigned: any, pending: any, inprogress: any, notAssigned: any) {
+    new Chart('pieChart', {
       type: 'pie',
       data: {
-        labels: ["Resolved", "Assigned", "Pending", "In Progress"],
+        labels: ["Resolved", "Assigned", "Pending", "In Progress", "Not Assigned"],
         datasets: [{
           label: '',
-          data: [resolved, assigned, pending, inprogress],
+          data: [resolved, assigned, pending, inprogress, notAssigned],
         }]
       },
+
     });
   }
 }

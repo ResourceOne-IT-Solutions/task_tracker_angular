@@ -54,12 +54,14 @@ export class ChatService {
   }
 
   createNewTicket(data: any) {
-    return this.post('/client/create', data)
+    return this.post('/tickets/create', data)
   }
   updateTicket(data: any) {
-    return this.put('/client/update', data)
+    return this.put('/tickets/update', data)
   }
-
+  updateResuorce(data: any) {
+    return this.put('/tickets/assign-resource', data)
+  }
   updateUsers(data: any, userdata: any) {
     const userdetails = { id: data, data: userdata }
     return this.put('/tickets/update', userdetails)

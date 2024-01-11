@@ -6,6 +6,7 @@ import { LocationStrategy } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Column } from '../dash-board/dash-board.component';
+import { Router } from '@angular/router';
 
 Chart.register(...registerables)
 @Component({
@@ -34,11 +35,12 @@ export class UserPageComponent implements OnInit {
     { columnDef: 'technology', header: 'Technology', cell: (element: any) => `${element['technology']}`, isText: true },
     { columnDef: 'description', header: 'Description', cell: (element: any) => `${element['description']}`, isText: true },
     { columnDef: 'comments', header: 'comments', cell: (element: any) => `${element['comments']}`, isText: true },
-    { columnDef: 'receivedDate', header: 'receivedDate', cell: (element: any) => `${element['receivedDate'] }`, isText: true  },
+    { columnDef: 'receivedDate', header: 'receivedDate', cell: (element: any) => `${new Date(element['receivedDate']).toLocaleString()}`, isText: true  },
     { columnDef: 'TicketRaised', header: 'Ticket Rise', cell: (element: any) => 'Update Ticket', isButton : true },
   ];
   displayColumns = ["client", "status", "user", "technology", "recivedDate", "TicketRaised" , "description" ,"comments"]
-  constructor(private chatservice: ChatService, private fb: FormBuilder, private modalService: NgbModal, private location: LocationStrategy) {
+  clientDetails: any;
+  constructor(private chatservice: ChatService,private router :Router , private fb: FormBuilder, private modalService: NgbModal, private location: LocationStrategy) {
     history.pushState(null, '', window.location.href);
     // check if back or forward button is pressed.
     this.location.onPopState(() => {
@@ -64,7 +66,7 @@ export class UserPageComponent implements OnInit {
       this.Resolved = this.userTickets.filter((val: any) => val.status === 'Resolved').length,
         this.Assigned = this.userTickets.filter((val: any) => val.status === 'Assigned').length,
         this.pending = this.userTickets.filter((val: any) => val.status === 'Pending').length,
-        this.inprogress = this.userTickets.filter((val: any) => val.status === 'In Progress').length
+        this.inprogress = this.userTickets.filter((val: any) => val.status.toLowerCase() == 'in progress' || val.status.toLowerCase() == 'in progess').length
       this.pieChart(this.Resolved, this.Assigned, this.pending, this.inprogress);
     })
   }
@@ -81,11 +83,15 @@ export class UserPageComponent implements OnInit {
   
     });
   }
-  
+  Logout() {
+    localStorage.removeItem('currentTaskUser')
+    this.router.navigate(['/'])
+  }
   update(userDetails: any) {
     this.modelHeader = 'Update Ticket'
     this.userID = userDetails._id;
-  
+    this.clientDetails = userDetails
+    console.log(this.clientDetails , "client")
     this.openPopup(this.updateModel)
     this.updateForm.patchValue({
       description: userDetails.description,
