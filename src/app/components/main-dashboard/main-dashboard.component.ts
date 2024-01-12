@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ChatService } from '../services/chat.service';
+import { ChatService } from '../../services/chat.service';
 import { HttpHeaders } from '@angular/common/http';
 
 @Component({

@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
-import { ChatService } from '../services/chat.service';
+import { ChatService } from '../../services/chat.service';
 import { Chart, registerables } from 'node_modules/chart.js';
 import { from } from 'rxjs';
 import { LocationStrategy } from '@angular/common';
@@ -38,7 +38,7 @@ export class UserPageComponent implements OnInit {
     { columnDef: 'description', header: 'Description', cell: (element: any) => `${element['description']}`, isText: true },
     { columnDef: 'comments', header: 'comments', cell: (element: any) => `${element['comments']}`, isText: true },
     { columnDef: 'receivedDate', header: 'receivedDate', cell: (element: any) => `${new Date(element['receivedDate']).toLocaleString()}`, isText: true },
-    { columnDef: 'TicketRaised', header: 'Ticket Rise', cell: (element: any) => 'Update Ticket', isButton: true },
+    { columnDef: 'TicketRaised', header: 'Ticket Rise', cell: (element: any) =>  element === 'btn1' ? 'Update Ticket'  : 'request ticket', isMultiButton: true },
   ];
 
   displayColumns = ["client", "status", "user", "technology", "recivedDate", "TicketRaised" , "description" ,"comments"]
