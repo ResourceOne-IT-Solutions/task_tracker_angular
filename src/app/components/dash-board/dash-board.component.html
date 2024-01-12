@@ -77,11 +77,11 @@
         <button class="btn btn-primary m-2" (click)="openClientModel()">Add Client</button>
     </div>
 </div>
-<app-table *ngIf="displayUsers" [data]="userList" (editData)="editUser($event)" (userDetails)="openUserDetails($event)"
+<app-table *ngIf="displayUsers" [data]="userList" (firstBtnClick)="editUser($event)" (userDetails)="openUserDetails($event)"
     [tableColumns]="userColumns"></app-table>
-<app-table *ngIf="displayClient" [data]="clientData" (editData)="editClient($event)"
+<app-table *ngIf="displayClient" [data]="clientData" (firstBtnClick)="editClient($event)"
     [tableColumns]="clientColumns"></app-table>
-<app-table *ngIf="displayTickets" [data]="ticketData" (editData)="assignTicket($event)"
+<app-table *ngIf="displayTickets" [data]="ticketData" (firstBtnClick)="assignTicket($event)"
     [tableColumns]="ticketColumns"></app-table>
 
 <!--User Model-->
