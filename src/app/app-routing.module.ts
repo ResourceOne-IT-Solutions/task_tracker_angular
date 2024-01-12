@@ -7,6 +7,7 @@ import { CreateUserComponent } from './components/create-user/create-user.compon
 import { guardGuard } from './services/auth/guard.guard';
 import { UserPageComponent } from './components/user-page/user-page.component';
 import { MainDashboardComponent } from './components/main-dashboard/main-dashboard.component';
+import { ChatBoxComponent } from './components/chat-box/chat-box.component';
 
 const routes: Routes = [
   { path: '', component: WelComePageComponent },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'dashboard', component: MainDashboardComponent},
   { path: 'create-user', component: CreateUserComponent },
   { path: 'User-page', component: UserPageComponent},
+  { path: 'Chat-Box', component: ChatBoxComponent},
 
 ];
 

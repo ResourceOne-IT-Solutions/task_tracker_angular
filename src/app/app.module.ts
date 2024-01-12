@@ -25,6 +25,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TableComponent } from './reusable/table/table.component';
 import { APP_BASE_HREF } from '@angular/common';
 import { MainDashboardComponent } from './components/main-dashboard/main-dashboard.component';
+import { ChatBoxComponent } from './components/chat-box/chat-box.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,6 +36,7 @@ import { MainDashboardComponent } from './components/main-dashboard/main-dashboa
     UserPageComponent,
     TableComponent,
     MainDashboardComponent,
+    ChatBoxComponent,
   ],
   imports: [
     BrowserModule,
