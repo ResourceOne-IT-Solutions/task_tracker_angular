@@ -1,8 +1,23 @@
 .logout-button{
     margin-top: 10px;
+    display: flex;
     margin-right: 23px;
-    text-align: end;
+    justify-content: flex-end;
+
+   
 }
+.drop{
+    display: flex;
+    justify-content: flex-end;
+    margin: 14px 10px;
+
+    
+}
+// .update-status{
+//     margin-top: 4px;
+//     width: 8.5%;
+    
+// }
 .Container {
     width: 80%;
     margin: 10px auto;
@@ -74,6 +89,14 @@
         .userslabel {
             font-weight: 500;
             text-decoration: underline;
+        }
+        .requestchat{
+            width: 194px;
+            margin-top: 3px;
+            height: 100px;
+            color : red;
+            
+           
         }
         .pieChart {
             width: 280px;

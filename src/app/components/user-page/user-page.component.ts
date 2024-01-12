@@ -15,9 +15,15 @@ Chart.register(...registerables)
   styleUrls: ['./user-page.component.scss']
 })
 export class UserPageComponent implements OnInit {
+
+  requestchat = false;
+  isupdatestatus = false
+  susers = ['Offline' , 'Busy' , 'Available'];
+  selectedstatus:any;
   date = new Date();
   @ViewChild('updateModel', { static: false }) updateModel: any;
-  userstatus = ['In Progess', 'Pending', 'Resolved'];
+  userstatus = ['In Progress', 'Pending', 'Resolved' , 'Improper requirement'];
+  selectusers = ['user1' , 'user2' , 'user3',]
   UserData: any;
   userTickets: any = [];
   modelHeader: string = ''
@@ -61,8 +67,10 @@ export class UserPageComponent implements OnInit {
   ngOnInit(): void {
     this.chatservice.UserLoginData.subscribe((res:any) => {
       this.UserData = res;
+      console.log(this.UserData , 'userdata')
     })
     this.chatservice.getAllTickets().subscribe((res: any) => {
+      console.log(res , '73:::::')
       this.userTickets = res.filter((item: any) =>
       item.user.id === this.UserData._id
       )
@@ -70,7 +78,7 @@ export class UserPageComponent implements OnInit {
       this.Resolved = this.userTickets.filter((val: any) => val.status === 'Resolved').length,
         this.Assigned = this.userTickets.filter((val: any) => val.status === 'Assigned').length,
         this.pending = this.userTickets.filter((val: any) => val.status === 'Pending').length,
-        this.Improper  = this.userTickets.filter((val: any) => val.status === 'Improper').length,
+        this.Improper  = this.userTickets.filter((val: any) => val.status === 'Improper requirement').length,
         this.helpedTickets = this.UserData.helpedTickets,
         this.pieChart(this.Resolved, this.Assigned, this.pending, this.inprogress,this.helpedTickets,this.Improper);
         this.inprogress = this.userTickets.filter((val: any) => val.status.toLowerCase() == 'in progress' || val.status.toLowerCase() == 'in progess').length
@@ -111,8 +119,15 @@ export class UserPageComponent implements OnInit {
     this.modalService.open(content);
   }
   updateUser(dismiss: any) {
+    console.log('update')
     if (this.updateForm.valid) {
-      this.chatservice.updateUsers(this.userID, this.updateForm.value,).subscribe((res: any) => {
+
+      const ticketpayload = {
+        id : this.userID,
+        data : this.updateForm.value
+      }
+      
+      this.chatservice.updateTicket(ticketpayload).subscribe((res: any) => {
         this.userTickets = this.userTickets.map((val: any) => {
           if (val._id === res._id) {
             val = res;
@@ -131,6 +146,48 @@ export class UserPageComponent implements OnInit {
   }
   cancel(dismiss: any) {
     dismiss();
+  }
+  requestChat(){
+    this.requestchat = !this.requestchat;
+    console.log(this.requestchat , '139::::')
+  }
+  sendadmin(){
+    this.requestchat = !this.requestchat;
+    alert('request send admin')
+    // if(this.requestchat){
+    //   console.log('if.....')
+    // }
+    // else {
+    //   this.requestchat = false;
+    //   console.log('else')
+
+    // }
+
+
+  }
+
+  updateStatus(){
+    console.log('update status')
+    this.isupdatestatus = !this.isupdatestatus
+  }
+
+  selectChange(data:any){
+    const updatepayload = {
+      id: this.UserData._id,
+      data : {
+        status : data
+      }
+    }
+    this.chatservice.UpdateUsers(updatepayload).subscribe((res:any) => {
+      console.log(res ,)
+      this.isupdatestatus = !this.isupdatestatus;
+    })
+
+  }
+
+  selectuser(data:any){
+    console.log(data , 'selecteduser')
+
   }
 
 }

@@ -25,6 +25,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TableComponent } from './reusable/table/table.component';
 import { APP_BASE_HREF } from '@angular/common';
 import { MainDashboardComponent } from './components/main-dashboard/main-dashboard.component';
+import { MatSelectModule } from '@angular/material/select';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,6 +50,7 @@ import { MainDashboardComponent } from './components/main-dashboard/main-dashboa
     MatSortModule,
     MatTooltipModule,
     MatFormFieldModule,
+    MatSelectModule,
     MatIconModule,
     MatCardModule,
     MatDialogModule,

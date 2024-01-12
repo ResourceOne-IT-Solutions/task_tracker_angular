@@ -62,10 +62,7 @@ export class ChatService {
   updateResuorce(data: any) {
     return this.put('/tickets/assign-resource', data)
   }
-  updateUsers(data: any, userdata: any) {
-    const userdetails = { id: data, data: userdata }
-    return this.put('/tickets/update', userdetails)
-  }
+  
 
   currentTaskUser(data: any) {
     return this.post('/verify-login', data)
