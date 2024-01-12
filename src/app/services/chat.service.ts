@@ -79,28 +79,28 @@ export class ChatService {
   }
 
   get(url: any,) {
-    return this.http.get(this.BE_LOCAL + url, {
+    return this.http.get(this.BE_URL + url, {
       headers: new HttpHeaders({
         Authorization: this.getToken(),
       })
     });
   }
   post(url: any, data: any) {
-    return this.http.post(this.BE_LOCAL + url,data,{
+    return this.http.post(this.BE_URL + url,data,{
       headers: new HttpHeaders({
         Authorization: this.getToken(),
       })
     });
   }
   put(url: any, data: any) {
-    return this.http.put(this.BE_LOCAL + url,data, {
+    return this.http.put(this.BE_URL + url,data, {
       headers: new HttpHeaders({
         Authorization: this.getToken(),
       })
     });
   }
   delete(url: any) {
-    return this.http.delete(this.BE_LOCAL + url, {
+    return this.http.delete(this.BE_URL + url, {
       headers: new HttpHeaders({
         Authorization: this.getToken(),
       })
