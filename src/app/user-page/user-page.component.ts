@@ -40,9 +40,10 @@ export class UserPageComponent implements OnInit {
     { columnDef: 'receivedDate', header: 'receivedDate', cell: (element: any) => `${new Date(element['receivedDate']).toLocaleString()}`, isText: true },
     { columnDef: 'TicketRaised', header: 'Ticket Rise', cell: (element: any) => 'Update Ticket', isButton: true },
   ];
-  displayColumns = ["client", "status", "user", "technology", "recivedDate", "TicketRaised", "description", "comments"]
 
-  constructor(private chatservice: ChatService, private router: Router, private fb: FormBuilder, private modalService: NgbModal, private location: LocationStrategy) {
+  displayColumns = ["client", "status", "user", "technology", "recivedDate", "TicketRaised" , "description" ,"comments"]
+  clientDetails: any;
+  constructor(private chatservice: ChatService,private router :Router , private fb: FormBuilder, private modalService: NgbModal, private location: LocationStrategy) {
     history.pushState(null, '', window.location.href);
     // check if back or forward button is pressed.
     this.location.onPopState(() => {
@@ -69,11 +70,10 @@ export class UserPageComponent implements OnInit {
       this.Resolved = this.userTickets.filter((val: any) => val.status === 'Resolved').length,
         this.Assigned = this.userTickets.filter((val: any) => val.status === 'Assigned').length,
         this.pending = this.userTickets.filter((val: any) => val.status === 'Pending').length,
-        this.inprogress = this.userTickets.filter((val: any) => val.status === 'In Progress').length,
         this.Improper  = this.userTickets.filter((val: any) => val.status === 'Improper').length,
-
         this.helpedTickets = this.UserData.helpedTickets,
-      this.pieChart(this.Resolved, this.Assigned, this.pending, this.inprogress,this.helpedTickets,this.Improper);
+        this.pieChart(this.Resolved, this.Assigned, this.pending, this.inprogress,this.helpedTickets,this.Improper);
+        this.inprogress = this.userTickets.filter((val: any) => val.status.toLowerCase() == 'in progress' || val.status.toLowerCase() == 'in progess').length
     })
   }
   pieChart(resolved: any, assigned: any, pending: any, inprogress: any,helped:any,Improper:any) {
@@ -98,7 +98,7 @@ export class UserPageComponent implements OnInit {
   update(userDetails: any) {
     this.modelHeader = 'Update Ticket'
     this.userID = userDetails._id;
-
+    this.clientDetails = userDetails
     this.openPopup(this.updateModel)
     this.updateForm.patchValue({
       description: userDetails.description,
