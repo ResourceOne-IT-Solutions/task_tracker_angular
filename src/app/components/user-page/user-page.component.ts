@@ -38,7 +38,7 @@ export class UserPageComponent implements OnInit {
     { columnDef: 'description', header: 'Description', cell: (element: any) => `${element['description']}`, isText: true },
     { columnDef: 'comments', header: 'comments', cell: (element: any) => `${element['comments']}`, isText: true },
     { columnDef: 'receivedDate', header: 'receivedDate', cell: (element: any) => `${new Date(element['receivedDate']).toLocaleString()}`, isText: true },
-    { columnDef: 'TicketRaised', header: 'Ticket Rise', cell: (element: any) =>  element === 'btn1' ? 'Update Ticket'  : 'request ticket', isMultiButton: true },
+    { columnDef: 'TicketRaised', header: 'Ticket Rise', cell: (element: any) =>  element === 'btn1' ? 'Update Ticket'  : 'Request ticket', isMultiButton: true },
   ];
 
   displayColumns = ["client", "status", "user", "technology", "recivedDate", "TicketRaised" , "description" ,"comments"]
@@ -132,6 +132,8 @@ export class UserPageComponent implements OnInit {
   cancel(dismiss: any) {
     dismiss();
   }
-
+  routeToTickets(data:any){
+    this.router.navigate(['/tickets'])
+  }
 }
 
