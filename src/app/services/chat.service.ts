@@ -75,8 +75,22 @@ export class ChatService {
   }
 
   getToken() {
-    return localStorage.getItem('currentTaskUser') || ''
+    return this.getCookie('token') || ''
+     
   }
+  // Cookie.....
+  getCookie(name: any) {
+    const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+    console.log(cookies,'103:::',name)
+    for (const cookie of cookies) {
+      const [cookieName, cookieValue] = cookie.split('=');
+      if (cookieName === name) {
+        return decodeURIComponent(cookieValue);
+      }
+    }
+    return null;
+  }
+
 
   get(url: any,) {
     return this.http.get(this.BE_URL + url, {

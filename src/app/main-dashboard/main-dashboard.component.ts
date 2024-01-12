@@ -13,7 +13,6 @@ export class MainDashboardComponent {
   constructor(private chatservice: ChatService) { }
   ngOnInit() {
     this.data = localStorage.getItem("currentTaskUser")
-    console.log(this.data,'13::::',this.data)
     // let customHeaders = new Headers({ Authorization:this.data });
     // console.log(customHeaders,'17::::')
     let httpOptions = {
@@ -24,7 +23,6 @@ export class MainDashboardComponent {
     this.chatservice.getLoginSetup(httpOptions).subscribe((res: any) => {
       this.isAdmin = res.isAdmin;
       this.chatservice.UserLogin(res)
-      console.log(res, '24:::::')
     })
 
   }
