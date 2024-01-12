@@ -47,6 +47,9 @@ export class DashBoardComponent {
     { columnDef: 'addOnResource', header: 'Helped By', cell: (element: any) => `${element['addOnResource']?.map((res: any) => res.name)?.toString() || '--'}`, isText: true },
     { columnDef: 'assignTicket', header: 'assignTicket', cell: (element: any) => element['user']?.name ? 'Add Resource' : 'Assign User', isButton: true },
   ];
+  pieChartData: number[] = [];
+  pieChartLabels: string[] = ["Resolved", "Assigned", "Pending", "In Progress", "Not Assigned"];
+  pieChartColors: string[] = ['blue', 'gray', 'yellow', 'green', 'red'];
   cities = ['New York', 'New Jersey', 'Los Angeles'];
   technology = ['React Saga', 'Angular', 'Python', 'Vue Js', 'JQuery']
   user: any;
@@ -65,6 +68,10 @@ export class DashBoardComponent {
   ticketDetails: any;
   assignUser: any;
   AssignedUser: any
+  todaysTickets: any =[];
+  resolvedTickets: any=[];
+  pendingTickets: any=[];
+  inprogressTickets: any=[];
   constructor(private chatservice: ChatService, private router: Router, private modalService: NgbModal, private fb: FormBuilder) {
     this.userForm = this.fb.group({
       fname: ['', Validators.required],
@@ -100,14 +107,14 @@ export class DashBoardComponent {
       this.clientData = res
     })
     this.chatservice.getAllTickets().subscribe((res: any) => {
-      this.ticketData = res
-      const resolved = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'resolved').length
-      const pending = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'pending').length
-      const inprogress = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'in progress' || val.status.toLowerCase() == 'in progess').length
+      this.ticketData = res;
+      this.todaysTickets = this.ticketData.filter((val :any)=>  new Date(val.receivedDate).toLocaleDateString() === new Date().toLocaleDateString()) 
+      this.resolvedTickets = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'resolved').length
+      this.pendingTickets = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'pending').length
+      this.inprogressTickets = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'in progress' || val.status.toLowerCase() == 'in progess').length
       const assigned = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'assigned').length
       const notAssigned = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'not assigned').length
-      console.log(resolved, pending, inprogress, assigned, notAssigned)
-      this.pieChart(resolved, assigned, pending, inprogress, notAssigned)
+      this.pieChart(this.resolvedTickets, assigned, this.pendingTickets, this.inprogressTickets, notAssigned)
 
     })
     this.technologies = [
@@ -351,17 +358,25 @@ export class DashBoardComponent {
   }
   // tickets piechart 
   pieChart(resolved: any, assigned: any, pending: any, inprogress: any, notAssigned: any) {
-    new Chart('pieChart', {
-      type: 'pie',
-      data: {
-        labels: ["Resolved", "Assigned", "Pending", "In Progress", "Not Assigned"],
-        datasets: [{
-          label: '',
-          data: [resolved, assigned, pending, inprogress, notAssigned],
-        }]
+    this.pieChartData = [resolved , assigned , pending , inprogress , notAssigned]
+   new Chart('pieChart', {
+    type: 'pie',
+    data: {
+      labels: this.pieChartLabels,
+      datasets: [{
+        label: '',
+        data: this.pieChartData,
+        backgroundColor: this.pieChartColors,
+      }]
+    },
+    options: {
+      plugins: {
+        legend: {
+          display: false,
+        },
       },
-
-    });
+    },
+  });
   }
 }
 export interface Column {
