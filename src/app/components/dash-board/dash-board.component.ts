@@ -378,6 +378,10 @@ export class DashBoardComponent {
     },
   });
   }
+
+  OpenChatBox(){
+    this.router.navigate(['Chat-Box'])
+  }
 }
 export interface Column {
   columnDef: string;

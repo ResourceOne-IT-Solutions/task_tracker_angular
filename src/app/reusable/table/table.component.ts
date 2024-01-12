@@ -16,8 +16,8 @@ export class TableComponent {
   displayedColumns: any
   @ViewChild(MatPaginator) 'paginator': MatPaginator;
   @ViewChild(MatSort) 'sort': MatSort;
-  @Output() editData = new EventEmitter();
-  @Output() updateData = new EventEmitter();
+  @Output() firstBtnClick = new EventEmitter();
+  @Output() secondBtnClick = new EventEmitter();
   @Output() userDetails = new EventEmitter()
 
   ngOnInit() {
@@ -33,11 +33,11 @@ export class TableComponent {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-  edit(data: any) {
-    this.editData.emit(data)
+  btn1Click(data: any) {
+    this.firstBtnClick.emit(data)
   }
-  Delete(data: any) {
-
+  btn2Click(data: any) {
+    this.secondBtnClick.emit(data)
   }
   openUserDetails(userDetails:any) {
     this.userDetails.emit(userDetails)

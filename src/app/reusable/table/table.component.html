@@ -13,11 +13,11 @@
                 {{ disCol.cell(element) }}
             </span>
             <span *ngIf="disCol.isMultiButton">
-                <button mat-raised-button color="primary" (click)="edit(element)">{{ disCol.cell('btn1') }}</button>
-                <button mat-raised-button color="warn" (click)="Delete(element)">{{ disCol.cell('btn2') }}</button>
+                <button mat-raised-button color="primary" (click)="btn1Click(element)">{{ disCol.cell('btn1') }}</button>
+                <button mat-raised-button color="warn" (click)="btn2Click(element)">{{ disCol.cell('btn2') }}</button>
             </span>
             <span *ngIf="disCol.isButton">
-                <button mat-raised-button color="primary" (click)="edit(element)">{{ disCol.cell(element) }}</button>
+                <button mat-raised-button color="primary" (click)="btn1Click(element)">{{ disCol.cell(element) }}</button>
             </span>
             <span *ngIf="disCol.isImage" (click)="openUserDetails(element)">
                 <img src="{{ disCol.cell(element)}}"  class="profileImage"/>
