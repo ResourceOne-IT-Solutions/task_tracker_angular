@@ -28,6 +28,8 @@ export class UserPageComponent implements OnInit {
   pending: any;
   inprogress: any;
   stepper: any;
+  Improper: any;
+  helpedTickets: any;
   ticketColumns: Array<Column> = [
     { columnDef: 'client', header: 'client name', cell: (element: any) => `${element['client'].name}`, isText: true },
     { columnDef: 'status', header: 'status', cell: (element: any) => `${element['status']}`, isText: true },
@@ -35,11 +37,12 @@ export class UserPageComponent implements OnInit {
     { columnDef: 'technology', header: 'Technology', cell: (element: any) => `${element['technology']}`, isText: true },
     { columnDef: 'description', header: 'Description', cell: (element: any) => `${element['description']}`, isText: true },
     { columnDef: 'comments', header: 'comments', cell: (element: any) => `${element['comments']}`, isText: true },
-    { columnDef: 'receivedDate', header: 'receivedDate', cell: (element: any) => `${new Date(element['receivedDate']).toLocaleString()}`, isText: true  },
-    { columnDef: 'TicketRaised', header: 'Ticket Rise', cell: (element: any) => 'Update Ticket', isButton : true },
+    { columnDef: 'receivedDate', header: 'receivedDate', cell: (element: any) => `${new Date(element['receivedDate']).toLocaleString()}`, isText: true },
+    { columnDef: 'TicketRaised', header: 'Ticket Rise', cell: (element: any) => 'Update Ticket', isButton: true },
   ];
-  displayColumns = ["client", "status", "user", "technology", "recivedDate", "TicketRaised" , "description" ,"comments"]
-  constructor(private chatservice: ChatService,private router :Router , private fb: FormBuilder, private modalService: NgbModal, private location: LocationStrategy) {
+  displayColumns = ["client", "status", "user", "technology", "recivedDate", "TicketRaised", "description", "comments"]
+
+  constructor(private chatservice: ChatService, private router: Router, private fb: FormBuilder, private modalService: NgbModal, private location: LocationStrategy) {
     history.pushState(null, '', window.location.href);
     // check if back or forward button is pressed.
     this.location.onPopState(() => {
@@ -55,75 +58,80 @@ export class UserPageComponent implements OnInit {
     })
   }
   ngOnInit(): void {
-    this.chatservice.UserLoginData.subscribe((res) => {
+    this.chatservice.UserLoginData.subscribe((res:any) => {
       this.UserData = res;
     })
     this.chatservice.getAllTickets().subscribe((res: any) => {
       this.userTickets = res.filter((item: any) =>
-        item.user.id === this.UserData._id
+      item.user.id === this.UserData._id
       )
+      console.log(this.userTickets,'68::::')
       this.Resolved = this.userTickets.filter((val: any) => val.status === 'Resolved').length,
         this.Assigned = this.userTickets.filter((val: any) => val.status === 'Assigned').length,
         this.pending = this.userTickets.filter((val: any) => val.status === 'Pending').length,
-        this.inprogress = this.userTickets.filter((val: any) => val.status === 'In Progress').length
-      this.pieChart(this.Resolved, this.Assigned, this.pending, this.inprogress);
+        this.inprogress = this.userTickets.filter((val: any) => val.status === 'In Progress').length,
+        this.Improper  = this.userTickets.filter((val: any) => val.status === 'Improper').length,
+
+        this.helpedTickets = this.UserData.helpedTickets,
+      this.pieChart(this.Resolved, this.Assigned, this.pending, this.inprogress,this.helpedTickets,this.Improper);
     })
   }
-  pieChart(resolved: any, assigned: any, pending: any, inprogress: any) {
+  pieChart(resolved: any, assigned: any, pending: any, inprogress: any,helped:any,Improper:any) {
     new Chart('piechart', {
       type: 'pie',
       data: {
-        labels: ["Resolved", "Assigned", "Pending", "In Progress"],
+        labels: ["Resolved", "Assigned", "Pending", "In Progress","HelpedTickets","ImproperRequirement"],
         datasets: [{
           label: this.UserData.firstName,
-          data: [resolved, assigned, pending, inprogress],
+          data: [resolved, assigned, pending, inprogress,helped,Improper],
         }]
       },
-  
     });
   }
   Logout() {
-    localStorage.removeItem('currentTaskUser')
+    this.deleteCookie('token')
     this.router.navigate(['/'])
+  }
+  deleteCookie(name: string) {
+    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC';
   }
   update(userDetails: any) {
     this.modelHeader = 'Update Ticket'
     this.userID = userDetails._id;
-  
+
     this.openPopup(this.updateModel)
     this.updateForm.patchValue({
       description: userDetails.description,
       comments: userDetails.comments,
       status: userDetails.status
     })
-  
+
   }
   openPopup(content: any): void {
     this.modalService.open(content);
   }
   updateUser(dismiss: any) {
     if (this.updateForm.valid) {
-      this.chatservice.updateUsers(this.userID, this.updateForm.value,).subscribe((res:any) => {
-       this.userTickets = this.userTickets.map((val:any) => {
-          if( val._id === res._id ){
+      this.chatservice.updateUsers(this.userID, this.updateForm.value,).subscribe((res: any) => {
+        this.userTickets = this.userTickets.map((val: any) => {
+          if (val._id === res._id) {
             val = res;
             return res
           }
           return val
 
         })
-  
+
         this.updateForm.reset();
       })
       dismiss();
-  
+
     }
-  
+
   }
-  cancel(dismiss: any){
+  cancel(dismiss: any) {
     dismiss();
-  
   }
-  
+
 }
 

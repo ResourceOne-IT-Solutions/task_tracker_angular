@@ -61,12 +61,12 @@ export class LoginPageComponent {
     const isAdmin = this.RoleDetails === 'Admin'
     if (this.loginForm.valid) {
       this.chatservice.currentTaskUser({ ...this.loginForm.value, isAdmin }).subscribe((res: any) => {
-         localStorage.setItem('currentTaskUser', res.token)
-         console.log(res,'65:::')
-         this.route.navigate(['dashboard'])
-         this.chatservice.UserLogin(res)
-      },(err:any) =>{
-        this.LoginBoolean= true;
+        // localStorage.setItem('currentTaskUser', res.token)
+        this.setCookie('token', res.token, 1)
+        this.route.navigate(['dashboard'])
+        this.chatservice.UserLogin(res)
+      }, (err: any) => {
+        this.LoginBoolean = true;
         this.ErrorMsg = err.error.error;
       })
 
@@ -76,8 +76,16 @@ export class LoginPageComponent {
       // })
     }
   }
-  getNavigate(){
-  const data =  this.chatservice.getRoleData(this.navigateData);
+
+  setCookie(name: string, value: string, days: number) {
+    const expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + days);
+    const cookieValue = encodeURIComponent(value) + '; expires=' + expirationDate.toUTCString();
+    document.cookie = name + '=' + cookieValue;
+  }
+
+  getNavigate() {
+    const data = this.chatservice.getRoleData(this.navigateData);
     this.loginForm.reset();
     this.ErrorMsg = '';
   }
