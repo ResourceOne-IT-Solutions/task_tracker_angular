@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ChatService } from '../services/chat.service';
+import { ChatService } from '../../services/chat.service';
 
 @Component({
-  selector: 'app-well-come-page',
-  templateUrl: './well-come-page.component.html',
-  styleUrls: ['./well-come-page.component.scss']
+  selector: 'app-welcome-page',
+  templateUrl: './welcome-page.component.html',
+  styleUrls: ['./welcome-page.component.scss']
 })
-export class WellComePageComponent {
+export class WelComePageComponent {
 
   constructor(private Router: Router, private chatservice: ChatService) {
   }

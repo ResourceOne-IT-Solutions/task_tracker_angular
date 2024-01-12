@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { tap } from 'rxjs';
-import { Column } from 'src/app/dash-board/dash-board.component';
+import { Column } from 'src/app/components/dash-board/dash-board.component';
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',

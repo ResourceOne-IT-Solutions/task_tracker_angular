@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { WellComePageComponent } from './well-come-page/well-come-page.component';
-import { LoginPageComponent } from './login-page/login-page.component';
-import { DashBoardComponent } from './dash-board/dash-board.component';
-import { CreateUserComponent } from './create-user/create-user.component';
+import { WelComePageComponent } from './components/welcome-page/welcome-page.component';
+import { LoginPageComponent } from './components/login-page/login-page.component';
+import { DashBoardComponent } from './components/dash-board/dash-board.component';
+import { CreateUserComponent } from './components/create-user/create-user.component';
 import { guardGuard } from './services/auth/guard.guard';
-import { UserPageComponent } from './user-page/user-page.component';
-import { MainDashboardComponent } from './main-dashboard/main-dashboard.component';
+import { UserPageComponent } from './components/user-page/user-page.component';
+import { MainDashboardComponent } from './components/main-dashboard/main-dashboard.component';
 
 const routes: Routes = [
-  { path: '', component: WellComePageComponent },
+  { path: '', component: WelComePageComponent },
   { path: 'login_page', component: LoginPageComponent },
   { path: 'dashboard', component: MainDashboardComponent},
   { path: 'create-user', component: CreateUserComponent },
