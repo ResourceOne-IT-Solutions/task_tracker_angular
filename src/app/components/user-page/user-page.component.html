@@ -67,7 +67,8 @@
 <app-table
 [data]="userTickets"
 [tableColumns]="ticketColumns"
- (editData)="update($event)"
+ (firstBtnClick)="update($event)"
+ (secondBtnClick)="routeToTickets($event)"
 >
 </app-table>
 

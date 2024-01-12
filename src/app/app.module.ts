@@ -25,6 +25,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TableComponent } from './reusable/table/table.component';
 import { APP_BASE_HREF } from '@angular/common';
 import { MainDashboardComponent } from './components/main-dashboard/main-dashboard.component';
+import { TicketsComponent } from './components/tickets/tickets.component';
+import { MatSelectModule } from '@angular/material/select';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,6 +37,7 @@ import { MainDashboardComponent } from './components/main-dashboard/main-dashboa
     UserPageComponent,
     TableComponent,
     MainDashboardComponent,
+    TicketsComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,7 +56,8 @@ import { MainDashboardComponent } from './components/main-dashboard/main-dashboa
     MatCardModule,
     MatDialogModule,
     NgbModule,
-    MatGridListModule
+    MatGridListModule,
+    MatSelectModule
   ],
   providers: [guardGuard, { provide: APP_BASE_HREF, useValue: '/task_tracker_angular/' }],
   bootstrap: [AppComponent]
