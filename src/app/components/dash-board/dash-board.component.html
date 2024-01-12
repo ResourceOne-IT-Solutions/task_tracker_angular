@@ -75,6 +75,8 @@
         <button class="btn btn-primary m-2" (click)="OpenTicketModel()">Create Ticket</button>
         <button class="btn btn-primary m-2" (click)="openUserModel()">Add User</button>
         <button class="btn btn-primary m-2" (click)="openClientModel()">Add Client</button>
+        <button class="btn btn-warning m-2" (click)="OpenChatBox()">Chat Box</button>
+
     </div>
 </div>
 <app-table *ngIf="displayUsers" [data]="userList" (firstBtnClick)="editUser($event)" (userDetails)="openUserDetails($event)"

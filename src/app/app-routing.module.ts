@@ -7,6 +7,8 @@ import { CreateUserComponent } from './components/create-user/create-user.compon
 import { guardGuard } from './services/auth/guard.guard';
 import { UserPageComponent } from './components/user-page/user-page.component';
 import { MainDashboardComponent } from './components/main-dashboard/main-dashboard.component';
+
+import { ChatBoxComponent } from './components/chat-box/chat-box.component';
 import { TicketsComponent } from './components/tickets/tickets.component';
 
 const routes: Routes = [
@@ -14,9 +16,10 @@ const routes: Routes = [
   { path: 'login_page', component: LoginPageComponent },
   { path: 'dashboard', component: MainDashboardComponent },
   { path: 'create-user', component: CreateUserComponent },
+  { path: 'User-page', component: UserPageComponent},
+  { path: 'Chat-Box', component: ChatBoxComponent},
   { path: 'User-page', component: UserPageComponent },
   { path: 'tickets', component: TicketsComponent }
-
 ];
 
 @NgModule({

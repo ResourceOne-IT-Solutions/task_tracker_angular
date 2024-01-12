@@ -25,6 +25,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TableComponent } from './reusable/table/table.component';
 import { APP_BASE_HREF } from '@angular/common';
 import { MainDashboardComponent } from './components/main-dashboard/main-dashboard.component';
+import { ChatBoxComponent } from './components/chat-box/chat-box.component';
 import { TicketsComponent } from './components/tickets/tickets.component';
 import { MatSelectModule } from '@angular/material/select';
 @NgModule({
@@ -37,6 +38,8 @@ import { MatSelectModule } from '@angular/material/select';
     UserPageComponent,
     TableComponent,
     MainDashboardComponent,
+    chatcomponent
+    ChatBoxComponent,
     TicketsComponent,
   ],
   imports: [
