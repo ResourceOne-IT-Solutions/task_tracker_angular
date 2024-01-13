@@ -8,7 +8,7 @@ import { io, Socket } from 'socket.io-client';
 })
 export class ChatService {
   RoleData = new BehaviorSubject('');
-  private 'socket': Socket;
+  private socket: Socket;
   getRoleData(role: any) {
     this.RoleData.next(role)
   }
