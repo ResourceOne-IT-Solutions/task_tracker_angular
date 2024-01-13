@@ -67,8 +67,6 @@ export class ChatBoxComponent {
   currentUser:any;
   constructor(private chatservice : ChatService){}
   ngOnInit(){
-    this.chatservice.getNewUser().subscribe(res=>{console.log(res, 'socket')})
-
     this.selectedUser = this.userList[0],
     this.currentUser = this.userList[0],
 
