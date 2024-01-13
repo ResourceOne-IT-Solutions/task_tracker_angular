@@ -63,9 +63,12 @@ export class ChatBoxComponent {
   messageArray: any;
   messageText:any
   sendingMessage: any;
+  currentUser:any;
   constructor(){}
   ngOnInit(){
     this.selectedUser = this.userList[0],
+    this.currentUser = this.userList[0],
+
     this.messageArray=this.messages,
     this.sendingMessage = this.Sender
     console.log(this.messageArray)

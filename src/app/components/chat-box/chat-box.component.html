@@ -17,7 +17,7 @@
                 </div>
                 <div class="All-Users">
                     <p class="User-Heading">Users</p>
-                    <div class="user-card" [ngClass]="user?.phone === selectedUser?.phone && 'active'"
+                    <div class="user-card" [ngClass]="user?.phone === selectedUser?.phone ? 'active' : ''"
                         *ngFor="let user of userList">
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG1rxXk6k-HqZSKT-bg9X65qcvr-VWa2fBFiMHuW9uvw&s"
                             class="avatar" />
@@ -41,7 +41,7 @@
                     <div class="chat-body">
                        
                         <div *ngFor="let item of messageArray"
-                            [ngClass]="item?.user === currentUser?.name && 'same-user'">
+                            [ngClass]="item?.user === currentUser?.name ? 'same-user' : ''">
                             <div>
                                 <div>
                                     <p class="message-container">{{messageArray}}</p>
