@@ -60,12 +60,12 @@ export class UserPageComponent implements OnInit {
       description: ['', Validators.required],
       comments: ['', Validators.required],
       status: ['', Validators.required]
-
-
     })
   }
   ngOnInit(): void {
-    this.chatservice.getNewUser().subscribe(res => { console.log(res, 'socket') })
+    this.chatservice.getNewUser().subscribe(res => {
+      alert(`${res.name} set message to you`)
+     })
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.UserData = res;
       console.log(this.UserData, 'userdata')

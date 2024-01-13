@@ -76,6 +76,6 @@ export class ChatBoxComponent {
   }
   sendMessage(){
     console.log('send')
-    this.chatservice.newUser({name :'hello'})
+    this.chatservice.socketConnection({data:{name :'hello' },key : 'testing' })
   }
 }

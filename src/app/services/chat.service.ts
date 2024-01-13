@@ -92,9 +92,9 @@ export class ChatService {
     return null;
   }
   // socket io 
-  newUser(data: any) {
+  socketConnection(data: any) {
     console.log('hello')
-    this.socket.emit('testing', data)
+    this.socket.emit(data.key, data.data)
   }
   getNewUser(): Observable<any> {
     console.log('hello')
