@@ -38,7 +38,6 @@ import { MatSelectModule } from '@angular/material/select';
     UserPageComponent,
     TableComponent,
     MainDashboardComponent,
-    chatcomponent
     ChatBoxComponent,
     TicketsComponent,
   ],
