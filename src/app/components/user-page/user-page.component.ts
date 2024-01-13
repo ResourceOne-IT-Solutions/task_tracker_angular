@@ -71,10 +71,11 @@ export class UserPageComponent implements OnInit {
       console.log(this.UserData, 'userdata')
     })
     this.chatservice.getAllTickets().subscribe((res: any) => {
-      console.log(res, '73:::::')
+
       this.userTickets = res.filter((item: any) =>
         item.user.id === this.UserData._id
       )
+
       console.log(this.userTickets, '68::::')
       this.Resolved = this.userTickets.filter((val: any) => val.status === 'Resolved').length,
         this.Assigned = this.userTickets.filter((val: any) => val.status === 'Assigned').length,
@@ -83,6 +84,15 @@ export class UserPageComponent implements OnInit {
         this.helpedTickets = this.UserData.helpedTickets,
         this.pieChart(this.Resolved, this.Assigned, this.pending, this.inprogress, this.helpedTickets, this.Improper);
       this.inprogress = this.userTickets.filter((val: any) => val.status.toLowerCase() == 'in progress' || val.status.toLowerCase() == 'in progess').length
+    this.Resolved = this.userTickets.filter((val: any) => val.status == 'Resolved').length,
+      this.Assigned = this.userTickets.filter((val: any) => val.status == 'Assigned').length,
+      this.pending = this.userTickets.filter((val: any) => val.status == 'Pending').length,
+      this.Improper  = this.userTickets.filter((val: any) => val.status == 'Improper requirement').length,
+      this.helpedTickets = this.UserData.helpedTickets,
+      this.inprogress = this.userTickets.filter((val: any) => val.status == 'In Progress').length
+      this.pieChart(this.Resolved, this.Assigned, this.pending, this.inprogress,this.helpedTickets,this.Improper);
+   
+
     })
   }
   pieChart(resolved: any, assigned: any, pending: any, inprogress: any, helped: any, Improper: any) {

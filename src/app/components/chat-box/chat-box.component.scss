@@ -49,8 +49,6 @@
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    height: calc(100vh - 100px);
-    position: relative;
     overflow: hidden;
 
     .chat-header {
@@ -77,7 +75,8 @@
         // height: calc(100vh - 125px);
         padding: 30px;
         overflow-y: auto;
-
+        min-height: 478px;
+        max-height: 478px;
         .message-container {
             background-color: white;
             padding: 7px;
@@ -85,6 +84,16 @@
             width: fit-content;
             max-width: 90%;
             margin-bottom: 15px;
+        }
+        .SendMessage{
+            text-align: end;
+            p{
+                background: #6e00ff;
+                display: inline-block;
+                padding: 5px 21px;
+                color: #fff;
+                border-radius: 9px;
+            }
         }
 
         .same-user {
@@ -98,10 +107,6 @@
     }
 
     .chat-footer {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
         background-color: #EDEDED;
         padding: 10px 20px;
 
@@ -178,4 +183,7 @@
         padding: 0 0px 0 64px;
     }
 
+}
+.menuChat{
+    max-width: none;
 }
