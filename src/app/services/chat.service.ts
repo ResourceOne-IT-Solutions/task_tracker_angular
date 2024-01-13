@@ -1,12 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { io, Socket } from 'socket.io-client';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
   RoleData = new BehaviorSubject('');
+  private 'socket': Socket;
   getRoleData(role: any) {
     this.RoleData.next(role)
   }
@@ -19,7 +21,9 @@ export class ChatService {
   BE_SERVER = "https://task-tracker-server-2njm.onrender.com"
   BE_LOCAL = 'http://192.168.10.30:1234';
   BE_URL = this.BE_LOCAL
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    this.socket = io(this.BE_LOCAL, { transports: ['websocket', 'polling', 'flashsocket'] });
+  }
   getUserData(data: any) {
     return this.http.post(this.BE_URL + '/login', data)
   }
@@ -62,7 +66,7 @@ export class ChatService {
   updateResuorce(data: any) {
     return this.put('/tickets/assign-resource', data)
   }
-  
+
 
   currentTaskUser(data: any) {
     return this.post('/verify-login', data)
@@ -73,12 +77,12 @@ export class ChatService {
 
   getToken() {
     return this.getCookie('token') || ''
-     
+
   }
   // Cookie.....
   getCookie(name: any) {
     const cookies = document.cookie.split(';').map(cookie => cookie.trim());
-    console.log(cookies,'103:::',name)
+    console.log(cookies, '103:::', name)
     for (const cookie of cookies) {
       const [cookieName, cookieValue] = cookie.split('=');
       if (cookieName === name) {
@@ -87,8 +91,29 @@ export class ChatService {
     }
     return null;
   }
+  // socket io 
+  newUser(data: any) {
+    console.log('hello')
+    this.socket.emit('testing', data)
+  }
+  getNewUser(): Observable<any> {
+    console.log('hello')
+    return new Observable<{
+      user: string,
+      room: string,
+      phone: string
+    }>(observer => {
+      this.socket.on('success', (data) => {
+        observer.next(data);
+      });
 
+      return () => {
+        this.socket.disconnect();
+      }
+    });
+  }
 
+  // api mian calls
   get(url: any,) {
     return this.http.get(this.BE_URL + url, {
       headers: new HttpHeaders({
@@ -97,14 +122,14 @@ export class ChatService {
     });
   }
   post(url: any, data: any) {
-    return this.http.post(this.BE_URL + url,data,{
+    return this.http.post(this.BE_URL + url, data, {
       headers: new HttpHeaders({
         Authorization: this.getToken(),
       })
     });
   }
   put(url: any, data: any) {
-    return this.http.put(this.BE_URL + url,data, {
+    return this.http.put(this.BE_URL + url, data, {
       headers: new HttpHeaders({
         Authorization: this.getToken(),
       })

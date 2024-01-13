@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { ChatService } from 'src/app/services/chat.service';
 
 @Component({
   selector: 'app-chat-box',
@@ -64,8 +65,10 @@ export class ChatBoxComponent {
   messageText:any
   sendingMessage: any;
   currentUser:any;
-  constructor(){}
+  constructor(private chatservice : ChatService){}
   ngOnInit(){
+    this.chatservice.getNewUser().subscribe(res=>{console.log(res, 'socket')})
+
     this.selectedUser = this.userList[0],
     this.currentUser = this.userList[0],
 
@@ -74,5 +77,7 @@ export class ChatBoxComponent {
     console.log(this.messageArray)
   }
   sendMessage(){
+    console.log('send')
+    this.chatservice.newUser({name :'hello'})
   }
 }
