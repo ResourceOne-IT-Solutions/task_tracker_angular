@@ -1,37 +1,31 @@
-<div  class="logout-button">
-    <div> 
+<div class="logout-button">
+    <div>
         <button class="btn btn-primary" (click)="updateStatus()">Update Status</button>
     </div>
 
     <div>
         <button class="btn btn-danger ms-3" (click)="Logout()">LogOut</button>
-    </div> 
-    
-    
+    </div>
+
+
 </div>
-<div class="drop" *ngIf="isupdatestatus" >
-    <div class="update-status" >
+<div class="drop" *ngIf="isupdatestatus">
+    <div class="update-status">
         <!-- <select name="" id=""  (change)="selectChange($event.target.selectedIndex)">
             <option [value]="update" *ngFor="let update of susers">{{update}}</option>
         </select> -->
-    
+
         <mat-form-field class="dropdown">
-            <mat-select  placeholder="Update Status" (selectionChange)="selectChange($event.value)">
-              <mat-option [value]="update" *ngFor="let update of susers">{{update}}</mat-option>
+            <mat-select placeholder="Update Status" (selectionChange)="selectChange($event.value)">
+                <mat-option [value]="update" *ngFor="let update of susers">{{update}}</mat-option>
             </mat-select>
-            
+
         </mat-form-field>
     </div>
     <div>
-        
+
     </div>
 </div>
-
-
-
-
-
-
 
 <div class="Container">
     <div class="userinfo">
@@ -86,14 +80,12 @@
                     </select>
                     <div><button *ngIf="requestchat" (click)="sendadmin()">send Admin</button></div> -->
                     <mat-form-field>
-                        <mat-select  placeholder="Select user"  (selectionChange)="selectuser($event.value)" >
-                          <mat-option [value]='user' *ngFor="let user of selectusers">{{user}}</mat-option>
+                        <mat-select placeholder="Select user" (selectionChange)="selectuser($event.value)">
+                            <mat-option [value]='user' *ngFor="let user of selectusers">{{user}}</mat-option>
                         </mat-select>
-                        
+
                     </mat-form-field>
                     <button *ngIf="requestchat" class="btn btn-warning admin" (click)="sendadmin()">send Admin</button>
-                    
-                  
                 </div>
             </div>
 
@@ -116,7 +108,11 @@
     </div>
 </div>
 
-<!-- <app-table [data]="userTickets" [tableColumns]="ticketColumns" (editData)="update($event)"> -->
+
+<app-table [data]="userTickets" [tableColumns]="ticketColumns" (firstBtnClick)="update($event)"
+    (secondBtnClick)="routeToTickets($event)">
+
+
 
 <app-table
 [data]="userTickets"
@@ -152,5 +148,3 @@
 
     </div>
 </ng-template>
-
-

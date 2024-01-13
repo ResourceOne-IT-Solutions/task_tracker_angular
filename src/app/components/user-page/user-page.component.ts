@@ -18,12 +18,12 @@ export class UserPageComponent implements OnInit {
 
   requestchat = false;
   isupdatestatus = false
-  susers = ['Offline' , 'Busy' , 'Available'];
-  selectedstatus:any;
+  susers = ['Offline', 'Busy', 'Available'];
+  selectedstatus: any;
   date = new Date();
   @ViewChild('updateModel', { static: false }) updateModel: any;
-  userstatus = ['In Progress', 'Pending', 'Resolved' , 'Improper requirement'];
-  selectusers = ['user1' , 'user2' , 'user3',]
+  userstatus = ['In Progress', 'Pending', 'Resolved', 'Improper requirement'];
+  selectusers = ['user1', 'user2', 'user3',]
   UserData: any;
   userTickets: any = [];
   modelHeader: string = ''
@@ -44,12 +44,12 @@ export class UserPageComponent implements OnInit {
     { columnDef: 'description', header: 'Description', cell: (element: any) => `${element['description']}`, isText: true },
     { columnDef: 'comments', header: 'comments', cell: (element: any) => `${element['comments']}`, isText: true },
     { columnDef: 'receivedDate', header: 'receivedDate', cell: (element: any) => `${new Date(element['receivedDate']).toLocaleString()}`, isText: true },
-    { columnDef: 'TicketRaised', header: 'Ticket Rise', cell: (element: any) =>  element === 'btn1' ? 'Update Ticket'  : 'Request ticket', isMultiButton: true },
+    { columnDef: 'TicketRaised', header: 'Ticket Rise', cell: (element: any) => element === 'btn1' ? 'Update Ticket' : 'Request ticket', isMultiButton: true },
   ];
 
-  displayColumns = ["client", "status", "user", "technology", "recivedDate", "TicketRaised" , "description" ,"comments"]
+  displayColumns = ["client", "status", "user", "technology", "recivedDate", "TicketRaised", "description", "comments"]
   clientDetails: any;
-  constructor(private chatservice: ChatService,private router :Router , private fb: FormBuilder, private modalService: NgbModal, private location: LocationStrategy) {
+  constructor(private chatservice: ChatService, private router: Router, private fb: FormBuilder, private modalService: NgbModal, private location: LocationStrategy) {
     history.pushState(null, '', window.location.href);
     // check if back or forward button is pressed.
     this.location.onPopState(() => {
@@ -60,20 +60,31 @@ export class UserPageComponent implements OnInit {
       description: ['', Validators.required],
       comments: ['', Validators.required],
       status: ['', Validators.required]
-
-
     })
   }
   ngOnInit(): void {
-    this.chatservice.UserLoginData.subscribe((res:any) => {
+    this.chatservice.getNewUser().subscribe(res => {
+      alert(`${res.name} set message to you`)
+     })
+    this.chatservice.UserLoginData.subscribe((res: any) => {
       this.UserData = res;
-      console.log(this.UserData , 'userdata')
+      console.log(this.UserData, 'userdata')
     })
     this.chatservice.getAllTickets().subscribe((res: any) => {
+
       this.userTickets = res.filter((item: any) =>
-      item.user.id === this.UserData._id
+        item.user.id === this.UserData._id
       )
-      this.Resolved = this.userTickets.filter((val: any) => val.status == 'Resolved').length,
+
+      console.log(this.userTickets, '68::::')
+      this.Resolved = this.userTickets.filter((val: any) => val.status === 'Resolved').length,
+        this.Assigned = this.userTickets.filter((val: any) => val.status === 'Assigned').length,
+        this.pending = this.userTickets.filter((val: any) => val.status === 'Pending').length,
+        this.Improper = this.userTickets.filter((val: any) => val.status === 'Improper requirement').length,
+        this.helpedTickets = this.UserData.helpedTickets,
+        this.pieChart(this.Resolved, this.Assigned, this.pending, this.inprogress, this.helpedTickets, this.Improper);
+      this.inprogress = this.userTickets.filter((val: any) => val.status.toLowerCase() == 'in progress' || val.status.toLowerCase() == 'in progess').length
+    this.Resolved = this.userTickets.filter((val: any) => val.status == 'Resolved').length,
       this.Assigned = this.userTickets.filter((val: any) => val.status == 'Assigned').length,
       this.pending = this.userTickets.filter((val: any) => val.status == 'Pending').length,
       this.Improper  = this.userTickets.filter((val: any) => val.status == 'Improper requirement').length,
@@ -81,16 +92,17 @@ export class UserPageComponent implements OnInit {
       this.inprogress = this.userTickets.filter((val: any) => val.status == 'In Progress').length
       this.pieChart(this.Resolved, this.Assigned, this.pending, this.inprogress,this.helpedTickets,this.Improper);
    
+
     })
   }
-  pieChart(resolved: any, assigned: any, pending: any, inprogress: any,helped:any,Improper:any) {
+  pieChart(resolved: any, assigned: any, pending: any, inprogress: any, helped: any, Improper: any) {
     new Chart('piechart', {
       type: 'pie',
       data: {
-        labels: ["Resolved", "Assigned", "Pending", "In Progress","HelpedTickets","ImproperRequirement"],
+        labels: ["Resolved", "Assigned", "Pending", "In Progress", "HelpedTickets", "ImproperRequirement"],
         datasets: [{
           label: this.UserData.firstName,
-          data: [resolved, assigned, pending, inprogress,helped,Improper],
+          data: [resolved, assigned, pending, inprogress, helped, Improper],
         }]
       },
     });
@@ -122,10 +134,10 @@ export class UserPageComponent implements OnInit {
     if (this.updateForm.valid) {
 
       const ticketpayload = {
-        id : this.userID,
-        data : this.updateForm.value
+        id: this.userID,
+        data: this.updateForm.value
       }
-      
+
       this.chatservice.updateTicket(ticketpayload).subscribe((res: any) => {
         this.userTickets = this.userTickets.map((val: any) => {
           if (val._id === res._id) {
@@ -147,11 +159,11 @@ export class UserPageComponent implements OnInit {
     dismiss();
   }
 
-  requestChat(){
+  requestChat() {
     this.requestchat = !this.requestchat;
-    console.log(this.requestchat , '139::::')
+    console.log(this.requestchat, '139::::')
   }
-  sendadmin(){
+  sendadmin() {
     this.requestchat = !this.requestchat;
     alert('request send admin')
     // if(this.requestchat){
@@ -166,32 +178,32 @@ export class UserPageComponent implements OnInit {
 
   }
 
-  updateStatus(){
+  updateStatus() {
     console.log('update status')
     this.isupdatestatus = !this.isupdatestatus
   }
 
-  selectChange(data:any){
+  selectChange(data: any) {
     const updatepayload = {
       id: this.UserData._id,
-      data : {
-        status : data
+      data: {
+        status: data
       }
     }
-    this.chatservice.UpdateUsers(updatepayload).subscribe((res:any) => {
-      console.log(res ,)
+    this.chatservice.UpdateUsers(updatepayload).subscribe((res: any) => {
+      console.log(res,)
       this.isupdatestatus = !this.isupdatestatus;
     })
 
   }
 
-  selectuser(data:any){
-    console.log(data , 'selecteduser')
+  selectuser(data: any) {
+    console.log(data, 'selecteduser')
 
   }
 
 
-  routeToTickets(data:any){
+  routeToTickets(data: any) {
     this.router.navigate(['/tickets'])
   }
 
