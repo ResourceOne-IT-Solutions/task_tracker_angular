@@ -172,7 +172,7 @@
         }
         .SendMessage{
             text-align: end;
-            p{
+            .SendUser{
                 background: #6e00ff;
                 display: inline-block;
                 padding: 5px 21px;
@@ -271,4 +271,7 @@
 }
 .menuChat{
     max-width: none;
+}
+.SendUser{
+    color: red;
 }

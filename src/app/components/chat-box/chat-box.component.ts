@@ -56,23 +56,25 @@ export class ChatBoxComponent {
   UserListData: any;
   SelectedUser: any;
   UserSelected: any;
-  MessageSending: any = [];
   RoomId: any;
+  TotalMessages: any;
   constructor(private chatservice: ChatService) { }
   ngOnInit() {
-    // this.currentUser = this.userList[0],
-      this.messageArray = this.messages,
-    console.log(this.messageArray)
+    this.messageArray = this.messages,
+      console.log(this.messageArray)
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.currentUser = res
-      console.log(res, '888888.......',this.currentUser)
+      console.log(res, '888888.......', this.currentUser)
     })
     this.chatservice.socketConnection({ data: { name: 'hello' }, key: 'newUser' })
     this.chatservice.getNewUser('newUser').subscribe(res => {
       this.UserListData = res;
       console.log(this.UserListData, '7999999')
     })
-    this.chatservice.getNewUser('roomMessages').subscribe((res) => console.log(res, '75:::::'))
+    this.chatservice.getNewUser('roomMessages').subscribe((res) => {
+      this.TotalMessages = res
+      console.log(this.TotalMessages, '75::::::')
+    })
     this.UserSelected = 'Test';
   }
   getFormattedTime() {
@@ -104,14 +106,13 @@ export class ChatBoxComponent {
     this.UserSelected = user;
     console.log('88888', user._id)
     this.RoomId = this.genarateRoomId(user._id, this.currentUser._id);
-    console.log(this.RoomId,'11222222')
+    console.log(this.RoomId, '11222222')
     this.chatservice.socketConnection({ key: 'joinRoom', data: { room: this.RoomId, previousRoom: '' } })
     console.log(this.UserSelected, '80:::')
   }
   sendMessage() {
-    console.log(this.RoomId,'0101',this.currentUser.firstName,'301',this.currentUser._id)
+    console.log(this.RoomId, '0101', this.currentUser.firstName, '301', this.currentUser._id)
     this.chatservice.socketConnection({ key: 'sendMessage', })
-    this.MessageSending.push(this.messageText);
     const socketPayload = {
       to: this.RoomId,
       content: this.messageText,
@@ -125,7 +126,6 @@ export class ChatBoxComponent {
     this.chatservice.socketConnection({ key: 'sendMessage', data: socketPayload })
     console.log(socketPayload, '121111111')
     this.messageText = ''
-    // {to, content, from, time, date, opponentId , type, fileLink
   }
   genarateRoomId(id1: any, id2: any) {
     console.log(id1, '93333', id2)

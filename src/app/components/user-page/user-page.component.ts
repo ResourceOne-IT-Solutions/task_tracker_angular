@@ -103,8 +103,8 @@ export class UserPageComponent implements OnInit {
     });
   }
   Logout() {
-    // this.deleteCookie('token')
-    this.chatservice.setCookie('token', '', 1)
+    this.deleteCookie('token')
+    // this.chatservice.setCookie('token', '', 1)
     this.router.navigate(['/'])
   }
   deleteCookie(name: string) {

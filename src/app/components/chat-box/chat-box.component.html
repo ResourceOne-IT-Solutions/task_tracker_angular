@@ -64,13 +64,16 @@
                                 <div>
                                     <p class="message-container">{{messageArray}}</p>
                                 </div>
-                                <div class="SendMessage" *ngFor="let msg of MessageSending">
-                                    <p>{{msg}}</p>
+                                <div class="SendMessage" *ngFor="let Daymessages of TotalMessages">
+                                    <p>{{Daymessages._id}}</p>
+                                    <div *ngFor="let message of Daymessages.messageByDate">
+                                        <p class="SendUser" *ngIf="currentUser._id === message.from.id">{{message.content}}</p>
+                                    </div>
+    
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- {{MessageSending | json}}gg -->
                     <div class="chat-footer">
 
                         <div class="row">
