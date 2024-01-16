@@ -19,6 +19,8 @@ export class LoginPageComponent {
   ErrorMsg: any;
   navigateData: any;
   ErrorHandling:boolean=true;
+  password:any;
+  show = false;
   constructor(private route: Router, private fb: FormBuilder, private chatservice: ChatService) { }
   'loginForm': FormGroup;
   ngOnInit() {
@@ -38,6 +40,7 @@ export class LoginPageComponent {
       }
     }
     )
+    this.password = 'password';
     setInterval(() => {
       let Estdate = new Date();
       this.est = Estdate.toLocaleTimeString('en-US', {
@@ -55,6 +58,17 @@ export class LoginPageComponent {
     }, 1000)
   }
 
+  onClick() {
+    console.log('6222')
+    if (this.password === 'password') {
+      this.password = 'text';
+      this.show = true;
+    } else {
+      this.password = 'password';
+      this.show = false;
+    }
+  }
+
   AdminLogin() {
     this.UserDataa = true;
     this.LoginBoolean= false;
@@ -62,7 +76,7 @@ export class LoginPageComponent {
     if (this.loginForm.valid) {
       this.chatservice.currentTaskUser({ ...this.loginForm.value, isAdmin }).subscribe((res: any) => {
         // localStorage.setItem('currentTaskUser', res.token)
-        this.setCookie('token', res.token, 1)
+        this.chatservice.setCookie('token', res.token, 1)
         this.route.navigate(['dashboard'])
         this.chatservice.UserLogin(res)
       }, (err: any) => {
@@ -77,12 +91,7 @@ export class LoginPageComponent {
     }
   }
 
-  setCookie(name: string, value: string, days: number) {
-    const expirationDate = new Date();
-    expirationDate.setDate(expirationDate.getDate() + days);
-    const cookieValue = encodeURIComponent(value) + '; expires=' + expirationDate.toUTCString();
-    document.cookie = name + '=' + cookieValue;
-  }
+
 
   getNavigate() {
     const data = this.chatservice.getRoleData(this.navigateData);

@@ -13,17 +13,27 @@
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG1rxXk6k-HqZSKT-bg9X65qcvr-VWa2fBFiMHuW9uvw&s"
                             class="avatar" />
                         <p>{{user.name}}</p>
+
                     </div>
                 </div>
                 <div class="All-Users">
                     <p class="User-Heading">Users</p>
-                    <div class="user-card" [ngClass]="user?.phone === selectedUser?.phone ? 'active' : ''"
-                        *ngFor="let user of userList">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG1rxXk6k-HqZSKT-bg9X65qcvr-VWa2fBFiMHuW9uvw&s"
-                            class="avatar" />
-                        <!-- <img [src]="user?.image" [alt]="user?.name" class="avatar" /> -->
-                        <p>{{user?.name}}</p>
-
+                    <div [ngClass]="user?.phone === selectedUser?.phone ? 'active' : ''"
+                        *ngFor="let user of UserListData">
+                        
+                        <div class="user-card" (click)="SelectUser(user)">
+                            <div class="Img_Details">
+                                <img *ngIf="user.profileImageUrl" src={{user.profileImageUrl}} class="avatar" />
+                                <img *ngIf="!user.profileImageUrl" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG1rxXk6k-HqZSKT-bg9X65qcvr-VWa2fBFiMHuW9uvw&s" class="avatar" />
+                                <div *ngIf="user.status === 'Offline'" class="Offline"></div>
+                                <div *ngIf="user.status === 'Busy'" class="Busy"></div>
+                                <div *ngIf="user.status === 'Available'" class="Available"></div>
+                            </div>
+                            <div>
+                                <h3>{{user.firstName}}</h3>
+                                <p class="designation">{{user.designation}}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -32,34 +42,42 @@
         <div class="col-md-8">
 
             <div class="chat-container">
-                <ng-container *ngIf="selectedUser">
+                <ng-container>
                     <div class="chat-header">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG1rxXk6k-HqZSKT-bg9X65qcvr-VWa2fBFiMHuW9uvw&s" class="avatar" />
-                        <p>{{selectedUser?.name}}</p>
+                        <div class="Img_Details">
+                            <img *ngIf="UserSelected.profileImageUrl" src={{UserSelected.profileImageUrl}} class="avatar" />
+                            <img *ngIf="!UserSelected.profileImageUrl" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG1rxXk6k-HqZSKT-bg9X65qcvr-VWa2fBFiMHuW9uvw&s" class="avatar" />
+                            <div *ngIf="UserSelected.status === 'Offline'" class="Offline"></div>
+                            <div *ngIf="UserSelected.status === 'Busy'" class="Busy"></div>
+                            <div *ngIf="UserSelected.status === 'Available'" class="Available"></div>
+                        </div>
+                        <div>
+                            <h3>{{UserSelected.firstName}}</h3>
+                            <p>{{UserSelected.designation}}</p>
+                        </div>
                     </div>
 
                     <div class="chat-body">
-                       
-                        <div *ngFor="let item of messageArray"
-                            [ngClass]="item?.user === currentUser?.name ? 'same-user' : ''">
+
+                        <div *ngFor="let item of messageArray">
                             <div>
                                 <div>
                                     <p class="message-container">{{messageArray}}</p>
                                 </div>
-                                <div class="SendMessage">
-                                    <p>{{sendingMessage}}</p>
+                                <div class="SendMessage" *ngFor="let msg of MessageSending">
+                                    <p>{{msg}}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-
+                    <!-- {{MessageSending | json}}gg -->
                     <div class="chat-footer">
 
                         <div class="row">
                             <div class="col-md-10">
                                 <div class="form-group mb-0">
                                     <input type="text" placeholder="Type a message" class="form-control"
-                                        [(ngModel)]="messageText" (keyup)="$event.keyCode === 13 && sendMessage()" />
+                                        [(ngModel)]="messageText"/>
                                 </div>
                             </div>
 

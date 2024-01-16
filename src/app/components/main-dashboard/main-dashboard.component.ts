@@ -21,6 +21,7 @@ export class MainDashboardComponent {
       })
     }
     this.chatservice.getLoginSetup(httpOptions).subscribe((res: any) => {
+      console.log(res,'25:::::')
       this.isAdmin = res.isAdmin;
       this.chatservice.UserLogin(res)
     })

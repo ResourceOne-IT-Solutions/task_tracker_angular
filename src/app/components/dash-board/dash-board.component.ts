@@ -136,7 +136,7 @@ export class DashBoardComponent {
   }
 
   Logout() {
-    localStorage.removeItem('currentTaskUser')
+    this.chatservice.setCookie('token', '', 1)    
     this.router.navigate(['/'])
   }
 

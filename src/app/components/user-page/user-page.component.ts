@@ -63,9 +63,10 @@ export class UserPageComponent implements OnInit {
     })
   }
   ngOnInit(): void {
-    this.chatservice.getNewUser().subscribe(res => {
+    this.chatservice.getNewUser('success').subscribe(res => {
+      console.log(res,'677777777')
       alert(`${res.name} set message to you`)
-     })
+    })
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.UserData = res;
       console.log(this.UserData, 'userdata')
@@ -77,29 +78,23 @@ export class UserPageComponent implements OnInit {
       )
 
       console.log(this.userTickets, '68::::')
-      this.Resolved = this.userTickets.filter((val: any) => val.status === 'Resolved').length,
-        this.Assigned = this.userTickets.filter((val: any) => val.status === 'Assigned').length,
-        this.pending = this.userTickets.filter((val: any) => val.status === 'Pending').length,
-        this.Improper = this.userTickets.filter((val: any) => val.status === 'Improper requirement').length,
+      // this.inprogress = this.userTickets.filter((val: any) => val.status.toLowerCase() == 'in progress' || val.status.toLowerCase() == 'in progess').length
+      this.Resolved = this.userTickets.filter((val: any) => val.status == 'Resolved').length,
+        this.Assigned = this.userTickets.filter((val: any) => val.status == 'Assigned').length,
+        this.pending = this.userTickets.filter((val: any) => val.status == 'Pending').length,
+        this.inprogress = this.userTickets.filter((val: any) => val.status == 'In Progress').length,
         this.helpedTickets = this.UserData.helpedTickets,
-        this.pieChart(this.Resolved, this.Assigned, this.pending, this.inprogress, this.helpedTickets, this.Improper);
-      this.inprogress = this.userTickets.filter((val: any) => val.status.toLowerCase() == 'in progress' || val.status.toLowerCase() == 'in progess').length
-    this.Resolved = this.userTickets.filter((val: any) => val.status == 'Resolved').length,
-      this.Assigned = this.userTickets.filter((val: any) => val.status == 'Assigned').length,
-      this.pending = this.userTickets.filter((val: any) => val.status == 'Pending').length,
-      this.Improper  = this.userTickets.filter((val: any) => val.status == 'Improper requirement').length,
-      this.helpedTickets = this.UserData.helpedTickets,
-      this.inprogress = this.userTickets.filter((val: any) => val.status == 'In Progress').length
-      this.pieChart(this.Resolved, this.Assigned, this.pending, this.inprogress,this.helpedTickets,this.Improper);
-   
-
+        this.Improper = this.userTickets.filter((val: any) => val.status == 'Improper requirement').length,
+        console.log(this.inprogress, '9090')
+      this.pieChart(this.Resolved, this.Assigned, this.pending, this.inprogress, this.helpedTickets, this.Improper);
     })
   }
   pieChart(resolved: any, assigned: any, pending: any, inprogress: any, helped: any, Improper: any) {
+    console.log(this.inprogress, '9999')
     new Chart('piechart', {
       type: 'pie',
       data: {
-        labels: ["Resolved", "Assigned", "Pending", "In Progress", "HelpedTickets", "ImproperRequirement"],
+        labels: ["Resolved", "Assigned", "Pending", "InProgress", "HelpedTickets", "ImproperRequirement"],
         datasets: [{
           label: this.UserData.firstName,
           data: [resolved, assigned, pending, inprogress, helped, Improper],
@@ -108,7 +103,8 @@ export class UserPageComponent implements OnInit {
     });
   }
   Logout() {
-    this.deleteCookie('token')
+    // this.deleteCookie('token')
+    this.chatservice.setCookie('token', '', 1)
     this.router.navigate(['/'])
   }
   deleteCookie(name: string) {
