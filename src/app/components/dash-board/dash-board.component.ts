@@ -382,6 +382,11 @@ export class DashBoardComponent {
   OpenChatBox(){
     this.router.navigate(['Chat-Box'])
   }
+  routeToClientTickets(data:any){
+    alert('navigate to client ticket page')
+    this.router.navigate(['/client-tickets']);
+
+  }
 }
 export interface Column {
   columnDef: string;
