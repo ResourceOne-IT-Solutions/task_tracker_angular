@@ -18,6 +18,7 @@ export class TableComponent {
   @ViewChild(MatSort) 'sort': MatSort;
   @Output() firstBtnClick = new EventEmitter();
   @Output() secondBtnClick = new EventEmitter();
+  @Output() clientnameClick = new EventEmitter();
   @Output() userDetails = new EventEmitter()
 
   ngOnInit() {
@@ -38,6 +39,9 @@ export class TableComponent {
   }
   btn2Click(data: any) {
     this.secondBtnClick.emit(data)
+  }
+  clientNameClick(data:any){
+    this.clientnameClick.emit(data)
   }
   openUserDetails(userDetails:any) {
     this.userDetails.emit(userDetails)

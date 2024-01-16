@@ -81,7 +81,7 @@
 </div>
 <app-table *ngIf="displayUsers" [data]="userList" (firstBtnClick)="editUser($event)" (userDetails)="openUserDetails($event)"
     [tableColumns]="userColumns"></app-table>
-<app-table *ngIf="displayClient" [data]="clientData" (firstBtnClick)="editClient($event)"
+<app-table *ngIf="displayClient" [data]="clientData" (firstBtnClick)="editClient($event)" (clientnameClick)="routeToClientTickets($event)" 
     [tableColumns]="clientColumns"></app-table>
 <app-table *ngIf="displayTickets" [data]="ticketData" (firstBtnClick)="assignTicket($event)"
     [tableColumns]="ticketColumns"></app-table>
