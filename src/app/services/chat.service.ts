@@ -80,6 +80,13 @@ export class ChatService {
 
   }
   // Cookie.....
+  setCookie(name: string, value: string, days: number) {
+    const expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + days);
+    const cookieValue = encodeURIComponent(value) + '; expires=' + expirationDate.toUTCString();
+    document.cookie = name + '=' + cookieValue;
+  }
+
   getCookie(name: any) {
     const cookies = document.cookie.split(';').map(cookie => cookie.trim());
     console.log(cookies, '103:::', name)
@@ -93,17 +100,17 @@ export class ChatService {
   }
   // socket io 
   socketConnection(data: any) {
-    console.log('hello')
+    console.log('hello',data)
     this.socket.emit(data.key, data.data)
   }
-  getNewUser(): Observable<any> {
-    console.log('hello')
+  getNewUser(eventName:any): Observable<any> {
+    console.log('1077777777',eventName)
     return new Observable<{
       user: string,
       room: string,
       phone: string
     }>(observer => {
-      this.socket.on('success', (data) => {
+      this.socket.on(eventName, (data:any) => {
         observer.next(data);
       });
 

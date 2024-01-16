@@ -76,7 +76,7 @@ export class UserPageComponent implements OnInit {
         item.user.id === this.UserData._id
       )
       this.inprogress = this.userTickets.filter((val: any) => val.status.toLowerCase() == 'In Progress' || val.status.toLowerCase() == 'in progess').length
-    this.Resolved = this.userTickets.filter((val: any) => val.status == 'Resolved').length,
+      this.Resolved = this.userTickets.filter((val: any) => val.status == 'Resolved').length,
       this.Assigned = this.userTickets.filter((val: any) => val.status == 'Assigned').length,
       this.pending = this.userTickets.filter((val: any) => val.status == 'Pending').length,
       this.Improper  = this.userTickets.filter((val: any) => val.status == 'Improper Requirment').length,
@@ -86,10 +86,11 @@ export class UserPageComponent implements OnInit {
     })
   }
   pieChart(resolved: any, assigned: any, pending: any, inprogress: any, helped: any, Improper: any) {
+    console.log(this.inprogress, '9999')
     new Chart('piechart', {
       type: 'pie',
       data: {
-        labels: ["Resolved", "Assigned", "Pending", "In Progress", "HelpedTickets", "ImproperRequirement"],
+        labels: ["Resolved", "Assigned", "Pending", "InProgress", "HelpedTickets", "ImproperRequirement"],
         datasets: [{
           label: this.UserData.firstName,
           data: [resolved, assigned, pending, inprogress, helped, Improper],
@@ -99,6 +100,7 @@ export class UserPageComponent implements OnInit {
   }
   Logout() {
     this.deleteCookie('token')
+    // this.chatservice.setCookie('token', '', 1)
     this.router.navigate(['/'])
   }
   deleteCookie(name: string) {
