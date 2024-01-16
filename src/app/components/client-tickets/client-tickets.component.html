@@ -1,0 +1,6 @@
+<h2>client-tickets works!</h2>
+<button  routerLink="/dashboard" ><a href="javascript:void(0);">navigate to Admin Dashboard</a></button>
+
+<app-table  [data]="clientDataTable" 
+    [tableColumns]="clientColumns" (clientnameClick)="clientTickets($event)"></app-table>
+

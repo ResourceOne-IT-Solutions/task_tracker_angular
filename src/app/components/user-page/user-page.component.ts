@@ -22,7 +22,7 @@ export class UserPageComponent implements OnInit {
   selectedstatus: any;
   date = new Date();
   @ViewChild('updateModel', { static: false }) updateModel: any;
-  userstatus = ['In Progress', 'Pending', 'Resolved', 'Improper requirement'];
+  userstatus = ['In Progress', 'Pending', 'Resolved', 'Improper Requirment'];
   selectusers = ['user1', 'user2', 'user3',]
   UserData: any;
   userTickets: any = [];
@@ -63,30 +63,26 @@ export class UserPageComponent implements OnInit {
     })
   }
   ngOnInit(): void {
-    this.chatservice.getNewUser('success').subscribe(res => {
-      console.log(res,'677777777')
-      alert(`${res.name} set message to you`)
-    })
+    this.chatservice.getNewUser().subscribe(res => {
+      alert(`${res.name} set message to you`);
+     })
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.UserData = res;
-      console.log(this.UserData, 'userdata')
     })
     this.chatservice.getAllTickets().subscribe((res: any) => {
+      console.log(res , 'getalltickets')
 
       this.userTickets = res.filter((item: any) =>
         item.user.id === this.UserData._id
       )
-
-      console.log(this.userTickets, '68::::')
-      // this.inprogress = this.userTickets.filter((val: any) => val.status.toLowerCase() == 'in progress' || val.status.toLowerCase() == 'in progess').length
+      this.inprogress = this.userTickets.filter((val: any) => val.status.toLowerCase() == 'In Progress' || val.status.toLowerCase() == 'in progess').length
       this.Resolved = this.userTickets.filter((val: any) => val.status == 'Resolved').length,
-        this.Assigned = this.userTickets.filter((val: any) => val.status == 'Assigned').length,
-        this.pending = this.userTickets.filter((val: any) => val.status == 'Pending').length,
-        this.inprogress = this.userTickets.filter((val: any) => val.status == 'In Progress').length,
-        this.helpedTickets = this.UserData.helpedTickets,
-        this.Improper = this.userTickets.filter((val: any) => val.status == 'Improper requirement').length,
-        console.log(this.inprogress, '9090')
-      this.pieChart(this.Resolved, this.Assigned, this.pending, this.inprogress, this.helpedTickets, this.Improper);
+      this.Assigned = this.userTickets.filter((val: any) => val.status == 'Assigned').length,
+      this.pending = this.userTickets.filter((val: any) => val.status == 'Pending').length,
+      this.Improper  = this.userTickets.filter((val: any) => val.status == 'Improper Requirment').length,
+      this.helpedTickets = this.UserData.helpedTickets,
+      this.inprogress = this.userTickets.filter((val: any) => val.status == 'In Progress').length
+      this.pieChart(this.Resolved, this.Assigned, this.pending, this.inprogress,this.helpedTickets,this.Improper);
     })
   }
   pieChart(resolved: any, assigned: any, pending: any, inprogress: any, helped: any, Improper: any) {

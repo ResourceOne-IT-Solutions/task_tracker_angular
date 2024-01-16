@@ -2,15 +2,15 @@
     <ng-container *ngFor="let disCol of tableColumns let colIndex = index;" matColumnDef="{{disCol.columnDef}}">
         <th mat-header-cell *matHeaderCellDef>
            <span *ngIf="disCol.columnDef !== 'TicketRaised'">
-            {{ disCol.header }}
+            {{ disCol.header }} 
            </span>
            <span *ngIf="disCol.columnDef == 'TicketRaised'">
             <button mat-raised-button color="accent"> {{ disCol.header }}</button>
            </span>
         </th>
         <td mat-cell *matCellDef="let element">
-            <span *ngIf="disCol.isText">
-                {{ disCol.cell(element) }}
+            <span (click)="clientNameClick(element)" *ngIf="disCol.isText">
+                {{ disCol.cell(element) }} 
             </span>
             <span *ngIf="disCol.isMultiButton">
                 <button mat-raised-button color="primary" (click)="btn1Click(element)">{{ disCol.cell('btn1') }}</button>

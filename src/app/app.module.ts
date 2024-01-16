@@ -28,6 +28,7 @@ import { MainDashboardComponent } from './components/main-dashboard/main-dashboa
 import { ChatBoxComponent } from './components/chat-box/chat-box.component';
 import { TicketsComponent } from './components/tickets/tickets.component';
 import { MatSelectModule } from '@angular/material/select';
+import { ClientTicketsComponent } from './components/client-tickets/client-tickets.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +41,7 @@ import { MatSelectModule } from '@angular/material/select';
     MainDashboardComponent,
     ChatBoxComponent,
     TicketsComponent,
+    ClientTicketsComponent,
   ],
   imports: [
     BrowserModule,
