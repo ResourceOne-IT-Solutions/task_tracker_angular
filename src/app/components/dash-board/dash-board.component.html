@@ -1,10 +1,39 @@
 <div>
-    <div class="d-flex justify-content-between header-bar">
-        <h1>Admin Page</h1>
+    <h1>Admin Page</h1>
+    <!-- <div class="d-flex justify-content-flex-end">
+        <div>
+            <button class="btn btn-primary" (click)="statusUpdate()">Update Status</button>
+        </div>
         <div>
             <button class="btn btn-danger" (click)="Logout()">LogOut</button>
         </div>
+    </div> -->
+    <div class="logout-button">
+        <div>
+            <button class="btn btn-primary" (click)="adminStatus()">Update Status</button>
+        </div>
+    
+        <div>
+            <button class="btn btn-danger ms-3" (click)="Logout()">LogOut</button>
+        </div>
+    
+    
     </div>
+    <div class="admindrop" *ngIf="isAdminStatus">
+        <div >
+    
+            <mat-form-field class="dropdown">
+                <mat-select placeholder="Update Status" (selectionChange)="selectChange($event.value)">
+                    <mat-option [value]="update" *ngFor="let update of susers">{{update}}</mat-option>
+                </mat-select>
+    
+            </mat-form-field>
+        </div>
+        <div>
+    
+        </div>
+    </div>
+    
     <div class="d-flex">
         <div class="d-flex admin-content">
             <div class="admin-page">

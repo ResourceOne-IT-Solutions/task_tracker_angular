@@ -8,9 +8,13 @@ import { io, Socket } from 'socket.io-client';
 })
 export class ChatService {
   RoleData = new BehaviorSubject('');
+  ticketsById = new BehaviorSubject('')
   private socket: Socket;
   getRoleData(role: any) {
     this.RoleData.next(role)
+  }
+  getTicketId(clientid:any){
+    this.ticketsById.next(clientid)
   }
   //User Behavior
   UserLoginData = new BehaviorSubject('');
@@ -43,6 +47,9 @@ export class ChatService {
 
   getAllClients() {
     return this.get('/clients')
+  }
+  getClientById(clientid:any){
+    return this.get('/clients/tickets/' + clientid )
   }
   AddNewClient(data: any) {
     return this.post('/clients/create', data)

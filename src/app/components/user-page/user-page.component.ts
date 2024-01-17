@@ -74,9 +74,7 @@ export class UserPageComponent implements OnInit {
       this.userList = res;
       console.log(this.userList,'UserList')
     })
-    this.chatservice.getSocketData('success').subscribe(res => {
-      alert(`${res.name} set message to you`);
-     })
+  
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.UserData = res;
     })
@@ -86,8 +84,7 @@ export class UserPageComponent implements OnInit {
       this.userTickets = res.filter((item: any) =>
         item.user.id === this.UserData._id
       )
-      console.log(this.userTickets,'7888',this.UserData)
-      this.inprogress = this.userTickets.filter((val: any) => val.status.toLowerCase() == 'In Progress' || val.status.toLowerCase() == 'in progess').length
+      
       this.Resolved = this.userTickets.filter((val: any) => val.status == 'Resolved').length,
       this.Assigned = this.userTickets.filter((val: any) => val.status == 'Assigned').length,
       this.pending = this.userTickets.filter((val: any) => val.status == 'Pending').length,
