@@ -61,7 +61,7 @@ export class ChatBoxComponent {
   }
   getFormattedTime() {
     const d = new Date().toLocaleString().split(" ")
-    const t = d[1]
+    const t = d[1].slice(0, -3)
     return t + " " + d[2]
   }
   getFormattedDate(date: Date, format?: any) {
