@@ -106,6 +106,16 @@ export class DashBoardComponent {
     this.chatservice.getAllClients().subscribe((res: any) => {
       this.clientData = res
     })
+    this.chatservice.getSocketData('chatRequest').subscribe((res)=>{
+      console.log(res,'110')
+      const message = `${res.sender.name} is Requisting to Chat with ${res.opponent.name}`;
+      alert(message)
+    })
+    this.chatservice.getSocketData('ticketsRequest').subscribe((res)=>{
+      console.log(res,'110')
+      const message = `${res.sender.name} is Requisting for ${res.client.name} Tickets`;
+      alert(message)
+    })
     this.chatservice.getAllTickets().subscribe((res: any) => {
       this.ticketData = res;
       this.todaysTickets = this.ticketData.filter((val :any)=>  new Date(val.receivedDate).toLocaleDateString() === new Date().toLocaleDateString()) 
@@ -131,7 +141,7 @@ export class DashBoardComponent {
 
     this.user = localStorage.getItem('userData')
     this.chatservice.getAllUsers().subscribe(res => {
-      this.userList = res
+      this.userList = res;
     })
   }
 
@@ -389,6 +399,9 @@ export class DashBoardComponent {
     alert('navigate to client ticket page')
     this.router.navigate(['/client-tickets']);
 
+  }
+  ViewQequest(){
+    this.router.navigate(['view-requestPage'])
   }
 }
 export interface Column {

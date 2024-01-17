@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Socket } from 'socket.io-client';
 import { ChatService } from 'src/app/services/chat.service';
 
@@ -13,41 +14,17 @@ export class ChatBoxComponent {
     {
       id: 1,
       name: 'The Swag Coder',
-      phone: '9876598765',
-      image: 'assets/user/user-1.png',
-      roomId: {
-        2: 'room-1',
-        3: 'room-2',
-        4: 'room-3'
-      }
     },
     {
       id: 2,
       name: 'Wade Warren',
-      phone: '9876543210',
-      image: 'assets/user/user-2.png',
-      roomId: {
-        1: 'room-1',
-        3: 'room-4',
-        4: 'room-5'
-      }
     },
     {
       id: 3,
-      name: 'Albert Flores',
-      phone: '9988776655',
-      image: 'assets/user/user-3.png',
-      roomId: {
-        1: 'room-2',
-        2: 'room-4',
-        4: 'room-6'
-      }
+      name: 'Albert Flores'
     },
 
   ];
-  public messages = [
-    'Hello Hi Bhasker Rao How are You...!'
-  ]
   selectedUser: any;
   messageArray: any;
   messageText: any
@@ -58,23 +35,28 @@ export class ChatBoxComponent {
   UserSelected: any;
   RoomId: any;
   TotalMessages: any;
-  constructor(private chatservice: ChatService) { }
+  NoUser:boolean=true;
+  ChatBox:boolean=false;
+
+  constructor(private chatservice: ChatService,private route:Router) { }
   ngOnInit() {
-    this.messageArray = this.messages,
-      console.log(this.messageArray)
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.currentUser = res
       console.log(res, '888888.......', this.currentUser)
     })
-    this.chatservice.socketConnection({ data: { name: 'hello' }, key: 'newUser' })
-    this.chatservice.getNewUser('newUser').subscribe(res => {
+    this.chatservice.sendSocketData({ data: { name: 'hello' }, key: 'newUser' })
+    this.chatservice.getSocketData('newUser').subscribe(res => {
       this.UserListData = res;
       console.log(this.UserListData, '7999999')
     })
-    this.chatservice.getNewUser('roomMessages').subscribe((res) => {
-      this.TotalMessages = res
-      console.log(this.TotalMessages, '75::::::')
-    })
+    if(this.currentUser){
+      this.chatservice.getSocketData('roomMessages').subscribe((res) => {
+        this.TotalMessages = res
+        console.log(this.TotalMessages, '75::::::')
+      })
+    }else{
+      this.route.navigate([''])
+    }
     this.UserSelected = 'Test';
   }
   getFormattedTime() {
@@ -104,15 +86,17 @@ export class ChatBoxComponent {
 
   SelectUser(user: any) {
     this.UserSelected = user;
+    this.NoUser =false;
+    this.ChatBox =true;
     console.log('88888', user._id)
     this.RoomId = this.genarateRoomId(user._id, this.currentUser._id);
     console.log(this.RoomId, '11222222')
-    this.chatservice.socketConnection({ key: 'joinRoom', data: { room: this.RoomId, previousRoom: '' } })
+    this.chatservice.sendSocketData({ key: 'joinRoom', data: { room: this.RoomId, previousRoom: '' } })
     console.log(this.UserSelected, '80:::')
   }
   sendMessage() {
     console.log(this.RoomId, '0101', this.currentUser.firstName, '301', this.currentUser._id)
-    this.chatservice.socketConnection({ key: 'sendMessage', })
+    this.chatservice.sendSocketData({ key: 'sendMessage', })
     const socketPayload = {
       to: this.RoomId,
       content: this.messageText,
@@ -123,7 +107,7 @@ export class ChatBoxComponent {
       type: 'message',
       fileLink: ''
     }
-    this.chatservice.socketConnection({ key: 'sendMessage', data: socketPayload })
+    this.chatservice.sendSocketData({ key: 'sendMessage', data: socketPayload })
     console.log(socketPayload, '121111111')
     this.messageText = ''
   }
@@ -135,6 +119,10 @@ export class ChatBoxComponent {
       return id2 + "-" + id1
     }
   }
+// Assuming this is in your component class
+getMessageClass(message: any): string {
+  return (this.currentUser._id === message.from.id) ? 'SendUser' : 'receive';
+}
 
 
 

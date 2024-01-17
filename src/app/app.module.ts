@@ -29,6 +29,7 @@ import { ChatBoxComponent } from './components/chat-box/chat-box.component';
 import { TicketsComponent } from './components/tickets/tickets.component';
 import { MatSelectModule } from '@angular/material/select';
 import { ClientTicketsComponent } from './components/client-tickets/client-tickets.component';
+import { ViewRequestPageComponent } from './components/view-request-page/view-request-page.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,6 +43,7 @@ import { ClientTicketsComponent } from './components/client-tickets/client-ticke
     ChatBoxComponent,
     TicketsComponent,
     ClientTicketsComponent,
+    ViewRequestPageComponent,
   ],
   imports: [
     BrowserModule,

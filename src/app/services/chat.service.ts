@@ -20,7 +20,7 @@ export class ChatService {
   }
   BE_SERVER = "https://task-tracker-server-2njm.onrender.com"
   BE_LOCAL = 'http://192.168.10.30:1234';
-  BE_URL = this.BE_SERVER
+  BE_URL = this.BE_LOCAL
   constructor(private http: HttpClient) { 
     this.socket = io(this.BE_LOCAL, { transports: ['websocket', 'polling', 'flashsocket'] });
   }
@@ -56,6 +56,12 @@ export class ChatService {
   getAllTickets() {
     return this.get('/tickets')
   }
+  getChatMessages() {
+    return this.get('/message/user-chat-request')
+  }
+  getTickesRequest() {
+    return this.get('/message/user-ticket-request')
+  }
 
   createNewTicket(data: any) {
     return this.post('/tickets/create', data)
@@ -66,8 +72,6 @@ export class ChatService {
   updateResuorce(data: any) {
     return this.put('/tickets/assign-resource', data)
   }
-
-
   currentTaskUser(data: any) {
     return this.post('/verify-login', data)
   }
@@ -99,11 +103,11 @@ export class ChatService {
     return null;
   }
   // socket io 
-  socketConnection(data: any) {
+  sendSocketData(data: any) {
     console.log('hello',data)
     this.socket.emit(data.key, data.data)
   }
-  getNewUser(eventName:any): Observable<any> {
+  getSocketData(eventName:any): Observable<any> {
     console.log('1077777777',eventName)
     return new Observable<{
       user: string,

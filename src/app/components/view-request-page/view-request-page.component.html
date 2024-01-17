@@ -1,0 +1,31 @@
+<h1>View Request Page</h1>
+<div class="Main-ViewRequest">
+    <div class="ChatRequest">
+        <h1>Chat Request</h1>
+        <ul *ngFor="let chatrequest of ChatRequest let i = index">
+            <li><span>{{i+1}}.</span> {{chatrequest.sender.name}}is Requisting to Chat with {{chatrequest.opponent.name}} --
+                <div *ngIf="chatrequest.isPending == true" class="isPending">
+                    <button class="btn btn-sm btn-success">give Access</button>
+                </div>
+                <div *ngIf="chatrequest.isPending == false">
+                    <h2>Approved</h2>
+                </div>
+            </li>
+
+        </ul>
+    </div>
+    <div class="TicketREquest">
+        <h1>Ticket Request</h1>
+        <ul *ngFor="let ticketrequest of TicketRequest">
+            <li>{{ticketrequest.sender.name}}is Requisting for {{ticketrequest.client.name}}
+                <div *ngIf="ticketrequest.isPending == true" class="isPending">
+                    <button class="btn btn-sm btn-success">give Access</button>
+                </div>
+                <div *ngIf="ticketrequest.isPending == false">
+                    <h2>Approved</h2>
+                </div>
+            </li>
+
+        </ul>
+    </div>
+</div>
