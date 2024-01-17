@@ -1,3 +1,8 @@
+<!-- <i class="fa-solid fa-eye"></i> -->
+<i class="fa-regular fa-eye"></i>
+<i class="fa-solid fa-eye-slash"></i>
+
+
 <div class="Main-Conatiner">
     <div class="wrapper">
         <div class="logo">
@@ -12,7 +17,8 @@
                 <input type="text" name="userName" id="userName" formControlName="userId" placeholder='UserId'>
             </div>
             <div class="form-field d-flex align-items-center">
-                <input type="password" name="password" id="pwd" formControlName="password" (keyup.enter)="AdminLogin()" placeholder="Password">
+
+                <input [type]="password"" name="password" id="pwd" formControlName="password" (keyup.enter)="AdminLogin()" placeholder="Password">
                 <button (click)="onClick()">
                     <i class="fa fa-eye" aria-hidden="true" *ngIf="!show"></i>
                     <i class="fa fa-eye-slash" aria-hidden="true" *ngIf="show"></i>
@@ -24,7 +30,7 @@
                 'Login':'Loading..'}}</button>
         </form>
         <div class="Navigate">
-            <a  href="javascript:void(0);" (click)="getNavigate()">click Here To {{navigateData}}</a>
+            <a href="javascript:void(0);" (click)="getNavigate()">click Here To {{navigateData}}</a>
         </div>
         <div class="timezone">
             <div class="countryTime">

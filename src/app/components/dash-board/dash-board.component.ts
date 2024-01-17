@@ -117,6 +117,16 @@ export class DashBoardComponent {
       console.log(res , '107:::::::::')
       this.clientData = res
     })
+    this.chatservice.getSocketData('chatRequest').subscribe((res)=>{
+      console.log(res,'110')
+      const message = `${res.sender.name} is Requisting to Chat with ${res.opponent.name}`;
+      alert(message)
+    })
+    this.chatservice.getSocketData('ticketsRequest').subscribe((res)=>{
+      console.log(res,'110')
+      const message = `${res.sender.name} is Requisting for ${res.client.name} Tickets`;
+      alert(message)
+    })
     this.chatservice.getAllTickets().subscribe((res: any) => {
       this.ticketData = res;
       console.log(this.ticketData , '113:::::::::::')
@@ -145,7 +155,7 @@ export class DashBoardComponent {
 
     this.user = localStorage.getItem('userData')
     this.chatservice.getAllUsers().subscribe(res => {
-      this.userList = res
+      this.userList = res;
     })
   }
 
@@ -417,6 +427,9 @@ export class DashBoardComponent {
     this.chatservice.getTicketId(data)
   
 
+  }
+  ViewQequest(){
+    this.router.navigate(['view-requestPage'])
   }
 }
 export interface Column {

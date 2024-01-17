@@ -63,6 +63,12 @@ export class ChatService {
   getAllTickets() {
     return this.get('/tickets')
   }
+  getChatMessages() {
+    return this.get('/message/user-chat-request')
+  }
+  getTickesRequest() {
+    return this.get('/message/user-ticket-request')
+  }
 
   createNewTicket(data: any) {
     return this.post('/tickets/create', data)
@@ -73,8 +79,6 @@ export class ChatService {
   updateResuorce(data: any) {
     return this.put('/tickets/assign-resource', data)
   }
-
-
   currentTaskUser(data: any) {
     return this.post('/verify-login', data)
   }
@@ -106,11 +110,11 @@ export class ChatService {
     return null;
   }
   // socket io 
-  socketConnection(data: any) {
+  sendSocketData(data: any) {
     console.log('hello',data)
     this.socket.emit(data.key, data.data)
   }
-  getNewUser(eventName:any): Observable<any> {
+  getSocketData(eventName:any): Observable<any> {
     console.log('1077777777',eventName)
     return new Observable<{
       user: string,

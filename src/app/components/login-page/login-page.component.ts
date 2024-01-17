@@ -20,7 +20,7 @@ export class LoginPageComponent {
   navigateData: any;
   ErrorHandling:boolean=true;
   password:any;
-  show = false;
+  show = true;
   constructor(private route: Router, private fb: FormBuilder, private chatservice: ChatService) { }
   'loginForm': FormGroup;
   ngOnInit() {
@@ -40,7 +40,6 @@ export class LoginPageComponent {
       }
     }
     )
-    this.password = 'password';
     setInterval(() => {
       let Estdate = new Date();
       this.est = Estdate.toLocaleTimeString('en-US', {
@@ -56,16 +55,18 @@ export class LoginPageComponent {
       })
 
     }, 1000)
+    this.password = 'password'
   }
 
-  onClick() {
-    console.log('6222')
+  HideShow(){
     if (this.password === 'password') {
+      this.show = true
       this.password = 'text';
-      this.show = true;
+      console.log(this.password,'62::::')
     } else {
       this.password = 'password';
-      this.show = false;
+      this.show = false
+      console.log(this.password,'5555555::::')
     }
   }
 
@@ -83,7 +84,6 @@ export class LoginPageComponent {
         this.LoginBoolean = true;
         this.ErrorMsg = err.error.error;
       })
-
       // this.chatservice.currentTaskUser({ ...this.loginForm.value, isAdmin }).subscribe((res:any) =>{
       //   localStorage.setItem('currentTaskUser', res.token)
       //   this.route.navigate(['dashboard'])

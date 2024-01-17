@@ -23,7 +23,7 @@ export class UserPageComponent implements OnInit {
   date = new Date();
   @ViewChild('updateModel', { static: false }) updateModel: any;
   userstatus = ['In Progress', 'Pending', 'Resolved', 'Improper Requirment'];
-  selectusers = ['user1', 'user2', 'user3',]
+  // selectusers = ['user1', 'user2', 'user3',]
   UserData: any;
   userTickets: any = [];
   modelHeader: string = ''
@@ -49,6 +49,9 @@ export class UserPageComponent implements OnInit {
 
   displayColumns = ["client", "status", "user", "technology", "recivedDate", "TicketRaised", "description", "comments"]
   clientDetails: any;
+  currentUser: any;
+  userList: any;
+  SelectedUserdata: any;
   constructor(private chatservice: ChatService, private router: Router, private fb: FormBuilder, private modalService: NgbModal, private location: LocationStrategy) {
     history.pushState(null, '', window.location.href);
     // check if back or forward button is pressed.
@@ -63,7 +66,15 @@ export class UserPageComponent implements OnInit {
     })
   }
   ngOnInit(): void {
-    
+    this.chatservice.UserLoginData.subscribe((res:any)=>{
+      this.currentUser = res
+    })
+    //AllUserList.....
+    this.chatservice.getAllUsers().subscribe(res => {
+      this.userList = res;
+      console.log(this.userList,'UserList')
+    })
+  
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.UserData = res;
     })
@@ -73,7 +84,7 @@ export class UserPageComponent implements OnInit {
       this.userTickets = res.filter((item: any) =>
         item.user.id === this.UserData._id
       )
-      // this.inprogress = this.userTickets.filter((val: any) => val.status.toLowerCase() == 'In Progress' || val.status.toLowerCase() == 'in progess').length
+      
       this.Resolved = this.userTickets.filter((val: any) => val.status == 'Resolved').length,
       this.Assigned = this.userTickets.filter((val: any) => val.status == 'Assigned').length,
       this.pending = this.userTickets.filter((val: any) => val.status == 'Pending').length,
@@ -155,6 +166,8 @@ export class UserPageComponent implements OnInit {
   }
   sendadmin() {
     this.requestchat = !this.requestchat;
+    console.log(this.SelectedUserdata,'0000====')
+    this.chatservice.sendSocketData({key:'requestChat',data:{user:{name:this.currentUser.firstName,id:this.currentUser._id},opponent:{name:this.SelectedUserdata.firstName,id:this.SelectedUserdata._id}}})
     alert('request send admin')
     // if(this.requestchat){
     //   console.log('if.....')
@@ -189,11 +202,24 @@ export class UserPageComponent implements OnInit {
 
   selectuser(data: any) {
     console.log(data, 'selecteduser')
+    this.SelectedUserdata = data
 
   }
 
 
   routeToTickets(data: any) {
+    console.log('214:::',data)
+    const CilentPayload = {
+      client:{
+        name:data.client.name,
+        id:data.client.id
+      },
+      sender:{
+        name:this.currentUser.firstName,
+        id:this.currentUser._id
+      }
+    }
+    this.chatservice.sendSocketData({key:'requestTickets',data:CilentPayload})
     this.router.navigate(['/tickets'])
   }
 
