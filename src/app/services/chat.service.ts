@@ -8,9 +8,13 @@ import { io, Socket } from 'socket.io-client';
 })
 export class ChatService {
   RoleData = new BehaviorSubject('');
+  ticketsById = new BehaviorSubject('')
   private socket: Socket;
   getRoleData(role: any) {
     this.RoleData.next(role)
+  }
+  getTicketId(clientid:any){
+    this.ticketsById.next(clientid)
   }
   //User Behavior
   UserLoginData = new BehaviorSubject('');
@@ -20,7 +24,7 @@ export class ChatService {
   }
   BE_SERVER = "https://task-tracker-server-2njm.onrender.com"
   BE_LOCAL = 'http://192.168.10.30:1234';
-  BE_URL = this.BE_SERVER
+  BE_URL = this.BE_LOCAL
   constructor(private http: HttpClient) { 
     this.socket = io(this.BE_LOCAL, { transports: ['websocket', 'polling', 'flashsocket'] });
   }
@@ -43,6 +47,9 @@ export class ChatService {
 
   getAllClients() {
     return this.get('/clients')
+  }
+  getClientById(clientid:any){
+    return this.get('/clients/tickets/' + clientid )
   }
   AddNewClient(data: any) {
     return this.post('/clients/create', data)

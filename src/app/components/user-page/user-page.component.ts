@@ -63,9 +63,7 @@ export class UserPageComponent implements OnInit {
     })
   }
   ngOnInit(): void {
-    this.chatservice.getNewUser().subscribe(res => {
-      alert(`${res.name} set message to you`);
-     })
+    
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.UserData = res;
     })
@@ -75,7 +73,7 @@ export class UserPageComponent implements OnInit {
       this.userTickets = res.filter((item: any) =>
         item.user.id === this.UserData._id
       )
-      this.inprogress = this.userTickets.filter((val: any) => val.status.toLowerCase() == 'In Progress' || val.status.toLowerCase() == 'in progess').length
+      // this.inprogress = this.userTickets.filter((val: any) => val.status.toLowerCase() == 'In Progress' || val.status.toLowerCase() == 'in progess').length
       this.Resolved = this.userTickets.filter((val: any) => val.status == 'Resolved').length,
       this.Assigned = this.userTickets.filter((val: any) => val.status == 'Assigned').length,
       this.pending = this.userTickets.filter((val: any) => val.status == 'Pending').length,
