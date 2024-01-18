@@ -1,0 +1,56 @@
+h1{
+    text-align: center;
+}
+.Main-ViewRequest{
+    display: flex;
+    margin-top: 17px;
+    .ChatRequest{
+        width: 50%;
+        box-shadow: 0 0 5px;
+        border-radius: 7px;
+        margin: 0 0 0 21px;
+        height: 550px;
+        overflow: auto;
+        h1{
+            text-align: center;
+            padding: 6px 0;
+            text-decoration: underline;
+        }
+        ul{
+            li{
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                border-bottom: 1px solid darkgrey;
+                .isPending{
+                    margin: 6px 0;
+                }
+            }
+        }
+    
+    }    
+    .TicketREquest{
+        width: 50%;
+        box-shadow: 0 0 5px;
+        border-radius: 7px;
+        margin: 0 12px 0 16px;
+        height: 550px;
+        overflow: auto;
+        h1{
+            text-align: center;
+            padding: 6px 0;
+            text-decoration: underline;
+        }
+        ul{
+            li{
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                border-bottom: 1px solid darkgrey;
+                .isPending{
+                    margin: 6px 0;
+                }
+            }
+        }
+    }
+}

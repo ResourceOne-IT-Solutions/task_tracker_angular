@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { tap } from 'rxjs';
-import { Column } from 'src/app/dash-board/dash-board.component';
+import { Column } from 'src/app/components/dash-board/dash-board.component';
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -16,8 +16,9 @@ export class TableComponent {
   displayedColumns: any
   @ViewChild(MatPaginator) 'paginator': MatPaginator;
   @ViewChild(MatSort) 'sort': MatSort;
-  @Output() editData = new EventEmitter();
-  @Output() updateData = new EventEmitter();
+  @Output() firstBtnClick = new EventEmitter();
+  @Output() secondBtnClick = new EventEmitter();
+  @Output() clientnameClick = new EventEmitter();
   @Output() userDetails = new EventEmitter()
 
   ngOnInit() {
@@ -33,11 +34,14 @@ export class TableComponent {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-  edit(data: any) {
-    this.editData.emit(data)
+  btn1Click(data: any) {
+    this.firstBtnClick.emit(data)
   }
-  Delete(data: any) {
-
+  btn2Click(data: any) {
+    this.secondBtnClick.emit(data)
+  }
+  clientNameClick(data:any){
+    this.clientnameClick.emit(data)
   }
   openUserDetails(userDetails:any) {
     this.userDetails.emit(userDetails)

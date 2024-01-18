@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { ChatService } from '../services/chat.service';
+import { ChatService } from '../../services/chat.service';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -17,6 +17,11 @@ export class DashBoardComponent {
   @ViewChild('userDetailsModel', { static: false }) userDetailsModel: any;
   @ViewChild('ticketModel', { static: false }) ticketModel: any;
   @ViewChild('assignTicketModel', { static: false }) assignTicketModel: any;
+
+  isAdminStatus = false
+  susers = ['Offline', 'Busy', 'Available'];
+
+
 
   phone: any;
   modelHeader: string = ''
@@ -36,17 +41,25 @@ export class DashBoardComponent {
     { columnDef: 'mobile', header: 'Mobile', cell: (element: any) => `${element['mobile']}`, isText: true },
     { columnDef: 'technology', header: 'Technology', cell: (element: any) => `${element['technology']}`, isText: true },
     { columnDef: 'email', header: 'Email', cell: (element: any) => `${element['email']}`, isText: true },
+    { columnDef: 'location', header: 'Location', cell: (element: any) => `${element['location'].area} - ${element['location'].zone}`, isText: true },
     { columnDef: 'action', header: 'Action', cell: (element: any) => element === 'btn1' ? 'Edit' : 'Delete', isMultiButton: true },
   ];
   ticketColumns: Array<Column> = [
     { columnDef: 'client', header: 'client name', cell: (element: any) => `${element['client'].name}`, isText: true },
     { columnDef: 'status', header: 'status', cell: (element: any) => `${element['status']}`, isText: true },
+    { columnDef: 'closedDate', header: 'closedDate', cell: (element: any) => `${element['closedDate']}`, isText: true },
+    { columnDef: 'comments', header: 'comments', cell: (element: any) => `${element['comments']}`, isText: true },
+    { columnDef: 'description', header: 'description', cell: (element: any) => `${element['description']}`, isText: true },
     { columnDef: 'user', header: 'user name', cell: (element: any) => `${element['user'].name || '--'}`, isText: true },
     { columnDef: 'technology', header: 'Technology', cell: (element: any) => `${element['technology']}`, isText: true },
     { columnDef: 'receivedDate', header: 'receivedDate', cell: (element: any) => `${new Date(element['receivedDate']).toLocaleString()}`, isText: true },
+    { columnDef: 'assignedDate', header: 'assignedDate', cell: (element: any) => `${new Date(element['assignedDate']).toLocaleString()}`, isText: true },
     { columnDef: 'addOnResource', header: 'Helped By', cell: (element: any) => `${element['addOnResource']?.map((res: any) => res.name)?.toString() || '--'}`, isText: true },
     { columnDef: 'assignTicket', header: 'assignTicket', cell: (element: any) => element['user']?.name ? 'Add Resource' : 'Assign User', isButton: true },
   ];
+  pieChartData: number[] = [];
+  pieChartLabels: string[] = ["Resolved", "Assigned", "Pending", "In Progress", "Not Assigned"];
+  pieChartColors: string[] = ['blue', 'gray', 'yellow', 'green', 'red'];
   cities = ['New York', 'New Jersey', 'Los Angeles'];
   technology = ['React Saga', 'Angular', 'Python', 'Vue Js', 'JQuery']
   user: any;
@@ -65,6 +78,10 @@ export class DashBoardComponent {
   ticketDetails: any;
   assignUser: any;
   AssignedUser: any
+  todaysTickets: any =[];
+  resolvedTickets: any=[];
+  pendingTickets: any=[];
+  inprogressTickets: any=[];
   constructor(private chatservice: ChatService, private router: Router, private modalService: NgbModal, private fb: FormBuilder) {
     this.userForm = this.fb.group({
       fname: ['', Validators.required],
@@ -97,17 +114,31 @@ export class DashBoardComponent {
       console.log(this.adminDetails, "70::")
     })
     this.chatservice.getAllClients().subscribe((res: any) => {
+      console.log(res , '107:::::::::')
       this.clientData = res
     })
+    this.chatservice.getSocketData('chatRequest').subscribe((res)=>{
+      console.log(res,'110')
+      const message = `${res.sender.name} is Requisting to Chat with ${res.opponent.name}`;
+      alert(message)
+    })
+    this.chatservice.getSocketData('ticketsRequest').subscribe((res)=>{
+      console.log(res,'110')
+      const message = `${res.sender.name} is Requisting for ${res.client.name} Tickets`;
+      alert(message)
+    })
     this.chatservice.getAllTickets().subscribe((res: any) => {
-      this.ticketData = res
-      const resolved = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'resolved').length
-      const pending = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'pending').length
-      const inprogress = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'in progress' || val.status.toLowerCase() == 'in progess').length
+      this.ticketData = res;
+      console.log(this.ticketData , '113:::::::::::')
+      this.todaysTickets = this.ticketData.filter((val :any)=>  new Date(val.receivedDate).toLocaleDateString() === new Date().toLocaleDateString()) 
+      this.resolvedTickets = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'resolved').length
+      this.pendingTickets = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'pending').length
+      this.inprogressTickets = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'in progress' || val.status.toLowerCase() == 'in progess').length
       const assigned = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'assigned').length
+      const improper = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'Improper Requirment').length
       const notAssigned = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'not assigned').length
-      console.log(resolved, pending, inprogress, assigned, notAssigned)
-      this.pieChart(resolved, assigned, pending, inprogress, notAssigned)
+     console.log(improper,'000000')
+      this.pieChart(this.resolvedTickets, assigned, this.pendingTickets, this.inprogressTickets, notAssigned , improper)
 
     })
     this.technologies = [
@@ -124,18 +155,34 @@ export class DashBoardComponent {
 
     this.user = localStorage.getItem('userData')
     this.chatservice.getAllUsers().subscribe(res => {
-      this.userList = res
+      this.userList = res;
     })
   }
 
   Logout() {
-    localStorage.removeItem('currentTaskUser')
+    this.deleteCookie('token')
+    // this.chatservice.setCookie('token', '', 1)    
     this.router.navigate(['/'])
   }
-
+  deleteCookie(name: string) {
+    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC';
+  }
   openPopup(content: any): void {
     this.modalService.open(content);
   }
+
+   /// admin status
+
+   
+   selectChange(data:any){
+    console.log(data , 'admin status')
+
+   }
+   adminStatus(){
+    this.isAdminStatus = !this.isAdminStatus
+    
+
+   }
 
   // user functions 
 
@@ -350,18 +397,39 @@ export class DashBoardComponent {
     }
   }
   // tickets piechart 
-  pieChart(resolved: any, assigned: any, pending: any, inprogress: any, notAssigned: any) {
-    new Chart('pieChart', {
-      type: 'pie',
-      data: {
-        labels: ["Resolved", "Assigned", "Pending", "In Progress", "Not Assigned"],
-        datasets: [{
-          label: '',
-          data: [resolved, assigned, pending, inprogress, notAssigned],
-        }]
+  pieChart(resolved: any, assigned: any, pending: any, inprogress: any, notAssigned: any , improper:any ) {
+    this.pieChartData = [resolved , assigned , pending , inprogress , notAssigned , improper]
+   new Chart('pieChart', {
+    type: 'pie',
+    data: {
+      labels: this.pieChartLabels,
+      datasets: [{
+        label: '',
+        data: this.pieChartData,
+        backgroundColor: this.pieChartColors,
+      }]
+    },
+    options: {
+      plugins: {
+        legend: {
+          display: false,
+        },
       },
+    },
+  });
+  }
 
-    });
+  OpenChatBox(){
+    this.router.navigate(['Chat-Box'])
+  }
+  routeToClientTickets(data:any){
+    this.router.navigate(['/client-tickets']);
+    this.chatservice.getTicketId(data)
+  
+
+  }
+  ViewQequest(){
+    this.router.navigate(['view-requestPage'])
   }
 }
 export interface Column {

@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Mr+Dafoe&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Exo:wght@900&display=swap');
+
+.background-image {
+    
+    width: 100%;
+    height: 100vh;
+    font-family: sans-serif;
+    color: white;
+    text-align: center;
+    background: linear-gradient(rgb(1 14 13), rgb(112 112 149));
+
+    .adminButtons {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        p {
+            font-family: 'Exo';
+            font-size: 6em;
+            margin: 0;
+            transform: skew(-15deg);
+            letter-spacing: 0.03em;
+            span{
+                background-image: linear-gradient(#7a769f 25%, #010b10 35%, white 50%, #d4ebeb 50%, #4c96d5 55%, #4a3b3b1a 75%);
+                -webkit-text-stroke: 0.01em #94a0b9;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+          }
+          
+        .Loginbuttons {
+            margin: 46px 0 0 0;
+        }
+    }
+
+}

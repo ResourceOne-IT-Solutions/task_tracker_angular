@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { WellComePageComponent } from './well-come-page/well-come-page.component';
-import { LoginPageComponent } from './login-page/login-page.component';
-import { DashBoardComponent } from './dash-board/dash-board.component';
-import { CreateUserComponent } from './create-user/create-user.component'
+import { WelComePageComponent } from './components/welcome-page/welcome-page.component';
+import { LoginPageComponent } from './components/login-page/login-page.component';
+import { DashBoardComponent } from './components/dash-board/dash-board.component';
+import { CreateUserComponent } from './components/create-user/create-user.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
@@ -20,21 +20,30 @@ import {MatTableModule} from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import {  MatPaginatorModule } from '@angular/material/paginator';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { UserPageComponent } from './user-page/user-page.component';
+import { UserPageComponent } from './components/user-page/user-page.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TableComponent } from './reusable/table/table.component';
 import { APP_BASE_HREF } from '@angular/common';
-import { MainDashboardComponent } from './main-dashboard/main-dashboard.component';
+import { MainDashboardComponent } from './components/main-dashboard/main-dashboard.component';
+import { ChatBoxComponent } from './components/chat-box/chat-box.component';
+import { TicketsComponent } from './components/tickets/tickets.component';
+import { MatSelectModule } from '@angular/material/select';
+import { ClientTicketsComponent } from './components/client-tickets/client-tickets.component';
+import { ViewRequestPageComponent } from './components/view-request-page/view-request-page.component';
 @NgModule({
   declarations: [
     AppComponent,
-    WellComePageComponent,
+    WelComePageComponent,
     LoginPageComponent,
     DashBoardComponent,
     CreateUserComponent,
     UserPageComponent,
     TableComponent,
     MainDashboardComponent,
+    ChatBoxComponent,
+    TicketsComponent,
+    ClientTicketsComponent,
+    ViewRequestPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,11 +58,13 @@ import { MainDashboardComponent } from './main-dashboard/main-dashboard.componen
     MatSortModule,
     MatTooltipModule,
     MatFormFieldModule,
+    MatSelectModule,
     MatIconModule,
     MatCardModule,
     MatDialogModule,
     NgbModule,
-    MatGridListModule
+    MatGridListModule,
+    MatSelectModule
   ],
   providers: [guardGuard, { provide: APP_BASE_HREF, useValue: '/task_tracker_angular/' }],
   bootstrap: [AppComponent]

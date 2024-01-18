@@ -1,14 +1,20 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { io, Socket } from 'socket.io-client';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
   RoleData = new BehaviorSubject('');
+  ticketsById = new BehaviorSubject('')
+  private socket: Socket;
   getRoleData(role: any) {
     this.RoleData.next(role)
+  }
+  getTicketId(clientid:any){
+    this.ticketsById.next(clientid)
   }
   //User Behavior
   UserLoginData = new BehaviorSubject('');
@@ -18,8 +24,10 @@ export class ChatService {
   }
   BE_SERVER = "https://task-tracker-server-2njm.onrender.com"
   BE_LOCAL = 'http://192.168.10.30:1234';
-  BE_URL = this.BE_SERVER
-  constructor(private http: HttpClient) { }
+  BE_URL = this.BE_LOCAL
+  constructor(private http: HttpClient) { 
+    this.socket = io(this.BE_LOCAL, { transports: ['websocket', 'polling', 'flashsocket'] });
+  }
   getUserData(data: any) {
     return this.http.post(this.BE_URL + '/login', data)
   }
@@ -40,6 +48,9 @@ export class ChatService {
   getAllClients() {
     return this.get('/clients')
   }
+  getClientById(clientid:any){
+    return this.get('/clients/tickets/' + clientid )
+  }
   AddNewClient(data: any) {
     return this.post('/clients/create', data)
   }
@@ -52,6 +63,12 @@ export class ChatService {
   getAllTickets() {
     return this.get('/tickets')
   }
+  getChatMessages() {
+    return this.get('/message/user-chat-request')
+  }
+  getTickesRequest() {
+    return this.get('/message/user-ticket-request')
+  }
 
   createNewTicket(data: any) {
     return this.post('/tickets/create', data)
@@ -62,11 +79,6 @@ export class ChatService {
   updateResuorce(data: any) {
     return this.put('/tickets/assign-resource', data)
   }
-  updateUsers(data: any, userdata: any) {
-    const userdetails = { id: data, data: userdata }
-    return this.put('/tickets/update', userdetails)
-  }
-
   currentTaskUser(data: any) {
     return this.post('/verify-login', data)
   }
@@ -75,32 +87,74 @@ export class ChatService {
   }
 
   getToken() {
-    return localStorage.getItem('currentTaskUser') || ''
+    return this.getCookie('token') || ''
+
+  }
+  // Cookie.....
+  setCookie(name: string, value: string, days: number) {
+    const expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + days);
+    const cookieValue = encodeURIComponent(value) + '; expires=' + expirationDate.toUTCString();
+    document.cookie = name + '=' + cookieValue;
   }
 
+  getCookie(name: any) {
+    const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+    console.log(cookies, '103:::', name)
+    for (const cookie of cookies) {
+      const [cookieName, cookieValue] = cookie.split('=');
+      if (cookieName === name) {
+        return decodeURIComponent(cookieValue);
+      }
+    }
+    return null;
+  }
+  // socket io 
+  sendSocketData(data: any) {
+    console.log('hello',data)
+    this.socket.emit(data.key, data.data)
+  }
+  getSocketData(eventName:any): Observable<any> {
+    console.log('1077777777',eventName)
+    return new Observable<{
+      user: string,
+      room: string,
+      phone: string
+    }>(observer => {
+      this.socket.on(eventName, (data:any) => {
+        observer.next(data);
+      });
+
+      return () => {
+        this.socket.disconnect();
+      }
+    });
+  }
+
+  // api mian calls
   get(url: any,) {
-    return this.http.get(this.BE_LOCAL + url, {
+    return this.http.get(this.BE_URL + url, {
       headers: new HttpHeaders({
         Authorization: this.getToken(),
       })
     });
   }
   post(url: any, data: any) {
-    return this.http.post(this.BE_LOCAL + url,data,{
+    return this.http.post(this.BE_URL + url, data, {
       headers: new HttpHeaders({
         Authorization: this.getToken(),
       })
     });
   }
   put(url: any, data: any) {
-    return this.http.put(this.BE_LOCAL + url,data, {
+    return this.http.put(this.BE_URL + url, data, {
       headers: new HttpHeaders({
         Authorization: this.getToken(),
       })
     });
   }
   delete(url: any) {
-    return this.http.delete(this.BE_LOCAL + url, {
+    return this.http.delete(this.BE_URL + url, {
       headers: new HttpHeaders({
         Authorization: this.getToken(),
       })

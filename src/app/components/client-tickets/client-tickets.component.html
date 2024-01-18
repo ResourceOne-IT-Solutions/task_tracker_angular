@@ -1,0 +1,27 @@
+<h2>client-tickets works!</h2>
+
+
+   
+  
+        <div class="client-details">
+            <div>
+                <p>Client Details</p>
+                <p> CompanyName: {{clientDataTable.companyName}}</p>
+                <p>First Name : {{clientDataTable.firstName}}</p>
+                <p>Email : {{clientDataTable.email}}</p>
+                <p>Phone : {{clientDataTable.mobile}}</p> 
+            </div>
+                <div class="pieChart">
+                    <h2>hello</h2>
+                    <canvas id="piechart">
+
+                    </canvas>
+                </div>
+    
+        </div>
+     
+
+
+  <app-table  [data]="clientTicketById" 
+      [tableColumns]="clientColumns"></app-table>  
+

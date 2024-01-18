@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ChatService } from '../services/chat.service';
+import { ChatService } from '../../services/chat.service';
 import { HttpHeaders } from '@angular/common/http';
 
 @Component({
@@ -13,7 +13,6 @@ export class MainDashboardComponent {
   constructor(private chatservice: ChatService) { }
   ngOnInit() {
     this.data = localStorage.getItem("currentTaskUser")
-    console.log(this.data,'13::::',this.data)
     // let customHeaders = new Headers({ Authorization:this.data });
     // console.log(customHeaders,'17::::')
     let httpOptions = {
@@ -22,9 +21,9 @@ export class MainDashboardComponent {
       })
     }
     this.chatservice.getLoginSetup(httpOptions).subscribe((res: any) => {
+      console.log(res,'25:::::')
       this.isAdmin = res.isAdmin;
       this.chatservice.UserLogin(res)
-      console.log(res, '24:::::')
     })
 
   }

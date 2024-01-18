@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ChatService } from '../services/chat.service';
+import { ChatService } from '../../services/chat.service';
 
 @Component({
   selector: 'app-login-page',
@@ -19,6 +19,8 @@ export class LoginPageComponent {
   ErrorMsg: any;
   navigateData: any;
   ErrorHandling:boolean=true;
+  password:any;
+  show = true;
   constructor(private route: Router, private fb: FormBuilder, private chatservice: ChatService) { }
   'loginForm': FormGroup;
   ngOnInit() {
@@ -53,6 +55,19 @@ export class LoginPageComponent {
       })
 
     }, 1000)
+    this.password = 'password'
+  }
+
+  HideShow(){
+    if (this.password === 'password') {
+      this.show = true
+      this.password = 'text';
+      console.log(this.password,'62::::')
+    } else {
+      this.password = 'password';
+      this.show = false
+      console.log(this.password,'5555555::::')
+    }
   }
 
   AdminLogin() {
@@ -61,23 +76,25 @@ export class LoginPageComponent {
     const isAdmin = this.RoleDetails === 'Admin'
     if (this.loginForm.valid) {
       this.chatservice.currentTaskUser({ ...this.loginForm.value, isAdmin }).subscribe((res: any) => {
-         localStorage.setItem('currentTaskUser', res.token)
-         console.log(res,'65:::')
-         this.route.navigate(['dashboard'])
-         this.chatservice.UserLogin(res)
-      },(err:any) =>{
-        this.LoginBoolean= true;
+        // localStorage.setItem('currentTaskUser', res.token)
+        this.chatservice.setCookie('token', res.token, 1)
+        this.route.navigate(['dashboard'])
+        this.chatservice.UserLogin(res)
+      }, (err: any) => {
+        this.LoginBoolean = true;
         this.ErrorMsg = err.error.error;
       })
-
       // this.chatservice.currentTaskUser({ ...this.loginForm.value, isAdmin }).subscribe((res:any) =>{
       //   localStorage.setItem('currentTaskUser', res.token)
       //   this.route.navigate(['dashboard'])
       // })
     }
   }
-  getNavigate(){
-  const data =  this.chatservice.getRoleData(this.navigateData);
+
+
+
+  getNavigate() {
+    const data = this.chatservice.getRoleData(this.navigateData);
     this.loginForm.reset();
     this.ErrorMsg = '';
   }
