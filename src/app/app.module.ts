@@ -30,6 +30,7 @@ import { TicketsComponent } from './components/tickets/tickets.component';
 import { MatSelectModule } from '@angular/material/select';
 import { ClientTicketsComponent } from './components/client-tickets/client-tickets.component';
 import { ViewRequestPageComponent } from './components/view-request-page/view-request-page.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 @NgModule({
   declarations: [
     AppComponent,
@@ -64,7 +65,8 @@ import { ViewRequestPageComponent } from './components/view-request-page/view-re
     MatDialogModule,
     NgbModule,
     MatGridListModule,
-    MatSelectModule
+    MatSelectModule,
+    NgxSpinnerModule,
   ],
   providers: [guardGuard, { provide: APP_BASE_HREF, useValue: '/task_tracker_angular/' }],
   bootstrap: [AppComponent]
