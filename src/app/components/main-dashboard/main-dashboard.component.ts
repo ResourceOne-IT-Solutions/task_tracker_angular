@@ -14,6 +14,9 @@ export class MainDashboardComponent {
   constructor(private chatservice: ChatService) { }
   ngOnInit() {
     this.data = localStorage.getItem("currentTaskUser")
+    this.chatservice.getSocketData('error').subscribe(res => {
+      console.log('SOCKET ERROR:::', res)
+    })
     // let customHeaders = new Headers({ Authorization:this.data });
     // console.log(customHeaders,'17::::')
     let httpOptions = {
