@@ -16,7 +16,7 @@ import { ViewRequestPageComponent } from './components/view-request-page/view-re
 const routes: Routes = [
   { path: '', component: WelComePageComponent },
   { path: 'login_page', component: LoginPageComponent },
-  { path: 'dashboard', component: MainDashboardComponent },
+  { path: 'dashboard', component: MainDashboardComponent  },
   { path: 'create-user', component: CreateUserComponent  },
   { path: 'User-page', component: UserPageComponent},
   { path: 'Chat-Box', component: ChatBoxComponent},
