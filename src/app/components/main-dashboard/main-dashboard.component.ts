@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
 import { HttpHeaders } from '@angular/common/http';
+import { Observable, map } from 'rxjs';
 
 @Component({
   selector: 'app-main-dashboard',
@@ -9,7 +10,7 @@ import { HttpHeaders } from '@angular/common/http';
 })
 export class MainDashboardComponent {
   data: any
-  isAdmin: boolean=false;
+  'isAdmin$': Observable<any>;
   constructor(private chatservice: ChatService) { }
   ngOnInit() {
     this.data = localStorage.getItem("currentTaskUser")
@@ -20,11 +21,10 @@ export class MainDashboardComponent {
         Authorization: this.data,
       })
     }
-    this.chatservice.getLoginSetup(httpOptions).subscribe((res: any) => {
-      console.log(res,'25:::::')
-      this.isAdmin = res.isAdmin;
+    this.isAdmin$ = this.chatservice.getLoginSetup(httpOptions).pipe(map((res: any) => {
       this.chatservice.UserLogin(res)
-    })
+      return res
+    }))
 
   }
 

@@ -92,7 +92,7 @@ export class DashBoardComponent {
       email: ['', Validators.required],
       phone: ['', Validators.required],
       dob: ['', Validators.required],
-      isAdmin: ['', Validators.required]
+      isAdmin: [false]
     })
     this.clientForm = this.fb.group({
       name: ['', Validators.required],
@@ -131,16 +131,16 @@ export class DashBoardComponent {
       alert(message)
     })
     this.chatservice.getAllTickets().subscribe((res: any) => {
-      this.ticketData = res;
-      this.todaysTickets = this.ticketData.filter((val :any)=>  new Date(val.receivedDate).toLocaleDateString() === new Date().toLocaleDateString()) 
+      this.ticketData = res
+      this.todaysTickets = this.ticketData.filter((val: any) => new Date(val.receivedDate).toLocaleDateString() === new Date().toLocaleDateString())
       this.resolvedTickets = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'resolved').length
       this.pendingTickets = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'pending').length
       this.inprogressTickets = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'in progress' || val.status.toLowerCase() == 'in progess').length
       const assigned = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'assigned').length
       const improper = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'Improper Requirment').length
       const notAssigned = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'not assigned').length
-     console.log(improper,'000000')
-      this.pieChart(this.resolvedTickets, assigned, this.pendingTickets, this.inprogressTickets, notAssigned , improper)
+      console.log(improper, '000000')
+      this.pieChart(this.resolvedTickets, assigned, this.pendingTickets, this.inprogressTickets, notAssigned, improper)
 
     })
     this.technologies = [
@@ -173,8 +173,15 @@ export class DashBoardComponent {
     this.modalService.open(content);
   }
 
-   /// admin status
+  /// admin status
 
+
+  selectChange(data: any) {
+    console.log(data, 'admin status')
+
+  }
+  adminStatus() {
+    this.isAdminStatus = !this.isAdminStatus
    
    changeStatus(data:any){
    this.statuschange = data
@@ -198,7 +205,8 @@ export class DashBoardComponent {
     // }
     
 
-   }
+
+  }
 
   // user functions 
 
@@ -208,7 +216,6 @@ export class DashBoardComponent {
     this.openPopup(this.userModel)
   }
   addUser(dismiss: any): void {
-    console.log(this.userForm.value.isAdmin, this.userForm.value.isAdmin !== null, "isAdmin", this.userDetails)
     const Data = {
       firstName: this.userForm.value.fname,
       lastName: this.userForm.value.lname,
@@ -217,10 +224,11 @@ export class DashBoardComponent {
       password: `${this.userForm.value.fname}@123`,
       joinedDate: this.userForm.value.dob,
       dob: this.userForm.value.dob,
-      isAdmin: this.userForm.value.isAdmin,
+      isAdmin: this.userForm.value.isAdmin !== null,
       designation: 'angular',
       profileImageUrl: '',
     }
+    console.log(Data, 'payload')
     this.chatservice.AddNewUsers(Data).subscribe(res => console.log(res,))
     dismiss();
     this.userForm.reset();
@@ -237,7 +245,7 @@ export class DashBoardComponent {
       password: this.userDetails.password,
       joinedDate: this.userForm.value.dob,
       dob: this.userForm.value.dob,
-      isAdmin: this.userDetails.isAdmin,
+      isAdmin: this.userForm.value.isAdmin !== null,
       designation: this.userDetails.designation,
       profileImageUrl: this.userDetails.profileImageUrl,
     }
@@ -401,7 +409,7 @@ export class DashBoardComponent {
         }
       }
       console.log(payload, 'payload')
-      this.chatservice.updateTicket(payload).subscribe((res:any) => {
+      this.chatservice.updateTicket(payload).subscribe((res: any) => {
         this.ticketData = this.ticketData.map((element: any) => element._id === res._id ? res : element)
       })
     } else if (this.assignUser == 'Assign Resource') {
@@ -415,43 +423,44 @@ export class DashBoardComponent {
         }
       }
       console.log(payload, 'payload')
-      this.chatservice.updateResuorce(payload).subscribe((res:any) => {
+      this.chatservice.updateResuorce(payload).subscribe((res: any) => {
         this.ticketData = this.ticketData.map((element: any) => element._id === res._id ? res : element)
-      } )
+      })
     }
   }
   // tickets piechart 
-  pieChart(resolved: any, assigned: any, pending: any, inprogress: any, notAssigned: any , improper:any ) {
-    this.pieChartData = [resolved , assigned , pending , inprogress , notAssigned , improper]
-   new Chart('pieChart', {
-    type: 'pie',
-    data: {
-      labels: this.pieChartLabels,
-      datasets: [{
-        label: '',
-        data: this.pieChartData,
-        backgroundColor: this.pieChartColors,
-      }]
-    },
-    options: {
-      plugins: {
-        legend: {
-          display: false,
+  pieChart(resolved: any, assigned: any, pending: any, inprogress: any, notAssigned: any, improper: any) {
+    this.pieChartData = [resolved, assigned, pending, inprogress, notAssigned, improper]
+    new Chart('pieChart', {
+      type: 'pie',
+      data: {
+        labels: this.pieChartLabels,
+        datasets: [{
+          label: '',
+          data: this.pieChartData,
+          backgroundColor: this.pieChartColors,
+        }]
+      },
+      options: {
+        plugins: {
+          legend: {
+            display: false,
+          },
         },
       },
-    },
-  });
+    });
   }
 
-  OpenChatBox(){
+  OpenChatBox() {
     this.router.navigate(['Chat-Box'])
   }
-  routeToClientTickets(data:any){
+  routeToClientTickets(data: any) {
     this.router.navigate(['/client-tickets']);
     this.chatservice.getTicketId(data)
-  
+
 
   }
+
 
 
   
