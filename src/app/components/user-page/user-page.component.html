@@ -33,6 +33,13 @@
         <p>{{UserData.firstName}}</p> &nbsp;&nbsp;
         <span>({{UserData.empId}} )</span>
         <span>{{UserData.status}}</span>
+        <!-- <span *ngIf="UserData.status === ''Offline'" class="adminoffiline">{{UserData.status}}</span>
+        <span *ngIf="UserData.status === ''Busy'" class="adminbusy">{{UserData.status}}</span>
+        <span *ngIf="UserData.status === ''Available'" class="adminavailable">{{UserData.status}}</span> -->
+        <!-- <span *ngIf="UserData.status === 'Offline'" class="Offline">{{UserData.status}}</span>
+        <span *ngIf="UserData.status === 'Busy'" class="Busy">{{UserData.status}}</span>
+        <span *ngIf="UserData.status === 'Available'" class="Available">{{UserData.status}}</span>    -->
+
     </div>
     <div class="employeList">
         <div class="main-userDetails">
@@ -97,7 +104,7 @@
             <div>
                 <p class="userslabel">Stats</p>
                 <div class="pieChart">
-                    <canvas id="piechart">
+                    <canvas id="piechartdemo">
 
                     </canvas>
                 </div>
@@ -106,7 +113,11 @@
         </div>
     </div>
 </div>
-
+<!-- <app-table>
+    [data]="userTickets"
+    [tableColumns]="ticketColumns"
+ (firstBtnClick)="update($event)"
+</app-table> -->
 <app-table
 [data]="userTickets"
 [tableColumns]="ticketColumns"
@@ -136,8 +147,6 @@
     </div>
     <div class="modal-footer">
         <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
-
         <button class="btn btn-sm btn-primary" (click)="updateUser(d)">Update</button>
-
     </div>
 </ng-template>
