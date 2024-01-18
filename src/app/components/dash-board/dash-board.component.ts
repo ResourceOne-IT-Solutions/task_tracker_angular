@@ -280,7 +280,7 @@ export class DashBoardComponent {
     this.modelHeader = 'Add New Client'
     this.openPopup(this.clientModel)
   }
-  getAllRequest() {
+  sendMessageToAll() {
     this.modelHeader = 'request '
     this.openPopup(this.requestTicketmodal)
   }
@@ -457,12 +457,7 @@ export class DashBoardComponent {
   routeToClientTickets(data: any) {
     this.router.navigate(['/client-tickets']);
     this.chatservice.getTicketId(data)
-
-
   }
-
-
-
   
   ViewQequest(){
     this.router.navigate(['view-requestPage'])
