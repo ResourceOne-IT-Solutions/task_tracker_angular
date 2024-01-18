@@ -17,9 +17,10 @@ export class DashBoardComponent {
   @ViewChild('userDetailsModel', { static: false }) userDetailsModel: any;
   @ViewChild('ticketModel', { static: false }) ticketModel: any;
   @ViewChild('assignTicketModel', { static: false }) assignTicketModel: any;
+  @ViewChild('requestTicketmodal', { static: false }) requestTicketmodal: any;
 
   isAdminStatus = false
-  susers = ['Offline', 'Busy', 'Available'];
+  adminStatus = ['Offline', 'Busy', 'Available'];
 
 
 
@@ -58,8 +59,8 @@ export class DashBoardComponent {
     { columnDef: 'assignTicket', header: 'assignTicket', cell: (element: any) => element['user']?.name ? 'Add Resource' : 'Assign User', isButton: true },
   ];
   pieChartData: number[] = [];
-  pieChartLabels: string[] = ["Resolved", "Assigned", "Pending", "In Progress", "Not Assigned"];
-  pieChartColors: string[] = ['blue', 'gray', 'yellow', 'green', 'red'];
+  pieChartLabels: string[] = ["Resolved", "Assigned", "Pending", "In Progress", "Not Assigned" , "Improper Requirment" ];
+  pieChartColors: string[] = ['blue', 'gray', 'yellow', 'green', 'red' , 'purple'];
   cities = ['New York', 'New Jersey', 'Los Angeles'];
   technology = ['React Saga', 'Angular', 'Python', 'Vue Js', 'JQuery']
   user: any;
@@ -78,10 +79,12 @@ export class DashBoardComponent {
   ticketDetails: any;
   assignUser: any;
   AssignedUser: any
-  todaysTickets: any = [];
-  resolvedTickets: any = [];
-  pendingTickets: any = [];
-  inprogressTickets: any = [];
+  todaysTickets: any =[];
+  resolvedTickets: any=[];
+  pendingTickets: any=[];
+  inprogressTickets: any=[];
+  statuschange: any;
+  requestticketForm: any;
   constructor(private chatservice: ChatService, private router: Router, private modalService: NgbModal, private fb: FormBuilder) {
     this.userForm = this.fb.group({
       fname: ['', Validators.required],
@@ -107,29 +110,28 @@ export class DashBoardComponent {
       targetDate: ['', Validators.required],
       description: ['', Validators.required],
     })
+    this.requestticketForm = this.fb.group({
+      request: ['', Validators.required],
+    })
   }
   ngOnInit() {
     this.chatservice.UserLoginData.subscribe((res: any) => {
+      console.log(res , 'admindetailssss');
       this.adminDetails = res;
-      console.log(this.adminDetails, "70::")
     })
     this.chatservice.getAllClients().subscribe((res: any) => {
-      console.log(res, '107:::::::::')
       this.clientData = res
     })
-    this.chatservice.getSocketData('chatRequest').subscribe((res) => {
-      console.log(res, '110')
+    this.chatservice.getSocketData('chatRequest').subscribe((res)=>{
       const message = `${res.sender.name} is Requisting to Chat with ${res.opponent.name}`;
       alert(message)
     })
-    this.chatservice.getSocketData('ticketsRequest').subscribe((res) => {
-      console.log(res, '110')
+    this.chatservice.getSocketData('ticketsRequest').subscribe((res)=>{
       const message = `${res.sender.name} is Requisting for ${res.client.name} Tickets`;
       alert(message)
     })
     this.chatservice.getAllTickets().subscribe((res: any) => {
-      this.ticketData = res;
-      console.log(this.ticketData, '113:::::::::::')
+      this.ticketData = res
       this.todaysTickets = this.ticketData.filter((val: any) => new Date(val.receivedDate).toLocaleDateString() === new Date().toLocaleDateString())
       this.resolvedTickets = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'resolved').length
       this.pendingTickets = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'pending').length
@@ -180,6 +182,28 @@ export class DashBoardComponent {
   }
   adminStatus() {
     this.isAdminStatus = !this.isAdminStatus
+   
+   changeStatus(data:any){
+   this.statuschange = data
+    // console.log(data , 'admin status')
+    const updatePayload = {
+      id: this.adminDetails._id,
+      data: {
+        status: this.statuschange
+      }
+    }
+    this.chatservice.sendSocketData({key : 'changeStatus' , data :updatePayload })
+    console.log(updatePayload , 'statuspayload')
+
+   }
+   updateAdminStatus(){
+    this.isAdminStatus = !this.isAdminStatus
+    // this.chatservice.changeStatusSocket({key : 'changeStatus'})
+    // const changestatus = {
+    //   id : this.adminDetails._id,
+    //   status : 
+    // }
+    
 
 
   }
@@ -256,6 +280,10 @@ export class DashBoardComponent {
     this.modelHeader = 'Add New Client'
     this.openPopup(this.clientModel)
   }
+  getAllRequest() {
+    this.modelHeader = 'request '
+    this.openPopup(this.requestTicketmodal)
+  }
   newClient(dismiss: any) {
     dismiss()
     const data = {
@@ -315,6 +343,10 @@ export class DashBoardComponent {
     dismiss()
     this.userForm.reset()
     this.clientForm.reset()
+  }
+  adminCancel(dismiss :any){
+    dismiss()
+
   }
 
   UserPage(dismiss: any) {
@@ -428,10 +460,34 @@ export class DashBoardComponent {
 
 
   }
-  ViewQequest() {
+
+
+
+  
+  ViewQequest(){
     this.router.navigate(['view-requestPage'])
   }
-}
+ 
+  adminMessage(dismiss:any){
+    console.log(this.requestticketForm.value , '463')
+    
+     this.chatservice.sendSocketData({key:'adminMessage',data:{sender:{id:this.adminDetails._id, name : this.adminDetails.firstName}, content : this.requestticketForm.value.request ,  time: this.chatservice.getFormattedTime(),
+     date: this.chatservice.getFormattedDate(new Date()), }})
+     dismiss();
+    
+      
+    }
+    // this.chatservice.sendSocketData({key:'requestChat',data:{user:{name:this.currentUser.firstName,id:this.currentUser._id},opponent:{name:this.SelectedUserdata.firstName,id:this.SelectedUserdata._id}}})
+    // this.chatservice.sendSocketData({key:'adminMessage',data:{sender:{id:this.adminDetails._id, name : this.adminDetails.firstName},content:{this.this.requestticketForm.value,}})
+
+    //  this.chatservice.sendSocketData({key : '' , data :adminMessagePayload })
+    // console.log(updatePayload , 'statuspayload')
+
+  
+  }
+  
+
+
 export interface Column {
   columnDef: string;
   header: string;

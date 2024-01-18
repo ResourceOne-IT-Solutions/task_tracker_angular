@@ -42,6 +42,8 @@ export class UserPageComponent implements OnInit {
     { columnDef: 'user', header: 'user name', cell: (element: any) => `${element['user'].name || '--'}`, isText: true },
     { columnDef: 'technology', header: 'Technology', cell: (element: any) => `${element['technology']}`, isText: true },
     { columnDef: 'description', header: 'Description', cell: (element: any) => `${element['description']}`, isText: true },
+    { columnDef: 'assignedDate', header: 'AssignedDate', cell: (element: any) => `${element['assignedDate']}`, isText: true },
+    { columnDef: 'closedDate', header: 'closedDate', cell: (element: any) => `${element['closedDate']}`, isText: true },
     { columnDef: 'comments', header: 'comments', cell: (element: any) => `${element['comments']}`, isText: true },
     { columnDef: 'receivedDate', header: 'receivedDate', cell: (element: any) => `${new Date(element['receivedDate']).toLocaleString()}`, isText: true },
     { columnDef: 'TicketRaised', header: 'Ticket Rise', cell: (element: any) => element === 'btn1' ? 'Update Ticket' : 'Request ticket', isMultiButton: true },
@@ -67,23 +69,30 @@ export class UserPageComponent implements OnInit {
   }
   ngOnInit(): void {
     this.chatservice.UserLoginData.subscribe((res:any)=>{
-      this.currentUser = res
+      this.currentUser = res;
+      console.log(this.currentUser , 'currentuser')
     })
     //AllUserList.....
     this.chatservice.getAllUsers().subscribe(res => {
       this.userList = res;
       console.log(this.userList,'UserList')
     })
+    this.chatservice.getSocketData('adminMessageToAll').subscribe(res => {
+      console.log(res , '79:::::::::::::')
+      alert('admin message recived ..')
+    })
   
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.UserData = res;
+      console.log(this.UserData , 'userData')
     })
     this.chatservice.getAllTickets().subscribe((res: any) => {
       console.log(res , 'getalltickets')
 
       this.userTickets = res.filter((item: any) =>
-        item.user.id === this.UserData._id
+        item.user.id === this.currentUser._id
       )
+      console.log(this.userTickets , '89::::::::')
       
       this.Resolved = this.userTickets.filter((val: any) => val.status == 'Resolved').length,
       this.Assigned = this.userTickets.filter((val: any) => val.status == 'Assigned').length,
@@ -96,7 +105,7 @@ export class UserPageComponent implements OnInit {
   }
   pieChart(resolved: any, assigned: any, pending: any, inprogress: any, helped: any, Improper: any) {
     console.log(this.inprogress, '9999')
-    new Chart('piechart', {
+    new Chart('piechartdemo', {
       type: 'pie',
       data: {
         labels: ["Resolved", "Assigned", "Pending", "InProgress", "HelpedTickets", "ImproperRequirement"],

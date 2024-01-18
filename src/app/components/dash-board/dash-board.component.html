@@ -1,3 +1,41 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Dropdown
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">Disabled</a>
+        </li>
+      </ul>
+      
+        <input class="form-control w-50 " type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+       <button class="btn btn-primary ms-3" (click)="updateAdminStatus()">Update Status</button>
+       
+       <button class="btn btn-danger ms-3" (click)="Logout()">LogOut</button>
+    
+    </div>
+ </nav>
 <div>
     <h1>Admin Page</h1>
     <!-- <div class="d-flex justify-content-flex-end">
@@ -8,23 +46,25 @@
             <button class="btn btn-danger" (click)="Logout()">LogOut</button>
         </div>
     </div> -->
-    <div class="logout-button">
-        <div>
-            <button class="btn btn-primary" (click)="adminStatus()">Update Status</button>
+    
+        
+
+        <!-- <div>
+            <button class="btn btn-primary" (click)="updateAdminStatus()">Update Status</button>
         </div>
     
         <div>
             <button class="btn btn-danger ms-3" (click)="Logout()">LogOut</button>
         </div>
+     -->
     
     
-    </div>
     <div class="admindrop" *ngIf="isAdminStatus">
         <div >
     
             <mat-form-field class="dropdown">
-                <mat-select placeholder="Update Status" (selectionChange)="selectChange($event.value)">
-                    <mat-option [value]="update" *ngFor="let update of susers">{{update}}</mat-option>
+                <mat-select placeholder="Update Status" (selectionChange)="changeStatus($event.value)">
+                    <mat-option [value]="update" *ngFor="let update of adminStatus">{{update}}</mat-option>
                 </mat-select>
     
             </mat-form-field>
@@ -51,6 +91,7 @@
                         <p>Date of Birth : {{adminDetails.dob}}</p>
                         <p>isAdmin : {{adminDetails.isAdmin}}</p>
                         <p>first name : {{adminDetails.firstName}}</p>
+                        <p>Status : {{adminDetails.status}}</p>
 
                     </div>
                     <div>
@@ -68,7 +109,7 @@
                 <div class="chart-legend">
                     <div class="grid-item" *ngFor="let label of pieChartLabels; let i = index">
                       <span [style.color]="pieChartColors[i]">&#9632;</span>
-                      {{label}}: {{pieChartData[i]}}
+                      {{label}}: {{pieChartData[i]}} 
                     </div>
                   </div>
                 <canvas id="pieChart">
@@ -106,6 +147,7 @@
         <button class="btn btn-primary m-2" (click)="openClientModel()">Add Client</button>
         <button class="btn btn-warning m-2" (click)="OpenChatBox()">Chat Box</button>
         <button class="btn btn-info m-2" (click)="ViewQequest()">View Request</button>
+        <button class="btn btn-info m-2" (click)="getAllRequest()">getAllRequest</button>
 
     </div>
 </div>
@@ -271,5 +313,20 @@
     <div class="modal-footer">
         <button class="btn btn-sm btn-primary" (click)="ticketAssign(d)">Assign</button>
         <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
+    </div>
+</ng-template>
+ <!-- requestTicket modal -->
+<ng-template #requestTicketmodal let-d="dismiss">
+    <div class="modal-header p-2 m-0">
+    </div>
+    <div class="modal-body m-2">
+        <form [formGroup]="requestticketForm">
+            <label class="ms-2">Request all</label>
+            <textarea class="form-control m-2" placeholder="description" formControlName="request"></textarea>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-sm btn-danger" (click)="adminCancel(d)">adminCancel</button>
+        <button class="btn btn-sm btn-primary" (click)="adminMessage(d)">Adminsend</button>
     </div>
 </ng-template>
