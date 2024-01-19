@@ -19,13 +19,11 @@ export class UserPageComponent implements OnInit {
   requestchat = false;
   isupdatestatus = false;
   Userstatus =true
-  // Userdata = true;
   susers = ['Offline', 'Busy', 'Available'];
   selectedstatus: any;
   date = new Date();
   @ViewChild('updateModel', { static: false }) updateModel: any;
   userstatus = ['In Progress', 'Pending', 'Resolved', 'Improper Requirment'];
-  // selectusers = ['user1', 'user2', 'user3',]
   UserData: any;
   userTickets: any = [];
   // selectedIndex:any
@@ -39,7 +37,6 @@ export class UserPageComponent implements OnInit {
   stepper: any;
   Improper: any;
   helpedTickets: any;
-  Status:any;
   ticketColumns: Array<Column> = [
     { columnDef: 'client', header: 'client Name', cell: (element: any) => `${element['client'].name}`, isText: true },
     { columnDef: 'user', header: 'user name', cell: (element: any) => `${element['user'].name || '--'}`, isText: true },
@@ -96,7 +93,6 @@ export class UserPageComponent implements OnInit {
       this.UserData = res;
       console.log(this.UserData , 'userData')
     })
-    this.Status = this.UserData.status
 
     this.chatservice.getAllTickets().subscribe((res: any) => {
       this.userTickets = res.filter((item: any) =>

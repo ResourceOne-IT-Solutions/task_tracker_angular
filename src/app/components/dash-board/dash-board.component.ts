@@ -20,7 +20,7 @@ export class DashBoardComponent {
   @ViewChild('requestTicketmodal', { static: false }) requestTicketmodal: any;
 
   isAdminStatus = false
-  adminStatus = ['Offline', 'Busy', 'Available'];
+
   phone: any;
   modelHeader: string = ''
   'userForm': FormGroup;
@@ -83,6 +83,8 @@ export class DashBoardComponent {
   statuschange: any;
   selectLocation: any = null;
   requestticketForm: any;
+  assignErr: any;
+  addNewUser: boolean=false;
   constructor(private chatservice: ChatService, private router: Router, private modalService: NgbModal, private fb: FormBuilder) {
     this.userForm = this.fb.group({
       fname: ['', Validators.required],
@@ -129,7 +131,7 @@ export class DashBoardComponent {
       alert(message)
     })
     this.chatservice.getSocketData('statusUpdate').subscribe((res) => {
-       this.adminDetails = res
+      this.adminDetails = res
     })
     this.chatservice.getSocketData('ticketsRequest').subscribe((res) => {
       const message = `${res.sender.name} is Requisting for ${res.client.name} Tickets`;
@@ -166,14 +168,8 @@ export class DashBoardComponent {
     })
   }
 
-  Logout() {
-    this.deleteCookie('token')
-    // this.chatservice.setCookie('token', '', 1)    
-    this.router.navigate(['/'])
-  }
-  deleteCookie(name: string) {
-    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC';
-  }
+ 
+ 
   openPopup(content: any): void {
     this.modalService.open(content);
   }
@@ -184,32 +180,13 @@ export class DashBoardComponent {
   selectChange(data: any) {
     console.log(data, 'admin status')
 
-  }
-
-  changeStatus(data: any) {
-    this.statuschange = data
-    // console.log(data , 'admin status')
-    const updatePayload = {
-      id: this.adminDetails._id, 
-      status: this.statuschange
-    }
-    this.chatservice.sendSocketData({ key: 'changeStatus', data: updatePayload })
-    console.log(updatePayload, 'statuspayload')
-  }
-  updateAdminStatus() {
-    this.isAdminStatus = !this.isAdminStatus
-    // this.chatservice.changeStatusSocket({key : 'changeStatus'})
-    // const changestatus = {
-    //   id : this.adminDetails._id,
-    //   status : 
-    // }
-
-  }
+  } 
 
   // user functions 
 
   openUserModel() {
     this.userForm.reset()
+    this.addNewUser = true
     this.modelHeader = 'Add New User'
     this.openPopup(this.userModel)
   }
@@ -233,11 +210,27 @@ export class DashBoardComponent {
   }
   updateUser(dismiss: any): void {
     console.log(this.userForm.value.isAdmin, this.userForm.value.isAdmin !== null, "userDetails")
+    const Data = {
+      firstName: this.userForm.value.fname,
+      lastName: this.userForm.value.lname,
+      email: this.userForm.value.email,
+      mobile: this.userForm.value.phone,
+      designation: this.userDetails.designation,
+    }
+    const payload = {
+      id: this.userDetails._id,
+      data: Data
+    }
+    this.chatservice.UpdateUsers(payload).subscribe((res: any) => {
+      this.userList = this.userList.map((element: any) => element._id === res._id ? res : element)
+
+    })
     dismiss();
     this.userForm.reset()
   }
 
   editUser(userData: any) {
+    this.addNewUser = false
     this.modelHeader = 'Update User'
     this.openPopup(this.userModel)
     console.log(userData)
@@ -376,6 +369,7 @@ export class DashBoardComponent {
   }
 
   assignTicket(ticket: any) {
+    this.assignErr =''
     this.ticketDetails = ticket
     this.assignUser = ticket.user?.name ? 'Assign Resource' : 'Assign User'
     this.AssignedUser = '';
@@ -383,7 +377,6 @@ export class DashBoardComponent {
     console.log(ticket, "ticket")
   }
   ticketAssign(dismiss: any) {
-    dismiss()
     console.log(this.AssignedUser, "assgined")
     if (this.assignUser == 'Assign User') {
       const payload = {
@@ -399,6 +392,8 @@ export class DashBoardComponent {
       console.log(payload, 'payload')
       this.chatservice.updateTicket(payload).subscribe((res: any) => {
         this.ticketData = this.ticketData.map((element: any) => element._id === res._id ? res : element)
+        dismiss()
+
       })
     } else if (this.assignUser == 'Assign Resource') {
       const payload = {
@@ -413,9 +408,10 @@ export class DashBoardComponent {
       console.log(payload, 'payload')
       this.chatservice.updateResuorce(payload).subscribe((res: any) => {
         this.ticketData = this.ticketData.map((element: any) => element._id === res._id ? res : element)
+        dismiss()
       }, (err: any) => {
         if (err) {
-          alert(err.error)
+          this.assignErr = err.error
         }
       })
     }
