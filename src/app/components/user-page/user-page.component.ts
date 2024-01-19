@@ -49,8 +49,8 @@ export class UserPageComponent implements OnInit {
     { columnDef: 'closedDate', header: 'Closed Date', cell: (element: any) => `${element['closedDate']}`, isText: true },
     { columnDef: 'comments', header: 'Comments', cell: (element: any) => `${element['comments']}`, isText: true },
     { columnDef: 'receivedDate', header: 'received Date', cell: (element: any) => `${new Date(element['receivedDate']).toLocaleString()}`, isText: true },
-    { columnDef: 'status', header: 'status', cell: (element: any) => `${element['status']}`, isText: true },
     { columnDef: 'targetDate', header: 'Target Date', cell: (element: any) => `${(element['targetDate'])}`, isText: true },
+    { columnDef: 'status', header: 'status', cell: (element: any) => `${element['status']}`, isText: true },
     { columnDef: 'TicketRaised', header: 'Ticket Rise', cell: (element: any) => element === 'btn1' ? 'Update Ticket' : 'Request ticket', isMultiButton: true },
   ];
 
