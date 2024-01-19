@@ -23,7 +23,6 @@
                     </ngx-spinner>
                     <div [ngClass]="user?.phone === selectedUser?.phone ? 'active' : ''"
                         *ngFor="let user of UserListData">
-
                         <div class="user-card" (click)="SelectUser(user)">
                             <div class="Img_Details">
                                 <img *ngIf="user.profileImageUrl" src={{user.profileImageUrl}} class="avatar" />
