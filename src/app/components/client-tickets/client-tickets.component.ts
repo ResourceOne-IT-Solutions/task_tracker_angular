@@ -26,9 +26,9 @@ export class ClientTicketsComponent implements OnInit {
   }
 
   clientColumns: Array<Column> = [
-    { columnDef: 'user', header: 'User name', cell: (element: any) => `${element['user'].name}`, isText: true },
+    { columnDef: 'user', header: 'User Name', cell: (element: any) => `${element['user'].name}`, isText: true },
     { columnDef: 'client', header: 'client Name', cell: (element: any) => `${element['client'].name}`, isText: true },
-    { columnDef: 'addOnResource', header: 'addOnResource', cell: (element: any) => `${element['addOnResource']?.map((res: any) => res.name)?.toString() || '--'}`, isText: true },
+    { columnDef: 'addOnResource', header: 'Held By', cell: (element: any) => `${element['addOnResource']?.map((res: any) => res.name)?.toString() || '--'}`, isText: true },
     { columnDef: 'description', header: 'Description', cell: (element: any) => `${element['description']}`, isText: true },
     { columnDef: 'technology', header: 'Technology', cell: (element: any) => `${element['technology']}`, isText: true },
     { columnDef: 'status', header: 'Status', cell: (element: any) => `${element['status']}`, isText: true },
