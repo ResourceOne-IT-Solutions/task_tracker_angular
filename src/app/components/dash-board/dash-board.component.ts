@@ -188,7 +188,6 @@ export class DashBoardComponent {
       }
       this.chatservice.sendSocketData({ key: 'changeStatus', data: updatePayload })
       console.log(updatePayload, 'statuspayload')
-
     }
     updateAdminStatus(){
       this.isAdminStatus = !this.isAdminStatus
