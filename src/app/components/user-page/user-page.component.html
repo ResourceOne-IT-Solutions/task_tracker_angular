@@ -1,4 +1,5 @@
 
+
 <div class="Container">
     <div class="userinfo">
         <img src="{{UserData.profileImageUrl}}" alt="">
@@ -42,6 +43,7 @@
                 <p>Email : {{UserData.email}}</p>
                 <p>Phone : {{UserData.mobile}}</p>
                 <p>Role : {{UserData.designation}}</p>
+                <p>Status :{{UserData.status}}</p>
                 <div>
                     <button class="btn btn-info" (click)="requestChat()">Request Chat with User</button>
                 </div>
@@ -74,6 +76,7 @@
         </div>
     </div>
 </div>
+
 <app-table
 [data]="userTickets"
 [tableColumns]="ticketColumns"
@@ -91,8 +94,11 @@
             <div class="col-md-12">
                 <div class="form-group" [formGroup]="updateForm">
                     <h3 class="fw-medium">Client Name : {{clientDetails.client.name}}</h3>
+                    <label for="">Description</label>
                     <input type="text" placeholder="description" class="form-control m-2" formControlName="description">
-                    <input type="text" placeholder="comments" class="form-control m-2" formControlName="comments">
+                    <!-- <input type="text" placeholder="comments" class="form-control m-2" formControlName="comments"> -->
+                    <label for="">Comments</label>
+                    <textarea  class="comments" cols="65" rows="5" formControlName="comments"></textarea>
                     <select class="form-control m-2" formControlName="status">
                         <option value="" disabled selected class="hide">Select Status</option>
                         <option *ngFor="let status of userstatus" [value]="status">{{status}}</option>
@@ -103,6 +109,6 @@
     </div>
     <div class="modal-footer">
         <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
-        <button class="btn btn-sm btn-primary" (click)="updateUser(d)">Update</button>
+        <button class="btn btn-sm btn-primary" (click)="updateUser(d)">Update #@@</button>
     </div>
 </ng-template>
