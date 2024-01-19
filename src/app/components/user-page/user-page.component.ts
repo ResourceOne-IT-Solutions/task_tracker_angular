@@ -208,7 +208,6 @@ export class UserPageComponent implements OnInit {
   changeStatus(data: any) {
     this.statuschange = data.target.value;
     console.log(this.statuschange , 'dropdownvalues........')
-    this.Status = this.statuschange;
     const updateUserPayload = {
       id: this.UserData._id,
       status: this.statuschange
