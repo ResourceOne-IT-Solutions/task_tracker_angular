@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output, SimpleChanges, ViewChild } from
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { tap } from 'rxjs';
 import { Column } from 'src/app/components/dash-board/dash-board.component';
 @Component({
@@ -20,8 +21,12 @@ export class TableComponent {
   @Output() secondBtnClick = new EventEmitter();
   @Output() clientnameClick = new EventEmitter();
   @Output() userDetails = new EventEmitter()
-
+  constructor(private loader: NgxSpinnerService) { }
   ngOnInit() {
+    this.loader.show()
+    setTimeout(() => {
+      this.loader.hide()
+    }, 500);
     this.displayedColumns = this.tableColumns.map((c) => c.columnDef);
     this.dataSource = new MatTableDataSource(this.data);
   }
@@ -40,10 +45,10 @@ export class TableComponent {
   btn2Click(data: any) {
     this.secondBtnClick.emit(data)
   }
-  clientNameClick(data:any){
+  clientNameClick(data: any) {
     this.clientnameClick.emit(data)
   }
-  openUserDetails(userDetails:any) {
+  openUserDetails(userDetails: any) {
     this.userDetails.emit(userDetails)
   }
 }

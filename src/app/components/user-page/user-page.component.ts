@@ -19,13 +19,11 @@ export class UserPageComponent implements OnInit {
   requestchat = false;
   isupdatestatus = false;
   Userstatus =true
-  // Userdata = true;
   susers = ['Offline', 'Busy', 'Available'];
   selectedstatus: any;
   date = new Date();
   @ViewChild('updateModel', { static: false }) updateModel: any;
   userstatus = ['In Progress', 'Pending', 'Resolved', 'Improper Requirment'];
-  // selectusers = ['user1', 'user2', 'user3',]
   UserData: any;
   userTickets: any = [];
   modelHeader: string = ''
@@ -38,7 +36,6 @@ export class UserPageComponent implements OnInit {
   stepper: any;
   Improper: any;
   helpedTickets: any;
-  Status:any;
   ticketColumns: Array<Column> = [
     { columnDef: 'client', header: 'client name', cell: (element: any) => `${element['client'].name}`, isText: true },
     { columnDef: 'status', header: 'status', cell: (element: any) => `${element['status']}`, isText: true },
@@ -94,7 +91,6 @@ export class UserPageComponent implements OnInit {
       this.UserData = res;
       console.log(this.UserData , 'userData')
     })
-    this.Status = this.UserData.status
 
     this.chatservice.getAllTickets().subscribe((res: any) => {
       console.log(res , 'getalltickets')
@@ -207,22 +203,6 @@ export class UserPageComponent implements OnInit {
 
   changeStatus(data: any) {
     this.statuschange = data;
-    // this.Userstatus =false;
-    this.Status = this.statuschange;
-    // this.Userdata = false;
-    // this.UserData = this.UserData.status =''
-    // console.log( this.Status,11,data , '1999:::::::::::::',this.UserData)
-    // const updatepayload = {
-    //   id: this.UserData._id,
-    //   data: {
-    //     status: this.statuschange
-    //   }
-    // }
-    // this.chatservice.sendSocketData({key : ''})
-    // this.chatservice.UpdateUsers(updatepayload).subscribe((res: any) => {
-    //   console.log(res, 'resssssssss::::::::')
-    //   this.isupdatestatus = !this.isupdatestatus;
-    // })
     const updateAdminPayload = {
       id: this.UserData._id,
       status: this.statuschange
