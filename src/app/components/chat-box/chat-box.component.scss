@@ -101,7 +101,9 @@
         justify-content: flex-start;
         align-items: center;
         color: #fff;
-
+        .back{
+            background: none;
+        }
         .avatar {
             height: 30px;
             width: 30px;
