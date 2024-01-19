@@ -31,6 +31,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { ClientTicketsComponent } from './components/client-tickets/client-tickets.component';
 import { ViewRequestPageComponent } from './components/view-request-page/view-request-page.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,6 +46,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     TicketsComponent,
     ClientTicketsComponent,
     ViewRequestPageComponent,
+    NavBarComponent
   ],
   imports: [
     BrowserModule,

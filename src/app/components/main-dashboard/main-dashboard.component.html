@@ -1,5 +1,5 @@
 <div *ngIf="isAdmin$ | async as isAdmin" >
-    <app-user-page *ngIf = "!isAdmin.isAdmin"></app-user-page>
-    
+    <app-nav-bar [userDetails]="isAdmin" [isAdmin]="isAdmin.isAdmin"></app-nav-bar>
+    <app-user-page *ngIf = "!isAdmin.isAdmin"></app-user-page>   
     <app-dash-board *ngIf="isAdmin.isAdmin"></app-dash-board>
 </div>
