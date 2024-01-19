@@ -185,6 +185,7 @@ export class DashBoardComponent {
     console.log(data, 'admin status')
 
   }
+
   changeStatus(data: any) {
     this.statuschange = data
     // console.log(data , 'admin status')
@@ -194,7 +195,6 @@ export class DashBoardComponent {
     }
     this.chatservice.sendSocketData({ key: 'changeStatus', data: updatePayload })
     console.log(updatePayload, 'statuspayload')
-
   }
   updateAdminStatus() {
     this.isAdminStatus = !this.isAdminStatus
