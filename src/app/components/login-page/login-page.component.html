@@ -17,9 +17,8 @@
                 <input type="text" name="userName" id="userName" formControlName="userId" placeholder='UserId'>
             </div>
             <div class="form-field d-flex align-items-center">
-
-                <input [type]="password"" name="password" id="pwd" formControlName="password" (keyup.enter)="AdminLogin()" placeholder="Password">
-                <button (click)="onClick()">
+                <input [type]="password" name="password" id="pwd" formControlName="password" (keyup.enter)="AdminLogin()" placeholder="Password" />
+                <button>
                     <i class="fa fa-eye" aria-hidden="true" *ngIf="!show"></i>
                     <i class="fa fa-eye-slash" aria-hidden="true" *ngIf="show"></i>
                   </button>

@@ -24,9 +24,10 @@ export class ChatService {
   }
   BE_SERVER = "https://task-tracker-server-2njm.onrender.com"
   BE_LOCAL = 'http://192.168.10.30:1234';
-  BE_URL = this.BE_LOCAL
+  BE_LOCAL2 = 'http://192.168.29.109:1234'
+  BE_URL = this.BE_SERVER
   constructor(private http: HttpClient) { 
-    this.socket = io(this.BE_LOCAL, { transports: ['websocket', 'polling', 'flashsocket'] });
+    this.socket = io(this.BE_URL, { transports: ['websocket', 'polling', 'flashsocket'] });
   }
   getUserData(data: any) {
     return this.http.post(this.BE_URL + '/login', data)
@@ -114,6 +115,40 @@ export class ChatService {
     console.log('hello',data)
     this.socket.emit(data.key, data.data)
   }
+  // changeStatusSocket(data:any){
+  //   console.log('statussocket' , data)
+  //   this.socket.emit(data.key, data.data)
+
+  // }
+
+  /// time 
+  getFormattedTime() {
+    const d = new Date().toLocaleString().split(" ")
+    const t = d[1].slice(0, -3)
+    return t + " " + d[2]
+  }
+  // date
+  getFormattedDate(date: Date, format?: any) {
+    // const date = new Date()
+    const year = date.getFullYear()
+    let month = (1 + date.getMonth()).toString()
+    month = month.length > 1 ? month : "0" + month
+    let day = date.getDate().toString()
+    day = day.length > 1 ? day : "0" + day
+    switch (format) {
+      case 'dd/mm/yyyy': {
+        return `${day}/${month}/${year}`
+      }
+      case 'yyyy/mm/dd': {
+        return `${year}/${month}/${day}`
+      }
+      default: {
+        return `${month}/${day}/${year}`
+      }
+    }
+  }
+
+  
   getSocketData(eventName:any): Observable<any> {
     console.log('1077777777',eventName)
     return new Observable<{

@@ -17,12 +17,10 @@ export class DashBoardComponent {
   @ViewChild('userDetailsModel', { static: false }) userDetailsModel: any;
   @ViewChild('ticketModel', { static: false }) ticketModel: any;
   @ViewChild('assignTicketModel', { static: false }) assignTicketModel: any;
+  @ViewChild('requestTicketmodal', { static: false }) requestTicketmodal: any;
 
   isAdminStatus = false
-  susers = ['Offline', 'Busy', 'Available'];
-
-
-
+  adminStatus = ['Offline', 'Busy', 'Available'];
   phone: any;
   modelHeader: string = ''
   'userForm': FormGroup;
@@ -58,8 +56,8 @@ export class DashBoardComponent {
     { columnDef: 'assignTicket', header: 'assignTicket', cell: (element: any) => element['user']?.name ? 'Add Resource' : 'Assign User', isButton: true },
   ];
   pieChartData: number[] = [];
-  pieChartLabels: string[] = ["Resolved", "Assigned", "Pending", "In Progress", "Not Assigned"];
-  pieChartColors: string[] = ['blue', 'gray', 'yellow', 'green', 'red'];
+  pieChartLabels: string[] = ["Resolved", "Assigned", "Pending", "In Progress", "Not Assigned", "Improper Requirment"];
+  pieChartColors: string[] = ['blue', 'gray', 'yellow', 'green', 'red', 'purple'];
   cities = ['New York', 'New Jersey', 'Los Angeles'];
   technology = ['React Saga', 'Angular', 'Python', 'Vue Js', 'JQuery']
   user: any;
@@ -78,10 +76,12 @@ export class DashBoardComponent {
   ticketDetails: any;
   assignUser: any;
   AssignedUser: any
-  todaysTickets: any =[];
-  resolvedTickets: any=[];
-  pendingTickets: any=[];
-  inprogressTickets: any=[];
+  todaysTickets: any = [];
+  resolvedTickets: any = [];
+  pendingTickets: any = [];
+  inprogressTickets: any = [];
+  statuschange: any;
+  requestticketForm: any;
   constructor(private chatservice: ChatService, private router: Router, private modalService: NgbModal, private fb: FormBuilder) {
     this.userForm = this.fb.group({
       fname: ['', Validators.required],
@@ -89,7 +89,7 @@ export class DashBoardComponent {
       email: ['', Validators.required],
       phone: ['', Validators.required],
       dob: ['', Validators.required],
-      isAdmin: ['', Validators.required]
+      isAdmin: [false]
     })
     this.clientForm = this.fb.group({
       name: ['', Validators.required],
@@ -107,38 +107,37 @@ export class DashBoardComponent {
       targetDate: ['', Validators.required],
       description: ['', Validators.required],
     })
+    this.requestticketForm = this.fb.group({
+      request: ['', Validators.required],
+    })
   }
   ngOnInit() {
     this.chatservice.UserLoginData.subscribe((res: any) => {
+      console.log(res, 'admindetailssss');
       this.adminDetails = res;
-      console.log(this.adminDetails, "70::")
     })
     this.chatservice.getAllClients().subscribe((res: any) => {
-      console.log(res , '107:::::::::')
       this.clientData = res
     })
-    this.chatservice.getSocketData('chatRequest').subscribe((res)=>{
-      console.log(res,'110')
+    this.chatservice.getSocketData('chatRequest').subscribe((res) => {
       const message = `${res.sender.name} is Requisting to Chat with ${res.opponent.name}`;
       alert(message)
     })
-    this.chatservice.getSocketData('ticketsRequest').subscribe((res)=>{
-      console.log(res,'110')
+    this.chatservice.getSocketData('ticketsRequest').subscribe((res) => {
       const message = `${res.sender.name} is Requisting for ${res.client.name} Tickets`;
       alert(message)
     })
     this.chatservice.getAllTickets().subscribe((res: any) => {
-      this.ticketData = res;
-      console.log(this.ticketData , '113:::::::::::')
-      this.todaysTickets = this.ticketData.filter((val :any)=>  new Date(val.receivedDate).toLocaleDateString() === new Date().toLocaleDateString()) 
+      this.ticketData = res
+      this.todaysTickets = this.ticketData.filter((val: any) => new Date(val.receivedDate).toLocaleDateString() === new Date().toLocaleDateString())
       this.resolvedTickets = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'resolved').length
       this.pendingTickets = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'pending').length
       this.inprogressTickets = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'in progress' || val.status.toLowerCase() == 'in progess').length
       const assigned = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'assigned').length
       const improper = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'Improper Requirment').length
       const notAssigned = this.ticketData.filter((val: any) => val.status.toLowerCase() == 'not assigned').length
-     console.log(improper,'000000')
-      this.pieChart(this.resolvedTickets, assigned, this.pendingTickets, this.inprogressTickets, notAssigned , improper)
+      console.log(improper, '000000')
+      this.pieChart(this.resolvedTickets, assigned, this.pendingTickets, this.inprogressTickets, notAssigned, improper)
 
     })
     this.technologies = [
@@ -171,267 +170,298 @@ export class DashBoardComponent {
     this.modalService.open(content);
   }
 
-   /// admin status
+  /// admin status
 
-   
-   selectChange(data:any){
-    console.log(data , 'admin status')
 
-   }
-   adminStatus(){
-    this.isAdminStatus = !this.isAdminStatus
-    
+  selectChange(data: any) {
+    console.log(data, 'admin status')
 
-   }
-
-  // user functions 
-
-  openUserModel() {
-    this.userForm.reset()
-    this.modelHeader = 'Add New User'
-    this.openPopup(this.userModel)
   }
-  addUser(dismiss: any): void {
-    console.log(this.userForm.value.isAdmin, this.userForm.value.isAdmin !== null, "isAdmin", this.userDetails)
-    const Data = {
-      firstName: this.userForm.value.fname,
-      lastName: this.userForm.value.lname,
-      email: this.userForm.value.email,
-      mobile: this.userForm.value.phone,
-      password: `${this.userForm.value.fname}@123`,
-      joinedDate: this.userForm.value.dob,
-      dob: this.userForm.value.dob,
-      isAdmin: this.userForm.value.isAdmin,
-      designation: 'angular',
-      profileImageUrl: '',
+    changeStatus(data: any){
+      this.statuschange = data
+      // console.log(data , 'admin status')
+      const updatePayload = {
+        id: this.adminDetails._id,
+        data: {
+          status: this.statuschange
+        }
+      }
+      this.chatservice.sendSocketData({ key: 'changeStatus', data: updatePayload })
+      console.log(updatePayload, 'statuspayload')
+
     }
+    updateAdminStatus(){
+      this.isAdminStatus = !this.isAdminStatus
+      // this.chatservice.changeStatusSocket({key : 'changeStatus'})
+      // const changestatus = {
+      //   id : this.adminDetails._id,
+      //   status : 
+      // }
+
+
+
+    }
+
+    // user functions 
+
+    openUserModel() {
+      this.userForm.reset()
+      this.modelHeader = 'Add New User'
+      this.openPopup(this.userModel)
+    }
+    addUser(dismiss: any): void {
+      const Data = {
+        firstName: this.userForm.value.fname,
+        lastName: this.userForm.value.lname,
+        email: this.userForm.value.email,
+        mobile: this.userForm.value.phone,
+        password: `${this.userForm.value.fname}@123`,
+        joinedDate: this.userForm.value.dob,
+        dob: this.userForm.value.dob,
+        isAdmin: this.userForm.value.isAdmin !== null,
+        designation: 'angular',
+        profileImageUrl: '',
+      }
+    console.log(Data, 'payload')
     this.chatservice.AddNewUsers(Data).subscribe(res => console.log(res,))
     dismiss();
     this.userForm.reset();
-  }
-  updateUser(dismiss: any): void {
-    console.log(this.userForm.value.isAdmin, this.userForm.value.isAdmin !== null, "userDetails")
+    }
+    updateUser(dismiss: any): void {
+      console.log(this.userForm.value.isAdmin, this.userForm.value.isAdmin !== null, "userDetails")
     dismiss();
-    const Data = {
-      firstName: this.userForm.value.fname,
-      lastName: this.userForm.value.lname,
-      email: this.userForm.value.email,
-      mobile: this.userForm.value.phone,
-      userId: this.userDetails.userId,
-      password: this.userDetails.password,
-      joinedDate: this.userForm.value.dob,
-      dob: this.userForm.value.dob,
-      isAdmin: this.userDetails.isAdmin,
-      designation: this.userDetails.designation,
-      profileImageUrl: this.userDetails.profileImageUrl,
-    }
-    const payload = {
-      id: this.userDetails._id,
-      data: Data
-    }
-    this.chatservice.UpdateUsers(payload).subscribe((res: any) => {
-      this.clientData = this.clientData.map((element: any) => element._id === res._id ? res : element)
-
-    })
+    
     this.userForm.reset()
-  }
-  editUser(userData: any) {
-    this.modelHeader = 'Update User'
-    this.openPopup(this.userModel)
-    console.log(userData)
-    this.userForm.patchValue({
-      fname: userData.firstName,
-      lname: userData.lastName,
-      email: userData.email,
-      phone: userData.mobile,
-      dob: new Date(userData.dob).toISOString().split('T')[0]
-    })
-    this.userDetails = userData
-  }
-
-
-  // client functions 
-
-  openClientModel() {
-    this.modelHeader = 'Add New Client'
-    this.openPopup(this.clientModel)
-  }
-  newClient(dismiss: any) {
-    dismiss()
-    const data = {
-      firstName: this.clientForm.value.name,
-      email: this.clientForm.value.email,
-      mobile: this.clientForm.value.mobile,
-      location: { area: this.clientForm.value.location, zone: 'EST' },
-      companyName: this.clientForm.value.companyName,
-      technology: this.clientForm.value.technologies,
-      applicationType: this.clientForm.value.applicationType
     }
-    this.chatservice.AddNewClient(data).subscribe(res => console.log(res, 'new client res'))
-  }
-  updateClient(dismiss: any) {
-    dismiss()
-    const data = {
-      mobile: this.clientForm.value.mobile,
-      location: { area: this.clientForm.value.location, zone: 'EST' },
-      companyName: this.clientForm.value.companyName,
-      technology: this.clientForm.value.technologies,
-    }
-    console.log(data, this.clientDetails, this.clientForm.value, "client update1")
-    const payload = {
-      id: this.clientDetails._id,
-      data: data
-    }
-    console.log(data, "playload")
-    this.chatservice.updateClient(payload).subscribe((res: any) => {
-      console.log(res, "client update")
-      this.clientData = this.clientData.map((element: any) => element._id === res._id ? res : element)
-      console.log(this.clientData, "updating client")
-    })
-  }
-  editClient(clientDetails: any) {
-    this.modelHeader = 'Update Client'
-    this.openPopup(this.clientModel)
-    this.clientDetails = clientDetails
-    this.clientForm.patchValue({
-      name: clientDetails.firstName,
-      location: clientDetails.location.area,
-      mobile: clientDetails.mobile,
-      technologies: clientDetails.technology,
-      email: clientDetails.email,
-      companyName: clientDetails.companyName,
-      applicationType: clientDetails.applicationType
-    })
-  }
-
-  openUserDetails(userDetails: any) {
-    this.userModelData = userDetails
-    if (this.userModelData && this.userModelData?.email) {
-      this.chatservice.UserLogin(userDetails)
-      this.modalService.open(this.userDetailsModel)
-    }
-  }
-  cancel(dismiss: any) {
-    dismiss()
-    this.userForm.reset()
-    this.clientForm.reset()
-  }
-
-  UserPage(dismiss: any) {
-    dismiss()
-    this.router.navigate(['/User-page'])
-  }
-
-  // ticket functions
-  createTicket(dismiss: any) {
-    console.log(this.TicketCreationForm.value, "create ticket")
-    if (this.TicketCreationForm.valid) {
-      const payload = {
-        client: {
-          name: this.TicketCreationForm.value.client.firstName,
-          id: this.TicketCreationForm.value.client._id,
-          mobile: this.TicketCreationForm.value.client.mobile
-        },
-        user: {
-          name: '',
-          id: ''
-        },
-        technology: this.TicketCreationForm.value.technologies,
-        description: this.TicketCreationForm.value.description,
-        targetDate: this.TicketCreationForm.value.targetDate
-      }
-      this.chatservice.createNewTicket(payload).subscribe((res: any) => console.log(res, "created ticket"))
-    }
-    dismiss()
-    this.TicketCreationForm.reset()
-  }
-
-  OpenTicketModel() {
-    this.modalService.open(this.ticketModel)
-  }
-  validateNumberLength(control: AbstractControl): { [key: string]: boolean } | null {
-    if (control.value && control.value.toString().length > 10) {
-      return { 'maxLengthExceeded': true };
-    }
-    return null;
-  }
-
-  assignTicket(ticket: any) {
-    this.ticketDetails = ticket
-    this.assignUser = ticket.user?.name ? 'Assign Resource' : 'Assign User'
-    this.modalService.open(this.assignTicketModel)
-    console.log(ticket, "ticket")
-  }
-  ticketAssign(dismiss: any) {
-    dismiss()
-    console.log(this.AssignedUser, "assgined")
-    if (this.assignUser == 'Assign User') {
-      const payload = {
-        id: this.ticketDetails._id,
-        data: {
-          user: {
-            name: this.AssignedUser.firstName + ' ' + this.AssignedUser.lastName,
-            id: this.AssignedUser._id
-          },
-          status: 'Assigned'
-        }
-      }
-      console.log(payload, 'payload')
-      this.chatservice.updateTicket(payload).subscribe((res:any) => {
-        this.ticketData = this.ticketData.map((element: any) => element._id === res._id ? res : element)
+   
+    editUser(userData: any) {
+      this.modelHeader = 'Update User'
+      this.openPopup(this.userModel)
+      console.log(userData)
+      this.userForm.patchValue({
+        fname: userData.firstName,
+        lname: userData.lastName,
+        email: userData.email,
+        phone: userData.mobile,
+        dob: new Date(userData.dob).toISOString().split('T')[0]
       })
-    } else if (this.assignUser == 'Assign Resource') {
+      this.userDetails = userData
+    }
+    
+
+    // client functions 
+
+    openClientModel() {
+      this.modelHeader = 'Add New Client'
+      this.openPopup(this.clientModel)
+    }
+    sendMessageToAll() {
+      this.modelHeader = 'request '
+      this.openPopup(this.requestTicketmodal)
+    }
+    newClient(dismiss: any) {
+      dismiss()
+      const data = {
+        firstName: this.clientForm.value.name,
+        email: this.clientForm.value.email,
+        mobile: this.clientForm.value.mobile,
+        location: { area: this.clientForm.value.location, zone: 'EST' },
+        companyName: this.clientForm.value.companyName,
+        technology: this.clientForm.value.technologies,
+        applicationType: this.clientForm.value.applicationType
+      }
+      this.chatservice.AddNewClient(data).subscribe(res => console.log(res, 'new client res'))
+    }
+    updateClient(dismiss: any) {
+      dismiss()
+      const data = {
+        mobile: this.clientForm.value.mobile,
+        location: { area: this.clientForm.value.location, zone: 'EST' },
+        companyName: this.clientForm.value.companyName,
+        technology: this.clientForm.value.technologies,
+      }
+      console.log(data, this.clientDetails, this.clientForm.value, "client update1")
       const payload = {
-        id: this.ticketDetails._id,
-        data: {
-          addOnResource: {
-            name: this.AssignedUser.firstName + ' ' + this.AssignedUser.lastName,
-            id: this.AssignedUser._id
+        id: this.clientDetails._id,
+        data: data
+      }
+      console.log(data, "playload")
+      this.chatservice.updateClient(payload).subscribe((res: any) => {
+        console.log(res, "client update")
+        this.clientData = this.clientData.map((element: any) => element._id === res._id ? res : element)
+        console.log(this.clientData, "updating client")
+      })
+    }
+    editClient(clientDetails: any) {
+      this.modelHeader = 'Update Client'
+      this.openPopup(this.clientModel)
+      this.clientDetails = clientDetails
+      this.clientForm.patchValue({
+        name: clientDetails.firstName,
+        location: clientDetails.location.area,
+        mobile: clientDetails.mobile,
+        technologies: clientDetails.technology,
+        email: clientDetails.email,
+        companyName: clientDetails.companyName,
+        applicationType: clientDetails.applicationType
+      })
+    }
+
+    openUserDetails(userDetails: any) {
+      this.userModelData = userDetails
+      if (this.userModelData && this.userModelData?.email) {
+        this.chatservice.UserLogin(userDetails)
+        this.modalService.open(this.userDetailsModel)
+      }
+    }
+    cancel(dismiss: any) {
+      dismiss()
+      this.userForm.reset()
+      this.clientForm.reset()
+    }
+    adminCancel(dismiss : any){
+      dismiss()
+
+    }
+
+    UserPage(dismiss: any) {
+      dismiss()
+      this.router.navigate(['/User-page'])
+    }
+
+    // ticket functions
+    createTicket(dismiss: any) {
+      console.log(this.TicketCreationForm.value, "create ticket")
+      if (this.TicketCreationForm.valid) {
+        const payload = {
+          client: {
+            name: this.TicketCreationForm.value.client.firstName,
+            id: this.TicketCreationForm.value.client._id,
+            mobile: this.TicketCreationForm.value.client.mobile
+          },
+          user: {
+            name: '',
+            id: ''
+          },
+          technology: this.TicketCreationForm.value.technologies,
+          description: this.TicketCreationForm.value.description,
+          targetDate: this.TicketCreationForm.value.targetDate
+        }
+        this.chatservice.createNewTicket(payload).subscribe((res: any) => console.log(res, "created ticket"))
+      }
+      this.TicketCreationForm.reset()
+      dismiss()
+    }
+
+    OpenTicketModel() {
+      this.modalService.open(this.ticketModel)
+    }
+    validateNumberLength(control: AbstractControl) {
+      if (control.value && control.value.toString().length > 10) {
+        return { 'maxLengthExceeded': true };
+      }
+      return null;
+    }
+
+    assignTicket(ticket: any) {
+      this.ticketDetails = ticket
+      this.assignUser = ticket.user?.name ? 'Assign Resource' : 'Assign User'
+      this.modalService.open(this.assignTicketModel)
+      console.log(ticket, "ticket")
+    }
+    ticketAssign(dismiss: any) {
+      dismiss()
+      console.log(this.AssignedUser, "assgined")
+      if (this.assignUser == 'Assign User') {
+        const payload = {
+          id: this.ticketDetails._id,
+          data: {
+            user: {
+              name: this.AssignedUser.firstName + ' ' + this.AssignedUser.lastName,
+              id: this.AssignedUser._id
+            },
+            status: 'Assigned'
           }
         }
+        console.log(payload, 'payload')
+        this.chatservice.updateTicket(payload).subscribe((res: any) => {
+          this.ticketData = this.ticketData.map((element: any) => element._id === res._id ? res : element)
+        })
+      } else if (this.assignUser == 'Assign Resource') {
+        const payload = {
+          id: this.ticketDetails._id,
+          data: {
+            addOnResource: {
+              name: this.AssignedUser.firstName + ' ' + this.AssignedUser.lastName,
+              id: this.AssignedUser._id
+            }
+          }
+        }
+        console.log(payload, 'payload')
+        this.chatservice.updateResuorce(payload).subscribe((res: any) => {
+          this.ticketData = this.ticketData.map((element: any) => element._id === res._id ? res : element)
+        })
       }
-      console.log(payload, 'payload')
-      this.chatservice.updateResuorce(payload).subscribe((res:any) => {
-        this.ticketData = this.ticketData.map((element: any) => element._id === res._id ? res : element)
-      } )
     }
-  }
-  // tickets piechart 
-  pieChart(resolved: any, assigned: any, pending: any, inprogress: any, notAssigned: any , improper:any ) {
-    this.pieChartData = [resolved , assigned , pending , inprogress , notAssigned , improper]
-   new Chart('pieChart', {
-    type: 'pie',
-    data: {
-      labels: this.pieChartLabels,
-      datasets: [{
-        label: '',
-        data: this.pieChartData,
-        backgroundColor: this.pieChartColors,
-      }]
-    },
-    options: {
-      plugins: {
-        legend: {
-          display: false,
+    // tickets piechart 
+    pieChart(resolved: any, assigned: any, pending: any, inprogress: any, notAssigned: any, improper: any) {
+      this.pieChartData = [resolved, assigned, pending, inprogress, notAssigned, improper]
+      new Chart('pieChart', {
+        type: 'pie',
+        data: {
+          labels: this.pieChartLabels,
+          datasets: [{
+            label: '',
+            data: this.pieChartData,
+            backgroundColor: this.pieChartColors,
+          }]
         },
-      },
-    },
-  });
-  }
+        options: {
+          plugins: {
+            legend: {
+              display: false,
+            },
+          },
+        },
+      });
+    }
 
-  OpenChatBox(){
-    this.router.navigate(['Chat-Box'])
+    OpenChatBox() {
+      this.router.navigate(['Chat-Box'])
+    }
+    routeToClientTickets(data: any) {
+      this.router.navigate(['/client-tickets']);
+      this.chatservice.getTicketId(data)
+    }
+
+    ViewQequest(){
+      this.router.navigate(['view-requestPage'])
+    }
+
+    adminMessage(dismiss: any){
+      console.log(this.requestticketForm.value, '463')
+
+      this.chatservice.sendSocketData({
+        key: 'adminMessage', data: {
+          sender: { id: this.adminDetails._id, name: this.adminDetails.firstName }, content: this.requestticketForm.value.request, time: this.chatservice.getFormattedTime(),
+          date: this.chatservice.getFormattedDate(new Date()),
+        }
+      })
+      dismiss();
+
+
+    }
+    // this.chatservice.sendSocketData({key:'requestChat',data:{user:{name:this.currentUser.firstName,id:this.currentUser._id},opponent:{name:this.SelectedUserdata.firstName,id:this.SelectedUserdata._id}}})
+    // this.chatservice.sendSocketData({key:'adminMessage',data:{sender:{id:this.adminDetails._id, name : this.adminDetails.firstName},content:{this.this.requestticketForm.value,}})
+
+    //  this.chatservice.sendSocketData({key : '' , data :adminMessagePayload })
+    // console.log(updatePayload , 'statuspayload')
+
+
   }
-  routeToClientTickets(data:any){
-    this.router.navigate(['/client-tickets']);
-    this.chatservice.getTicketId(data)
   
 
-  }
-  ViewQequest(){
-    this.router.navigate(['view-requestPage'])
-  }
-}
+
 export interface Column {
   columnDef: string;
   header: string;

@@ -18,6 +18,9 @@
                 </div>
                 <div class="All-Users">
                     <p class="User-Heading">Users</p>
+                    <ngx-spinner bdColor="rgba(0,0,0,0.32)" size="large" color="#8652d5"
+                        type="ball-clip-rotate-multiple" [fullScreen]="false">
+                    </ngx-spinner>
                     <div [ngClass]="user?.phone === selectedUser?.phone ? 'active' : ''"
                         *ngFor="let user of UserListData">
 
@@ -41,7 +44,7 @@
             </div>
 
         </div>
-        <div  class="col-md-8">
+        <div class="col-md-8">
 
             <div *ngIf="ChatBox" class="chat-container">
                 <ng-container>

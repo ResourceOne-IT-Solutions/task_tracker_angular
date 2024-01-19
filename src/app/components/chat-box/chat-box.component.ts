@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
 import { Socket } from 'socket.io-client';
 import { ChatService } from 'src/app/services/chat.service';
 
@@ -38,13 +39,17 @@ export class ChatBoxComponent {
   NoUser:boolean=true;
   ChatBox:boolean=false;
 
-  constructor(private chatservice: ChatService,private route:Router) { }
+  constructor(private chatservice: ChatService,private route:Router , private loader :NgxSpinnerService) { }
   ngOnInit() {
+    this.loader.show()
+    setTimeout(() => {
+    this.loader.hide()
+    }, 500);
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.currentUser = res
       console.log(res, '888888.......', this.currentUser)
     })
-    this.chatservice.sendSocketData({ data: { name: 'hello' }, key: 'newUser' })
+    this.chatservice.sendSocketData({ data: this.currentUser._id , key: 'newUser' })
     this.chatservice.getSocketData('newUser').subscribe(res => {
       this.UserListData = res;
       console.log(this.UserListData, '7999999')
@@ -55,7 +60,7 @@ export class ChatBoxComponent {
         console.log(this.TotalMessages, '75::::::')
       })
     }else{
-      this.route.navigate([''])
+    //  this.route.navigate([''])
     }
     this.UserSelected = 'Test';
   }
@@ -108,6 +113,7 @@ export class ChatBoxComponent {
       fileLink: ''
     }
     this.chatservice.sendSocketData({ key: 'sendMessage', data: socketPayload })
+    this.chatservice.sendSocketData({data: this.currentUser._id, key: 'newUser'})
     console.log(socketPayload, '121111111')
     this.messageText = ''
   }
