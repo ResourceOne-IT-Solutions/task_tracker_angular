@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
 import { Socket } from 'socket.io-client';
 import { ChatService } from 'src/app/services/chat.service';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-chat-box',
   templateUrl: './chat-box.component.html',
@@ -39,7 +39,7 @@ export class ChatBoxComponent {
   NoUser:boolean=true;
   ChatBox:boolean=false;
 
-  constructor(private chatservice: ChatService,private route:Router , private loader :NgxSpinnerService) { }
+  constructor(private chatservice: ChatService,private location: Location ,private route:Router , private loader :NgxSpinnerService) { }
   ngOnInit() {
     this.loader.show()
     setTimeout(() => {
@@ -128,6 +128,13 @@ export class ChatBoxComponent {
 // Assuming this is in your component class
 getMessageClass(message: any): string {
   return (this.currentUser._id === message.from.id) ? 'SendUser' : 'receive';
+}
+goBack() {
+  this.location.back();
+}
+PreviousPage(){
+  this.NoUser=true;
+  this.ChatBox=false;
 }
 
 

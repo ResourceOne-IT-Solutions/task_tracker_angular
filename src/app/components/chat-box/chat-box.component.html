@@ -3,7 +3,9 @@
 
         <div class="col-md-4">
             <div class="Search-Input">
-                <i class="fa fa-search" aria-hidden="true"></i>
+                <button class="border-0 fs-4 bg-white text-dark" (click)="goBack()"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+
+                <!-- <i class="fa fa-search" aria-hidden="true"></i> -->
                 <input type="text" class="value" placeholder="Search">
             </div>
             <div class="user-list-card">
@@ -49,6 +51,7 @@
             <div *ngIf="ChatBox" class="chat-container">
                 <ng-container>
                     <div class="chat-header">
+                        <button class="back border-0 fs-4 text-dark" (click)="PreviousPage()"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
                         <div class="Img_Details">
                             <img *ngIf="UserSelected.profileImageUrl" src={{UserSelected.profileImageUrl}}
                                 class="avatar" />
@@ -69,8 +72,9 @@
                         <div class="SendMessage" *ngFor="let Daymessages of TotalMessages">
                             <p>{{Daymessages._id}}</p>
                             <ng-container *ngFor="let message of Daymessages.messageByDate">
-                                <div [class]="getMessageClass(message)">
-                                    {{message.content}}
+                                <div class="d-flex justify-content-between" [class]="getMessageClass(message)">
+                                    <div>{{message.time}}</div>
+                                    <div>{{message.content}}</div>
                                 </div>
                             </ng-container>
                         </div>
@@ -81,7 +85,7 @@
                             <div class="col-md-10">
                                 <div class="form-group mb-0">
                                     <input type="text" placeholder="Type a message" class="form-control"
-                                        [(ngModel)]="messageText" />
+                                        [(ngModel)]="messageText" (keyup.enter)="sendMessage()"/>
                                 </div>
                             </div>
 
