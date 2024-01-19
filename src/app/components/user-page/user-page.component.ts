@@ -17,7 +17,9 @@ Chart.register(...registerables)
 export class UserPageComponent implements OnInit {
 
   requestchat = false;
-  isupdatestatus = false
+  isupdatestatus = false;
+  Userstatus =true
+  // Userdata = true;
   susers = ['Offline', 'Busy', 'Available'];
   selectedstatus: any;
   date = new Date();
@@ -36,6 +38,7 @@ export class UserPageComponent implements OnInit {
   stepper: any;
   Improper: any;
   helpedTickets: any;
+  Status:any;
   ticketColumns: Array<Column> = [
     { columnDef: 'client', header: 'client name', cell: (element: any) => `${element['client'].name}`, isText: true },
     { columnDef: 'status', header: 'status', cell: (element: any) => `${element['status']}`, isText: true },
@@ -54,6 +57,7 @@ export class UserPageComponent implements OnInit {
   currentUser: any;
   userList: any;
   SelectedUserdata: any;
+  statuschange: any;
   constructor(private chatservice: ChatService, private router: Router, private fb: FormBuilder, private modalService: NgbModal, private location: LocationStrategy) {
     history.pushState(null, '', window.location.href);
     // check if back or forward button is pressed.
@@ -78,14 +82,20 @@ export class UserPageComponent implements OnInit {
       console.log(this.userList,'UserList')
     })
     this.chatservice.getSocketData('adminMessageToAll').subscribe(res => {
-      console.log(res , '79:::::::::::::')
       alert('admin message recived ..')
+    })
+    this.chatservice.getSocketData('statusUpdate').subscribe(res=> {
+      this.UserData = res ;
+      console.log(res , '8999::::::::')
+      console.log(this.UserData , 'getsocket.............') 
     })
   
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.UserData = res;
       console.log(this.UserData , 'userData')
     })
+    this.Status = this.UserData.status
+
     this.chatservice.getAllTickets().subscribe((res: any) => {
       console.log(res , 'getalltickets')
 
@@ -195,17 +205,31 @@ export class UserPageComponent implements OnInit {
     this.isupdatestatus = !this.isupdatestatus
   }
 
-  selectChange(data: any) {
-    const updatepayload = {
+  changeStatus(data: any) {
+    this.statuschange = data;
+    // this.Userstatus =false;
+    this.Status = this.statuschange;
+    // this.Userdata = false;
+    // this.UserData = this.UserData.status =''
+    // console.log( this.Status,11,data , '1999:::::::::::::',this.UserData)
+    // const updatepayload = {
+    //   id: this.UserData._id,
+    //   data: {
+    //     status: this.statuschange
+    //   }
+    // }
+    // this.chatservice.sendSocketData({key : ''})
+    // this.chatservice.UpdateUsers(updatepayload).subscribe((res: any) => {
+    //   console.log(res, 'resssssssss::::::::')
+    //   this.isupdatestatus = !this.isupdatestatus;
+    // })
+    const updateAdminPayload = {
       id: this.UserData._id,
-      data: {
-        status: data
-      }
+      status: this.statuschange
+      
     }
-    this.chatservice.UpdateUsers(updatepayload).subscribe((res: any) => {
-      console.log(res,)
-      this.isupdatestatus = !this.isupdatestatus;
-    })
+    this.chatservice.sendSocketData({ key: 'changeStatus', data: updateAdminPayload })
+    console.log(updateAdminPayload, 'adminpayload')
 
   }
 

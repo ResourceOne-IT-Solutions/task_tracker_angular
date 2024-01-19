@@ -16,7 +16,7 @@
         </select> -->
 
         <mat-form-field class="dropdown">
-            <mat-select placeholder="Update Status" (selectionChange)="selectChange($event.value)">
+            <mat-select placeholder="Update Status" (selectionChange)="changeStatus($event.value)">
                 <mat-option [value]="update" *ngFor="let update of susers">{{update}}</mat-option>
             </mat-select>
 
@@ -31,11 +31,30 @@
     <div class="userinfo">
         <img src="{{UserData.profileImageUrl}}" alt="">
         <p>{{UserData.firstName}}</p> &nbsp;&nbsp;
-        <span>({{UserData.empId}} )</span>
-        <span>{{UserData.status}}</span>
-        <!-- <span *ngIf="UserData.status === ''Offline'" class="adminoffiline">{{UserData.status}}</span>
+        <span>({{UserData.userId}} )</span>
+        <span [ngClass]="Status">{{UserData.status}}</span>&nbsp;
+        <!-- <span [ngClass]="status"></span> -->
+        <!-- <span *ngIf="UserData.status == 'Available' || statuschange == 'Available'" class="available"></span>
+        <span *ngIf="UserData.status == 'Busy' || statuschange == 'Busy'" class="busy"></span>
+        <span *ngIf="UserData.status == 'Offline' || statuschange == 'Offline'" class="offline"></span> -->
+
+
+
+
+        <!-- <div class="d-flex justify-content-center align-items-center mt-3">
+            <div *ngIf="UserData">{{UserData.status}} </div> 
+            <div *ngIf="UserData.status === 'Offline'" class="offline"></div> 
+           <div *ngIf="UserData.status === 'Busy'" class="busy"> </div> 
+            <div *ngIf="UserData.status === 'Available'" class="Available"></div> 
+            <ng-template #status>
+
+            {{statuschange}}
+             <span *ngIf="selectedSport.key === 'walking'; else elseSpan"> steps </span>
+           </ng-template> 
+       </div> -->
+         <!-- <span *ngIf="UserData.status === ''Offline'" class="adminoffiline">{{UserData.status}}</span>
         <span *ngIf="UserData.status === ''Busy'" class="adminbusy">{{UserData.status}}</span>
-        <span *ngIf="UserData.status === ''Available'" class="adminavailable">{{UserData.status}}</span> -->
+        <span *ngIf="UserData.status === ''Available'" class="adminavailable">{{UserData.status}}</span>  -->
         <!-- <span *ngIf="UserData.status === 'Offline'" class="Offline">{{UserData.status}}</span>
         <span *ngIf="UserData.status === 'Busy'" class="Busy">{{UserData.status}}</span>
         <span *ngIf="UserData.status === 'Available'" class="Available">{{UserData.status}}</span>    -->

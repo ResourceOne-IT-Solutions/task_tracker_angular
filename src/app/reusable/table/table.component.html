@@ -2,7 +2,7 @@
     <ng-container *ngFor="let disCol of tableColumns let colIndex = index;" matColumnDef="{{disCol.columnDef}}">
         <th mat-header-cell *matHeaderCellDef>
            <span *ngIf="disCol.columnDef !== 'TicketRaised'">
-            {{ disCol.header }} 
+            {{ disCol.header | titlecase }} 
            </span>
            <span *ngIf="disCol.columnDef == 'TicketRaised'">
             <button mat-raised-button color="accent"> {{ disCol.header }}</button>
