@@ -77,6 +77,9 @@ export class ChatService {
   updateTicket(data: any) {
     return this.put('/tickets/update', data)
   }
+  getTicketDetails(data:any){
+    return this.get(`/tickets/${data}`)
+  }
   updateResuorce(data: any) {
     return this.put('/tickets/assign-resource', data)
   }
