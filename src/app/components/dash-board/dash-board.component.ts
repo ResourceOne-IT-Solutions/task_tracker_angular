@@ -28,6 +28,8 @@ export class DashBoardComponent {
   'TicketCreationForm': FormGroup;
   userColumns: Array<Column> = [
     { columnDef: 'firstName', header: 'First Name', cell: (element: any) => `${element['firstName']}`, isText: true },
+    { columnDef: 'email', header: 'Email', cell: (element: any) => `${element['email']}`, isText: true },
+    { columnDef: 'mobile', header: 'Mobile', cell: (element: any) => `${element['mobile']}`, isText: true },
     { columnDef: 'designation', header: 'Designation', cell: (element: any) => `${element['designation']}`, isText: true },
     { columnDef: 'empId', header: 'Employee Id', cell: (element: any) => `${element['empId']}`, isText: true },
     { columnDef: 'profileImageUrl', header: 'Profile Pic', cell: (element: any) => `${element['profileImageUrl']}`, isImage: true },
@@ -445,17 +447,10 @@ export class DashBoardComponent {
       },
     });
   }
-
-  OpenChatBox() {
-    this.router.navigate(['Chat-Box'])
-  }
+ 
   routeToClientTickets(data: any) {
     this.router.navigate(['/client-tickets']);
     this.chatservice.getTicketId(data)
-  }
-
-  ViewQequest() {
-    this.router.navigate(['view-requestPage'])
   }
 
   adminMessage(dismiss: any) {

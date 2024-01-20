@@ -26,9 +26,10 @@
                     <button mat-raised-button color="primary" (click)="btn1Click(element)">{{ disCol.cell(element)
                         }}</button>
                 </span>
-                <span *ngIf="disCol.isImage" (click)="openUserDetails(element)">
+                <p class="d-flex" *ngIf="disCol.isImage" (click)="openUserDetails(element)">
                     <img src="{{ disCol.cell(element)}}" class="profileImage" />
-                </span>
+                    <span [ngClass]="element.isActive ? 'online':'offline'"></span>
+                </p>
             </td>
         </ng-container>
 
