@@ -81,12 +81,21 @@ export class UserPageComponent implements OnInit {
       // console.log(this.userList,'UserList')
     })
     this.chatservice.getSocketData('adminMessageToAll').subscribe(res => {
-      alert('admin message recived ..')
+      alert(`admin message  : ${res.content}` )  
     })
     this.chatservice.getSocketData('statusUpdate').subscribe(res=> {
       this.UserData = res ;
     
       console.log(this.UserData , 'getsocket.............') 
+    })
+
+    this.chatservice.getSocketData('ticketAssigned').subscribe(res=> {
+      this.UserData = res ;
+      alert(`${JSON.stringify(res)}`)
+    })
+    this.chatservice.getSocketData('resourceAssigned').subscribe(res=> {
+      this.UserData = res ;
+      alert(`Request coming to add-resource${JSON.stringify(res)}`)
     })
   
     this.chatservice.UserLoginData.subscribe((res: any) => {
@@ -187,17 +196,7 @@ export class UserPageComponent implements OnInit {
     this.requestchat = !this.requestchat;
     console.log(this.SelectedUserdata,'0000====')
     this.chatservice.sendSocketData({key:'requestChat',data:{user:{name:this.currentUser.firstName,id:this.currentUser._id},opponent:{name:this.SelectedUserdata.firstName,id:this.SelectedUserdata._id}}})
-    alert('request send admin')
-    // if(this.requestchat){
-    //   console.log('if.....')
-    // }
-    // else {
-    //   this.requestchat = false;
-    //   console.log('else')
-
-    // }
-
-
+    alert('request send admin');
   }
 
   updateStatus() {
@@ -205,18 +204,18 @@ export class UserPageComponent implements OnInit {
     this.isupdatestatus = !this.isupdatestatus
   }
 
-  changeStatus(data: any) {
-    this.statuschange = data.target.value;
-    console.log(this.statuschange , 'dropdownvalues........')
-    const updateUserPayload = {
-      id: this.UserData._id,
-      status: this.statuschange
+  // changeStatus(data: any) {
+  //   this.statuschange = data.target.value;
+  //   console.log(this.statuschange , 'dropdownvalues........')
+  //   const updateUserPayload = {
+  //     id: this.UserData._id,
+  //     status: this.statuschange
       
-    }
-    this.chatservice.sendSocketData({ key: 'changeStatus', data: updateUserPayload })
-    console.log(updateUserPayload, 'userdropdownpayload')
+  //   }
+  //   this.chatservice.sendSocketData({ key: 'changeStatus', data: updateUserPayload })
+  //   console.log(updateUserPayload, 'userdropdownpayload')
 
-  }
+  // }
 
   selectuser(data: any) {
     console.log(data, 'selecteduser')

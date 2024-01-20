@@ -13,7 +13,7 @@ export class ChatService {
   getRoleData(role: any) {
     this.RoleData.next(role)
   }
-  getTicketId(clientid:any){
+  getTicketId(clientid: any) {
     this.ticketsById.next(clientid)
   }
   //User Behavior
@@ -26,7 +26,7 @@ export class ChatService {
   BE_LOCAL = 'http://192.168.10.30:1234';
   BE_LOCAL2 = 'http://192.168.29.109:1234'
   BE_URL = this.BE_LOCAL
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
     this.socket = io(this.BE_URL, { transports: ['websocket', 'polling', 'flashsocket'] });
   }
   getUserData(data: any) {
@@ -49,8 +49,8 @@ export class ChatService {
   getAllClients() {
     return this.get('/clients')
   }
-  getClientById(clientid:any){
-    return this.get('/clients/tickets/' + clientid )
+  getClientById(clientid: any) {
+    return this.get('/clients/tickets/' + clientid)
   }
   AddNewClient(data: any) {
     return this.post('/clients/create', data)
@@ -91,6 +91,14 @@ export class ChatService {
     return this.getCookie('token') || ''
 
   }
+  // upload file 
+  uploadFile(data: any) {
+    return this.post('/file', data)
+  }
+  getFile(data: any) {
+    return this.get(`/file/${data}`)
+  }
+
   // Cookie.....
   setCookie(name: string, value: string, days: number) {
     const expirationDate = new Date();
@@ -112,14 +120,9 @@ export class ChatService {
   }
   // socket io 
   sendSocketData(data: any) {
-    console.log('hello',data)
+    console.log('hello', data)
     this.socket.emit(data.key, data.data)
   }
-  // changeStatusSocket(data:any){
-  //   console.log('statussocket' , data)
-  //   this.socket.emit(data.key, data.data)
-
-  // }
 
   /// time 
   getFormattedTime() {
@@ -148,15 +151,15 @@ export class ChatService {
     }
   }
 
-  
-  getSocketData(eventName:any): Observable<any> {
-    console.log('1077777777',eventName)
+
+  getSocketData(eventName: any): Observable<any> {
+    console.log('1077777777', eventName)
     return new Observable<{
       user: string,
       room: string,
       phone: string
     }>(observer => {
-      this.socket.on(eventName, (data:any) => {
+      this.socket.on(eventName, (data: any) => {
         observer.next(data);
       });
 

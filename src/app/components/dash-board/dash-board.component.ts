@@ -392,8 +392,8 @@ export class DashBoardComponent {
       console.log(payload, 'payload')
       this.chatservice.updateTicket(payload).subscribe((res: any) => {
         this.ticketData = this.ticketData.map((element: any) => element._id === res._id ? res : element)
+        this.chatservice.sendSocketData({key : 'assignTicket', data:{id :this.AssignedUser._id } , sender : { id: this.adminDetails._id, name: this.adminDetails.firstName}})
         dismiss()
-
       })
     } else if (this.assignUser == 'Assign Resource') {
       const payload = {
@@ -407,7 +407,14 @@ export class DashBoardComponent {
       }
       console.log(payload, 'payload')
       this.chatservice.updateResuorce(payload).subscribe((res: any) => {
+        const data = {
+          ticket: {name:res.client.name, id: res._id},
+          user: {name: res.user.name, id: res.user.id},
+          resource: {name:this.AssignedUser.firstName + ' ' + this.AssignedUser.lastName, id:this.AssignedUser._id},
+          sender: {name: this.adminDetails.firstName + " "+ this.adminDetails.lastName, id: this.adminDetails._id}
+        }
         this.ticketData = this.ticketData.map((element: any) => element._id === res._id ? res : element)
+        this.chatservice.sendSocketData({key : 'addResource', data})
         dismiss()
       }, (err: any) => {
         if (err) {
