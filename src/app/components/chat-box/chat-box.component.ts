@@ -101,16 +101,22 @@ export class ChatBoxComponent {
   }
   sendMessage() {
     console.log(this.RoomId, '0101', this.currentUser.firstName, '301', this.currentUser._id)
+    const content = this.messageText
+    const type='message'
+    const fileLink=''
+    this.reUseableSendMessage(content, type, fileLink)
+  }
+  reUseableSendMessage(content: any, type:any, fileLink:any) {
     this.chatservice.sendSocketData({ key: 'sendMessage', })
     const socketPayload = {
       to: this.RoomId,
-      content: this.messageText,
+      content,
       from: { name: this.currentUser.firstName, id: this.currentUser._id },
       time: this.getFormattedTime(),
       date: this.getFormattedDate(new Date()),
       opponentId: this.UserSelected._id,
-      type: 'message',
-      fileLink: ''
+      type,
+      fileLink
     }
     this.chatservice.sendSocketData({ key: 'sendMessage', data: socketPayload })
     this.chatservice.sendSocketData({ data: this.currentUser._id, key: 'newUser' })
@@ -144,6 +150,7 @@ export class ChatBoxComponent {
     formData.append('file', selectedFile)
     if (selectedFile) {
       this.chatservice.uploadFile(formData).subscribe((res:any)=> {
+        this.reUseableSendMessage(res.fileName, res.type, res._id)
         this.chatservice.getFile(res._id).subscribe(res=> console.log(res , "get file"))
       })
     }

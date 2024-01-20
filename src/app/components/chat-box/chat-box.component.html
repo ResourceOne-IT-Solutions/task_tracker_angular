@@ -88,7 +88,7 @@
                               </label>
                             <span>contacts :<i class="fa-solid fa-address-book"></i> </span>
                         </div>
-                        <span (click)="displayIcons = !displayIcons" class="file-icon">+</span>
+                        <span (click)="displayIcons = !displayIcons" class="file-icon">{{displayIcons ? '-' : '+'}}</span>
 
                         <input type="text" placeholder="Type a message" class="form-control" [(ngModel)]="messageText"
                             (keyup.enter)="sendMessage()" />
