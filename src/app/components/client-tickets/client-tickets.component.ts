@@ -37,11 +37,9 @@ export class ClientTicketsComponent implements OnInit {
   ngOnInit(): void {
     this.chatservice.ticketsById.subscribe(res => {
       this.clientDataTable = res;
-      console.log(this.clientDataTable , 'clientddddddddd:::')
      
     })
     this.chatservice.getClientById(this.clientDataTable._id).subscribe((res:any) => {
-      // console.log(res , 'resssssssssss')
        this.clientTicketById = res;   
        this.Resolved = this.clientTicketById.filter((val: any) => val.status == 'Resolved').length,
        this.NotAssigned = this.clientTicketById.filter((val: any) => val.status == 'Not Assigned').length,

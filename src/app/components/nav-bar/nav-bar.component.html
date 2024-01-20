@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-info">
     <a class="navbar-brand" href="#">{{isAdmin ? 'Admin Page' : 'User Page'}}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,7 +34,7 @@
         <button class="btn btn-outline-success" type="submit">Search</button>
         <div class="admindrop">
             <div>
-                <button>
+                <button class="btn btn-primary ms-2">
 
                     Status : <select (change)="changeStatus($event)" [(ngModel)]="Status">
                         <option class="ms-3" [value]="update" *ngFor="let update of adminStatus">{{update}}</option>
