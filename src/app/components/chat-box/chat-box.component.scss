@@ -185,21 +185,35 @@
             padding: 3px 2px;
            }
             .SendUser{
-                background: #6e00ff;
-                text-align: end;
-                padding: 5px 21px;
-                color: #fff;
                 margin: 17px 0;
                 border-radius: 9px;
+                p{
+                    background: #6e00ff;
+                    color: #fff;
+                    padding: 6px 33px;
+                    width: fit-content;
+                    margin-right: 0;
+                    margin: auto;
+                    border-radius: 5px;
+                    text-align: center;
+                    margin-right: 0;
+                }
             }
             .receive{
-                padding: 5px 21px;
-                color: #fff;
-                border-radius: 9px;
                 width: fit-content;
-                background-color: #4e2222;
-                text-align: start;
-                margin: 17px 0;
+                p{
+                    background: #6e00ff;
+                    color: #fff;
+                    padding: 6px 33px;
+                    width: -moz-fit-content;
+                    width: fit-content;
+                    margin-right: 0;
+                    margin: auto;
+                    border-radius: 5px;
+                    text-align: center;
+                    margin-right: 0;
+                    margin: 5px 5px;
+                }
             }
         }
 
@@ -293,6 +307,10 @@
 }
 .menuChat{
     max-width: none;
+    // .ChatHolder{
+    //     overflow: auto;
+    //     height: 100%;
+    // }
 }
 .SendUser{
     color: red;
