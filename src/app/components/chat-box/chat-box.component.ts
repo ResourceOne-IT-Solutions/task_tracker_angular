@@ -11,6 +11,7 @@ import { Location } from '@angular/common';
   styleUrls: ['./chat-box.component.scss']
 })
 export class ChatBoxComponent {
+
   public userList = [
     {
       id: 1,
@@ -26,6 +27,7 @@ export class ChatBoxComponent {
     },
 
   ];
+  displayIcons: boolean = false
   selectedUser: any;
   messageArray: any;
   messageText: any
@@ -36,31 +38,29 @@ export class ChatBoxComponent {
   UserSelected: any;
   RoomId: any;
   TotalMessages: any;
-  NoUser:boolean=true;
-  ChatBox:boolean=false;
+  NoUser: boolean = true;
+  ChatBox: boolean = false;
 
-  constructor(private chatservice: ChatService,private location: Location ,private route:Router , private loader :NgxSpinnerService) { }
+  constructor(private chatservice: ChatService, private location: Location, private route: Router, private loader: NgxSpinnerService) { }
   ngOnInit() {
     this.loader.show()
-    setTimeout(() => {
-    this.loader.hide()
-    }, 500);
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.currentUser = res
       console.log(res, '888888.......', this.currentUser)
     })
-    this.chatservice.sendSocketData({ data: this.currentUser._id , key: 'newUser' })
+    this.chatservice.sendSocketData({ data: this.currentUser._id, key: 'newUser' })
     this.chatservice.getSocketData('newUser').subscribe(res => {
       this.UserListData = res;
       console.log(this.UserListData, '7999999')
+      this.loader.hide()
     })
-    if(this.currentUser){
+    if (this.currentUser) {
       this.chatservice.getSocketData('roomMessages').subscribe((res) => {
         this.TotalMessages = res
         console.log(this.TotalMessages, '75::::::')
       })
-    }else{
-    //  this.route.navigate([''])
+    } else {
+      //  this.route.navigate([''])
     }
     this.UserSelected = 'Test';
   }
@@ -91,8 +91,8 @@ export class ChatBoxComponent {
 
   SelectUser(user: any) {
     this.UserSelected = user;
-    this.NoUser =false;
-    this.ChatBox =true;
+    this.NoUser = false;
+    this.ChatBox = true;
     console.log('88888', user._id)
     this.RoomId = this.genarateRoomId(user._id, this.currentUser._id);
     console.log(this.RoomId, '11222222')
@@ -113,7 +113,7 @@ export class ChatBoxComponent {
       fileLink: ''
     }
     this.chatservice.sendSocketData({ key: 'sendMessage', data: socketPayload })
-    this.chatservice.sendSocketData({data: this.currentUser._id, key: 'newUser'})
+    this.chatservice.sendSocketData({ data: this.currentUser._id, key: 'newUser' })
     console.log(socketPayload, '121111111')
     this.messageText = ''
   }
@@ -125,18 +125,27 @@ export class ChatBoxComponent {
       return id2 + "-" + id1
     }
   }
-// Assuming this is in your component class
-getMessageClass(message: any): string {
-  return (this.currentUser._id === message.from.id) ? 'SendUser' : 'receive';
-}
-goBack() {
-  this.location.back();
-}
-PreviousPage(){
-  this.NoUser=true;
-  this.ChatBox=false;
-}
+  // Assuming this is in your component class
+  getMessageClass(message: any): string {
+    return (this.currentUser._id === message.from.id) ? 'SendUser' : 'receive';
+  }
+  goBack() {
+    this.location.back();
+  }
+  PreviousPage() {
+    this.NoUser = true;
+    this.ChatBox = false;
+  }
 
-
-
+  SelectedImage(evt: any) {
+    const selectedFile = evt.target.files[0];
+    console.log(selectedFile.name, 'img')
+    const formData = new FormData()
+    formData.append('file', selectedFile)
+    if (selectedFile) {
+      this.chatservice.uploadFile(formData).subscribe((res:any)=> {
+        this.chatservice.getFile(res._id).subscribe(res=> console.log(res , "get file"))
+      })
+    }
+  }
 }

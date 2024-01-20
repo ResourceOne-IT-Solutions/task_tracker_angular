@@ -17,19 +17,6 @@ export class MainDashboardComponent {
     this.chatservice.getSocketData('error').subscribe(res => {
       console.log('SOCKET ERROR:::', res)
     })
-    // let customHeaders = new Headers({ Authorization:this.data });
-    // console.log(customHeaders,'17::::')
-    let httpOptions = {
-      headers: new HttpHeaders({
-        Authorization: this.data,
-      })
-    }
-    this.isAdmin$ = this.chatservice.getLoginSetup(httpOptions).pipe(map((res: any) => {
-      this.chatservice.UserLogin(res)
-      return res
-    }))
-
+    this.isAdmin$ = this.chatservice.UserLoginData.pipe(map((res: any) => res))
   }
-
-
 }
