@@ -3,7 +3,8 @@
 
         <div class="col-md-4">
             <div class="Search-Input">
-                <button class="border-0 fs-4 bg-white text-dark" (click)="goBack()"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+                <button class="border-0 fs-4 bg-white text-dark" (click)="goBack()"><i class="fa fa-arrow-left"
+                        aria-hidden="true"></i></button>
 
                 <!-- <i class="fa fa-search" aria-hidden="true"></i> -->
                 <input type="text" class="value" placeholder="Search">
@@ -50,7 +51,8 @@
             <div *ngIf="ChatBox" class="chat-container">
                 <ng-container>
                     <div class="chat-header">
-                        <button class="back border-0 fs-4 text-dark" (click)="PreviousPage()"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+                        <button class="back border-0 fs-4 text-dark" (click)="PreviousPage()"><i
+                                class="fa fa-arrow-left" aria-hidden="true"></i></button>
                         <div class="Img_Details">
                             <img *ngIf="UserSelected.profileImageUrl" src={{UserSelected.profileImageUrl}}
                                 class="avatar" />
@@ -77,23 +79,22 @@
                                 </div>
                             </ng-container>
                         </div>
+
                     </div>
                     <div class="chat-footer">
-
-                        <div class="row">
-                            <div class="col-md-10">
-                                <div class="form-group mb-0">
-                                    <input type="text" placeholder="Type a message" class="form-control"
-                                        [(ngModel)]="messageText" (keyup.enter)="sendMessage()"/>
-                                </div>
-                            </div>
-
-                            <div class="col-md-2 text-center align-self-center">
-                                <button class="btn btn-primary btn-sm px-3" (click)="sendMessage()">Send
-                                </button>
-                            </div>
+                        <div class="file-container" *ngIf="displayIcons">
+                            <label for="imageFile">file :<i class="fa-solid fa-file"></i>
+                                <input style="display: none;" type="file" id="imageFile"  (change)="SelectedImage($event)"/>
+                              </label>
+                            <span>contacts :<i class="fa-solid fa-address-book"></i> </span>
                         </div>
+                        <span (click)="displayIcons = !displayIcons" class="file-icon">{{displayIcons ? '-' : '+'}}</span>
 
+                        <input type="text" placeholder="Type a message" class="form-control" [(ngModel)]="messageText"
+                            (keyup.enter)="sendMessage()" />
+
+                        <button class="btn btn-primary btn-sm px-3" (click)="sendMessage()">Send
+                        </button>
                     </div>
                 </ng-container>
             </div>
