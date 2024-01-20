@@ -1,78 +1,7 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-  
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#">Disabled</a>
-        </li>
-      </ul>
-      
-        <input class="form-control w-50 " type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-       <button class="btn btn-primary ms-3" (click)="updateAdminStatus()">Update Status</button>
-       
-       <button class="btn btn-danger ms-3" (click)="Logout()">LogOut</button>
-    
-    </div>
- </nav>
 <div>
     <h1>Admin Page</h1>
-    <!-- <div class="d-flex justify-content-flex-end">
-        <div>
-            <button class="btn btn-primary" (click)="statusUpdate()">Update Status</button>
-        </div>
-        <div>
-            <button class="btn btn-danger" (click)="Logout()">LogOut</button>
-        </div>
-    </div> -->
-    
-        
-
-        <!-- <div>
-            <button class="btn btn-primary" (click)="updateAdminStatus()">Update Status</button>
-        </div>
-    
-        <div>
-            <button class="btn btn-danger ms-3" (click)="Logout()">LogOut</button>
-        </div>
-     -->
     
     
-    <div class="admindrop" *ngIf="isAdminStatus">
-        <div >
-    
-            <mat-form-field class="dropdown">
-                <mat-select placeholder="Update Status" (selectionChange)="changeStatus($event.value)">
-                    <mat-option [value]="update" *ngFor="let update of adminStatus">{{update}}</mat-option>
-                </mat-select>
-    
-            </mat-form-field>
-        </div>
-        <div>
-    
-        </div>
-    </div>
     
     <div class="d-flex">
         <div class="d-flex admin-content">
@@ -176,12 +105,14 @@
                     <input type="email" placeholder="Email" class="form-control m-2" formControlName="email">
                     <label class="ms-2">Phone Number</label>
                     <input type="text" placeholder="Phone Number" class="form-control m-2" formControlName="phone">
+                   <div *ngIf="addNewUser">
                     <label class="ms-2">Join Date</label>
                     <input type="date" placeholder="Join Date" class="form-control m-2" formControlName="joiningDate">
                     <label class="ms-2">Profile Image</label>
                     <input type="file" class="form-control m-2" formControlName="profileImageUrl" />
                     <label class="ms-2">Address</label>
                      <textarea formControlName="address" class="form-control m-2" placeholder="Enter Your Address"></textarea>
+                   </div>
                     <label class="ms-2">Date Of Birth</label>
                     <input type="date"  class="form-control m-2" formControlName="dob">
                     <span *ngIf="modelHeader==='Add New User'">
@@ -295,6 +226,7 @@
         <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
     </div>
 </ng-template>
+<!---->
 <ng-template #assignTicketModel let-d="dismiss">
     <div class="modal-header p-2 m-0">
         <h4 class="modal-title p-0 m-0">Assign Ticket</h4>
@@ -305,6 +237,7 @@
                 <option value="" disabled selected class="hide">Select User</option>
                 <option *ngFor="let user of userList" [ngValue]="user">{{user.firstName}}</option>
             </select> </p>
+            <div *ngIf="assignErr" class="ErrorMsg">{{assignErr}}</div>
     </div>
     <div class="modal-footer">
         <button class="btn btn-sm btn-primary" (click)="ticketAssign(d)">Assign</button>

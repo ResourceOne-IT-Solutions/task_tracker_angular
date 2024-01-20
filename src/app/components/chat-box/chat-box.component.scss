@@ -10,6 +10,7 @@
     padding: 10px;
 
     .All-Users {
+        position: relative;
         box-shadow: 0 0 3px 0 #458485;
         border-radius: 6px;
         height: 320px;
@@ -101,7 +102,9 @@
         justify-content: flex-start;
         align-items: center;
         color: #fff;
-
+        .back{
+            background: none;
+        }
         .avatar {
             height: 30px;
             width: 30px;

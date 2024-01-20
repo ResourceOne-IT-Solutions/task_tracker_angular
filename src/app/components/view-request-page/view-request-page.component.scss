@@ -20,10 +20,16 @@ h1{
             li{
                 display: flex;
                 align-items: center;
-                justify-content: space-around;
+                // justify-content: space-around;
                 border-bottom: 1px solid darkgrey;
                 .isPending{
                     margin: 6px 0;
+                }
+                p{
+                    margin: 0;
+                }
+                span{
+                    margin: 0 36px 0 0;
                 }
             }
         }
@@ -45,10 +51,16 @@ h1{
             li{
                 display: flex;
                 align-items: center;
-                justify-content: space-around;
+                // justify-content: space-around;s
                 border-bottom: 1px solid darkgrey;
                 .isPending{
                     margin: 6px 0;
+                }
+                p{
+                    margin: 0;
+                }
+                span{
+                    margin: 0 36px 0 0;
                 }
             }
         }
