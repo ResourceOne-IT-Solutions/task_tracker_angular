@@ -19,7 +19,6 @@ export class UserPageComponent implements OnInit {
   requestchat = false;
   isupdatestatus = false;
   Userstatus = true
-  susers = ['Offline', 'Busy', 'Available'];
   selectedstatus: any;
   date = new Date();
   @ViewChild('updateModel', { static: false }) updateModel: any;
@@ -42,11 +41,11 @@ export class UserPageComponent implements OnInit {
     { columnDef: 'user', header: 'user name', cell: (element: any) => `${element['user'].name || '--'}`, isText: true },
     { columnDef: 'technology', header: 'Technology', cell: (element: any) => `${element['technology']}`, isText: true },
     { columnDef: 'receivedDate', header: 'received Date', cell: (element: any) => `${new Date(element['receivedDate']).toLocaleString()}`, isText: true },
-    { columnDef: 'assignedDate', header: 'Assigned Date', cell: (element: any) => `${element['assignedDate']}`, isText: true },
+    { columnDef: 'assignedDate', header: 'Assigned Date', cell: (element: any) => `${new Date(element['assignedDate']).toLocaleString()}`, isText: true },
     { columnDef: 'description', header: 'Description', cell: (element: any) => `${element['description']}`, isText: true },
     { columnDef: 'comments', header: 'Comments', cell: (element: any) => `${element['comments']}`, isText: true },
-    { columnDef: 'closedDate', header: 'Closed Date', cell: (element: any) => `${element['closedDate']}`, isText: true },
-    { columnDef: 'targetDate', header: 'Target Date', cell: (element: any) => `${(element['targetDate'])}`, isText: true },
+    { columnDef: 'closedDate', header: 'Closed Date', cell: (element: any) => `${new Date(element['closedDate']).toLocaleString()}`, isText: true },
+    { columnDef: 'targetDate', header: 'Target Date', cell: (element: any) => `${new Date(element['targetDate']).toLocaleString()}`, isText: true },
     { columnDef: 'status', header: 'status', cell: (element: any) => `${element['status']}`, isText: true },
     { columnDef: 'TicketRaised', header: 'Ticket Rise', cell: (element: any) => element === 'btn1' ? 'Update Ticket' : 'Request ticket', isMultiButton: true },
   ];

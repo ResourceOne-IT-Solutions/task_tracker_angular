@@ -1,0 +1,52 @@
+
+<div class="User-ViewRequest">
+    <div class="User-ChatRequest">
+        <h1>Chat Request</h1>
+        <ol>
+            <li *ngFor="let chatrequest of userChatRequest let i = index">
+                <div>
+                    <p> {{chatrequest.sender.name}}is Requisting to Chat with {{chatrequest.opponent.name}}</p>
+                    <div *ngIf="chatrequest.isPending == true" class="isPending">
+                        <button class="btn btn-sm btn-success">Not Approved</button>
+                    </div>
+                    <div *ngIf="chatrequest.isPending == false">
+                        <button  class="btn btn-sm btn-success" disabled="chatrequest.isPending == false"> Approved</button>
+                    </div>
+                </div>
+            </li>
+        </ol>
+    </div>
+    <div class="User-TicketRequest">
+        <h1>Ticket Request</h1>
+        <ol>
+            <li *ngFor="let ticketrequest of userTicketRequest let i = index">
+                <div>
+                    <p> {{ticketrequest.sender.name}}is Requisting for {{ticketrequest.client.name}}</p>
+                    <div *ngIf="ticketrequest.isPending == true" class="isPending">
+                        <button class="btn btn-sm btn-success">Not Approved</button>
+                    </div>
+                    <div *ngIf="ticketrequest.isPending == false">
+                            <button  class="btn btn-sm btn-success" disabled="chatrequest.isPending == false"> Approved</button>
+                    </div>
+                </div>
+            </li>
+
+        </ol>
+    </div>
+    <div class="User-Messages">
+        <h1>Admin Messages</h1>
+        <ol>
+            <li *ngFor="let messages of adminMessages let i = index">
+                <div class="message">
+                    <p> Message : {{messages.content}}</p>
+                    <p>Sent By :{{messages.sender.name}}</p>
+                    <p>Time :{{messages.time}}</p>
+                    
+                </div>
+            </li>
+
+        </ol>
+    </div>
+</div>
+
+

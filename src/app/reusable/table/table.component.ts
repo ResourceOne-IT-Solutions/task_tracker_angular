@@ -20,6 +20,7 @@ export class TableComponent {
   @Output() firstBtnClick = new EventEmitter();
   @Output() secondBtnClick = new EventEmitter();
   @Output() clientnameClick = new EventEmitter();
+  @Input() tableData: any[] = [];
   @Output() userDetails = new EventEmitter()
   @Output() singleButtonClick = new EventEmitter();
   constructor(private loader: NgxSpinnerService) { }
