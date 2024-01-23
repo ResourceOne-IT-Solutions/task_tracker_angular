@@ -17,6 +17,12 @@ export class MainDashboardComponent {
     this.chatservice.getSocketData('error').subscribe(res => {
       console.log('SOCKET ERROR:::', res)
     })
-    this.isAdmin$ = this.chatservice.UserLoginData.pipe(map((res: any) => res))
+    this.isAdmin$ = this.chatservice.UserLoginData.pipe(map((res: any) => {
+     if(!res.isAdmin){
+       this.chatservice.startIdleMonitoring()
+     }
+      return res
+    }))
+    
   }
 }

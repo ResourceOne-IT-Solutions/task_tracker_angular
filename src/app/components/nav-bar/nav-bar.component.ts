@@ -8,7 +8,7 @@ import { ChatService } from 'src/app/services/chat.service';
   styleUrls: ['./nav-bar.component.scss']
 })
 export class NavBarComponent {
-  adminStatus = ['Offline', 'Busy', 'Available'];
+  adminStatus = ['Offline', 'Break', 'Available'];
   @Input() 'isAdmin' :boolean 
   statuschange: any;
   @Input() userDetails: any;

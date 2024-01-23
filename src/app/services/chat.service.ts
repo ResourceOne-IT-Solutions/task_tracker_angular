@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { HostListener, Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, timer } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
 
 @Injectable({
@@ -10,6 +10,8 @@ export class ChatService {
   RoleData = new BehaviorSubject('');
   ticketsById = new BehaviorSubject('')
   private socket: Socket;
+  private idleTimeoutInSeconds = 1 * 60; // 15 minutes
+  private timer$: any;
   getRoleData(role: any) {
     this.RoleData.next(role)
   }
@@ -77,7 +79,7 @@ export class ChatService {
   updateTicket(data: any) {
     return this.put('/tickets/update', data)
   }
-  getTicketDetails(data:any){
+  getTicketDetails(data: any) {
     return this.get(`/tickets/${data}`)
   }
   updateResuorce(data: any) {
@@ -104,9 +106,10 @@ export class ChatService {
 
   // Cookie.....
   setCookie(name: string, value: string, days: number) {
-    const expirationDate = new Date();
-    expirationDate.setDate(expirationDate.getDate() + days);
-    const cookieValue = encodeURIComponent(value) + '; expires=' + expirationDate.toUTCString();
+    const currentDate = new Date();
+    const expirationTime = new Date(currentDate.getTime() + 8 * 60 * 60 * 1000);
+    console.log(expirationTime.toUTCString(), "109::::")
+    const cookieValue = encodeURIComponent(value) + '; expires=' + expirationTime.toUTCString();
     document.cookie = name + '=' + cookieValue;
   }
 
@@ -127,7 +130,7 @@ export class ChatService {
     this.socket.emit(data.key, data.data)
   }
 
-  /// time 
+  // time 
   getFormattedTime() {
     const d = new Date().toLocaleString().split(" ")
     const t = d[1].slice(0, -3)
@@ -171,8 +174,22 @@ export class ChatService {
       }
     });
   }
+  // ticket assignned 
 
+  getTicketSocketData(eventName: any): Observable<any> {
+    console.log('1077777777', eventName)
+    return new Observable<any>(observer => {
+      this.socket.on(eventName, (id: any, sender: any) => {
+        console.log(sender, id, 'socket tiggered')
+        observer.next({ id, sender });
+      });
+      return () => {
+        this.socket.disconnect();
+      }
+    });
+  }
   // api mian calls
+
   get(url: any,) {
     return this.http.get(this.BE_URL + url, {
       headers: new HttpHeaders({
@@ -201,4 +218,42 @@ export class ChatService {
       })
     });
   }
+  // send mail
+
+  sendMail(data:any){
+   return this.post('/mail/client-update' , data)
+  }
+
+  // get full Name 
+  getFullName(data: any) {
+    return data.firstName + ' ' + data.lastName
+  }
+
+  // timer Start
+  startIdleMonitoring() {
+    this.timer$ = timer(1000, 1000); 
+
+    this.timer$.subscribe(() => {
+      console.log(this.idleTimeoutInSeconds , "timer")
+      if (this.idleTimeoutInSeconds > 0) {
+        this.idleTimeoutInSeconds--;
+
+        if (this.idleTimeoutInSeconds === 0) {
+          this.UserLoginData.subscribe((res:any)=>{
+            const updatePayload = {
+             id:res._id,
+             status : 'Break'
+            }
+            this.sendSocketData({ key: 'changeStatus', data: updatePayload })
+          })
+        }
+      }
+    });
+  }
+
+  // Reset the idle timer
+  resetIdleTimer() {
+    this.idleTimeoutInSeconds = 1 * 60; 
+  }
+ 
 }
