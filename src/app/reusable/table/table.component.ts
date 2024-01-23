@@ -22,6 +22,7 @@ export class TableComponent {
   @Output() clientnameClick = new EventEmitter();
   @Input() tableData: any[] = [];
   @Output() userDetails = new EventEmitter()
+  @Output() singleButtonClick = new EventEmitter();
   constructor(private loader: NgxSpinnerService) { }
   ngOnInit() {
     this.loader.show()
@@ -51,5 +52,8 @@ export class TableComponent {
   }
   openUserDetails(userDetails: any) {
     this.userDetails.emit(userDetails)
+  }
+  onClick(userDetails:any , name :any){
+    this.singleButtonClick.emit({userDetails , name})
   }
 }
