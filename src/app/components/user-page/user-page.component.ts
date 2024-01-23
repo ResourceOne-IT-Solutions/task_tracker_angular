@@ -86,11 +86,8 @@ export class UserPageComponent implements OnInit {
       this.UserData = res
     })
 
-    this.chatservice.getSocketData('ticketAssigned').subscribe(res => {
-
-      console.log(res, "123:::")
-      this.chatservice.getTicketDetails(res).subscribe(val => console.log(val, "ticket details"))
-      alert(`${JSON.stringify(res)}`)
+    this.chatservice.getTicketSocketData('ticketAssigned').subscribe((data) => {
+      alert(`${data.sender.name} assigned you a ticket`)
     })
     this.chatservice.getSocketData('resourceAssigned').subscribe(res => {
       alert(`Request coming to add-resource${JSON.stringify(res)}`)
