@@ -8,8 +8,9 @@ import { ChatService } from 'src/app/services/chat.service';
   styleUrls: ['./nav-bar.component.scss']
 })
 export class NavBarComponent {
-  adminStatus = ['Offline', 'Busy', 'Available'];
+  adminStatus = ['Offline', 'Break', 'Available','On Ticket'];
   @Input() 'isAdmin' :boolean 
+  
   statuschange: any;
   @Input() userDetails: any;
   Status:any
@@ -39,9 +40,14 @@ export class NavBarComponent {
   }
   ViewQequest() {
     this.router.navigate(['view-requestPage'])
+    console.log('view42:')
   }
   ViewTicket(){
     this.router.navigate(['tickets'])
+    
+  }
+  user(){
+    this.router.navigate(['user-view-request'])
 
   }
 }

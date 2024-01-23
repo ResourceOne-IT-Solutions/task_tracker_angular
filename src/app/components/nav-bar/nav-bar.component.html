@@ -5,13 +5,15 @@
     <div class="mr-sm-2">
         <button class="btn btn-info m-2" (click)="ViewTicket()" *ngIf="isAdmin">Tickets</button>
         <button class="btn btn-warning m-2" (click)="OpenChatBox()">Chat Box</button>
-        <button class="btn btn-info m-2" (click)="ViewQequest()">View Request</button>
+        <button class="btn btn-info m-2" *ngIf="isAdmin" (click)="ViewQequest()">View Request</button>
         <button class="btn btn-primary ms-2 my-2 my-sm-0" *ngIf="!isAdmin">
 
             Status : <select (change)="changeStatus($event)" [(ngModel)]="Status">
                 <option class="ms-3" [value]="update" *ngFor="let update of adminStatus">{{update}}</option>
             </select>
         </button>
+        <button class="btn btn-info m-2" *ngIf="!isAdmin" (click)="user()">View Request User</button>
+
         <button class="btn btn-danger ms-3" (click)="Logout()">LogOut</button>
     </div>
   </nav>

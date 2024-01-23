@@ -56,6 +56,9 @@ export class DashBoardComponent {
     { columnDef: 'assignedDate', header: 'assigned Date', cell: (element: any) => `${new Date(element['assignedDate']).toLocaleString()}`, isText: true },
     { columnDef: 'addOnResource', header: 'Helped By', cell: (element: any) => `${element['addOnResource']?.map((res: any) => res.name)?.toString() || '--'}`, isText: true },
     { columnDef: 'assignTicket', header: 'assign Ticket', cell: (element: any) => element['user']?.name ? 'Add Resource' : 'Assign User', isButton: true },
+    { columnDef: 'xlSheet', header: 'TicketXl', cell: (element: any) => element === 'Convert' , isButton: true },
+
+
   ];
   pieChartData: number[] = [];
   pieChartLabels: string[] = ["Resolved", "Assigned", "Pending", "In Progress", "Not Assigned", "Improper Requirment"];
@@ -464,6 +467,10 @@ export class DashBoardComponent {
     })
     dismiss();
 
+
+  }
+  xlSheet(data:any){
+    console.log('xlsheet data............')
 
   }
   // this.chatservice.sendSocketData({key:'requestChat',data:{user:{name:this.currentUser.firstName,id:this.currentUser._id},opponent:{name:this.SelectedUserdata.firstName,id:this.SelectedUserdata._id}}})

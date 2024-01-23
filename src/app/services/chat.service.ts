@@ -70,6 +70,9 @@ export class ChatService {
   getTickesRequest() {
     return this.get('/message/user-ticket-request')
   }
+  getAdminChatMessages() {
+    return this.get('/message/admin-messages')
+  }
 
   createNewTicket(data: any) {
     return this.post('/tickets/create', data)

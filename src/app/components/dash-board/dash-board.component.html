@@ -82,8 +82,7 @@
     [tableColumns]="userColumns"></app-table>
 <app-table *ngIf="displayClient" [data]="clientData" (firstBtnClick)="editClient($event)" (clientnameClick)="routeToClientTickets($event)" 
     [tableColumns]="clientColumns"></app-table>
-<app-table *ngIf="displayTickets" [data]="ticketData" (firstBtnClick)="assignTicket($event)"
-    [tableColumns]="ticketColumns"></app-table>
+<app-table *ngIf="displayTickets" [tableData]="ticketData" [data]="ticketData" [tableColumns]="ticketColumns"(firstBtnClick)="assignTicket($event)"(secondBtnClick)="xlSheet($event)"></app-table>
 
 <!--User Model-->
 
