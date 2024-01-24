@@ -32,6 +32,7 @@ import { ClientTicketsComponent } from './components/client-tickets/client-ticke
 import { ViewRequestPageComponent } from './components/view-request-page/view-request-page.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { UserViewComponent } from './components/user-view/user-view.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +47,8 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
     TicketsComponent,
     ClientTicketsComponent,
     ViewRequestPageComponent,
-    NavBarComponent
+    NavBarComponent,
+    UserViewComponent
   ],
   imports: [
     BrowserModule,

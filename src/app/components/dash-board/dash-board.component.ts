@@ -18,6 +18,7 @@ export class DashBoardComponent {
   @ViewChild('ticketModel', { static: false }) ticketModel: any;
   @ViewChild('assignTicketModel', { static: false }) assignTicketModel: any;
   @ViewChild('requestTicketmodal', { static: false }) requestTicketmodal: any;
+  @ViewChild('sendMailModel', { static: false }) sendMailModel: any;
 
   isAdminStatus = false
 
@@ -28,6 +29,8 @@ export class DashBoardComponent {
   'TicketCreationForm': FormGroup;
   userColumns: Array<Column> = [
     { columnDef: 'firstName', header: 'First Name', cell: (element: any) => `${element['firstName']}`, isText: true },
+    { columnDef: 'email', header: 'Email', cell: (element: any) => `${element['email']}`, isText: true },
+    { columnDef: 'mobile', header: 'Mobile', cell: (element: any) => `${element['mobile']}`, isText: true },
     { columnDef: 'designation', header: 'Designation', cell: (element: any) => `${element['designation']}`, isText: true },
     { columnDef: 'empId', header: 'Employee Id', cell: (element: any) => `${element['empId']}`, isText: true },
     { columnDef: 'profileImageUrl', header: 'Profile Pic', cell: (element: any) => `${element['profileImageUrl']}`, isImage: true },
@@ -54,6 +57,9 @@ export class DashBoardComponent {
     { columnDef: 'assignedDate', header: 'assigned Date', cell: (element: any) => `${new Date(element['assignedDate']).toLocaleString()}`, isText: true },
     { columnDef: 'addOnResource', header: 'Helped By', cell: (element: any) => `${element['addOnResource']?.map((res: any) => res.name)?.toString() || '--'}`, isText: true },
     { columnDef: 'assignTicket', header: 'assign Ticket', cell: (element: any) => element['user']?.name ? 'Add Resource' : 'Assign User', isButton: true },
+    { columnDef: 'xlSheet', header: 'TicketXl', cell: (element: any) => element === 'Convert' , isButton: true },
+    { columnDef: 'Update', header: 'update', cell: (element: any) => 'Send Mail', isButton: true },
+
   ];
   pieChartData: number[] = [];
   pieChartLabels: string[] = ["Resolved", "Assigned", "Pending", "In Progress", "Not Assigned", "Improper Requirment"];
@@ -84,7 +90,10 @@ export class DashBoardComponent {
   selectLocation: any = null;
   requestticketForm: any;
   assignErr: any;
-  addNewUser: boolean=false;
+  addNewUser: boolean = false;
+  description: any;
+  mailSuccessMsg: any;
+  loadingStaus: boolean = false
   constructor(private chatservice: ChatService, private router: Router, private modalService: NgbModal, private fb: FormBuilder) {
     this.userForm = this.fb.group({
       fname: ['', Validators.required],
@@ -168,8 +177,8 @@ export class DashBoardComponent {
     })
   }
 
- 
- 
+
+
   openPopup(content: any): void {
     this.modalService.open(content);
   }
@@ -180,7 +189,7 @@ export class DashBoardComponent {
   selectChange(data: any) {
     console.log(data, 'admin status')
 
-  } 
+  }
 
   // user functions 
 
@@ -342,7 +351,8 @@ export class DashBoardComponent {
         client: {
           name: this.TicketCreationForm.value.client.firstName,
           id: this.TicketCreationForm.value.client._id,
-          mobile: this.TicketCreationForm.value.client.mobile
+          mobile: this.TicketCreationForm.value.client.mobile,
+          email : this.TicketCreationForm.value.client.email
         },
         user: {
           name: '',
@@ -369,7 +379,7 @@ export class DashBoardComponent {
   }
 
   assignTicket(ticket: any) {
-    this.assignErr =''
+    this.assignErr = ''
     this.ticketDetails = ticket
     this.assignUser = ticket.user?.name ? 'Assign Resource' : 'Assign User'
     this.AssignedUser = '';
@@ -392,7 +402,11 @@ export class DashBoardComponent {
       console.log(payload, 'payload')
       this.chatservice.updateTicket(payload).subscribe((res: any) => {
         this.ticketData = this.ticketData.map((element: any) => element._id === res._id ? res : element)
-        this.chatservice.sendSocketData({key : 'assignTicket', data:{id :this.AssignedUser._id } , sender : { id: this.adminDetails._id, name: this.adminDetails.firstName}})
+        const payload = {
+          id: this.AssignedUser._id ,
+          sender : { id: this.adminDetails._id, name: this.adminDetails.firstName }
+        }
+        this.chatservice.sendSocketData({ key: 'assignTicket', data:payload})
         dismiss()
       })
     } else if (this.assignUser == 'Assign Resource') {
@@ -408,13 +422,13 @@ export class DashBoardComponent {
       console.log(payload, 'payload')
       this.chatservice.updateResuorce(payload).subscribe((res: any) => {
         const data = {
-          ticket: {name:res.client.name, id: res._id},
-          user: {name: res.user.name, id: res.user.id},
-          resource: {name:this.AssignedUser.firstName + ' ' + this.AssignedUser.lastName, id:this.AssignedUser._id},
-          sender: {name: this.adminDetails.firstName + " "+ this.adminDetails.lastName, id: this.adminDetails._id}
+          ticket: { name: res.client.name, id: res._id },
+          user: { name: res.user.name, id: res.user.id },
+          resource: { name: this.AssignedUser.firstName + ' ' + this.AssignedUser.lastName, id: this.AssignedUser._id },
+          sender: { name: this.adminDetails.firstName + " " + this.adminDetails.lastName, id: this.adminDetails._id }
         }
         this.ticketData = this.ticketData.map((element: any) => element._id === res._id ? res : element)
-        this.chatservice.sendSocketData({key : 'addResource', data})
+        this.chatservice.sendSocketData({ key: 'addResource', data })
         dismiss()
       }, (err: any) => {
         if (err) {
@@ -446,16 +460,9 @@ export class DashBoardComponent {
     });
   }
 
-  OpenChatBox() {
-    this.router.navigate(['Chat-Box'])
-  }
   routeToClientTickets(data: any) {
     this.router.navigate(['/client-tickets']);
     this.chatservice.getTicketId(data)
-  }
-
-  ViewQequest() {
-    this.router.navigate(['view-requestPage'])
   }
 
   adminMessage(dismiss: any) {
@@ -471,16 +478,41 @@ export class DashBoardComponent {
 
 
   }
+  xlSheet(data:any){
+    console.log('xlsheet data............')
+
+  }
   // this.chatservice.sendSocketData({key:'requestChat',data:{user:{name:this.currentUser.firstName,id:this.currentUser._id},opponent:{name:this.SelectedUserdata.firstName,id:this.SelectedUserdata._id}}})
   // this.chatservice.sendSocketData({key:'adminMessage',data:{sender:{id:this.adminDetails._id, name : this.adminDetails.firstName},content:{this.this.requestticketForm.value,}})
 
   //  this.chatservice.sendSocketData({key : '' , data :adminMessagePayload })
   // console.log(updatePayload , 'statuspayload')
+  singleButtonClick(data: any) {
+    if(data.name == 'Send Mail'){
+      this.openPopup(this.sendMailModel)
+      this.ticketDetails = data.userDetails
+      this.description = `Task Update:\n${this.ticketDetails.client.name},\n\n${this.ticketDetails.description}\n\nRegards,\nSupport Team.`
+      console.log(this.ticketDetails, "ticket details")
+    }else{
+      this.assignTicket(data.userDetails)
+    }
+  }
+  SendMail(dismiss: any) {
+    this.loadingStaus = true
 
+    console.log(this.description)
+    const payload = {
+      to: 'bhaskarpaleti70366@gmail.com',
+      content: `<pre>${this.description}</pre>`
+    }
+    this.chatservice.sendMail(payload).subscribe((res) => {
+      this.loadingStaus = false
+      this.mailSuccessMsg = res
+
+    })
+  }
 
 }
-
-
 
 export interface Column {
   columnDef: string;

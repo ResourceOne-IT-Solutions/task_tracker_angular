@@ -18,8 +18,7 @@ export class UserPageComponent implements OnInit {
 
   requestchat = false;
   isupdatestatus = false;
-  Userstatus =true
-  susers = ['Offline', 'Busy', 'Available'];
+  Userstatus = true
   selectedstatus: any;
   date = new Date();
   @ViewChild('updateModel', { static: false }) updateModel: any;
@@ -41,12 +40,12 @@ export class UserPageComponent implements OnInit {
     { columnDef: 'client', header: 'client Name', cell: (element: any) => `${element['client'].name}`, isText: true },
     { columnDef: 'user', header: 'user name', cell: (element: any) => `${element['user'].name || '--'}`, isText: true },
     { columnDef: 'technology', header: 'Technology', cell: (element: any) => `${element['technology']}`, isText: true },
-    { columnDef: 'description', header: 'Description', cell: (element: any) => `${element['description']}`, isText: true },
-    { columnDef: 'assignedDate', header: 'Assigned Date', cell: (element: any) => `${element['assignedDate']}`, isText: true },
-    { columnDef: 'closedDate', header: 'Closed Date', cell: (element: any) => `${element['closedDate']}`, isText: true },
-    { columnDef: 'comments', header: 'Comments', cell: (element: any) => `${element['comments']}`, isText: true },
     { columnDef: 'receivedDate', header: 'received Date', cell: (element: any) => `${new Date(element['receivedDate']).toLocaleString()}`, isText: true },
-    { columnDef: 'targetDate', header: 'Target Date', cell: (element: any) => `${(element['targetDate'])}`, isText: true },
+    { columnDef: 'assignedDate', header: 'Assigned Date', cell: (element: any) => `${new Date(element['assignedDate']).toLocaleString()}`, isText: true },
+    { columnDef: 'description', header: 'Description', cell: (element: any) => `${element['description']}`, isText: true },
+    { columnDef: 'comments', header: 'Comments', cell: (element: any) => `${element['comments']}`, isText: true },
+    { columnDef: 'closedDate', header: 'Closed Date', cell: (element: any) => `${new Date(element['closedDate']).toLocaleString()}`, isText: true },
+    { columnDef: 'targetDate', header: 'Target Date', cell: (element: any) => `${new Date(element['targetDate']).toLocaleString()}`, isText: true },
     { columnDef: 'status', header: 'status', cell: (element: any) => `${element['status']}`, isText: true },
     { columnDef: 'TicketRaised', header: 'Ticket Rise', cell: (element: any) => element === 'btn1' ? 'Update Ticket' : 'Request ticket', isMultiButton: true },
   ];
@@ -71,9 +70,8 @@ export class UserPageComponent implements OnInit {
     })
   }
   ngOnInit(): void {
-    this.chatservice.UserLoginData.subscribe((res:any)=>{
+    this.chatservice.UserLoginData.subscribe((res: any) => {
       this.currentUser = res;
-      console.log(this.currentUser , 'currentuser' , this.UserData)
     })
     //AllUserList.....
     this.chatservice.getAllUsers().subscribe(res => {
@@ -81,41 +79,36 @@ export class UserPageComponent implements OnInit {
       // console.log(this.userList,'UserList')
     })
     this.chatservice.getSocketData('adminMessageToAll').subscribe(res => {
-      alert(`admin message  : ${res.content}` )  
+      alert(`admin message  : ${res.content}`)
     })
-    this.chatservice.getSocketData('statusUpdate').subscribe(res=> {
-      this.UserData = res ;
-    
-      console.log(this.UserData , 'getsocket.............') 
+    this.chatservice.getSocketData('statusUpdate').subscribe(res => {
+      this.UserData = res
     })
 
-    this.chatservice.getSocketData('ticketAssigned').subscribe(res=> {
-      this.UserData = res ;
-      alert(`${JSON.stringify(res)}`)
+    this.chatservice.getTicketSocketData('ticketAssigned').subscribe((data) => {
+      alert(`${data.sender.name} assigned you a ticket`)
     })
-    this.chatservice.getSocketData('resourceAssigned').subscribe(res=> {
-      this.UserData = res ;
+    this.chatservice.getSocketData('resourceAssigned').subscribe(res => {
       alert(`Request coming to add-resource${JSON.stringify(res)}`)
     })
-  
+
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.UserData = res;
-      console.log(this.UserData , 'userData')
     })
 
     this.chatservice.getAllTickets().subscribe((res: any) => {
       this.userTickets = res.filter((item: any) =>
         item.user.id === this.currentUser._id
       )
-      console.log(this.userTickets , 'userticketsss')
-      
+      console.log(this.userTickets, 'userticketsss')
+
       this.Resolved = this.userTickets.filter((val: any) => val.status == 'Resolved').length,
-      this.Assigned = this.userTickets.filter((val: any) => val.status == 'Assigned').length,
-      this.pending = this.userTickets.filter((val: any) => val.status == 'Pending').length,
-      this.Improper  = this.userTickets.filter((val: any) => val.status == 'Improper Requirment').length,
-      this.helpedTickets = this.UserData.helpedTickets,
-      this.inprogress = this.userTickets.filter((val: any) => val.status == 'In Progress').length
-      this.pieChart(this.Resolved, this.Assigned, this.pending, this.inprogress,this.helpedTickets,this.Improper);
+        this.Assigned = this.userTickets.filter((val: any) => val.status == 'Assigned').length,
+        this.pending = this.userTickets.filter((val: any) => val.status == 'Pending').length,
+        this.Improper = this.userTickets.filter((val: any) => val.status == 'Improper Requirment').length,
+        this.helpedTickets = this.UserData.helpedTickets,
+        this.inprogress = this.userTickets.filter((val: any) => val.status == 'In Progress').length
+      this.pieChart(this.Resolved, this.Assigned, this.pending, this.inprogress, this.helpedTickets, this.Improper);
     })
   }
   pieChart(resolved: any, assigned: any, pending: any, inprogress: any, helped: any, Improper: any) {
@@ -160,12 +153,12 @@ export class UserPageComponent implements OnInit {
         id: this.userID,
         data: {
           ...this.updateForm.value,
-          updatedBy : {
-            name : this.UserData.firstName,
-            id : this.UserData._id
+          updatedBy: {
+            name: this.UserData.firstName,
+            id: this.UserData._id
           }
         },
-        
+
       }
       this.chatservice.updateTicket(ticketpayload).subscribe((res: any) => {
         this.userTickets = this.userTickets.map((val: any) => {
@@ -194,8 +187,8 @@ export class UserPageComponent implements OnInit {
   }
   sendadmin() {
     this.requestchat = !this.requestchat;
-    console.log(this.SelectedUserdata,'0000====')
-    this.chatservice.sendSocketData({key:'requestChat',data:{user:{name:this.currentUser.firstName,id:this.currentUser._id},opponent:{name:this.SelectedUserdata.firstName,id:this.SelectedUserdata._id}}})
+    console.log(this.SelectedUserdata, '0000====')
+    this.chatservice.sendSocketData({ key: 'requestChat', data: { user: { name: this.currentUser.firstName, id: this.currentUser._id }, opponent: { name: this.SelectedUserdata.firstName, id: this.SelectedUserdata._id } } })
     alert('request send admin');
   }
 
@@ -203,20 +196,6 @@ export class UserPageComponent implements OnInit {
     console.log('update status')
     this.isupdatestatus = !this.isupdatestatus
   }
-
-  // changeStatus(data: any) {
-  //   this.statuschange = data.target.value;
-  //   console.log(this.statuschange , 'dropdownvalues........')
-  //   const updateUserPayload = {
-  //     id: this.UserData._id,
-  //     status: this.statuschange
-      
-  //   }
-  //   this.chatservice.sendSocketData({ key: 'changeStatus', data: updateUserPayload })
-  //   console.log(updateUserPayload, 'userdropdownpayload')
-
-  // }
-
   selectuser(data: any) {
     console.log(data, 'selecteduser')
     this.SelectedUserdata = data
@@ -225,20 +204,19 @@ export class UserPageComponent implements OnInit {
 
 
   routeToTickets(data: any) {
-    console.log('214:::',data)
+    console.log('214:::', data)
     const CilentPayload = {
-      client:{
-        name:data.client.name,
-        id:data.client.id
+      client: {
+        name: data.client.name,
+        id: data.client.id
       },
-      sender:{
-        name:this.currentUser.firstName,
-        id:this.currentUser._id
+      sender: {
+        name: this.currentUser.firstName,
+        id: this.currentUser._id
       }
     }
-    this.chatservice.sendSocketData({key:'requestTickets',data:CilentPayload})
+    this.chatservice.sendSocketData({ key: 'requestTickets', data: CilentPayload })
     alert('Request Sent Successfully............')
-    // this.router.navigate(['/tickets'])
   }
 
 }
