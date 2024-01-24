@@ -21,7 +21,6 @@ export class ChatService {
   //User Behavior
   UserLoginData = new BehaviorSubject('');
   UserLogin(data: any) {
-    console.log(data, '16:::');
     this.UserLoginData.next(data);
   }
   BE_SERVER = 'https://task-tracker-server-2njm.onrender.com';
