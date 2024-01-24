@@ -14,10 +14,8 @@ export class IdleTimeService {
     this.timer$ = timer(1000, 1000);
 
     this.timer$.subscribe(() => {
-      console.log(this.idleTimeoutInSeconds, 'timer');
       if (this.idleTimeoutInSeconds > 0) {
         this.idleTimeoutInSeconds--;
-        console.log(this.idleTimeoutInSeconds, 'idle time');
         if (this.idleTimeoutInSeconds === 0) {
           this.chatservice.UserLoginData.subscribe((res: any) => {
             const updatePayload = {

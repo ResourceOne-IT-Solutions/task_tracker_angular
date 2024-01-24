@@ -291,7 +291,6 @@ export class DashBoardComponent {
   }
   ngOnInit() {
     this.chatservice.UserLoginData.subscribe((res: any) => {
-      console.log(res, 'admindetailssss');
       this.adminDetails = res;
     });
     this.chatservice.getAllClients().subscribe((res: any) => {
@@ -338,7 +337,6 @@ export class DashBoardComponent {
       const notAssigned = this.ticketData.filter(
         (val: any) => val.status.toLowerCase() == 'not assigned',
       ).length;
-      console.log(improper, '000000');
       this.pieChart(
         this.resolvedTickets,
         assigned,
@@ -373,20 +371,17 @@ export class DashBoardComponent {
   /// admin status
 
   selectChange(data: any) {
-    console.log(data, 'admin status');
   }
 
   // user functions
 
   openUserModel() {
-    //  console.log( this.userForm.value , '389::')
     this.userForm.reset();
     this.addNewUser = true;
     this.modelHeader = 'Add New User';
     this.openPopup(this.userModel);
   }
   addUser(dismiss: any): void {
-    //  console.log( this.userForm.value , '396::')
 
     const Data = {
       firstName: this.userForm.value.fname,
@@ -401,17 +396,11 @@ export class DashBoardComponent {
       designation: 'angular',
       profileImageUrl: this.userForm.value.profileImageUrl,
     };
-    console.log(Data, 'formuser');
     this.chatservice.AddNewUsers(Data).subscribe((res) => console.log(res));
     dismiss();
     this.userForm.reset();
   }
   updateUser(dismiss: any): void {
-    console.log(
-      this.userForm.value.isAdmin,
-      this.userForm.value.isAdmin !== null,
-      'userDetails',
-    );
     const Data = {
       firstName: this.userForm.value.fname,
       lastName: this.userForm.value.lname,
@@ -436,7 +425,6 @@ export class DashBoardComponent {
     this.addNewUser = false;
     this.modelHeader = 'Update User';
     this.openPopup(this.userModel);
-    console.log(userData);
     this.userForm.patchValue({
       fname: userData.firstName,
       lname: userData.lastName,
@@ -454,7 +442,6 @@ export class DashBoardComponent {
     this.selectLocation = null;
     this.clientForm.reset();
     this.openPopup(this.clientModel);
-    console.log(this.clientForm.value, 'clientform', this.selectLocation);
   }
   sendMessageToAll() {
     this.modelHeader = 'request ';
@@ -486,29 +473,19 @@ export class DashBoardComponent {
       technology: this.clientForm.value.technologies,
       applicationType: this.clientForm.value.applicationType,
     };
-    console.log(
-      data,
-      this.clientDetails,
-      this.clientForm.value,
-      'client update1',
-    );
     const payload = {
       id: this.clientDetails._id,
       data: data,
     };
-    console.log(data, 'playload');
     this.chatservice.updateClient(payload).subscribe((res: any) => {
-      console.log(res, 'client update');
       this.clientData = this.clientData.map((element: any) =>
         element._id === res._id ? res : element,
       );
-      console.log(this.clientData, 'updating client');
     });
   }
   editClient(clientDetails: any) {
     this.selectLocation = clientDetails.location.area ? null : undefined;
     this.modelHeader = 'Update Client';
-    console.log(clientDetails, '12345');
     this.openPopup(this.clientModel);
     this.clientDetails = clientDetails;
     this.clientForm.patchValue({
@@ -546,7 +523,6 @@ export class DashBoardComponent {
 
   // ticket functions
   createTicket(dismiss: any) {
-    console.log(this.TicketCreationForm.value, 'create ticket');
     if (this.TicketCreationForm.valid) {
       const payload = {
         client: {
@@ -587,10 +563,8 @@ export class DashBoardComponent {
     this.assignUser = ticket.user?.name ? 'Assign Resource' : 'Assign User';
     this.AssignedUser = '';
     this.modalService.open(this.assignTicketModel);
-    console.log(ticket, 'ticket');
   }
   ticketAssign(dismiss: any) {
-    console.log(this.AssignedUser, 'assgined');
     if (this.assignUser == 'Assign User') {
       const payload = {
         id: this.ticketDetails._id,
@@ -603,7 +577,6 @@ export class DashBoardComponent {
           status: 'Assigned',
         },
       };
-      console.log(payload, 'payload');
       this.chatservice.updateTicket(payload).subscribe((res: any) => {
         this.ticketData = this.ticketData.map((element: any) =>
           element._id === res._id ? res : element,
@@ -629,7 +602,6 @@ export class DashBoardComponent {
           },
         },
       };
-      console.log(payload, 'payload');
       this.chatservice.updateResuorce(payload).subscribe(
         (res: any) => {
           const data = {
@@ -705,7 +677,6 @@ export class DashBoardComponent {
   }
 
   adminMessage(dismiss: any) {
-    console.log(this.requestticketForm.value, '463');
 
     this.chatservice.sendSocketData({
       key: 'adminMessage',
@@ -722,19 +693,16 @@ export class DashBoardComponent {
     dismiss();
   }
   xlSheet(data: any) {
-    console.log('xlsheet data............');
   }
   // this.chatservice.sendSocketData({key:'requestChat',data:{user:{name:this.currentUser.firstName,id:this.currentUser._id},opponent:{name:this.SelectedUserdata.firstName,id:this.SelectedUserdata._id}}})
   // this.chatservice.sendSocketData({key:'adminMessage',data:{sender:{id:this.adminDetails._id, name : this.adminDetails.firstName},content:{this.this.requestticketForm.value,}})
 
   //  this.chatservice.sendSocketData({key : '' , data :adminMessagePayload })
-  // console.log(updatePayload , 'statuspayload')
   singleButtonClick(data: any) {
     if (data.name == 'Send Mail') {
       this.openPopup(this.sendMailModel);
       this.ticketDetails = data.userDetails;
       this.description = `Task Update:\n${this.ticketDetails.client.name},\n\n${this.ticketDetails.description}\n\nRegards,\nSupport Team.`;
-      console.log(this.ticketDetails, 'ticket details');
     } else {
       this.assignTicket(data.userDetails);
     }
@@ -742,7 +710,6 @@ export class DashBoardComponent {
   SendMail(dismiss: any) {
     this.loadingStaus = true;
 
-    console.log(this.description);
     const payload = {
       to: 'bhaskarpaleti70366@gmail.com',
       content: `<pre>${this.description}</pre>`,

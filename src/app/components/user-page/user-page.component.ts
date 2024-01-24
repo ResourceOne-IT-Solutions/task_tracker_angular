@@ -150,7 +150,6 @@ export class UserPageComponent implements OnInit {
     //AllUserList.....
     this.chatservice.getAllUsers().subscribe((res) => {
       this.userList = res;
-      // console.log(this.userList,'UserList')
     });
     this.chatservice.getSocketData('adminMessageToAll').subscribe((res) => {
       alert(`admin message  : ${res.content}`);
@@ -174,7 +173,6 @@ export class UserPageComponent implements OnInit {
       this.userTickets = res.filter(
         (item: any) => item.user.id === this.currentUser._id,
       );
-      console.log(this.userTickets, 'userticketsss');
 
       (this.Resolved = this.userTickets.filter(
         (val: any) => val.status == 'Resolved',
@@ -253,7 +251,6 @@ export class UserPageComponent implements OnInit {
     this.modalService.open(content);
   }
   updateUser(dismiss: any) {
-    console.log('update');
     if (this.updateForm.valid) {
       const ticketpayload = {
         id: this.userID,
@@ -285,11 +282,9 @@ export class UserPageComponent implements OnInit {
 
   requestChat() {
     this.requestchat = !this.requestchat;
-    console.log(this.requestchat, '139::::');
   }
   sendadmin() {
     this.requestchat = !this.requestchat;
-    console.log(this.SelectedUserdata, '0000====');
     this.chatservice.sendSocketData({
       key: 'requestChat',
       data: {
@@ -304,16 +299,13 @@ export class UserPageComponent implements OnInit {
   }
 
   updateStatus() {
-    console.log('update status');
     this.isupdatestatus = !this.isupdatestatus;
   }
   selectuser(data: any) {
-    console.log(data, 'selecteduser');
     this.SelectedUserdata = data;
   }
 
   routeToTickets(data: any) {
-    console.log('214:::', data);
     const CilentPayload = {
       client: {
         name: data.client.name,
