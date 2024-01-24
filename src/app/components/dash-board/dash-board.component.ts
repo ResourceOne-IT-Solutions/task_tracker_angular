@@ -400,9 +400,7 @@ export class DashBoardComponent {
       isAdmin: this.userForm.value.isAdmin !== null,
       gender : this.userForm.value.gender , 
       designation: 'angular',
-      profileImageUrl: this.userForm.value.profileImageUrl,
-      gender : this.userForm.value.gender,
-      
+      profileImageUrl: this.userForm.value.profileImageUrl,      
     
     };
     console.log(Data, 'formuser');
