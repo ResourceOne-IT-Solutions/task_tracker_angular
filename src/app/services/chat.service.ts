@@ -10,8 +10,6 @@ export class ChatService {
   RoleData = new BehaviorSubject('');
   ticketsById = new BehaviorSubject('');
   private socket: Socket;
-  private idleTimeoutInSeconds = 1 * 60; // 15 minutes
-  private timer$: any;
   getRoleData(role: any) {
     this.RoleData.next(role);
   }
@@ -233,30 +231,4 @@ export class ChatService {
     return data.firstName + ' ' + data.lastName;
   }
 
-  // timer Start
-  startIdleMonitoring() {
-    this.timer$ = timer(1000, 1000);
-
-    this.timer$.subscribe(() => {
-      // console.log(this.idleTimeoutInSeconds, 'timer');
-      if (this.idleTimeoutInSeconds > 0) {
-        this.idleTimeoutInSeconds--;
-
-        if (this.idleTimeoutInSeconds === 0) {
-          this.UserLoginData.subscribe((res: any) => {
-            const updatePayload = {
-              id: res._id,
-              status: 'Break',
-            };
-            this.sendSocketData({ key: 'changeStatus', data: updatePayload });
-          });
-        }
-      }
-    });
-  }
-
-  // Reset the idle timer
-  resetIdleTimer() {
-    this.idleTimeoutInSeconds = 1 * 60;
-  }
 }

@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { ChatService } from 'src/app/services/chat.service';
 import { Column } from '../dash-board/dash-board.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-tickets',
@@ -59,10 +60,11 @@ export class TicketsComponent {
   isStatusSeleted: boolean = false;
   description: any;
   ticketDetails: any;
+  isFilterDate: boolean = false;
   constructor(
     private chatservice: ChatService,
     private modalService: NgbModal,
-  ) {}
+  ) { }
   ngOnInit() {
     this.chatservice.getAllTickets().subscribe((res: any) => {
       this.mockTicketsData = res;
@@ -73,23 +75,29 @@ export class TicketsComponent {
     });
   }
   searchFilter() {
-    this.ticketsData = this.filterByNames(this.mockTicketsData);
+    if (!this.isFilterDate && this.isStatusSeleted) {
+      this.ticketsData = this.filterByNames(this.filterBasedOnStatus(this.mockTicketsData));
+    } else if (this.isFilterDate && this.isStatusSeleted) {
+      this.ticketsData = this.filterBasedOnStatus(this.filterByNames(this.filterDates(this.seletedDate)),
+      );
+    } else {
+      this.ticketsData = this.filterByNames(this.mockTicketsData);
+    }
   }
   filterByStatus(evt: any) {
     this.isStatusSeleted = true;
-    this.ticketsData = this.mockTicketsData.filter(
-      (res: any) =>
-        res.status.toLowerCase() === this.selectedStatus.toLowerCase(),
-    );
+    if (this.searchText.length && !this.isFilterDate) {
+      this.ticketsData = this.filterByNames(this.filterBasedOnStatus(this.mockTicketsData));
+    } else if (this.isFilterDate && this.searchText.length) {
+      this.ticketsData = this.filterBasedOnStatus(this.filterByNames(this.filterDates(this.seletedDate)),
+      );
+    } else {
+      this.ticketsData = this.filterBasedOnStatus(this.mockTicketsData);
+    }
   }
   filterByDate(evt: any) {
+    this.isFilterDate = true
     if (this.searchText.length && !this.isStatusSeleted) {
-      console.log(
-        this.filterByNames(this.filterDates(this.seletedDate)),
-        'name',
-        this.filterDates(this.seletedDate),
-        'date',
-      );
       this.ticketsData = this.filterByNames(this.filterDates(this.seletedDate));
     } else if (this.isStatusSeleted && this.searchText.length) {
       this.ticketsData = this.filterBasedOnStatus(
@@ -103,7 +111,7 @@ export class TicketsComponent {
     return tickets.filter(
       (res: any) =>
         res.client.name.toLowerCase().indexOf(this.searchText.toLowerCase()) >
-          -1 ||
+        -1 ||
         res.user.name.toLowerCase().indexOf(this.searchText.toLowerCase()) > -1,
     );
   }
@@ -157,8 +165,29 @@ export class TicketsComponent {
   private isSameYear(date: Date, currentDate: Date): boolean {
     return date.getFullYear() === currentDate.getFullYear();
   }
-
+  ResetFilter(){
+    this.searchText = '';
+    this.selectedStatus =''
+    this.seletedDate = ''
+    this.ticketsData = this.mockTicketsData
+  }
   openPopup(content: any): void {
     this.modalService.open(content);
+  }
+  exportToExcel(): void {
+    const covertedData = this.ticketsData.map((element: any) => {
+      const modifiedElement = {
+        ...element,
+        client: element.client.name,
+        user: element.user.name,
+        addOnResource: element?.addOnResource?.length ? element?.addOnResource?.map((res: any) => res.name).toString() : '',
+      };
+      return modifiedElement;
+    });
+    console.log(covertedData, this.ticketsData, 'coverteddata')
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(covertedData);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.writeFile(wb, 'excel-export.xlsx');
   }
 }

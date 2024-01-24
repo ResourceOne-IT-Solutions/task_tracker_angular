@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ChatService } from './services/chat.service';
+import { IdleTimeService } from './services/idle/idle-time.service';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,7 @@ export class AppComponent implements OnInit {
   constructor(
     private route: Router,
     private chatservice: ChatService,
+    private idleservice : IdleTimeService 
   ) {}
   ngOnInit(): void {
     this.chatservice.getSocketData('userRequestApproved').subscribe(res=> {
@@ -26,10 +28,10 @@ export class AppComponent implements OnInit {
   //   this.chatservice.resetIdleTimer();
   // }
 
-  @HostListener('document:click', ['$event'])
-  onDocumentKeyPress(event: KeyboardEvent): void {
-    // Handle keypress event
-    console.log('keypress');
-    this.chatservice.resetIdleTimer();
-  }
+  // @HostListener('document:click', ['$event'])
+  // onDocumentKeyPress(event: KeyboardEvent): void {
+  //   // Handle keypress event
+  //   console.log('keypress');
+  //   this.idleservice.resetIdleTimer();
+  // }
 }

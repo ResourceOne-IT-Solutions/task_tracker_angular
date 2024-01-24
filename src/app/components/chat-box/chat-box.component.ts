@@ -5,6 +5,7 @@ import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
 import { Socket } from 'socket.io-client';
 import { ChatService } from 'src/app/services/chat.service';
 import { Location } from '@angular/common';
+import { BehaviorSubject, Observable } from 'rxjs';
 @Component({
   selector: 'app-chat-box',
   templateUrl: './chat-box.component.html',
@@ -171,10 +172,8 @@ export class ChatBoxComponent {
     formData.append('file', selectedFile);
     if (selectedFile) {
       this.chatservice.uploadFile(formData).subscribe((res: any) => {
+        console.log(res , "upload file")
         this.reUseableSendMessage(res.fileName, res.type, res._id);
-        this.chatservice
-          .getFile(res._id)
-          .subscribe((res) => console.log(res, 'get file'));
       });
     }
   }

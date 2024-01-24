@@ -194,7 +194,15 @@
               class="form-control m-2"
               formControlName="profileImageUrl"
             />
-            
+            <select class="form-control m-2" formControlName="gender" *ngIf="modelHeader === 'Add New User'">
+                <option [value]="selectLocation" disabled selected class="hide">
+                  Select Gender
+                </option>
+                <option *ngFor="let gender of genders" [value]="gender">
+                  {{ gender }}
+                </option>
+              </select>
+
             <label class="ms-2">Address</label>
             <textarea
               formControlName="address"
@@ -414,7 +422,7 @@
   <div class="modal-header p-2 m-0"></div>
   <div class="modal-body m-2">
     <form [formGroup]="requestticketForm">
-      <label class="ms-2">Request all</label>
+      <label class="ms-2">Request All</label>
       <textarea
         class="form-control m-2"
         placeholder="description"
