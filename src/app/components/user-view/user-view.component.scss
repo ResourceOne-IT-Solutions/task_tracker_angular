@@ -2,18 +2,15 @@ h1 {
   text-align: center;
 }
 
-.Main-ViewRequest {
+.User-ViewRequest {
   display: flex;
   margin-top: 17px;
+  justify-content: space-around;
 
-  .ChatRequest {
-    width: 50%;
+  .User-ChatRequest {
     box-shadow: 0 0 5px;
     border-radius: 7px;
-    margin: 0 0 0 21px;
-    height: 550px;
-    overflow: auto;
-
+    // margin: 0 0 0 21px;
     h1 {
       text-align: center;
       padding: 6px 0;
@@ -21,19 +18,32 @@ h1 {
     }
   }
 
-  .TicketREquest {
-    width: 50%;
+  .User-TicketRequest {
     box-shadow: 0 0 5px;
     border-radius: 7px;
-    margin: 0 12px 0 16px;
-    height: 550px;
-    overflow: auto;
-
+    // margin: 0 12px 0 16px;
     h1 {
       text-align: center;
       padding: 6px 0;
       text-decoration: underline;
     }
+  }
+  .User-Messages {
+    // border: 3px solid red;
+    // display: flex;
+
+    box-shadow: 0 0 5px;
+    border-radius: 7px;
+    // margin: 0 12px 0 16px;
+    h1 {
+      text-align: center;
+      padding: 6px 0;
+      text-decoration: underline;
+    }
+    // .message{
+    //     display: flex;
+    //     background-origin: 3px solid red;
+    // }
   }
 }
 
@@ -42,7 +52,7 @@ ol {
   li {
     border-bottom: 1px solid darkgray;
     div {
-      display: flex;
+      display: block;
       justify-content: space-between;
       align-items: center;
       .isPending {

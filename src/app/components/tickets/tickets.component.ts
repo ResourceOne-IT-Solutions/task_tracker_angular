@@ -1,60 +1,137 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ChatService } from 'src/app/services/chat.service';
 import { Column } from '../dash-board/dash-board.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-tickets',
   templateUrl: './tickets.component.html',
-  styleUrls: ['./tickets.component.scss']
+  styleUrls: ['./tickets.component.scss'],
 })
 export class TicketsComponent {
   searchText: string = '';
   selectedStatus: string = '';
   ticketsData: any = [];
   ticketColumns: Array<Column> = [
-    { columnDef: 'client', header: 'client name', cell: (element: any) => `${element['client'].name}`, isText: true },
-    { columnDef: 'status', header: 'status', cell: (element: any) => `${element['status']}`, isText: true },
-    { columnDef: 'user', header: 'user name', cell: (element: any) => `${element['user'].name || '--'}`, isText: true },
-    { columnDef: 'technology', header: 'Technology', cell: (element: any) => `${element['technology']}`, isText: true },
-    { columnDef: 'receivedDate', header: 'receivedDate', cell: (element: any) => `${new Date(element['receivedDate']).toLocaleString()}`, isText: true },
-    { columnDef: 'addOnResource', header: 'Helped By', cell: (element: any) => `${element['addOnResource']?.map((res: any) => res.name)?.toString() || '--'}`, isText: true },
-    { columnDef: 'assignTicket', header: 'assignTicket', cell: (element: any) => element['user']?.name ? 'Add Resource' : 'Assign User', isButton: true },
+    {
+      columnDef: 'client',
+      header: 'client name',
+      cell: (element: any) => `${element['client'].name}`,
+      isText: true,
+    },
+    {
+      columnDef: 'status',
+      header: 'status',
+      cell: (element: any) => `${element['status']}`,
+      isText: true,
+    },
+    {
+      columnDef: 'user',
+      header: 'user name',
+      cell: (element: any) => `${element['user'].name || '--'}`,
+      isText: true,
+    },
+    {
+      columnDef: 'technology',
+      header: 'Technology',
+      cell: (element: any) => `${element['technology']}`,
+      isText: true,
+    },
+    {
+      columnDef: 'receivedDate',
+      header: 'receivedDate',
+      cell: (element: any) =>
+        `${new Date(element['receivedDate']).toLocaleString()}`,
+      isText: true,
+    },
+    {
+      columnDef: 'addOnResource',
+      header: 'Helped By',
+      cell: (element: any) =>
+        `${element['addOnResource']?.map((res: any) => res.name)?.toString() || '--'}`,
+      isText: true,
+    },
   ];
-  dateData: any = ['today', 'month', '3months', 'year']
+  dateData: any = ['today', 'month', '3months', 'year'];
   mockTicketsData: any = [];
-  seletedDate: string = ''
+  seletedDate: string = '';
   statusData: any;
-  constructor(private chatservice: ChatService) {
-
-  }
+  isStatusSeleted: boolean = false;
+  description: any;
+  ticketDetails: any;
+  constructor(
+    private chatservice: ChatService,
+    private modalService: NgbModal,
+  ) {}
   ngOnInit() {
     this.chatservice.getAllTickets().subscribe((res: any) => {
-      this.mockTicketsData = res
-      this.ticketsData = res
-      this.statusData = [...new Set(this.ticketsData.map((val: any) => val.status))]
-    })
+      this.mockTicketsData = res;
+      this.ticketsData = res;
+      this.statusData = [
+        ...new Set(this.ticketsData.map((val: any) => val.status)),
+      ];
+    });
   }
   searchFilter() {
-    this.ticketsData = this.mockTicketsData.filter((res: any) => res.client.name.toLowerCase().indexOf(this.searchText.toLowerCase()) > -1 || res.user.name.toLowerCase().indexOf(this.searchText.toLowerCase()) > -1)
+    this.ticketsData = this.filterByNames(this.mockTicketsData);
   }
-  filterByStatus(evt:any) {
-    this.ticketsData = this.mockTicketsData.filter((res: any) => res.status.toLowerCase() === this.selectedStatus.toLowerCase())
+  filterByStatus(evt: any) {
+    this.isStatusSeleted = true;
+    this.ticketsData = this.mockTicketsData.filter(
+      (res: any) =>
+        res.status.toLowerCase() === this.selectedStatus.toLowerCase(),
+    );
   }
-  filterByDate(evt :any) {
-    this.ticketsData = this.filterDates(this.seletedDate)
+  filterByDate(evt: any) {
+    if (this.searchText.length && !this.isStatusSeleted) {
+      console.log(
+        this.filterByNames(this.filterDates(this.seletedDate)),
+        'name',
+        this.filterDates(this.seletedDate),
+        'date',
+      );
+      this.ticketsData = this.filterByNames(this.filterDates(this.seletedDate));
+    } else if (this.isStatusSeleted && this.searchText.length) {
+      this.ticketsData = this.filterBasedOnStatus(
+        this.filterByNames(this.filterDates(this.seletedDate)),
+      );
+    } else {
+      this.ticketsData = this.filterDates(this.seletedDate);
+    }
+  }
+  filterByNames(tickets: any) {
+    return tickets.filter(
+      (res: any) =>
+        res.client.name.toLowerCase().indexOf(this.searchText.toLowerCase()) >
+          -1 ||
+        res.user.name.toLowerCase().indexOf(this.searchText.toLowerCase()) > -1,
+    );
+  }
+  filterBasedOnStatus(tickets: any) {
+    return tickets.filter(
+      (res: any) =>
+        res.status.toLowerCase() === this.selectedStatus.toLowerCase(),
+    );
   }
   filterDates(selection: string) {
     const currentDate = new Date();
-
     switch (selection) {
       case 'today':
-        return this.mockTicketsData.filter((val: any) => this.isToday(new Date(val.receivedDate), currentDate));
+        return this.mockTicketsData.filter((val: any) =>
+          this.isToday(new Date(val.receivedDate), currentDate),
+        );
       case 'month':
-        return this.mockTicketsData.filter((val: any) => this.isSameMonth(new Date(val.receivedDate), currentDate));
+        return this.mockTicketsData.filter((val: any) =>
+          this.isSameMonth(new Date(val.receivedDate), currentDate),
+        );
       case '3months':
-        return this.mockTicketsData.filter((val: any) => this.isLastThreeMonths(new Date(val.receivedDate), currentDate));
+        return this.mockTicketsData.filter((val: any) =>
+          this.isLastThreeMonths(new Date(val.receivedDate), currentDate),
+        );
       case 'year':
-        return this.mockTicketsData.filter((val: any) => this.isSameYear(new Date(val.receivedDate), currentDate));
+        return this.mockTicketsData.filter((val: any) =>
+          this.isSameYear(new Date(val.receivedDate), currentDate),
+        );
       default:
         return this.mockTicketsData;
     }
@@ -65,7 +142,10 @@ export class TicketsComponent {
   }
 
   private isSameMonth(date: Date, currentDate: Date): boolean {
-    return (date.getMonth() === currentDate.getMonth() && date.getFullYear() === currentDate.getFullYear());
+    return (
+      date.getMonth() === currentDate.getMonth() &&
+      date.getFullYear() === currentDate.getFullYear()
+    );
   }
 
   private isLastThreeMonths(date: Date, currentDate: Date): boolean {
@@ -76,5 +156,9 @@ export class TicketsComponent {
 
   private isSameYear(date: Date, currentDate: Date): boolean {
     return date.getFullYear() === currentDate.getFullYear();
+  }
+
+  openPopup(content: any): void {
+    this.modalService.open(content);
   }
 }

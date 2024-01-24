@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -8,31 +15,33 @@ import { Column } from 'src/app/components/dash-board/dash-board.component';
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss']
+  styleUrls: ['./table.component.scss'],
 })
 export class TableComponent {
   @Input() data: any;
-  @Input() 'tableColumns' :Column[]; 
+  @Input() 'tableColumns': Column[];
   dataSource = new MatTableDataSource();
-  displayedColumns: any
+  displayedColumns: any;
   @ViewChild(MatPaginator) 'paginator': MatPaginator;
   @ViewChild(MatSort) 'sort': MatSort;
   @Output() firstBtnClick = new EventEmitter();
   @Output() secondBtnClick = new EventEmitter();
   @Output() clientnameClick = new EventEmitter();
-  @Output() userDetails = new EventEmitter()
-  constructor(private loader: NgxSpinnerService) { }
+  @Input() tableData: any[] = [];
+  @Output() userDetails = new EventEmitter();
+  @Output() singleButtonClick = new EventEmitter();
+  constructor(private loader: NgxSpinnerService) {}
   ngOnInit() {
-    this.loader.show()
+    this.loader.show();
     setTimeout(() => {
-      this.loader.hide()
+      this.loader.hide();
     }, 500);
     this.displayedColumns = this.tableColumns.map((c) => c.columnDef);
     this.dataSource = new MatTableDataSource(this.data);
   }
   ngOnChanges(change: SimpleChanges) {
     if (change['data']) {
-      this.dataSource.data = this.data
+      this.dataSource.data = this.data;
     }
   }
   ngAfterViewInit() {
@@ -40,15 +49,18 @@ export class TableComponent {
     this.dataSource.sort = this.sort;
   }
   btn1Click(data: any) {
-    this.firstBtnClick.emit(data)
+    this.firstBtnClick.emit(data);
   }
   btn2Click(data: any) {
-    this.secondBtnClick.emit(data)
+    this.secondBtnClick.emit(data);
   }
   clientNameClick(data: any) {
-    this.clientnameClick.emit(data)
+    this.clientnameClick.emit(data);
   }
   openUserDetails(userDetails: any) {
-    this.userDetails.emit(userDetails)
+    this.userDetails.emit(userDetails);
+  }
+  onClick(userDetails: any, name: any) {
+    this.singleButtonClick.emit({ userDetails, name });
   }
 }

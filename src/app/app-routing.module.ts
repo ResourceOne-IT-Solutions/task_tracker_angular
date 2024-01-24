@@ -12,22 +12,56 @@ import { ChatBoxComponent } from './components/chat-box/chat-box.component';
 import { TicketsComponent } from './components/tickets/tickets.component';
 import { ClientTicketsComponent } from './components/client-tickets/client-tickets.component';
 import { ViewRequestPageComponent } from './components/view-request-page/view-request-page.component';
+import { UserViewComponent } from './components/user-view/user-view.component';
 
 const routes: Routes = [
   { path: '', component: WelComePageComponent },
-  { path: 'login_page', component: LoginPageComponent ,canActivate : [guardGuard] },
-  { path: 'dashboard', component: MainDashboardComponent,canActivate : [guardGuard]  },
-  { path: 'create-user', component: CreateUserComponent ,canActivate : [guardGuard] },
-  { path: 'User-page', component: UserPageComponent,canActivate : [guardGuard]},
-  { path: 'Chat-Box', component: ChatBoxComponent,canActivate : [guardGuard]},
-  { path: 'User-page', component: UserPageComponent,canActivate : [guardGuard] },
-  { path: 'tickets', component: TicketsComponent ,canActivate : [guardGuard]},
-  { path: 'client-tickets', component: ClientTicketsComponent ,canActivate : [guardGuard]},
-  { path: 'view-requestPage', component: ViewRequestPageComponent,canActivate : [guardGuard]}
+  {
+    path: 'login_page',
+    component: LoginPageComponent,
+    canActivate: [guardGuard],
+  },
+  {
+    path: 'dashboard',
+    component: MainDashboardComponent,
+    canActivate: [guardGuard],
+  },
+  {
+    path: 'create-user',
+    component: CreateUserComponent,
+    canActivate: [guardGuard],
+  },
+  {
+    path: 'User-page',
+    component: UserPageComponent,
+    canActivate: [guardGuard],
+  },
+  { path: 'Chat-Box', component: ChatBoxComponent, canActivate: [guardGuard] },
+  {
+    path: 'User-page',
+    component: UserPageComponent,
+    canActivate: [guardGuard],
+  },
+  { path: 'tickets', component: TicketsComponent, canActivate: [guardGuard] },
+  {
+    path: 'client-tickets',
+    component: ClientTicketsComponent,
+    canActivate: [guardGuard],
+  },
+  {
+    path: 'view-requestPage',
+    component: ViewRequestPageComponent,
+    canActivate: [guardGuard],
+  },
+  {
+    path: 'user-view-request',
+    component: UserViewComponent,
+    canActivate: [guardGuard],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

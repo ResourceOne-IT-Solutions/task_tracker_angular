@@ -1,261 +1,452 @@
 <div>
-    <h1>Admin Page</h1>
-    
-    
-    
-    <div class="d-flex">
-        <div class="d-flex admin-content">
-            <div class="admin-page">
-                <div class="d-flex">
-                    <img class="adminpic" src="{{adminDetails.profileImageUrl}}" />
-                    <div>
-                        <h1 class="m-0">{{adminDetails.firstName}}</h1>
-                        <p>{{adminDetails.designation}}</p>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-around">
-                    <div>
-                        <p>first name : {{adminDetails.firstName}}</p>
-                        <p>last name : {{adminDetails.lastName}}</p>
-                        <p>Date of Birth : {{adminDetails.dob}}</p>
-                        <p>isAdmin : {{adminDetails.isAdmin}}</p>
-                        <p>first name : {{adminDetails.firstName}}</p>
-                        <p>Status : {{adminDetails.status}}</p>
+  <h1>Admin Page</h1>
 
-                    </div>
-                    <div>
-                        <p>Total Tickets :  {{ticketData.length}}</p>
-                        <p>todays Tickets : {{todaysTickets?.length}}</p>
-                        <p>pending Tickets :{{pendingTickets}}</p>
-                        <p>completed Tickets :{{resolvedTickets}}</p>
-                        <p>inprogress Tickets :{{inprogressTickets}}</p>
-                    </div>
-                </div>
-            </div>
+  <div class="d-flex">
+    <div class="d-flex admin-content">
+      <div class="admin-page">
+        <div class="d-flex">
+          <img class="adminpic" src="{{ adminDetails.profileImageUrl }}" />
+          <div>
+            <h1 class="m-0">{{ adminDetails.firstName }}</h1>
+            <p>{{ adminDetails.designation }}</p>
+          </div>
+          <span class="online"></span>
         </div>
-        <div class="d-flex piechart-container">
-            <div class="pieChart">
-                <div class="chart-legend">
-                    <div class="grid-item" *ngFor="let label of pieChartLabels; let i = index">
-                      <span [style.color]="pieChartColors[i]">&#9632;</span>
-                      {{label}}: {{pieChartData[i]}} 
-                    </div>
-                  </div>
-                <canvas id="pieChart">
-                </canvas>
-                <p>Total Tickets : {{ticketData.length}}</p>
-            </div>
-            <div>
-                Resolved
-                <div class="progress" style="height: 10px;">
-                    <div class="progress-bar bg-success" role="progressbar" [style.width]="resolvedTickets/ticketData.length*100+'%'" aria-valuenow="6"
-                        aria-valuemin="0" aria-valuemax="10"></div>
-                </div>
-                Pending
-                <div class="progress" style="height: 10px;">
-                    <div class="progress-bar bg-info" role="progressbar" [style.width]="pendingTickets/ticketData.length*100+'%'" aria-valuenow="8"
-                        aria-valuemin="0" aria-valuemax="10"></div>
-                </div>
-                Inprogress
-                <div class="progress" style="height: 10px;">
-                    <div class="progress-bar bg-warning" role="progressbar" [style.width]="inprogressTickets/ticketData.length*100+'%'" aria-valuenow="2"
-                        aria-valuemin="0" aria-valuemax="10"></div>
-                </div>
-            </div>
+        <div class="d-flex justify-content-around">
+          <div>
+            <p>first name : {{ adminDetails.firstName }}</p>
+            <p>last name : {{ adminDetails.lastName }}</p>
+            <p>Date of Birth : {{ adminDetails.dob }}</p>
+            <p>isAdmin : {{ adminDetails.isAdmin }}</p>
+            <p>first name : {{ adminDetails.firstName }}</p>
+            <p>Status : {{ adminDetails.status }}</p>
+          </div>
+          <div>
+            <p>Total Tickets : {{ ticketData.length }}</p>
+            <p>todays Tickets : {{ todaysTickets?.length }}</p>
+            <p>pending Tickets :{{ pendingTickets }}</p>
+            <p>completed Tickets :{{ resolvedTickets }}</p>
+            <p>inprogress Tickets :{{ inprogressTickets }}</p>
+          </div>
         </div>
+      </div>
     </div>
-    <div>
-        <button class="btn btn-primary m-2"
-            (click)="displayUsers=true ; displayTickets = false ; displayClient= false">User List</button>
-        <button class="btn btn-primary m-2"
-            (click)="displayUsers=false ; displayTickets = false ; displayClient= true">Client List</button>
-        <button class="btn btn-primary m-2"
-            (click)="displayUsers=false ; displayTickets = true ; displayClient= false">Tickets</button>
-        <button class="btn btn-primary m-2" (click)="OpenTicketModel()">Create Ticket</button>
-        <button class="btn btn-primary m-2" (click)="openUserModel()">Add User</button>
-        <button class="btn btn-primary m-2" (click)="openClientModel()">Add Client</button>
-        <button class="btn btn-warning m-2" (click)="OpenChatBox()">Chat Box</button>
-        <button class="btn btn-info m-2" (click)="ViewQequest()">View Request</button>
-        <button class="btn btn-info m-2" (click)="sendMessageToAll()">Send Message toAll</button>
-
+    <div class="d-flex piechart-container">
+      <div class="pieChart">
+        <div class="chart-legend">
+          <div
+            class="grid-item"
+            *ngFor="let label of pieChartLabels; let i = index"
+          >
+            <span [style.color]="pieChartColors[i]">&#9632;</span>
+            {{ label }}: {{ pieChartData[i] }}
+          </div>
+        </div>
+        <canvas id="pieChart"> </canvas>
+        <p>Total Tickets : {{ ticketData.length }}</p>
+      </div>
+      <div>
+        Resolved
+        <div class="progress" style="height: 10px">
+          <div
+            class="progress-bar bg-success"
+            role="progressbar"
+            [style.width]="(resolvedTickets / ticketData.length) * 100 + '%'"
+            aria-valuenow="6"
+            aria-valuemin="0"
+            aria-valuemax="10"
+          ></div>
+        </div>
+        Pending
+        <div class="progress" style="height: 10px">
+          <div
+            class="progress-bar bg-info"
+            role="progressbar"
+            [style.width]="(pendingTickets / ticketData.length) * 100 + '%'"
+            aria-valuenow="8"
+            aria-valuemin="0"
+            aria-valuemax="10"
+          ></div>
+        </div>
+        Inprogress
+        <div class="progress" style="height: 10px">
+          <div
+            class="progress-bar bg-warning"
+            role="progressbar"
+            [style.width]="(inprogressTickets / ticketData.length) * 100 + '%'"
+            aria-valuenow="2"
+            aria-valuemin="0"
+            aria-valuemax="10"
+          ></div>
+        </div>
+      </div>
     </div>
+  </div>
+  <div>
+    <button
+      class="btn btn-primary m-2"
+      (click)="
+        displayUsers = true; displayTickets = false; displayClient = false
+      "
+    >
+      User List
+    </button>
+    <button
+      class="btn btn-primary m-2"
+      (click)="
+        displayUsers = false; displayTickets = false; displayClient = true
+      "
+    >
+      Client List
+    </button>
+    <button
+      class="btn btn-primary m-2"
+      (click)="
+        displayUsers = false; displayTickets = true; displayClient = false
+      "
+    >
+      Tickets
+    </button>
+    <button class="btn btn-primary m-2" (click)="OpenTicketModel()">
+      Create Ticket
+    </button>
+    <button class="btn btn-primary m-2" (click)="openUserModel()">
+      Add User
+    </button>
+    <button class="btn btn-primary m-2" (click)="openClientModel()">
+      Add Client
+    </button>
+    <button class="btn btn-info m-2" (click)="sendMessageToAll()">
+      Send Message toAll
+    </button>
+  </div>
 </div>
-<app-table *ngIf="displayUsers" [data]="userList" (firstBtnClick)="editUser($event)" (userDetails)="openUserDetails($event)"
-    [tableColumns]="userColumns"></app-table>
-<app-table *ngIf="displayClient" [data]="clientData" (firstBtnClick)="editClient($event)" (clientnameClick)="routeToClientTickets($event)" 
-    [tableColumns]="clientColumns"></app-table>
-<app-table *ngIf="displayTickets" [data]="ticketData" (firstBtnClick)="assignTicket($event)"
-    [tableColumns]="ticketColumns"></app-table>
+
+<app-table
+  *ngIf="displayUsers"
+  [data]="userList"
+  (firstBtnClick)="editUser($event)"
+  (userDetails)="openUserDetails($event)"
+  [tableColumns]="userColumns"
+></app-table>
+<app-table
+  *ngIf="displayClient"
+  [data]="clientData"
+  (firstBtnClick)="editClient($event)"
+  (clientnameClick)="routeToClientTickets($event)"
+  [tableColumns]="clientColumns"
+></app-table>
+<app-table
+  *ngIf="displayTickets"
+  [data]="ticketData"
+  (singleButtonClick)="singleButtonClick($event)"
+  [tableColumns]="ticketColumns"
+></app-table>
 
 <!--User Model-->
 
 <ng-template #userModel let-d="dismiss">
-    <div class="modal-header">
-        <h4 class="modal-title">{{modelHeader}}</h4>
-    </div>
-    <div class="modal-body">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group" [formGroup]="userForm">
-                    <label class="ms-2">First Name</label>
-                    <input type="text" placeholder="First Name" class="form-control m-2" formControlName="fname">
-                    <label class="ms-2">Last Name</label>
-                    <input type="text" placeholder="Last Name" class="form-control m-2" formControlName="lname">
-                    <label class="ms-2">Email</label>
-                    <input type="email" placeholder="Email" class="form-control m-2" formControlName="email">
-                    <label class="ms-2">Phone Number</label>
-                    <input type="text" placeholder="Phone Number" class="form-control m-2" formControlName="phone">
-                   <div *ngIf="addNewUser">
-                    <label class="ms-2">Join Date</label>
-                    <input type="date" placeholder="Join Date" class="form-control m-2" formControlName="joiningDate">
-                    <label class="ms-2">Profile Image</label>
-                    <input type="file" class="form-control m-2" formControlName="profileImageUrl" />
-                    <label class="ms-2">Address</label>
-                     <textarea formControlName="address" class="form-control m-2" placeholder="Enter Your Address"></textarea>
-                   </div>
-                    <label class="ms-2">Date Of Birth</label>
-                    <input type="date"  class="form-control m-2" formControlName="dob">
-                    <span *ngIf="modelHeader==='Add New User'">
-                        <input type="checkbox" formControlName="isAdmin" checked="false">
-                        <label class="ms-2">isAdmin</label>
-                    </span>
-                </div>
-            </div>
+  <div class="modal-header">
+    <h4 class="modal-title">{{ modelHeader }}</h4>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group" [formGroup]="userForm">
+          <label class="ms-2">First Name</label>
+          <input
+            type="text"
+            placeholder="First Name"
+            class="form-control m-2"
+            formControlName="fname"
+          />
+          <label class="ms-2">Last Name</label>
+          <input
+            type="text"
+            placeholder="Last Name"
+            class="form-control m-2"
+            formControlName="lname"
+          />
+          <label class="ms-2">Email</label>
+          <input
+            type="email"
+            placeholder="Email"
+            class="form-control m-2"
+            formControlName="email"
+          />
+          <label class="ms-2">Phone Number</label>
+          <input
+            type="text"
+            placeholder="Phone Number"
+            class="form-control m-2"
+            formControlName="phone"
+          />
+          <div *ngIf="addNewUser">
+            <label class="ms-2">Join Date</label>
+            <input
+              type="date"
+              placeholder="Join Date"
+              class="form-control m-2"
+              formControlName="joiningDate"
+            />
+            <label class="ms-2">Profile Image</label>
+            <input
+              type="file"
+              class="form-control m-2"
+              formControlName="profileImageUrl"
+            />
+            <label class="ms-2">Address</label>
+            <textarea
+              formControlName="address"
+              class="form-control m-2"
+              placeholder="Enter Your Address"
+            ></textarea>
+          </div>
+          <label class="ms-2">Date Of Birth</label>
+          <input type="date" class="form-control m-2" formControlName="dob" />
+          <span *ngIf="modelHeader === 'Add New User'">
+            <input type="checkbox" formControlName="isAdmin" checked="false" />
+            <label class="ms-2">isAdmin</label>
+          </span>
         </div>
+      </div>
     </div>
-    <div class="modal-footer">
-        <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
-        <button class="btn btn-sm btn-primary" (click)="addUser(d)" *ngIf="modelHeader==='Add New User'">Add
-            User</button>
-        <button class="btn btn-sm btn-primary" (click)="updateUser(d)"
-            *ngIf="modelHeader==='Update User'">Update</button>
-
-    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
+    <button
+      class="btn btn-sm btn-primary"
+      (click)="addUser(d)"
+      *ngIf="modelHeader === 'Add New User'"
+    >
+      Add User
+    </button>
+    <button
+      class="btn btn-sm btn-primary"
+      (click)="updateUser(d)"
+      *ngIf="modelHeader === 'Update User'"
+    >
+      Update
+    </button>
+  </div>
 </ng-template>
 
 <!-- Client Model -->
 
 <ng-template #clientModel let-d="dismiss">
-    <div class="modal-header">
-        <h4 class="modal-title">{{modelHeader}}</h4>
-    </div>
-    <div class="modal-body">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group" [formGroup]="clientForm">
-                    <input type="text" placeholder="first name" class="form-control m-2" formControlName="name">
-                    <!-- <input type="text" placeholder="location" class="form-control m-2" formControlName="location"> -->
-                    <select class="form-control m-2" formControlName="location">
-                        <option [value]="selectLocation" disabled selected class="hide">Select Your Location</option>
-                        <option *ngFor="let city of cities" [value]="city">{{city}}</option>
-                    </select>
-                    <input type="email" placeholder="email" class="form-control m-2" formControlName="email">
-                    <input type="number" placeholder="phone number" class="form-control m-2" formControlName="mobile">
-                    <input type="text" placeholder="technologies" class="form-control m-2"
-                        formControlName="technologies">
-                    <input type="text" placeholder="applicationType" class="form-control m-2"
-                        formControlName="applicationType">
-                    <input type="text" placeholder="companyName" class="form-control m-2" formControlName="companyName">
-                </div>
-            </div>
+  <div class="modal-header">
+    <h4 class="modal-title">{{ modelHeader }}</h4>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group" [formGroup]="clientForm">
+          <input
+            type="text"
+            placeholder="first name"
+            class="form-control m-2"
+            formControlName="name"
+          />
+          <!-- <input type="text" placeholder="location" class="form-control m-2" formControlName="location"> -->
+          <select class="form-control m-2" formControlName="location">
+            <option [value]="selectLocation" disabled selected class="hide">
+              Select Your Location
+            </option>
+            <option *ngFor="let city of cities" [value]="city">
+              {{ city }}
+            </option>
+          </select>
+          <input
+            type="email"
+            placeholder="email"
+            class="form-control m-2"
+            formControlName="email"
+          />
+          <input
+            type="number"
+            placeholder="phone number"
+            class="form-control m-2"
+            formControlName="mobile"
+          />
+          <input
+            type="text"
+            placeholder="technologies"
+            class="form-control m-2"
+            formControlName="technologies"
+          />
+          <input
+            type="text"
+            placeholder="applicationType"
+            class="form-control m-2"
+            formControlName="applicationType"
+          />
+          <input
+            type="text"
+            placeholder="companyName"
+            class="form-control m-2"
+            formControlName="companyName"
+          />
         </div>
+      </div>
     </div>
-    <div class="modal-footer">
-        <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
-        <button class="btn btn-sm btn-primary" (click)="newClient(d)" *ngIf="modelHeader==='Add New Client'">Add New
-            Client</button>
-        <button class="btn btn-sm btn-primary" (click)="updateClient(d)"
-            *ngIf="modelHeader==='Update Client'">Update</button>
-    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
+    <button
+      class="btn btn-sm btn-primary"
+      (click)="newClient(d)"
+      *ngIf="modelHeader === 'Add New Client'"
+    >
+      Add New Client
+    </button>
+    <button
+      class="btn btn-sm btn-primary"
+      (click)="updateClient(d)"
+      *ngIf="modelHeader === 'Update Client'"
+    >
+      Update
+    </button>
+  </div>
 </ng-template>
 
 <!-- User Details Model -->
 
 <ng-template #userDetailsModel let-d="dismiss">
-    <div class="modal-header p-2 m-0">
-        <h4 class="modal-title p-0 m-0">User Details</h4>
+  <div class="modal-header p-2 m-0">
+    <h4 class="modal-title p-0 m-0">User Details</h4>
+  </div>
+  <div class="modal-body p-2 m-0">
+    <div class="d-flex">
+      <div>
+        <img [src]="userModelData.profileImageUrl" />
+      </div>
+      <div>
+        <h1>Name : {{ userModelData.firstName }}</h1>
+        <p>Email : {{ userModelData.email }}</p>
+        <p>Mobile : {{ userModelData.mobile }}</p>
+        <p>Dob : {{ userModelData.dob }}</p>
+        <p>Admin : {{ userModelData.isAdmin }}</p>
+        <p>designation : {{ userModelData.designation }}</p>
+        <p>employee Id : {{ userModelData.empId }}</p>
+      </div>
     </div>
-    <div class="modal-body p-2 m-0">
-        <div class="d-flex">
-            <div>
-                <img [src]="userModelData.profileImageUrl">
-            </div>
-            <div>
-                <h1>Name : {{userModelData.firstName}}</h1>
-                <p>Email : {{userModelData.email}}</p>
-                <p>Mobile : {{userModelData.mobile}}</p>
-                <p>Dob : {{userModelData.dob}}</p>
-                <p>Admin : {{userModelData.isAdmin}}</p>
-                <p>designation : {{userModelData.designation}}</p>
-                <p>employee Id : {{userModelData.empId}}</p>
-            </div>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-sm btn-primary" (click)="UserPage(d)">Goto UserPage</button>
-        <button class="btn btn-sm btn-danger" (click)="cancel(d)">Close</button>
-    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-sm btn-primary" (click)="UserPage(d)">
+      Goto UserPage
+    </button>
+    <button class="btn btn-sm btn-danger" (click)="cancel(d)">Close</button>
+  </div>
 </ng-template>
 
 <!--Ticket Model-->
 
 <ng-template #ticketModel let-d="dismiss">
-    <div class="modal-header p-2 m-0">
-        <h4 class="modal-title p-0 m-0">Creat Ticket</h4>
-    </div>
-    <div class="modal-body m-2">
-        <form [formGroup]="TicketCreationForm">
-            <label class="ms-2">Client</label>
-            <select class="form-control m-2" formControlName="client">
-                <option value="" disabled selected class="hide">Select Client</option>
-                <option *ngFor="let client of clientData" [ngValue]="client">{{client.firstName}}</option>
-            </select>
-            <label class="ms-2">Technologies</label>
-            <select class="form-control m-2" formControlName="technologies">
-                <option value="" disabled selected class="hide">Select technologies</option>
-                <option *ngFor="let client of technology" [value]="client">{{client}}</option>
-            </select>
-            <label class="ms-2">Taget Date</label>
-            <input class="form-control m-2" type="date" formControlName="targetDate" />
-            <label class="ms-2">Description</label>
-            <textarea class="form-control m-2" placeholder="description" formControlName="description"></textarea>
-        </form>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-sm btn-primary" (click)="createTicket(d)">Create Ticket</button>
-        <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
-    </div>
+  <div class="modal-header p-2 m-0">
+    <h4 class="modal-title p-0 m-0">Creat Ticket</h4>
+  </div>
+  <div class="modal-body m-2">
+    <form [formGroup]="TicketCreationForm">
+      <label class="ms-2">Client</label>
+      <select class="form-control m-2" formControlName="client">
+        <option value="" disabled selected class="hide">Select Client</option>
+        <option *ngFor="let client of clientData" [ngValue]="client">
+          {{ client.firstName }}
+        </option>
+      </select>
+      <label class="ms-2">Technologies</label>
+      <select class="form-control m-2" formControlName="technologies">
+        <option value="" disabled selected class="hide">
+          Select technologies
+        </option>
+        <option *ngFor="let client of technology" [value]="client">
+          {{ client }}
+        </option>
+      </select>
+      <label class="ms-2">Taget Date</label>
+      <input
+        class="form-control m-2"
+        type="date"
+        formControlName="targetDate"
+      />
+      <label class="ms-2">Description</label>
+      <textarea
+        class="form-control m-2"
+        placeholder="description"
+        formControlName="description"
+      ></textarea>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-sm btn-primary" (click)="createTicket(d)">
+      Create Ticket
+    </button>
+    <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
+  </div>
 </ng-template>
 <!---->
 <ng-template #assignTicketModel let-d="dismiss">
-    <div class="modal-header p-2 m-0">
-        <h4 class="modal-title p-0 m-0">Assign Ticket</h4>
-    </div>
-    <div class="modal-body m-2">
-        <p>Client Name : {{ticketDetails.client.name}}</p>
-        <p class="d-flex">{{assignUser}} : <select [(ngModel)]="AssignedUser" class="form-control m-2">
-                <option value="" disabled selected class="hide">Select User</option>
-                <option *ngFor="let user of userList" [ngValue]="user">{{user.firstName}}</option>
-            </select> </p>
-            <div *ngIf="assignErr" class="ErrorMsg">{{assignErr}}</div>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-sm btn-primary" (click)="ticketAssign(d)">Assign</button>
-        <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
-    </div>
+  <div class="modal-header p-2 m-0">
+    <h4 class="modal-title p-0 m-0">Assign Ticket</h4>
+  </div>
+  <div class="modal-body m-2">
+    <p>Client Name : {{ ticketDetails.client.name }}</p>
+    <p class="d-flex">
+      {{ assignUser }} :
+      <select [(ngModel)]="AssignedUser" class="form-control m-2">
+        <option value="" disabled selected class="hide">Select User</option>
+        <option *ngFor="let user of userList" [ngValue]="user">
+          {{ user.firstName }}
+        </option>
+      </select>
+    </p>
+    <div *ngIf="assignErr" class="ErrorMsg">{{ assignErr }}</div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-sm btn-primary" (click)="ticketAssign(d)">
+      Assign
+    </button>
+    <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
+  </div>
 </ng-template>
- <!-- requestTicket modal -->
+<!-- requestTicket modal -->
 <ng-template #requestTicketmodal let-d="dismiss">
-    <div class="modal-header p-2 m-0">
+  <div class="modal-header p-2 m-0"></div>
+  <div class="modal-body m-2">
+    <form [formGroup]="requestticketForm">
+      <label class="ms-2">Request all</label>
+      <textarea
+        class="form-control m-2"
+        placeholder="description"
+        formControlName="request"
+      ></textarea>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-sm btn-danger" (click)="adminCancel(d)">
+      Cancel
+    </button>
+    <button class="btn btn-sm btn-primary" (click)="adminMessage(d)">
+      Adminsend
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #sendMailModel let-d="dismiss">
+  <div class="modal-header p-2 m-0">Update</div>
+  <div class="modal-body m-2">
+    <input type="text" [value]="ticketDetails.client.email" disabled />
+    <textarea class="form-control m-2" [(ngModel)]="description"> </textarea>
+    <div class="successMsg" *ngIf="mailSuccessMsg && mailSuccessMsg.message">
+      <span>
+        {{ mailSuccessMsg.message }}
+      </span>
     </div>
-    <div class="modal-body m-2">
-        <form [formGroup]="requestticketForm">
-            <label class="ms-2">Request all</label>
-            <textarea class="form-control m-2" placeholder="description" formControlName="request"></textarea>
-        </form>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-sm btn-danger" (click)="adminCancel(d)">Cancel</button>
-        <button class="btn btn-sm btn-primary" (click)="adminMessage(d)">Adminsend</button>
-    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
+    <button class="btn btn-sm btn-primary" (click)="SendMail(d)">
+      {{ loadingStaus ? "loading..." : "Send Mail" }}
+    </button>
+  </div>
 </ng-template>
