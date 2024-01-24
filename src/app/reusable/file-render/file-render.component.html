@@ -1,0 +1,6 @@
+<div *ngIf="getMessageType(message.type)==='image/png' || getMessageType(message.type)==='image/jpeg'" (click)="downloadFile($event, url , message.content)">
+        <img [src]="url"  *ngIf="url"/>
+</div>
+<div *ngIf="getMessageType(message.type)==='application/pdf'" (click)="downloadFile($event, url , message.content)">
+    <iframe [src]="safeurl " width="100%" title="PDF Viewer"></iframe>
+</div>

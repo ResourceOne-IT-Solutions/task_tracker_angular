@@ -15,7 +15,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { Chart, registerables } from 'node_modules/chart.js';
-
 @Component({
   selector: 'app-dash-board',
   templateUrl: './dash-board.component.html',
@@ -37,6 +36,7 @@ export class DashBoardComponent {
   'userForm': FormGroup;
   'clientForm': FormGroup;
   'TicketCreationForm': FormGroup;
+  genders:any =['Male' , 'Female' , 'Not Specified']
   userColumns: Array<Column> = [
     {
       columnDef: 'firstName',
@@ -198,12 +198,6 @@ export class DashBoardComponent {
       isButton: true,
     },
     {
-      columnDef: 'xlSheet',
-      header: 'TicketXl',
-      cell: (element: any) => element === 'Convert',
-      isButton: true,
-    },
-    {
       columnDef: 'Update',
       header: 'update',
       cell: (element: any) => 'Send Mail',
@@ -271,6 +265,7 @@ export class DashBoardComponent {
       dob: ['', Validators.required],
       joiningDate: ['', Validators.required],
       profileImageUrl: ['', Validators.required],
+      gender :['', Validators.required],
       address: ['', Validators.required],
       isAdmin: [false],
     });
@@ -398,6 +393,7 @@ export class DashBoardComponent {
       joinedDate: this.userForm.value.joiningDate,
       dob: this.userForm.value.dob,
       isAdmin: this.userForm.value.isAdmin !== null,
+      gender : this.userForm.value.gender , 
       designation: 'angular',
       profileImageUrl: this.userForm.value.profileImageUrl,
     };

@@ -10,7 +10,7 @@ export class ChatService {
   RoleData = new BehaviorSubject('');
   ticketsById = new BehaviorSubject('');
   private socket: Socket;
-  private idleTimeoutInSeconds = 1 * 60; // 15 minutes
+  private idleTimeoutInSeconds = 15 * 60; // 15 minutes
   private timer$: any;
   getRoleData(role: any) {
     this.RoleData.next(role);
@@ -27,7 +27,7 @@ export class ChatService {
   BE_SERVER = 'https://task-tracker-server-2njm.onrender.com';
   BE_LOCAL = 'http://192.168.10.30:1234';
   BE_LOCAL2 = 'http://192.168.29.109:1234';
-  BE_URL = this.BE_SERVER;
+  BE_URL = this.BE_LOCAL;
   constructor(private http: HttpClient) {
     this.socket = io(this.BE_URL, {
       transports: ['websocket', 'polling', 'flashsocket'],
@@ -233,30 +233,5 @@ export class ChatService {
     return data.firstName + ' ' + data.lastName;
   }
 
-  // timer Start
-  startIdleMonitoring() {
-    this.timer$ = timer(1000, 1000);
 
-    this.timer$.subscribe(() => {
-      console.log(this.idleTimeoutInSeconds, 'timer');
-      if (this.idleTimeoutInSeconds > 0) {
-        this.idleTimeoutInSeconds--;
-
-        if (this.idleTimeoutInSeconds === 0) {
-          this.UserLoginData.subscribe((res: any) => {
-            const updatePayload = {
-              id: res._id,
-              status: 'Break',
-            };
-            this.sendSocketData({ key: 'changeStatus', data: updatePayload });
-          });
-        }
-      }
-    });
-  }
-
-  // Reset the idle timer
-  resetIdleTimer() {
-    this.idleTimeoutInSeconds = 1 * 60;
-  }
 }

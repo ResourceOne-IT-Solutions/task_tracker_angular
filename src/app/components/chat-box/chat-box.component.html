@@ -107,10 +107,14 @@
                   class="d-flex justify-content-between"
                   [class]="getMessageClass(message)"
                 >
-                  <p>
+                  <p *ngIf="message.type=='message' || message.type=='contact' ; else fileRender">
                     <span>{{ message.time }}</span>
                     <span>{{ message.content }}</span>
                   </p>
+                  <!-- <img *ngIf="message.type === 'image/png'" [src]="getImageData(message)"  /> -->
+                  <ng-template #fileRender>
+                    <app-file-render [message]="message"></app-file-render>
+                  </ng-template>
                 </div>
               </ng-container>
             </div>

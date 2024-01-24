@@ -1,37 +1,36 @@
 <div class="d-flex main">
-  <div class="search">
-    <input
-      class="form-control"
-      type="text"
-      [(ngModel)]="searchText"
-      (input)="searchFilter()"
-    />
-  </div>
-  <div>
-    <mat-form-field>
-      <mat-select
-        name="countryString"
-        [(ngModel)]="selectedStatus"
-        (selectionChange)="filterByStatus($event.value)"
-      >
-        <mat-option *ngFor="let status of statusData" [value]="status">{{
-          status
-        }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div>
-    <mat-form-field>
-      <mat-select
-        name="countryString"
-        [(ngModel)]="seletedDate"
-        (selectionChange)="filterByDate($event.value)"
-      >
-        <mat-option *ngFor="let status of dateData" [value]="status">{{
-          status
-        }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
+    <div class="search">
+        <label>Search Filter</label>
+        <input class="form-control" type="text" [(ngModel)]="searchText" (input)="searchFilter()" />
+    </div>
+    <div>
+        <label>Filter By Status</label>
+        <mat-form-field>
+            <mat-select name="countryString" [(ngModel)]="selectedStatus"
+                (selectionChange)="filterByStatus($event.value)">
+                <mat-option  value="" disabled class="hide">Select Status</mat-option>
+                <mat-option *ngFor="let status of statusData" [value]="status">{{
+                    status
+                    }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div>
+        <label>Filter By Date</label>
+        <mat-form-field>
+            <mat-select name="countryString" [(ngModel)]="seletedDate" (selectionChange)="filterByDate($event.value)">
+                <mat-option  value=""  class="hide">Select Date</mat-option>
+                <mat-option *ngFor="let status of dateData" [value]="status">{{
+                    status
+                    }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div>
+        <button class="btn btn-primary" (click)="ResetFilter()">Reset Filters</button>
+    </div>
+    <div>
+        <button class="btn btn-primary" (click)="exportToExcel()">Convert To Excel</button>
+    </div>
 </div>
 <app-table [data]="ticketsData" [tableColumns]="ticketColumns"></app-table>
