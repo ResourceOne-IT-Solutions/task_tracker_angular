@@ -105,7 +105,6 @@
             ],
             "scripts": [],
             "main": "src/test.ts",
-            "karmaConfig": "karma.conf.js",
             "browsers": "ChromeHeadlessNoSandbox"
           }
         }
