@@ -245,6 +245,7 @@ export class DashBoardComponent {
   inprogressTickets: any = [];
   statuschange: any;
   selectLocation: any = null;
+  selectGender : any = null;
   requestticketForm: any;
   assignErr: any;
   addNewUser: boolean = false;
@@ -268,6 +269,7 @@ export class DashBoardComponent {
       gender :['', Validators.required],
       address: ['', Validators.required],
       isAdmin: [false],
+      genders : ['' , Validators.required]
     });
     this.clientForm = this.fb.group({
       name: ['', Validators.required],
@@ -378,12 +380,15 @@ export class DashBoardComponent {
   // user functions
 
   openUserModel() {
+  //  console.log( this.userForm.value , '389::')
     this.userForm.reset();
     this.addNewUser = true;
     this.modelHeader = 'Add New User';
     this.openPopup(this.userModel);
   }
   addUser(dismiss: any): void {
+  //  console.log( this.userForm.value , '396::')
+
     const Data = {
       firstName: this.userForm.value.fname,
       lastName: this.userForm.value.lname,
@@ -396,8 +401,11 @@ export class DashBoardComponent {
       gender : this.userForm.value.gender , 
       designation: 'angular',
       profileImageUrl: this.userForm.value.profileImageUrl,
+      gender : this.userForm.value.gender,
+      
+    
     };
-    console.log(Data, 'payload');
+    console.log(Data, 'formuser');
     this.chatservice.AddNewUsers(Data).subscribe((res) => console.log(res));
     dismiss();
     this.userForm.reset();
@@ -414,6 +422,7 @@ export class DashBoardComponent {
       email: this.userForm.value.email,
       mobile: this.userForm.value.phone,
       designation: this.userDetails.designation,
+
     };
     const payload = {
       id: this.userDetails._id,

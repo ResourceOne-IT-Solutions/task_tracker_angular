@@ -20,11 +20,27 @@ export class NavBarComponent {
     private chatservice: ChatService,
   ) {}
   ngOnInit() {
+    console.log(this.userDetails , '23:::::::::')
     this.Status = this.userDetails.status;
+
+    this.chatservice.getSocketData('statusUpdate').subscribe(res=>{
+      console.log(res , '27:::::::::::::::::::::')
+    })
   }
-  Logout() {
+  logout() {
     this.deleteCookie('token');
-    this.router.navigate(['/']);
+
+      const logoutpayload = {
+        id : this.userDetails._id,
+      }
+      this.chatservice.sendSocketData({key : 'logout' ,data : logoutpayload.id})
+      console.log(logoutpayload , 'logoutpayload')
+      this.router.navigate(['/']);
+  
+
+      // this.chatservice.getSocketData('eventName').subscribe(res=> {
+      //   console.log(res , '42::::::');
+      // })
   }
   changeStatus(data: any) {
     this.statuschange = data;

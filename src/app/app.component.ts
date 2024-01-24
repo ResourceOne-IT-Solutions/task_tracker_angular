@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ChatService } from './services/chat.service';
 import { IdleTimeService } from './services/idle/idle-time.service';
@@ -8,13 +8,19 @@ import { IdleTimeService } from './services/idle/idle-time.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'Task-Tracker';
   constructor(
     private route: Router,
     private chatservice: ChatService,
     private idleservice : IdleTimeService 
   ) {}
+  ngOnInit(): void {
+    this.chatservice.getSocketData('userRequestApproved').subscribe(res=> {
+      console.log(res , 'app:::::::::::::::::::::')
+    })
+  }
+ 
   // @HostListener('document:mouseover', ['$event'])
   // onDocumentMouseOver(event: MouseEvent): void {
   //   // Handle mouseover event
