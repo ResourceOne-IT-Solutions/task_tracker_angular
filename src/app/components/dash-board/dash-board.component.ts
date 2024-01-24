@@ -269,7 +269,6 @@ export class DashBoardComponent {
       gender :['', Validators.required],
       address: ['', Validators.required],
       isAdmin: [false],
-      genders : ['' , Validators.required]
     });
     this.clientForm = this.fb.group({
       name: ['', Validators.required],
