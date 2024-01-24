@@ -16,7 +16,6 @@
           <div>
             <p>first name : {{ adminDetails.firstName }}</p>
             <p>last name : {{ adminDetails.lastName }}</p>
-            <p>Date of Birth : {{ adminDetails.dob }}</p>
             <p>isAdmin : {{ adminDetails.isAdmin }}</p>
             <p>first name : {{ adminDetails.firstName }}</p>
             <p>Status : {{ adminDetails.status }}</p>
@@ -195,6 +194,14 @@
               class="form-control m-2"
               formControlName="profileImageUrl"
             />
+            <select class="form-control m-2" formControlName="gender" *ngIf="modelHeader === 'Add New User'">
+                <option [value]="selectLocation" disabled selected class="hide">
+                  Select Gender
+                </option>
+                <option *ngFor="let gender of genders" [value]="gender">
+                  {{ gender }}
+                </option>
+              </select>
             <label class="ms-2">Address</label>
             <textarea
               formControlName="address"
