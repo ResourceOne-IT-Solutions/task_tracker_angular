@@ -1,36 +1,41 @@
 <h1>View Request Page</h1>
 <div class="Main-ViewRequest">
-    <div class="ChatRequest">
-        <h1>Chat Request</h1>
-        <ol>
-            <li *ngFor="let chatrequest of ChatRequest let i = index">
-                <div>
-                    <p> {{chatrequest.sender.name}}is Requisting to Chat with {{chatrequest.opponent.name}}</p>
-                    <div *ngIf="chatrequest.isPending == true" class="isPending">
-                        <button class="btn btn-sm btn-success">give Access</button>
-                    </div>
-                    <div *ngIf="chatrequest.isPending == false">
-                        <h2>Approved</h2>
-                    </div>
-                </div>
-            </li>
-        </ol>
-    </div>
-    <div class="TicketREquest">
-        <h1>Ticket Request</h1>
-        <ol>
-            <li *ngFor="let ticketrequest of TicketRequest let i = index">
-                <div>
-                    <p> {{ticketrequest.sender.name}}is Requisting for {{ticketrequest.client.name}}</p>
-                    <div *ngIf="ticketrequest.isPending == true" class="isPending">
-                        <button class="btn btn-sm btn-success">give Access</button>
-                    </div>
-                    <div *ngIf="ticketrequest.isPending == false">
-                        <h2>Approved</h2>
-                    </div>
-                </div>
-            </li>
-
-        </ol>
-    </div>
+  <div class="ChatRequest">
+    <h1>Chat Request</h1>
+    <ol>
+      <li *ngFor="let chatrequest of ChatRequest; let i = index">
+        <div>
+          <p>
+            {{ chatrequest.sender.name }}is Requisting to Chat with
+            {{ chatrequest.opponent.name }}
+          </p>
+          <div *ngIf="chatrequest.isPending == true" class="isPending">
+            <button class="btn btn-sm btn-success">give Access</button>
+          </div>
+          <div *ngIf="chatrequest.isPending == false">
+            <h2>Approved</h2>
+          </div>
+        </div>
+      </li>
+    </ol>
+  </div>
+  <div class="TicketREquest">
+    <h1>Ticket Request</h1>
+    <ol>
+      <li *ngFor="let ticketrequest of TicketRequest; let i = index">
+        <div>
+          <p>
+            {{ ticketrequest.sender.name }}is Requisting for
+            {{ ticketrequest.client.name }}
+          </p>
+          <div *ngIf="ticketrequest.isPending == true" class="isPending">
+            <button class="btn btn-sm btn-success">give Access</button>
+          </div>
+          <div *ngIf="ticketrequest.isPending == false">
+            <h2>Approved</h2>
+          </div>
+        </div>
+      </li>
+    </ol>
+  </div>
 </div>

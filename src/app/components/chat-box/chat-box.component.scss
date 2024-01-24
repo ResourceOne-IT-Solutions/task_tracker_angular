@@ -1,369 +1,365 @@
 .container-fluid {
-    padding: 50px 200px;
-    overflow: hidden;
-    background-color: #eff6fc;
+  padding: 50px 200px;
+  overflow: hidden;
+  background-color: #eff6fc;
 }
 
 .user-list-card {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    padding: 10px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  padding: 10px;
 
-    .All-Users {
-        position: relative;
-        box-shadow: 0 0 3px 0 #458485;
-        border-radius: 6px;
-        height: 320px;
-        overflow: auto;
+  .All-Users {
+    position: relative;
+    box-shadow: 0 0 3px 0 #458485;
+    border-radius: 6px;
+    height: 320px;
+    overflow: auto;
 
-        .User-Heading {
-            font-size: 19px;
-            font-weight: 500;
-            text-align: center;
-            padding: 9px 0;
-        }
-
-        .user-card {
-            display: flex;
-            padding: 10px;
-            cursor: pointer;
-
-            &.active {
-                color: #000;
-            }
-
-            h3 {
-                margin: 0;
-            }
-
-            // p{
-            //     margin: 5px;
-            // }
-            .avatar {
-                // height: 50px;
-                width: 42px;
-                border-radius: 50%;
-                overflow: hidden;
-                margin: 0 15px 0 0;
-                border: 1px solid darkgrey;
-            }
-
-            .Img_Details {
-                position: relative;
-
-                .Offline {
-                    height: 10px;
-                    width: 9px;
-                    border-radius: 50%;
-                    margin: 0;
-                    height: 200;
-                    top: 3%;
-                    right: 34%;
-                    background: red;
-                    position: absolute;
-                }
-
-                .Busy {
-                    height: 10px;
-                    width: 9px;
-                    border-radius: 50%;
-                    margin: 0;
-                    height: 200;
-                    top: 3%;
-                    right: 34%;
-                    background: orange;
-                    position: absolute;
-                }
-
-                .Available {
-                    height: 10px;
-                    width: 9px;
-                    border-radius: 50%;
-                    margin: 0;
-                    height: 200;
-                    top: 3%;
-                    right: 34%;
-                    background: green;
-                    position: absolute;
-                }
-
-            }
-        }
-
-        .user-card:not(:last-child) {
-            border-bottom: 1px solid #f5f0f0;
-        }
+    .User-Heading {
+      font-size: 19px;
+      font-weight: 500;
+      text-align: center;
+      padding: 9px 0;
     }
 
+    .user-card {
+      display: flex;
+      padding: 10px;
+      cursor: pointer;
 
+      &.active {
+        color: #000;
+      }
+
+      h3 {
+        margin: 0;
+      }
+
+      // p{
+      //     margin: 5px;
+      // }
+      .avatar {
+        // height: 50px;
+        width: 42px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: 0 15px 0 0;
+        border: 1px solid darkgrey;
+      }
+
+      .Img_Details {
+        position: relative;
+
+        .Offline {
+          height: 10px;
+          width: 9px;
+          border-radius: 50%;
+          margin: 0;
+          height: 200;
+          top: 3%;
+          right: 34%;
+          background: red;
+          position: absolute;
+        }
+
+        .Busy {
+          height: 10px;
+          width: 9px;
+          border-radius: 50%;
+          margin: 0;
+          height: 200;
+          top: 3%;
+          right: 34%;
+          background: orange;
+          position: absolute;
+        }
+
+        .Available {
+          height: 10px;
+          width: 9px;
+          border-radius: 50%;
+          margin: 0;
+          height: 200;
+          top: 3%;
+          right: 34%;
+          background: green;
+          position: absolute;
+        }
+      }
+    }
+
+    .user-card:not(:last-child) {
+      border-bottom: 1px solid #f5f0f0;
+    }
+  }
 }
 
 .chat-container {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    overflow: hidden;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
 
-    .chat-header {
-        height: 70px;
-        background-color: #6e00ff;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        color: #fff;
+  .chat-header {
+    height: 70px;
+    background-color: #6e00ff;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: #fff;
 
-        .back {
-            background: none;
-        }
+    .back {
+      background: none;
+    }
 
-        .avatar {
-            height: 30px;
-            width: 30px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin: 0 20px;
-        }
+    .avatar {
+      height: 30px;
+      width: 30px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0 20px;
+    }
 
-        .Img_Details {
-            position: relative;
+    .Img_Details {
+      position: relative;
 
-            .Offline {
-                height: 13px;
-                width: 12px;
-                border-radius: 50%;
-                margin: 0;
-                height: 200;
-                top: -12%;
-                right: 26%;
-                background: red;
-                position: absolute;
-            }
+      .Offline {
+        height: 13px;
+        width: 12px;
+        border-radius: 50%;
+        margin: 0;
+        height: 200;
+        top: -12%;
+        right: 26%;
+        background: red;
+        position: absolute;
+      }
 
-            .Busy {
-                height: 13px;
-                width: 12px;
-                border-radius: 50%;
-                margin: 0;
-                height: 200;
-                top: -12%;
-                right: 26%;
-                background: orange;
-                position: absolute;
-            }
+      .Busy {
+        height: 13px;
+        width: 12px;
+        border-radius: 50%;
+        margin: 0;
+        height: 200;
+        top: -12%;
+        right: 26%;
+        background: orange;
+        position: absolute;
+      }
 
-            .Available {
-                height: 13px;
-                width: 12px;
-                border-radius: 50%;
-                margin: 0;
-                height: 200;
-                top: -12%;
-                right: 26%;
-                background: green;
-                position: absolute;
-            }
-        }
+      .Available {
+        height: 13px;
+        width: 12px;
+        border-radius: 50%;
+        margin: 0;
+        height: 200;
+        top: -12%;
+        right: 26%;
+        background: green;
+        position: absolute;
+      }
+    }
 
+    p {
+      margin: 0;
+    }
+
+    h3 {
+      margin: 0;
+    }
+  }
+
+  .chat-body {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    // height: calc(100vh - 125px);
+    padding: 30px;
+    overflow-y: auto;
+    min-height: 478px;
+    max-height: 478px;
+
+    .message-container {
+      background-color: white;
+      padding: 7px;
+      border-radius: 5px;
+      width: fit-content;
+      max-width: 90%;
+      margin-bottom: 15px;
+    }
+
+    .SendMessage {
+      p {
+        text-align: center;
+        background: darkgray;
+        width: 96px;
+        margin: auto;
+        border-radius: 5px;
+        color: #000;
+        padding: 3px 2px;
+      }
+
+      .SendUser {
+        margin: 17px 0;
+        border-radius: 9px;
         p {
-            margin: 0;
+          background: #6e00ff;
+          color: #fff;
+          padding: 6px 33px;
+          width: fit-content;
+          margin-right: 0;
+          margin: auto;
+          border-radius: 5px;
+          text-align: center;
+          margin-right: 0;
         }
-
-        h3 {
-            margin: 0;
+      }
+      .receive {
+        width: fit-content;
+        p {
+          background: #6e00ff;
+          color: #fff;
+          padding: 6px 33px;
+          width: -moz-fit-content;
+          width: fit-content;
+          margin-right: 0;
+          margin: auto;
+          border-radius: 5px;
+          text-align: center;
+          margin-right: 0;
+          margin: 5px 5px;
         }
+      }
     }
 
-    .chat-body {
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: center center;
-        // height: calc(100vh - 125px);
-        padding: 30px;
-        overflow-y: auto;
-        min-height: 478px;
-        max-height: 478px;
+    .same-user {
+      display: flex;
+      justify-content: flex-end;
 
-        .message-container {
-            background-color: white;
-            padding: 7px;
-            border-radius: 5px;
-            width: fit-content;
-            max-width: 90%;
-            margin-bottom: 15px;
-        }
+      .message-container {
+        background-color: lightskyblue;
+      }
+    }
+  }
 
-        .SendMessage {
-            p {
-                text-align: center;
-                background: darkgray;
-                width: 96px;
-                margin: auto;
-                border-radius: 5px;
-                color: #000;
-                padding: 3px 2px;
-            }
+  .chat-footer {
+    display: flex;
+    justify-content: space-around;
+    position: relative;
 
-            .SendUser {
-                margin: 17px 0;
-                border-radius: 9px;
-                p{
-                    background: #6e00ff;
-                    color: #fff;
-                    padding: 6px 33px;
-                    width: fit-content;
-                    margin-right: 0;
-                    margin: auto;
-                    border-radius: 5px;
-                    text-align: center;
-                    margin-right: 0;
-                }
-            }
-            .receive{
-                width: fit-content;
-                p{
-                    background: #6e00ff;
-                    color: #fff;
-                    padding: 6px 33px;
-                    width: -moz-fit-content;
-                    width: fit-content;
-                    margin-right: 0;
-                    margin: auto;
-                    border-radius: 5px;
-                    text-align: center;
-                    margin-right: 0;
-                    margin: 5px 5px;
-                }
-            }
-        }
-
-        .same-user {
-            display: flex;
-            justify-content: flex-end;
-
-            .message-container {
-                background-color: lightskyblue;
-            }
-        }
+    input {
+      width: 80%;
     }
 
-    .chat-footer {
-        display: flex;
-        justify-content: space-around;
-        position: relative;
-
-        input {
-            width: 80%;
-        }
-
-        .file-icon {
-            font-size: 29px;
-            border-radius: 31px;
-            border: 1px solid;
-            width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .file-container {
-            position: absolute;
-            top:-45px;
-            left:10px;
-            background: white;
-            label , span {
-                display: block;
-                font-size: 19px;
-            }
-        }
-
-        background-color: #EDEDED;
-        padding: 10px 20px;
-
+    .file-icon {
+      font-size: 29px;
+      border-radius: 31px;
+      border: 1px solid;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
+
+    .file-container {
+      position: absolute;
+      top: -45px;
+      left: 10px;
+      background: white;
+      label,
+      span {
+        display: block;
+        font-size: 19px;
+      }
+    }
+
+    background-color: #ededed;
+    padding: 10px 20px;
+  }
 }
 
 .Groups {
-    box-shadow: 0 0 3px 0 #458485;
-    border-radius: 5px;
+  box-shadow: 0 0 3px 0 #458485;
+  border-radius: 5px;
 
-    .Group-Heading {
-        font-size: 19px;
-        font-weight: 500;
-        text-align: center;
-        padding: 9px 0;
+  .Group-Heading {
+    font-size: 19px;
+    font-weight: 500;
+    text-align: center;
+    padding: 9px 0;
+  }
+
+  .images {
+    display: flex;
+    align-items: center;
+    margin: 0 35px 11px;
+    border-bottom: 1px solid #efe9e9;
+    padding-bottom: 7px;
+
+    img {
+      //height: 50px;
+      width: 45px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0 15px 0 0;
     }
-
-    .images {
-        display: flex;
-        align-items: center;
-        margin: 0 35px 11px;
-        border-bottom: 1px solid #efe9e9;
-        padding-bottom: 7px;
-
-        img {
-            //height: 50px;
-            width: 45px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin: 0 15px 0 0;
-        }
-    }
+  }
 }
 
 .Search-Input {
-    position: relative;
+  position: relative;
 
-    .fa-search {
-        position: absolute;
-        top: 23%;
-        font-size: 19px;
-        left: 6%;
-        color: #585050;
-    }
+  .fa-search {
+    position: absolute;
+    top: 23%;
+    font-size: 19px;
+    left: 6%;
+    color: #585050;
+  }
 
-    input {
-        height: 33px;
-        width: 95%;
-        border-radius: 7px;
-        margin: 0 6px;
-        border: 1px solid darkgray;
-    }
+  input {
+    height: 33px;
+    width: 95%;
+    border-radius: 7px;
+    margin: 0 6px;
+    border: 1px solid darkgray;
+  }
 
-    .value {
-        font-size: 18px;
-        padding: 0 0px 0 64px;
-    }
+  .value {
+    font-size: 18px;
+    padding: 0 0px 0 64px;
+  }
 
-    input:focus {
-        border: 2px solid #6e00ff;
-    }
+  input:focus {
+    border: 2px solid #6e00ff;
+  }
 
-    ::-webkit-input-placeholder {
-        /* WebKit, Blink, Edge */
-        color: darkgray;
-        font-size: 15px;
-        padding: 0 0px 0 64px;
-    }
-
+  ::-webkit-input-placeholder {
+    /* WebKit, Blink, Edge */
+    color: darkgray;
+    font-size: 15px;
+    padding: 0 0px 0 64px;
+  }
 }
 
 .menuChat {
-    max-width: none;
-    // .ChatHolder{
-    //     overflow: auto;
-    //     height: 100%;
-    // }
+  max-width: none;
+  // .ChatHolder{
+  //     overflow: auto;
+  //     height: 100%;
+  // }
 }
 
 .SendUser {
-    color: red;
+  color: red;
 }
 
 .NoChatUser {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 500px;
 }
