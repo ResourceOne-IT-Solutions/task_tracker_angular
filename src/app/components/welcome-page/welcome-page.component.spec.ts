@@ -12,7 +12,7 @@ fdescribe('WellComePageComponent', () => {
     TestBed.configureTestingModule({
       declarations: [WelComePageComponent],
       imports: [HttpClientModule],
-      providers:[ChatService]
+      providers: [ChatService],
     });
     fixture = TestBed.createComponent(WelComePageComponent);
     component = fixture.componentInstance;

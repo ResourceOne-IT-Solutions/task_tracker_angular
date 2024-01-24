@@ -1,113 +1,141 @@
-
-
 <div class="Container">
-    <div class="userinfo">
-        <img src="{{UserData.profileImageUrl}}" alt="">
-        <p>{{UserData.firstName}}</p> &nbsp;&nbsp;
-        <span>({{UserData.userId}} )</span>
-        <span [ngClass]="UserData.status"></span>&nbsp;
-    </div>
-    <div class="employeList">
-        <div class="main-userDetails">
-            <div class="Profile">
-                <p class="userslabel">Profile Image</p>
-                <img src="{{UserData.profileImageUrl}}" alt="">
-            </div>
-            <div class="Employeee_Role">
-                <div class="Role">
-                    <p class="userslabel">Role</p>
-                    <p>{{UserData.designation}}</p>
-                </div>
-                <div class="Team">
-                    <p class="userslabel">Team</p>
-                    <p>Angular Community</p>
-                </div>
-            </div>
-            <div class="Employeee_Join">
-                <div class="Jion">
-                    <p class="userslabel">Joined On</p>
-                    <p>{{UserData.joinedDate | date :'y/M/d'}}</p>
-                </div>
-                <div class="Team">
-                    <p class="userslabel">Working from</p>
-                    <p>Angular Community</p>
-                </div>
-            </div>
+  <div class="userinfo">
+    <img src="{{ UserData.profileImageUrl }}" alt="" />
+    <p>{{ UserData.firstName }}</p>
+    &nbsp;&nbsp;
+    <span>({{ UserData.userId }} )</span>
+    <span [ngClass]="UserData.status"></span>&nbsp;
+  </div>
+  <div class="employeList">
+    <div class="main-userDetails">
+      <div class="Profile">
+        <p class="userslabel">Profile Image</p>
+        <img src="{{ UserData.profileImageUrl }}" alt="" />
+      </div>
+      <div class="Employeee_Role">
+        <div class="Role">
+          <p class="userslabel">Role</p>
+          <p>{{ UserData.designation }}</p>
         </div>
-        <div class="main-employeDetails">
-            <div>
-                <p class="userslabel">Employeee Details</p>
-                <p>Emp ID : {{UserData.empId}}</p>
-                <p>First Name : {{UserData.firstName}}</p>
-                <p>Last Name : {{UserData.lastName}}</p>
-                <p>Email : {{UserData.email}}</p>
-                <p>Phone : {{UserData.mobile}}</p>
-                <p>Role : {{UserData.designation}}</p>
-                <p>Status :{{UserData.status}}</p>
-                <div>
-                    <button class="btn btn-info" (click)="requestChat()">Request Chat with User</button>
-                </div>
-
-                <div class="requestchat" *ngIf="requestchat">
-                    <mat-form-field>
-                        <mat-select placeholder="Select user" (selectionChange)="selectuser($event.value)">
-                            <mat-option [value]='user' *ngFor="let user of userList">{{user.firstName}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                    <button *ngIf="requestchat" class="btn btn-warning admin" (click)="sendadmin()">send Admin</button>
-                </div>
-            </div>
-
-            <div>
-                <p class="userslabel">Last LoggedIn Data</p>
-                <p>Browser :</p>
-                <p>Ip Address :</p>
-                <p>Login Time Invalid Date :</p>
-            </div>
-            <div>
-                <p class="userslabel">Stats</p>
-                <div class="pieChart">
-                    <canvas id="piechartdemo">
-
-                    </canvas>
-                </div>
-                <p class="tickets">Total Tickets : {{userTickets.length}}</p>
-            </div>
+        <div class="Team">
+          <p class="userslabel">Team</p>
+          <p>Angular Community</p>
         </div>
+      </div>
+      <div class="Employeee_Join">
+        <div class="Jion">
+          <p class="userslabel">Joined On</p>
+          <p>{{ UserData.joinedDate | date: "y/M/d" }}</p>
+        </div>
+        <div class="Team">
+          <p class="userslabel">Working from</p>
+          <p>Angular Community</p>
+        </div>
+      </div>
     </div>
+    <div class="main-employeDetails">
+      <div>
+        <p class="userslabel">Employeee Details</p>
+        <p>Emp ID : {{ UserData.empId }}</p>
+        <p>First Name : {{ UserData.firstName }}</p>
+        <p>Last Name : {{ UserData.lastName }}</p>
+        <p>Email : {{ UserData.email }}</p>
+        <p>Phone : {{ UserData.mobile }}</p>
+        <p>Role : {{ UserData.designation }}</p>
+        <p>Status :{{ UserData.status }}</p>
+        <div>
+          <button class="btn btn-info" (click)="requestChat()">
+            Request Chat with User
+          </button>
+        </div>
+
+        <div class="requestchat" *ngIf="requestchat">
+          <mat-form-field>
+            <mat-select
+              placeholder="Select user"
+              (selectionChange)="selectuser($event.value)"
+            >
+              <mat-option [value]="user" *ngFor="let user of userList">{{
+                user.firstName
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button
+            *ngIf="requestchat"
+            class="btn btn-warning admin"
+            (click)="sendadmin()"
+          >
+            send Admin
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <p class="userslabel">Last LoggedIn Data</p>
+        <p>Browser :</p>
+        <p>Ip Address :</p>
+        <p>Login Time Invalid Date :</p>
+      </div>
+      <div>
+        <p class="userslabel">Stats</p>
+        <div class="pieChart">
+          <canvas id="piechartdemo"> </canvas>
+        </div>
+        <p class="tickets">Total Tickets : {{ userTickets.length }}</p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <app-table
-[data]="userTickets"
-[tableColumns]="ticketColumns"
- (firstBtnClick)="update($event)"
- (secondBtnClick)="routeToTickets($event)"
+  [data]="userTickets"
+  [tableColumns]="ticketColumns"
+  (firstBtnClick)="update($event)"
+  (secondBtnClick)="routeToTickets($event)"
 >
 </app-table>
 
 <ng-template #updateModel let-d="dismiss">
-    <div class="modal-header">
-        <h4 class="modal-title">{{modelHeader}}</h4>
-    </div>
-    <div class="modal-body">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group" [formGroup]="updateForm">
-                    <h3 class="fw-medium">Client Name : {{clientDetails.client.name}}</h3>
-                    <label for="">Description</label>
-                    <input type="text" placeholder="description" class="form-control m-2" formControlName="description">
-                    <label for="">Comments</label>
-                    <textarea  class="comments" cols="65" rows="5" formControlName="comments"></textarea>
-                    <select class="form-control m-2" formControlName="status">
-                        <option value="" disabled selected class="hide">Select Status</option>
-                        <option *ngFor="let status of userstatus" [value]="status">{{status}}</option>
-                    </select>
-                </div>
-            </div>
+  <div class="modal-header">
+    <h4 class="modal-title">{{ modelHeader }}</h4>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group" [formGroup]="updateForm">
+          <h3 class="fw-medium">
+            Client Name : {{ clientDetails.client.name }}
+          </h3>
+          <label for="">Description</label>
+          <input
+            type="text"
+            placeholder="description"
+            class="form-control m-2"
+            formControlName="description"
+          />
+          <label for="">Comments</label>
+          <textarea
+            class="comments"
+            cols="65"
+            rows="5"
+            formControlName="comments"
+          ></textarea>
+          <select class="form-control m-2" formControlName="status">
+            <option value="" disabled selected class="hide">
+              Select Status
+            </option>
+            <option *ngFor="let status of userstatus" [value]="status">
+              {{ status }}
+            </option>
+          </select>
         </div>
+      </div>
     </div>
-    <div class="modal-footer">
-        <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
-        <button class="btn btn-sm btn-primary" (click)="updateUser(d)">Update</button>
-    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
+    <button class="btn btn-sm btn-primary" (click)="updateUser(d)">
+      Update
+    </button>
+  </div>
 </ng-template>

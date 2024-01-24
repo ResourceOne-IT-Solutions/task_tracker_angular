@@ -8,10 +8,9 @@ describe('ChatService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-        imports: [HttpClientModule],
+      imports: [HttpClientModule],
     });
     service = TestBed.inject(ChatService);
-  
   });
 
   it('should be created', () => {

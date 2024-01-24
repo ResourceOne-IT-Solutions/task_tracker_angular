@@ -8,7 +8,7 @@ describe('UserViewComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [UserViewComponent]
+      declarations: [UserViewComponent],
     });
     fixture = TestBed.createComponent(UserViewComponent);
     component = fixture.componentInstance;
