@@ -8,7 +8,7 @@ describe('FileRenderComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [FileRenderComponent]
+      declarations: [FileRenderComponent],
     });
     fixture = TestBed.createComponent(FileRenderComponent);
     component = fixture.componentInstance;

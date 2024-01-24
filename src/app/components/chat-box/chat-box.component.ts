@@ -172,7 +172,7 @@ export class ChatBoxComponent {
     formData.append('file', selectedFile);
     if (selectedFile) {
       this.chatservice.uploadFile(formData).subscribe((res: any) => {
-        console.log(res , "upload file")
+        console.log(res, 'upload file');
         this.reUseableSendMessage(res.fileName, res.type, res._id);
       });
     }

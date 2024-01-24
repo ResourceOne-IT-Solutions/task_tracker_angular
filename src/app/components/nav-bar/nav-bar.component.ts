@@ -20,27 +20,26 @@ export class NavBarComponent {
     private chatservice: ChatService,
   ) {}
   ngOnInit() {
-    console.log(this.userDetails , '23:::::::::')
+    console.log(this.userDetails, '23:::::::::');
     this.Status = this.userDetails.status;
 
-    this.chatservice.getSocketData('statusUpdate').subscribe(res=>{
-      console.log(res , '27:::::::::::::::::::::')
-    })
+    this.chatservice.getSocketData('statusUpdate').subscribe((res) => {
+      console.log(res, '27:::::::::::::::::::::');
+    });
   }
   logout() {
     this.deleteCookie('token');
 
-      const logoutpayload = {
-        id : this.userDetails._id,
-      }
-      this.chatservice.sendSocketData({key : 'logout' ,data : logoutpayload.id})
-      console.log(logoutpayload , 'logoutpayload')
-      this.router.navigate(['/']);
-  
+    const logoutpayload = {
+      id: this.userDetails._id,
+    };
+    this.chatservice.sendSocketData({ key: 'logout', data: logoutpayload.id });
+    console.log(logoutpayload, 'logoutpayload');
+    this.router.navigate(['/']);
 
-      // this.chatservice.getSocketData('eventName').subscribe(res=> {
-      //   console.log(res , '42::::::');
-      // })
+    // this.chatservice.getSocketData('eventName').subscribe(res=> {
+    //   console.log(res , '42::::::');
+    // })
   }
   changeStatus(data: any) {
     this.statuschange = data;

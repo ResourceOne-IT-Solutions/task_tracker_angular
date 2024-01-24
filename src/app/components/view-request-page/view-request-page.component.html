@@ -10,7 +10,12 @@
             {{ chatrequest.opponent.name }}
           </p>
           <div *ngIf="chatrequest.isPending == true" class="isPending">
-            <button class="btn btn-sm btn-success" (click)="approveUserRequest()">Give Access</button>
+            <button
+              class="btn btn-sm btn-success"
+              (click)="approveUserRequest()"
+            >
+              Give Access
+            </button>
           </div>
           <div *ngIf="chatrequest.isPending == false">
             <h2>Approved</h2>
@@ -29,9 +34,12 @@
             {{ ticketrequest.client.name }}
           </p>
           <div *ngIf="ticketrequest.isPending == true" class="isPending">
-            <button class="btn btn-sm btn-success" (click)="approveUserRequest()">Give Access</button>
-
-
+            <button
+              class="btn btn-sm btn-success"
+              (click)="approveUserRequest()"
+            >
+              Give Access
+            </button>
           </div>
           <div *ngIf="ticketrequest.isPending == false">
             <h2>Approved</h2>

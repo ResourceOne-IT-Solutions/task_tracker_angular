@@ -13,14 +13,14 @@ export class AppComponent implements OnInit {
   constructor(
     private route: Router,
     private chatservice: ChatService,
-    private idleservice : IdleTimeService 
+    private idleservice: IdleTimeService,
   ) {}
   ngOnInit(): void {
-    this.chatservice.getSocketData('userRequestApproved').subscribe(res=> {
-      console.log(res , 'app:::::::::::::::::::::')
-    })
+    this.chatservice.getSocketData('userRequestApproved').subscribe((res) => {
+      console.log(res, 'app:::::::::::::::::::::');
+    });
   }
- 
+
   // @HostListener('document:mouseover', ['$event'])
   // onDocumentMouseOver(event: MouseEvent): void {
   //   // Handle mouseover event

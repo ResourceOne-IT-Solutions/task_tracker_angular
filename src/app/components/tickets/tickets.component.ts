@@ -64,7 +64,7 @@ export class TicketsComponent {
   constructor(
     private chatservice: ChatService,
     private modalService: NgbModal,
-  ) { }
+  ) {}
   ngOnInit() {
     this.chatservice.getAllTickets().subscribe((res: any) => {
       this.mockTicketsData = res;
@@ -76,9 +76,12 @@ export class TicketsComponent {
   }
   searchFilter() {
     if (!this.isFilterDate && this.isStatusSeleted) {
-      this.ticketsData = this.filterByNames(this.filterBasedOnStatus(this.mockTicketsData));
+      this.ticketsData = this.filterByNames(
+        this.filterBasedOnStatus(this.mockTicketsData),
+      );
     } else if (this.isFilterDate && this.isStatusSeleted) {
-      this.ticketsData = this.filterBasedOnStatus(this.filterByNames(this.filterDates(this.seletedDate)),
+      this.ticketsData = this.filterBasedOnStatus(
+        this.filterByNames(this.filterDates(this.seletedDate)),
       );
     } else {
       this.ticketsData = this.filterByNames(this.mockTicketsData);
@@ -87,16 +90,19 @@ export class TicketsComponent {
   filterByStatus(evt: any) {
     this.isStatusSeleted = true;
     if (this.searchText.length && !this.isFilterDate) {
-      this.ticketsData = this.filterByNames(this.filterBasedOnStatus(this.mockTicketsData));
+      this.ticketsData = this.filterByNames(
+        this.filterBasedOnStatus(this.mockTicketsData),
+      );
     } else if (this.isFilterDate && this.searchText.length) {
-      this.ticketsData = this.filterBasedOnStatus(this.filterByNames(this.filterDates(this.seletedDate)),
+      this.ticketsData = this.filterBasedOnStatus(
+        this.filterByNames(this.filterDates(this.seletedDate)),
       );
     } else {
       this.ticketsData = this.filterBasedOnStatus(this.mockTicketsData);
     }
   }
   filterByDate(evt: any) {
-    this.isFilterDate = true
+    this.isFilterDate = true;
     if (this.searchText.length && !this.isStatusSeleted) {
       this.ticketsData = this.filterByNames(this.filterDates(this.seletedDate));
     } else if (this.isStatusSeleted && this.searchText.length) {
@@ -111,7 +117,7 @@ export class TicketsComponent {
     return tickets.filter(
       (res: any) =>
         res.client.name.toLowerCase().indexOf(this.searchText.toLowerCase()) >
-        -1 ||
+          -1 ||
         res.user.name.toLowerCase().indexOf(this.searchText.toLowerCase()) > -1,
     );
   }
@@ -165,11 +171,11 @@ export class TicketsComponent {
   private isSameYear(date: Date, currentDate: Date): boolean {
     return date.getFullYear() === currentDate.getFullYear();
   }
-  ResetFilter(){
+  ResetFilter() {
     this.searchText = '';
-    this.selectedStatus =''
-    this.seletedDate = ''
-    this.ticketsData = this.mockTicketsData
+    this.selectedStatus = '';
+    this.seletedDate = '';
+    this.ticketsData = this.mockTicketsData;
   }
   openPopup(content: any): void {
     this.modalService.open(content);
@@ -180,11 +186,13 @@ export class TicketsComponent {
         ...element,
         client: element.client.name,
         user: element.user.name,
-        addOnResource: element?.addOnResource?.length ? element?.addOnResource?.map((res: any) => res.name).toString() : '',
+        addOnResource: element?.addOnResource?.length
+          ? element?.addOnResource?.map((res: any) => res.name).toString()
+          : '',
       };
       return modifiedElement;
     });
-    console.log(covertedData, this.ticketsData, 'coverteddata')
+    console.log(covertedData, this.ticketsData, 'coverteddata');
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(covertedData);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');

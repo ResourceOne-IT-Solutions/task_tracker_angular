@@ -230,5 +230,4 @@ export class ChatService {
   getFullName(data: any) {
     return data.firstName + ' ' + data.lastName;
   }
-
 }

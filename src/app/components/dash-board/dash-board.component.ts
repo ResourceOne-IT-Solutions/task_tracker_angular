@@ -36,7 +36,7 @@ export class DashBoardComponent {
   'userForm': FormGroup;
   'clientForm': FormGroup;
   'TicketCreationForm': FormGroup;
-  genders:any =['Male' , 'Female' , 'Not Specified']
+  genders: any = ['Male', 'Female', 'Not Specified'];
   userColumns: Array<Column> = [
     {
       columnDef: 'firstName',
@@ -245,7 +245,7 @@ export class DashBoardComponent {
   inprogressTickets: any = [];
   statuschange: any;
   selectLocation: any = null;
-  selectGender : any = null;
+  selectGender: any = null;
   requestticketForm: any;
   assignErr: any;
   addNewUser: boolean = false;
@@ -266,7 +266,7 @@ export class DashBoardComponent {
       dob: ['', Validators.required],
       joiningDate: ['', Validators.required],
       profileImageUrl: ['', Validators.required],
-      gender :['', Validators.required],
+      gender: ['', Validators.required],
       address: ['', Validators.required],
       isAdmin: [false],
     });
@@ -379,14 +379,14 @@ export class DashBoardComponent {
   // user functions
 
   openUserModel() {
-  //  console.log( this.userForm.value , '389::')
+    //  console.log( this.userForm.value , '389::')
     this.userForm.reset();
     this.addNewUser = true;
     this.modelHeader = 'Add New User';
     this.openPopup(this.userModel);
   }
   addUser(dismiss: any): void {
-  //  console.log( this.userForm.value , '396::')
+    //  console.log( this.userForm.value , '396::')
 
     const Data = {
       firstName: this.userForm.value.fname,
@@ -397,9 +397,9 @@ export class DashBoardComponent {
       joinedDate: this.userForm.value.joiningDate,
       dob: this.userForm.value.dob,
       isAdmin: this.userForm.value.isAdmin !== null,
-      gender : this.userForm.value.gender , 
+      gender: this.userForm.value.gender,
       designation: 'angular',
-      profileImageUrl: this.userForm.value.profileImageUrl,      
+      profileImageUrl: this.userForm.value.profileImageUrl,
     };
     console.log(Data, 'formuser');
     this.chatservice.AddNewUsers(Data).subscribe((res) => console.log(res));
@@ -418,7 +418,6 @@ export class DashBoardComponent {
       email: this.userForm.value.email,
       mobile: this.userForm.value.phone,
       designation: this.userDetails.designation,
-
     };
     const payload = {
       id: this.userDetails._id,
