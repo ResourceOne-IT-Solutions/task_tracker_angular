@@ -19,11 +19,9 @@ export class ViewRequestPageComponent {
     });
     this.chatservice.getChatMessages().subscribe((res) => {
       this.ChatRequest = res;
-      console.log(this.ChatRequest, '2111');
     });
     this.chatservice.getTickesRequest().subscribe((res) => {
       this.TicketRequest = res;
-      console.log(this.TicketRequest.length, '25::::::::');
     });
   }
   approveUserRequest() {
@@ -48,7 +46,6 @@ export class ViewRequestPageComponent {
           key: 'approveUserRequest',
           data: approvepayload,
         });
-        console.log(approvepayload, '49:::::::::::');
       });
     }
   }

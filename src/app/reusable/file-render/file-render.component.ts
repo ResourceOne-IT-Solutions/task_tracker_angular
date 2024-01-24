@@ -15,12 +15,10 @@ export class FileRenderComponent {
     private sanitizer: DomSanitizer,
   ) {}
   ngOnInit() {
-    console.log(this.message);
     if (this.message.fileLink) {
       this.chatservice.getFile(this.message.fileLink).subscribe(
         (res: any) => {
           if (res) {
-            console.log(res, 'image res');
             const base64 = new Uint8Array(res.data.data);
             this.url = URL.createObjectURL(
               new Blob([base64], { type: res.type }),
@@ -28,7 +26,6 @@ export class FileRenderComponent {
             this.safeurl = this.sanitizer.bypassSecurityTrustResourceUrl(
               this.url,
             );
-            console.log(this.url, 'image');
           }
         },
         (error) => {
@@ -44,7 +41,6 @@ export class FileRenderComponent {
     return data;
   }
   downloadFile(e: any, url: any, fileName: string) {
-    console.log('hello');
     e.stopPropagation();
     const el = document.createElement('a');
     el.href = url;

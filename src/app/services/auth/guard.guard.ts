@@ -19,7 +19,6 @@ export class guardGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     //forget about: how to get the authority of user (I have kept it in shared service)
     const token = this.chatservice.getToken();
-    console.log(this.chatservice.getToken(), 'token', route);
     if (token) {
       let httpOptions = {
         headers: new HttpHeaders({

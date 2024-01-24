@@ -19,7 +19,6 @@ export class ChatService {
   //User Behavior
   UserLoginData = new BehaviorSubject('');
   UserLogin(data: any) {
-    console.log(data, '16:::');
     this.UserLoginData.next(data);
   }
   BE_SERVER = 'https://task-tracker-server-2njm.onrender.com';
@@ -110,7 +109,6 @@ export class ChatService {
   setCookie(name: string, value: string, days: number) {
     const currentDate = new Date();
     const expirationTime = new Date(currentDate.getTime() + 8 * 60 * 60 * 1000);
-    console.log(expirationTime.toUTCString(), '109::::');
     const cookieValue =
       encodeURIComponent(value) + '; expires=' + expirationTime.toUTCString();
     document.cookie = name + '=' + cookieValue;
@@ -118,7 +116,6 @@ export class ChatService {
 
   getCookie(name: any) {
     const cookies = document.cookie.split(';').map((cookie) => cookie.trim());
-    console.log(cookies, '103:::', name);
     for (const cookie of cookies) {
       const [cookieName, cookieValue] = cookie.split('=');
       if (cookieName === name) {
@@ -129,7 +126,6 @@ export class ChatService {
   }
   // socket io
   sendSocketData(data: any) {
-    console.log('hello', data);
     this.socket.emit(data.key, data.data);
   }
 
@@ -161,7 +157,6 @@ export class ChatService {
   }
 
   getSocketData(eventName: any): Observable<any> {
-    console.log('1077777777', eventName);
     return new Observable<{
       user: string;
       room: string;
@@ -179,10 +174,8 @@ export class ChatService {
   // ticket assignned
 
   getTicketSocketData(eventName: any): Observable<any> {
-    console.log('1077777777', eventName);
     return new Observable<any>((observer) => {
       this.socket.on(eventName, (id: any, sender: any) => {
-        console.log(sender, id, 'socket tiggered');
         observer.next({ id, sender });
       });
       return () => {
