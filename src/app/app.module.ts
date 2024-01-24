@@ -33,6 +33,7 @@ import { ViewRequestPageComponent } from './components/view-request-page/view-re
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { UserViewComponent } from './components/user-view/user-view.component';
+import { FileRenderComponent } from './reusable/file-render/file-render.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,6 +50,7 @@ import { UserViewComponent } from './components/user-view/user-view.component';
     ViewRequestPageComponent,
     NavBarComponent,
     UserViewComponent,
+    FileRenderComponent,
   ],
   imports: [
     BrowserModule,

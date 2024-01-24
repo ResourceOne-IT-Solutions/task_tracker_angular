@@ -15,7 +15,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { Chart, registerables } from 'node_modules/chart.js';
-
 @Component({
   selector: 'app-dash-board',
   templateUrl: './dash-board.component.html',
@@ -195,12 +194,6 @@ export class DashBoardComponent {
       header: 'assign Ticket',
       cell: (element: any) =>
         element['user']?.name ? 'Add Resource' : 'Assign User',
-      isButton: true,
-    },
-    {
-      columnDef: 'xlSheet',
-      header: 'TicketXl',
-      cell: (element: any) => element === 'Convert',
       isButton: true,
     },
     {

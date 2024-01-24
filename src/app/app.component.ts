@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { ChatService } from './services/chat.service';
+import { IdleTimeService } from './services/idle/idle-time.service';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,7 @@ export class AppComponent {
   constructor(
     private route: Router,
     private chatservice: ChatService,
+    private idleservice : IdleTimeService 
   ) {}
   // @HostListener('document:mouseover', ['$event'])
   // onDocumentMouseOver(event: MouseEvent): void {
@@ -20,10 +22,10 @@ export class AppComponent {
   //   this.chatservice.resetIdleTimer();
   // }
 
-  @HostListener('document:click', ['$event'])
-  onDocumentKeyPress(event: KeyboardEvent): void {
-    // Handle keypress event
-    console.log('keypress');
-    this.chatservice.resetIdleTimer();
-  }
+  // @HostListener('document:click', ['$event'])
+  // onDocumentKeyPress(event: KeyboardEvent): void {
+  //   // Handle keypress event
+  //   console.log('keypress');
+  //   this.idleservice.resetIdleTimer();
+  // }
 }
