@@ -5,20 +5,20 @@ import { AppComponent } from './app.component';
 import { WelComePageComponent } from './components/welcome-page/welcome-page.component';
 import { LoginPageComponent } from './components/login-page/login-page.component';
 import { DashBoardComponent } from './components/dash-board/dash-board.component';
-import { CreateUserComponent } from './components/create-user/create-user.component'
+import { CreateUserComponent } from './components/create-user/create-user.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatCardModule } from '@angular/material/card'
+import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { guardGuard } from './services/auth/guard.guard';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import {MatTableModule} from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
-import {  MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { UserPageComponent } from './components/user-page/user-page.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -48,7 +48,7 @@ import { UserViewComponent } from './components/user-view/user-view.component';
     ClientTicketsComponent,
     ViewRequestPageComponent,
     NavBarComponent,
-    UserViewComponent
+    UserViewComponent,
   ],
   imports: [
     BrowserModule,
@@ -72,7 +72,10 @@ import { UserViewComponent } from './components/user-view/user-view.component';
     MatSelectModule,
     NgxSpinnerModule,
   ],
-  providers: [guardGuard, { provide: APP_BASE_HREF, useValue: '/task_tracker_angular/' }],
-  bootstrap: [AppComponent]
+  providers: [
+    guardGuard,
+    { provide: APP_BASE_HREF, useValue: '/task_tracker_angular/' },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

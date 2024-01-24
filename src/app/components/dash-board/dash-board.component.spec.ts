@@ -8,7 +8,7 @@ describe('DashBoardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DashBoardComponent]
+      declarations: [DashBoardComponent],
     });
     fixture = TestBed.createComponent(DashBoardComponent);
     component = fixture.componentInstance;

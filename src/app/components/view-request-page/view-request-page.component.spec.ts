@@ -8,7 +8,7 @@ describe('ViewRequestPageComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ViewRequestPageComponent]
+      declarations: [ViewRequestPageComponent],
     });
     fixture = TestBed.createComponent(ViewRequestPageComponent);
     component = fixture.componentInstance;

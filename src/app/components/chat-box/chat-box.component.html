@@ -1,111 +1,154 @@
 <div class="container menuChat">
-    <div class="row">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="Search-Input">
+        <button class="border-0 fs-4 bg-white text-dark" (click)="goBack()">
+          <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </button>
 
-        <div class="col-md-4">
-            <div class="Search-Input">
-                <button class="border-0 fs-4 bg-white text-dark" (click)="goBack()"><i class="fa fa-arrow-left"
-                        aria-hidden="true"></i></button>
-
-                <!-- <i class="fa fa-search" aria-hidden="true"></i> -->
-                <input type="text" class="value" placeholder="Search">
-            </div>
-            <div class="user-list-card">
-                <div class="Groups">
-                    <p class="Group-Heading">Groups</p>
-                    <div class="images" *ngFor="let user of userList">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG1rxXk6k-HqZSKT-bg9X65qcvr-VWa2fBFiMHuW9uvw&s"
-                            class="avatar" />
-                        <p>{{user.name}}</p>
-
-                    </div>
-                </div>
-                <div class="All-Users">
-                    <p class="User-Heading">Users</p>
-                    <ngx-spinner bdColor="rgba(0,0,0,0.32)" size="large" color="#8652d5"
-                        type="ball-clip-rotate-multiple" [fullScreen]="false">
-                    </ngx-spinner>
-                    <div [ngClass]="user?.phone === selectedUser?.phone ? 'active' : ''"
-                        *ngFor="let user of UserListData">
-
-                        <div class="user-card" (click)="SelectUser(user)">
-                            <div class="Img_Details">
-                                <img *ngIf="user.profileImageUrl" src={{user.profileImageUrl}} class="avatar" />
-                                <img *ngIf="!user.profileImageUrl"
-                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG1rxXk6k-HqZSKT-bg9X65qcvr-VWa2fBFiMHuW9uvw&s"
-                                    class="avatar" />
-                                <div *ngIf="user.status === 'Offline'" class="Offline"></div>
-                                <div *ngIf="user.status === 'Busy'" class="Busy"></div>
-                                <div *ngIf="user.status === 'Available'" class="Available"></div>
-                            </div>
-                            <div>
-                                <h3>{{user.firstName}}</h3>
-                                <p class="designation">{{user.designation}}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+        <!-- <i class="fa fa-search" aria-hidden="true"></i> -->
+        <input type="text" class="value" placeholder="Search" />
+      </div>
+      <div class="user-list-card">
+        <div class="Groups">
+          <p class="Group-Heading">Groups</p>
+          <div class="images" *ngFor="let user of userList">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG1rxXk6k-HqZSKT-bg9X65qcvr-VWa2fBFiMHuW9uvw&s"
+              class="avatar"
+            />
+            <p>{{ user.name }}</p>
+          </div>
         </div>
-        <div class="col-md-8">
-
-            <div *ngIf="ChatBox" class="chat-container">
-                <ng-container>
-                    <div class="chat-header">
-                        <button class="back border-0 fs-4 text-dark" (click)="PreviousPage()"><i
-                                class="fa fa-arrow-left" aria-hidden="true"></i></button>
-                        <div class="Img_Details">
-                            <img *ngIf="UserSelected.profileImageUrl" src={{UserSelected.profileImageUrl}}
-                                class="avatar" />
-                            <img *ngIf="!UserSelected.profileImageUrl"
-                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG1rxXk6k-HqZSKT-bg9X65qcvr-VWa2fBFiMHuW9uvw&s"
-                                class="avatar" />
-                            <div *ngIf="UserSelected.status === 'Offline'" class="Offline"></div>
-                            <div *ngIf="UserSelected.status === 'Busy'" class="Busy"></div>
-                            <div *ngIf="UserSelected.status === 'Available'" class="Available"></div>
-                        </div>
-                        <div>
-                            <h3>{{UserSelected.firstName}}</h3>
-                            <p>{{UserSelected.designation}}</p>
-                        </div>
-                    </div>
-
-                    <div class="chat-body">
-                        <div class="SendMessage" *ngFor="let Daymessages of TotalMessages">
-                            <p>{{Daymessages._id}}</p>
-                            <ng-container *ngFor="let message of Daymessages.messageByDate">
-                                <div class="d-flex justify-content-between" [class]="getMessageClass(message)">
-                                    <p>
-                                        <span>{{message.time}}</span>
-                                        <span>{{message.content}}</span>
-                                    </p>
-                                </div>
-                            </ng-container>
-                        </div>
-
-                    </div>
-                    <div class="chat-footer">
-                        <div class="file-container" *ngIf="displayIcons">
-                            <label for="imageFile">file :<i class="fa-solid fa-file"></i>
-                                <input style="display: none;" type="file" id="imageFile"  (change)="SelectedImage($event)"/>
-                              </label>
-                            <span>contacts :<i class="fa-solid fa-address-book"></i> </span>
-                        </div>
-                        <span (click)="displayIcons = !displayIcons" class="file-icon">{{displayIcons ? '-' : '+'}}</span>
-
-                        <input type="text" placeholder="Type a message" class="form-control" [(ngModel)]="messageText"
-                            (keyup.enter)="sendMessage()" />
-
-                        <button class="btn btn-primary btn-sm px-3" (click)="sendMessage()">Send
-                        </button>
-                    </div>
-                </ng-container>
+        <div class="All-Users">
+          <p class="User-Heading">Users</p>
+          <ngx-spinner
+            bdColor="rgba(0,0,0,0.32)"
+            size="large"
+            color="#8652d5"
+            type="ball-clip-rotate-multiple"
+            [fullScreen]="false"
+          >
+          </ngx-spinner>
+          <div
+            [ngClass]="user?.phone === selectedUser?.phone ? 'active' : ''"
+            *ngFor="let user of UserListData"
+          >
+            <div class="user-card" (click)="SelectUser(user)">
+              <div class="Img_Details">
+                <img
+                  *ngIf="user.profileImageUrl"
+                  src="{{ user.profileImageUrl }}"
+                  class="avatar"
+                />
+                <img
+                  *ngIf="!user.profileImageUrl"
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG1rxXk6k-HqZSKT-bg9X65qcvr-VWa2fBFiMHuW9uvw&s"
+                  class="avatar"
+                />
+                <div *ngIf="user.status === 'Offline'" class="Offline"></div>
+                <div *ngIf="user.status === 'Busy'" class="Busy"></div>
+                <div
+                  *ngIf="user.status === 'Available'"
+                  class="Available"
+                ></div>
+              </div>
+              <div>
+                <h3>{{ user.firstName }}</h3>
+                <p class="designation">{{ user.designation }}</p>
+              </div>
             </div>
-            <div class="NoChatUser" *ngIf="NoUser">
-                <h1>Hii👋 Welcome To Chat💬 Application.</h1>
-            </div>
+          </div>
         </div>
-
+      </div>
     </div>
+    <div class="col-md-8">
+      <div *ngIf="ChatBox" class="chat-container">
+        <ng-container>
+          <div class="chat-header">
+            <button
+              class="back border-0 fs-4 text-dark"
+              (click)="PreviousPage()"
+            >
+              <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            </button>
+            <div class="Img_Details">
+              <img
+                *ngIf="UserSelected.profileImageUrl"
+                src="{{ UserSelected.profileImageUrl }}"
+                class="avatar"
+              />
+              <img
+                *ngIf="!UserSelected.profileImageUrl"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG1rxXk6k-HqZSKT-bg9X65qcvr-VWa2fBFiMHuW9uvw&s"
+                class="avatar"
+              />
+              <div
+                *ngIf="UserSelected.status === 'Offline'"
+                class="Offline"
+              ></div>
+              <div *ngIf="UserSelected.status === 'Busy'" class="Busy"></div>
+              <div
+                *ngIf="UserSelected.status === 'Available'"
+                class="Available"
+              ></div>
+            </div>
+            <div>
+              <h3>{{ UserSelected.firstName }}</h3>
+              <p>{{ UserSelected.designation }}</p>
+            </div>
+          </div>
 
+          <div class="chat-body">
+            <div class="SendMessage" *ngFor="let Daymessages of TotalMessages">
+              <p>{{ Daymessages._id }}</p>
+              <ng-container *ngFor="let message of Daymessages.messageByDate">
+                <div
+                  class="d-flex justify-content-between"
+                  [class]="getMessageClass(message)"
+                >
+                  <p>
+                    <span>{{ message.time }}</span>
+                    <span>{{ message.content }}</span>
+                  </p>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+          <div class="chat-footer">
+            <div class="file-container" *ngIf="displayIcons">
+              <label for="imageFile"
+                >file :<i class="fa-solid fa-file"></i>
+                <input
+                  style="display: none"
+                  type="file"
+                  id="imageFile"
+                  (change)="SelectedImage($event)"
+                />
+              </label>
+              <span>contacts :<i class="fa-solid fa-address-book"></i> </span>
+            </div>
+            <span (click)="displayIcons = !displayIcons" class="file-icon">{{
+              displayIcons ? "-" : "+"
+            }}</span>
+
+            <input
+              type="text"
+              placeholder="Type a message"
+              class="form-control"
+              [(ngModel)]="messageText"
+              (keyup.enter)="sendMessage()"
+            />
+
+            <button class="btn btn-primary btn-sm px-3" (click)="sendMessage()">
+              Send
+            </button>
+          </div>
+        </ng-container>
+      </div>
+      <div class="NoChatUser" *ngIf="NoUser">
+        <h1>Hii👋 Welcome To Chat💬 Application.</h1>
+      </div>
+    </div>
+  </div>
 </div>

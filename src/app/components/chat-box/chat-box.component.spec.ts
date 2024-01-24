@@ -8,7 +8,7 @@ describe('ChatBoxComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ChatBoxComponent]
+      declarations: [ChatBoxComponent],
     });
     fixture = TestBed.createComponent(ChatBoxComponent);
     component = fixture.componentInstance;
