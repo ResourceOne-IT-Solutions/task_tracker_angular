@@ -238,7 +238,7 @@ export class ChatService {
     this.timer$ = timer(1000, 1000);
 
     this.timer$.subscribe(() => {
-      console.log(this.idleTimeoutInSeconds, 'timer');
+      // console.log(this.idleTimeoutInSeconds, 'timer');
       if (this.idleTimeoutInSeconds > 0) {
         this.idleTimeoutInSeconds--;
 

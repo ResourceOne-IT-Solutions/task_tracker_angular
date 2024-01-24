@@ -9,15 +9,15 @@
             {{ chatrequest.opponent.name }}
           </p>
           <div *ngIf="chatrequest.isPending == true" class="isPending">
-            <button class="btn btn-sm btn-success">Not Approved</button>
-          </div>
-          <div *ngIf="chatrequest.isPending == false">
             <button
               class="btn btn-sm btn-success"
-              disabled="chatrequest.isPending == false"
+              disabled="chatrequest.isPending == true"
             >
-              Approved
+              Not Approved
             </button>
+          </div>
+          <div *ngIf="chatrequest.isPending == false">
+            <button class="btn btn-sm btn-success">Approved</button>
           </div>
         </div>
       </li>
@@ -33,15 +33,15 @@
             {{ ticketrequest.client.name }}
           </p>
           <div *ngIf="ticketrequest.isPending == true" class="isPending">
-            <button class="btn btn-sm btn-success">Not Approved</button>
-          </div>
-          <div *ngIf="ticketrequest.isPending == false">
             <button
               class="btn btn-sm btn-success"
-              disabled="chatrequest.isPending == false"
+              disabled="ticketrequest.isPending == true"
             >
-              Approved
+              Not Approved
             </button>
+          </div>
+          <div *ngIf="ticketrequest.isPending == false">
+            <button class="btn btn-sm btn-success">Approved</button>
           </div>
         </div>
       </li>
