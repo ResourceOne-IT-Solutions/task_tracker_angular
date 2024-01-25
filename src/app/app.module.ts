@@ -34,6 +34,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { UserViewComponent } from './components/user-view/user-view.component';
 import { FileRenderComponent } from './reusable/file-render/file-render.component';
+import { CreateGroupComponent } from './components/create-group/create-group.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,6 +52,7 @@ import { FileRenderComponent } from './reusable/file-render/file-render.componen
     NavBarComponent,
     UserViewComponent,
     FileRenderComponent,
+    CreateGroupComponent,
   ],
   imports: [
     BrowserModule,

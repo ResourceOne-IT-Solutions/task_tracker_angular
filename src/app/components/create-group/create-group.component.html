@@ -1,0 +1,36 @@
+
+
+  <h1 mat-dialog-title>Create Group</h1>
+  <div mat-dialog-content>
+    <div class="row">
+        <div class="col-md-12">
+          <div class="form-group" [formGroup]="createGroupForm">
+            <input
+              type="text"
+              placeholder="Group Name"
+              class="form-control m-2"
+              formControlName="groupName"
+            />
+            <!-- <input type="text" placeholder="location" class="form-control m-2" formControlName="location"> -->
+            <!-- <select multiple  class="form-control m-2" formControlName="userlist">
+              <option *ngFor="let user of UserListData" [value]="user">
+                {{ user.firstName }}
+              </option>
+            </select> -->
+            <mat-form-field>
+              <mat-label>Select Users</mat-label>
+              <mat-select formControlName="userlist" multiple>     
+                  <mat-option *ngFor="let user of data.UserListData" [value]="user">{{user.firstName}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div>
+                <textarea placeholder="description" formControlName="description"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  <div mat-dialog-actions>
+    <button class="btn btn-sm btn-danger">Cancel</button>
+    <button mat-button class="btn btn-primary"   (click)="CreateGroup()">Create Group</button>
+  </div>

@@ -183,6 +183,13 @@ export class ChatService {
       };
     });
   }
+
+  // groups 
+
+  getAllGroups(id:any){
+     return this.get(`/message/groups/${id}`)
+  }
+
   // api mian calls
 
   get(url: any) {

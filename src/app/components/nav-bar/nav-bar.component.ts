@@ -28,7 +28,7 @@ export class NavBarComponent {
   }
   logout() {
     this.deleteCookie('token');
-
+    
     const logoutpayload = {
       id: this.userDetails._id,
     };
