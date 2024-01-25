@@ -51,8 +51,13 @@ export class ChatBoxComponent {
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.currentUser = res;
     });
+    this.chatservice.chatRequest.subscribe((res) => {
+      console.log(res, '55::::');
+      // this.ChatBox = true;
+      // this.UserSelected = res;
+    });
     this.chatservice.sendSocketData({
-      data: this.currentUser._id,
+      data: { userId: this.currentUser._id },
       key: 'newUser',
     });
     this.chatservice.getSocketData('newUser').subscribe((res) => {
@@ -126,7 +131,7 @@ export class ChatBoxComponent {
       data: socketPayload,
     });
     this.chatservice.sendSocketData({
-      data: this.currentUser._id,
+      data: { userId: this.currentUser._id, opponentId: this.UserSelected._id },
       key: 'newUser',
     });
     this.messageText = '';

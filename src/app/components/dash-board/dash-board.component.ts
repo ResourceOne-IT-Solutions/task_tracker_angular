@@ -370,8 +370,7 @@ export class DashBoardComponent {
 
   /// admin status
 
-  selectChange(data: any) {
-  }
+  selectChange(data: any) {}
 
   // user functions
 
@@ -382,7 +381,6 @@ export class DashBoardComponent {
     this.openPopup(this.userModel);
   }
   addUser(dismiss: any): void {
-
     const Data = {
       firstName: this.userForm.value.fname,
       lastName: this.userForm.value.lname,
@@ -677,7 +675,6 @@ export class DashBoardComponent {
   }
 
   adminMessage(dismiss: any) {
-
     this.chatservice.sendSocketData({
       key: 'adminMessage',
       data: {
@@ -692,8 +689,7 @@ export class DashBoardComponent {
     });
     dismiss();
   }
-  xlSheet(data: any) {
-  }
+  xlSheet(data: any) {}
   // this.chatservice.sendSocketData({key:'requestChat',data:{user:{name:this.currentUser.firstName,id:this.currentUser._id},opponent:{name:this.SelectedUserdata.firstName,id:this.SelectedUserdata._id}}})
   // this.chatservice.sendSocketData({key:'adminMessage',data:{sender:{id:this.adminDetails._id, name : this.adminDetails.firstName},content:{this.this.requestticketForm.value,}})
 

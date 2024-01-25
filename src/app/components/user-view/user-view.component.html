@@ -17,7 +17,12 @@
             </button>
           </div>
           <div *ngIf="chatrequest.isPending == false">
-            <button class="btn btn-sm btn-success">Approved</button>
+            <button
+              class="btn btn-sm btn-success"
+              (click)="chatRequestApproved(chatrequest)"
+            >
+              Approved
+            </button>
           </div>
         </div>
       </li>
@@ -41,7 +46,12 @@
             </button>
           </div>
           <div *ngIf="ticketrequest.isPending == false">
-            <button class="btn btn-sm btn-success">Approved</button>
+            <button
+              class="btn btn-sm btn-success"
+              (click)="ticketRequestApproved()"
+            >
+              Approved
+            </button>
           </div>
         </div>
       </li>
