@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ChatService } from '../../services/chat.service';
@@ -21,10 +21,12 @@ export class LoginPageComponent {
   ErrorHandling: boolean = true;
   password: any;
   show = true;
+  fieldTextType: any={isTrue: false};
   constructor(
     private route: Router,
     private fb: FormBuilder,
     private chatservice: ChatService,
+    private cd: ChangeDetectorRef
   ) {}
   'loginForm': FormGroup;
   ngOnInit() {
@@ -60,25 +62,15 @@ export class LoginPageComponent {
     this.password = 'password';
   }
 
-  HideShow() {
-    if (this.password === 'password') {
-      this.show = true;
-      this.password = 'text';
-    } else {
-      this.password = 'password';
-      this.show = false;
-    }
-  }
-
   AdminLogin() {
     this.UserDataa = true;
     this.LoginBoolean = false;
     const isAdmin = this.RoleDetails === 'Admin';
     if (this.loginForm.valid) {
       this.chatservice
-        .currentTaskUser({ ...this.loginForm.value, isAdmin })
-        .subscribe(
-          (res: any) => {
+      .currentTaskUser({ ...this.loginForm.value, isAdmin })
+      .subscribe(
+        (res: any) => {
             // localStorage.setItem('currentTaskUser', res.token)
             this.chatservice.setCookie('token', res.token, 1);
             this.route.navigate(['dashboard']);
@@ -89,10 +81,6 @@ export class LoginPageComponent {
             this.ErrorMsg = err.error.error;
           },
         );
-      // this.chatservice.currentTaskUser({ ...this.loginForm.value, isAdmin }).subscribe((res:any) =>{
-      //   localStorage.setItem('currentTaskUser', res.token)
-      //   this.route.navigate(['dashboard'])
-      // })
     }
   }
 
@@ -100,5 +88,9 @@ export class LoginPageComponent {
     const data = this.chatservice.getRoleData(this.navigateData);
     this.loginForm.reset();
     this.ErrorMsg = '';
+  }
+  toggleFieldTextType() {
+    this.fieldTextType.isTrue = !this.fieldTextType.isTrue;
+    this.cd.detectChanges();
   }
 }

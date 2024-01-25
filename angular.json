@@ -30,6 +30,9 @@
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "@fortawesome/fontawesome-free/css/fontawesome.css",
+              "@fortawesome/fontawesome-free/css/brands.css",
+              "@fortawesome/fontawesome-free/css/solid.css",
               "node_modules/ngx-spinner/animations/ball-scale-multiple.css",
               "node_modules/ngx-spinner/animations/ball-clip-rotate-multiple.css"
             ],

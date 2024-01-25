@@ -40,8 +40,8 @@ export class DashBoardComponent {
   userColumns: Array<Column> = [
     {
       columnDef: 'firstName',
-      header: 'First Name',
-      cell: (element: any) => `${element['firstName']}`,
+      header: 'User Name',
+      cell: (element: any) => `${this.chatservice.getFullName(element)}`,
       isText: true,
     },
     {
