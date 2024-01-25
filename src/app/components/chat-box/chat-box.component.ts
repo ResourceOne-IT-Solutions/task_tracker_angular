@@ -34,6 +34,7 @@ export class ChatBoxComponent {
   ChatBox: boolean = false;
   isGroup: boolean = false;
   noGroupAvailable: any;
+  requestedChat: any;
   constructor(
     private chatservice: ChatService,
     private location: Location,
@@ -48,11 +49,7 @@ export class ChatBoxComponent {
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.currentUser = res;
     });
-    this.chatservice.chatRequest.subscribe((res) => {
-      console.log(res, '55::::');
-      // this.ChatBox = true;
-      // this.UserSelected = res;
-    });
+   
     this.chatservice.sendSocketData({
       data: { userId: this.currentUser._id },
       key: 'newUser',
@@ -69,6 +66,13 @@ export class ChatBoxComponent {
           return user;
         }) : this.UserListData
       }
+      console.log(this.requestedChat)
+      if(this.requestedChat){
+         const user  = this.UserListData.find((res:any)=> res._id ===  this.requestedChat.opponent.id)
+        if(user){
+          this.SelectUser(user)
+        }
+      }
       this.loader.hide();
     });
     if (this.currentUser) {
@@ -78,6 +82,11 @@ export class ChatBoxComponent {
     } else {
       //  this.route.navigate([''])
     }
+    this.chatservice.chatRequest.subscribe((res:any) => {
+          if(res){
+            this.requestedChat = res
+          }
+    });
     this.UserSelected = 'Test';
     this.chatservice.getSocketData('groupCreated').subscribe((res) => {
       this.groupList.push(res)
