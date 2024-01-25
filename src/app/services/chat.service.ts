@@ -227,6 +227,9 @@ export class ChatService {
     if (data.firstName) {
       return data.firstname
     }
+    if(data.name) {
+      return data.name
+    }
     return "Invalid Name"
   }
 }
