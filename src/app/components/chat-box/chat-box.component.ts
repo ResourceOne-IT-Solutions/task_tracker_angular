@@ -48,6 +48,11 @@ export class ChatBoxComponent {
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.currentUser = res;
     });
+    this.chatservice.chatRequest.subscribe((res) => {
+      console.log(res, '55::::');
+      // this.ChatBox = true;
+      // this.UserSelected = res;
+    });
     this.chatservice.sendSocketData({
       data: { userId: this.currentUser._id },
       key: 'newUser',

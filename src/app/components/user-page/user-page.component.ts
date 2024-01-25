@@ -124,6 +124,7 @@ export class UserPageComponent implements OnInit {
   userList: any;
   SelectedUserdata: any;
   statuschange: any;
+  resourceAssigned: any;
   constructor(
     private chatservice: ChatService,
     private router: Router,
@@ -146,6 +147,7 @@ export class UserPageComponent implements OnInit {
   ngOnInit(): void {
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.currentUser = res;
+      console.log(this.currentUser, 'currentuser');
     });
     //AllUserList.....
     this.chatservice.getAllUsers().subscribe((res) => {
@@ -161,9 +163,20 @@ export class UserPageComponent implements OnInit {
     this.chatservice.getTicketSocketData('ticketAssigned').subscribe((data) => {
       alert(`${data.sender.name} assigned you a ticket`);
     });
-    this.chatservice.getSocketData('resourceAssigned').subscribe((res) => {
-      alert(`Request coming to add-resource${JSON.stringify(res)}`);
-    });
+    this.chatservice
+      .getSocketData('resourceAssigned')
+      .subscribe(({ resource, sender, ticket, user }) => {
+        console.log('165:::::::::', this.currentUser._id);
+        if (this.currentUser._id === resource.id) {
+          alert(
+            `${user.name} is  needs ur help for the ${ticket.name} ticket, ${sender.name} assigned you as a resource`,
+          );
+        } else if (this.currentUser._id === user.id) {
+          alert(
+            `${sender.name} assigned  ${resource.name} as a resource for your ${ticket.name} ticket`,
+          );
+        }
+      });
 
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.UserData = res;

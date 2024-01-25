@@ -9,7 +9,9 @@ import { io, Socket } from 'socket.io-client';
 export class ChatService {
   RoleData = new BehaviorSubject('');
   ticketsById = new BehaviorSubject('');
+  chatRequest = new BehaviorSubject('');
   private socket: Socket;
+
   getRoleData(role: any) {
     this.RoleData.next(role);
   }
@@ -20,6 +22,10 @@ export class ChatService {
   UserLoginData = new BehaviorSubject('');
   UserLogin(data: any) {
     this.UserLoginData.next(data);
+  }
+  // chat Behavior
+  chatRequests(data: any) {
+    this.chatRequest.next(data);
   }
   BE_SERVER = 'https://task-tracker-server-2njm.onrender.com';
   BE_LOCAL = 'http://192.168.10.30:1234';

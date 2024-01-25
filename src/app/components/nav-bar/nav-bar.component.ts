@@ -61,4 +61,7 @@ export class NavBarComponent {
   user() {
     this.router.navigate(['user-view-request']);
   }
+  userTickets() {
+    this.router.navigate(['user-tickets']);
+  }
 }

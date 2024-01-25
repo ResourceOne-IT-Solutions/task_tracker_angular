@@ -25,6 +25,9 @@
     <button class="btn btn-info m-2" *ngIf="!isAdmin" (click)="user()">
       View Request User
     </button>
+    <button class="btn btn-info m-2" *ngIf="!isAdmin" (click)="userTickets()">
+      Tickets
+    </button>
 
     <button class="btn btn-danger ms-3" (click)="logout()">LogOut</button>
   </div>
