@@ -19,6 +19,7 @@
             />
             <p>{{ group.name }}</p>
           </div>
+          <div *ngIf="groupList.length <= 0">{{noGroupAvailable}}</div>
         </div>
         <div class="All-Users">
           <p class="User-Heading">Users</p>
@@ -113,8 +114,8 @@
                       else fileRender
                     "
                   >
+                  <span>{{ message.content }}</span>
                     <span>{{ message.time }}</span>
-                    <span>{{ message.content }}</span>
                   </p>
                   <!-- <img *ngIf="message.type === 'image/png'" [src]="getImageData(message)"  /> -->
                   <ng-template #fileRender>
