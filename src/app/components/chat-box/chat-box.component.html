@@ -107,7 +107,12 @@
                   class="d-flex justify-content-between"
                   [class]="getMessageClass(message)"
                 >
-                  <p *ngIf="message.type=='message' || message.type=='contact' ; else fileRender">
+                  <p
+                    *ngIf="
+                      message.type == 'message' || message.type == 'contact';
+                      else fileRender
+                    "
+                  >
                     <span>{{ message.time }}</span>
                     <span>{{ message.content }}</span>
                   </p>

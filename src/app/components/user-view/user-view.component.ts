@@ -15,7 +15,6 @@ export class UserViewComponent implements OnInit {
 
   ngOnInit() {
     this.chatservice.UserLoginData.subscribe((res: any) => {
-      console.log(res, '17.............................');
       this.currentuser = res;
     });
 
@@ -24,23 +23,16 @@ export class UserViewComponent implements OnInit {
         (val: any) => val.sender.id === this.currentuser._id,
       );
 
-      console.log(this.userChatRequest, '23:::::::::');
     });
-
-    // this.chatservice.getChatMessagesById(this.currentuser._id).subscribe(res => {
-    //   console.log(res , '24:::::::::::::')
-    // })
 
     this.chatservice.getTickesRequest().subscribe((res: any) => {
       this.userTicketRequest = res.filter(
         (val: any) => val.sender.id === this.currentuser._id,
       );
-      console.log(this.userTicketRequest, '38:::::::');
     });
 
     this.chatservice.getAdminChatMessages().subscribe((res) => {
       this.adminMessages = res;
-      console.log(res, '46::::::::');
     });
   }
 }

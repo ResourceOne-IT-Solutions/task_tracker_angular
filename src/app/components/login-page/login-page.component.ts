@@ -64,11 +64,9 @@ export class LoginPageComponent {
     if (this.password === 'password') {
       this.show = true;
       this.password = 'text';
-      console.log(this.password, '62::::');
     } else {
       this.password = 'password';
       this.show = false;
-      console.log(this.password, '5555555::::');
     }
   }
 

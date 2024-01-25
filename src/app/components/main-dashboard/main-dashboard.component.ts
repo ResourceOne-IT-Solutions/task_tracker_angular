@@ -12,11 +12,14 @@ import { IdleTimeService } from 'src/app/services/idle/idle-time.service';
 export class MainDashboardComponent {
   data: any;
   'isAdmin$': Observable<any>;
-  constructor(private chatservice: ChatService, private idleSerive :IdleTimeService) {}
+  constructor(
+    private chatservice: ChatService,
+    private idleSerive: IdleTimeService,
+  ) {}
   ngOnInit() {
     this.data = localStorage.getItem('currentTaskUser');
     this.chatservice.getSocketData('error').subscribe((res) => {
-      console.log('SOCKET ERROR:::', res);
+      alert(res)
     });
     this.isAdmin$ = this.chatservice.UserLoginData.pipe(
       map((res: any) => {
