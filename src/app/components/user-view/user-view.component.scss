@@ -8,6 +8,7 @@ h1 {
   justify-content: space-around;
 
   .User-ChatRequest {
+    width: 33%;
     box-shadow: 0 0 5px;
     border-radius: 7px;
     // margin: 0 0 0 21px;
@@ -21,6 +22,7 @@ h1 {
   .User-TicketRequest {
     box-shadow: 0 0 5px;
     border-radius: 7px;
+    width: 33%;
     // margin: 0 12px 0 16px;
     h1 {
       text-align: center;
@@ -31,7 +33,7 @@ h1 {
   .User-Messages {
     // border: 3px solid red;
     // display: flex;
-
+    width: 33%;
     box-shadow: 0 0 5px;
     border-radius: 7px;
     // margin: 0 12px 0 16px;

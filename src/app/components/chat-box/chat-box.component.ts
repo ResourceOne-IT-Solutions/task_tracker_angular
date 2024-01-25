@@ -171,7 +171,7 @@ export class ChatBoxComponent {
     const socketPayload = {
       to: this.RoomId,
       content,
-      from: { name: this.currentUser.firstName, id: this.currentUser._id },
+      from: { name: this.chatservice.getFullName(this.currentUser), id: this.currentUser._id },
       time: this.getFormattedTime(),
       date: this.getFormattedDate(new Date()),
       opponentId: this.UserSelected._id,

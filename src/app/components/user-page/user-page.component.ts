@@ -221,7 +221,7 @@ export class UserPageComponent implements OnInit {
         ],
         datasets: [
           {
-            label: this.UserData.firstName,
+            label: this.chatservice.getFullName(this.UserData),
             data: [resolved, assigned, pending, inprogress, helped, Improper],
           },
         ],
@@ -257,7 +257,7 @@ export class UserPageComponent implements OnInit {
         data: {
           ...this.updateForm.value,
           updatedBy: {
-            name: this.UserData.firstName,
+            name:  this.chatservice.getFullName(this.UserData),
             id: this.UserData._id,
           },
         },
@@ -288,9 +288,9 @@ export class UserPageComponent implements OnInit {
     this.chatservice.sendSocketData({
       key: 'requestChat',
       data: {
-        user: { name: this.currentUser.firstName, id: this.currentUser._id },
+        user: { name: this.chatservice.getFullName(this.currentUser), id: this.currentUser._id },
         opponent: {
-          name: this.SelectedUserdata.firstName,
+          name: this.chatservice.getFullName(this.SelectedUserdata),
           id: this.SelectedUserdata._id,
         },
       },
@@ -312,7 +312,7 @@ export class UserPageComponent implements OnInit {
         id: data.client.id,
       },
       sender: {
-        name: this.currentUser.firstName,
+        name: this.chatservice.getFullName(this.currentUser),
         id: this.currentUser._id,
       },
     };
