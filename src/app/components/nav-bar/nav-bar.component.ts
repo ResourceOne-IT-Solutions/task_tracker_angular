@@ -52,7 +52,7 @@ export class NavBarComponent {
   OpenChatBox() {
     this.router.navigate(['Chat-Box']);
   }
-  ViewQequest() {
+  ViewRequest() {
     this.router.navigate(['view-requestPage']);
   }
   ViewTicket() {

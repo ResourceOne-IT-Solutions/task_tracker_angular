@@ -221,6 +221,15 @@ export class ChatService {
 
   // get full Name
   getFullName(data: any) {
-    return data.firstName + ' ' + data.lastName;
+    if(data.firstName && data.lastName) {
+      return data.firstName + ' ' + data.lastName;
+    }
+    if (data.firstName) {
+      return data.firstname
+    }
+    if(data.name) {
+      return data.name
+    }
+    return "Invalid Name"
   }
 }

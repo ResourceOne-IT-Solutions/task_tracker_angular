@@ -1,6 +1,6 @@
-<h1>View Request Page</h1>
+<h1>View Request Page!</h1>
 <div class="Main-ViewRequest">
-  <div class="ChatRequest">
+  <div class="ChatRequest position-relative">
     <h1>Chat Request</h1>
     <ol>
       <li *ngFor="let chatrequest of ChatRequest; let i = index">
@@ -17,14 +17,23 @@
               Give Access
             </button>
           </div>
+
           <div *ngIf="chatrequest.isPending == false">
             <h2>Approved</h2>
           </div>
         </div>
       </li>
+
+        <ngx-spinner
+        bdColor="rgba(0,0,0,0.32)"
+        size="large"
+        color="#8652d5"
+        type="ball-clip-rotate-multiple"
+        [fullScreen]="false">
+  </ngx-spinner>
     </ol>
   </div>
-  <div class="TicketREquest">
+  <div class="TicketREquest position-relative" >
     <h1>Ticket Request</h1>
     <ol>
       <li *ngFor="let ticketrequest of TicketRequest; let i = index">
@@ -41,11 +50,22 @@
               Give Access
             </button>
           </div>
+        
           <div *ngIf="ticketrequest.isPending == false">
             <h2>Approved</h2>
           </div>
         </div>
       </li>
+
+        <ngx-spinner
+        bdColor="rgba(0,0,0,0.32)"
+        size="large"
+        color="#8652d5"
+        type="ball-clip-rotate-multiple"
+        [fullScreen]="false"
+      >
+  </ngx-spinner>
+
     </ol>
   </div>
 </div>

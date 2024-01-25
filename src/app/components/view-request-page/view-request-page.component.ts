@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ChatService } from 'src/app/services/chat.service';
 import { Column } from '../dash-board/dash-board.component';
+// import { NgxSpinnerService } from 'ngx-spinner';
+import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-view-request-page',
@@ -12,16 +14,19 @@ export class ViewRequestPageComponent {
   isChatRequest = true;
   ChatRequest: any;
   TicketRequest: any;
-  constructor(private chatservice: ChatService) {}
+  constructor(private chatservice: ChatService,private loader: NgxSpinnerService,) {}
   ngOnInit() {
+      this.loader.show();
+      console.log(this.loader.show(),'20:::::',this.loader.hide())
     this.chatservice.getSocketData('userRequestApproved').subscribe((res) => {
-      console.log(res, '499:::::::::::::::::::::');
     });
     this.chatservice.getChatMessages().subscribe((res) => {
       this.ChatRequest = res;
+      this.loader.hide();
     });
     this.chatservice.getTickesRequest().subscribe((res) => {
       this.TicketRequest = res;
+      this.loader.hide();
     });
   }
   approveUserRequest() {
