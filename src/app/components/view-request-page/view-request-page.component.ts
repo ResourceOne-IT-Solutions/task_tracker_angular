@@ -14,12 +14,16 @@ export class ViewRequestPageComponent {
   isChatRequest = true;
   ChatRequest: any;
   TicketRequest: any;
-  constructor(private chatservice: ChatService,private loader: NgxSpinnerService,) {}
+  constructor(
+    private chatservice: ChatService,
+    private loader: NgxSpinnerService,
+  ) {}
   ngOnInit() {
-      this.loader.show();
-      console.log(this.loader.show(),'20:::::',this.loader.hide())
-    this.chatservice.getSocketData('userRequestApproved').subscribe((res) => {
-    });
+    this.loader.show();
+    console.log(this.loader.show(), '20:::::', this.loader.hide());
+    this.chatservice
+      .getSocketData('userRequestApproved')
+      .subscribe((res) => {});
     this.chatservice.getChatMessages().subscribe((res) => {
       this.ChatRequest = res;
       this.loader.hide();

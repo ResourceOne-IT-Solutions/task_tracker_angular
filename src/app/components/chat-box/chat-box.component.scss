@@ -33,60 +33,12 @@
         color: #000;
       }
 
-      h3 {
-        margin: 0;
-      }
-
-      // p{
-      //     margin: 5px;
-      // }
       .avatar {
-        // height: 50px;
         width: 42px;
         border-radius: 50%;
         overflow: hidden;
         margin: 0 15px 0 0;
         border: 1px solid darkgrey;
-      }
-
-      .Img_Details {
-        position: relative;
-
-        .Offline {
-          height: 10px;
-          width: 9px;
-          border-radius: 50%;
-          margin: 0;
-          height: 200;
-          top: 3%;
-          right: 34%;
-          background: red;
-          position: absolute;
-        }
-
-        .Busy {
-          height: 10px;
-          width: 9px;
-          border-radius: 50%;
-          margin: 0;
-          height: 200;
-          top: 3%;
-          right: 34%;
-          background: orange;
-          position: absolute;
-        }
-
-        .Available {
-          height: 10px;
-          width: 9px;
-          border-radius: 50%;
-          margin: 0;
-          height: 200;
-          top: 3%;
-          right: 34%;
-          background: green;
-          position: absolute;
-        }
       }
     }
 
@@ -121,61 +73,10 @@
       overflow: hidden;
       margin: 0 20px;
     }
-
-    .Img_Details {
-      position: relative;
-
-      .Offline {
-        height: 13px;
-        width: 12px;
-        border-radius: 50%;
-        margin: 0;
-        height: 200;
-        top: -12%;
-        right: 26%;
-        background: red;
-        position: absolute;
-      }
-
-      .Busy {
-        height: 13px;
-        width: 12px;
-        border-radius: 50%;
-        margin: 0;
-        height: 200;
-        top: -12%;
-        right: 26%;
-        background: orange;
-        position: absolute;
-      }
-
-      .Available {
-        height: 13px;
-        width: 12px;
-        border-radius: 50%;
-        margin: 0;
-        height: 200;
-        top: -12%;
-        right: 26%;
-        background: green;
-        position: absolute;
-      }
-    }
-
-    p {
-      margin: 0;
-    }
-
-    h3 {
-      margin: 0;
-    }
   }
 
   .chat-body {
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
-    // height: calc(100vh - 125px);
+    background: #f1f1f1;
     padding: 30px;
     overflow-y: auto;
     min-height: 478px;
@@ -193,7 +94,7 @@
     .SendMessage {
       p {
         text-align: center;
-        background: darkgray;
+        background: #b9bbdf;
         width: 96px;
         margin: auto;
         border-radius: 5px;
@@ -204,6 +105,7 @@
       .SendUser {
         margin: 17px 0;
         border-radius: 9px;
+
         p {
           background: #6e00ff;
           color: #fff;
@@ -211,26 +113,41 @@
           width: fit-content;
           margin-right: 0;
           margin: auto;
-          border-radius: 5px;
+          border-radius: 8px 0 11px 6px;
           text-align: center;
           margin-right: 0;
+          max-width: 250px;
+          line-break: anywhere;
         }
       }
+
       .receive {
         width: fit-content;
+
         p {
-          background: #6e00ff;
+          background: #514b58;
           color: #fff;
-          padding: 6px 33px;
+          padding: 6px 29px;
           width: -moz-fit-content;
           width: fit-content;
           margin-right: 0;
           margin: auto;
-          border-radius: 5px;
+          border-radius: 0 6px 8px 15px;
           text-align: center;
           margin-right: 0;
           margin: 5px 5px;
+          max-width: 250px;
+          line-break: anywhere;
         }
+      }
+
+      .message-content {
+        margin: 0 28px 0 0;
+      }
+
+      .message-Time {
+        font-size: 10px;
+        color: darkgrey;
       }
     }
 
@@ -265,14 +182,19 @@
     }
 
     .file-container {
+      box-shadow: 0 0 5px 0;
+      padding: 10px;
+      border-radius: 5px;
       position: absolute;
-      top: -45px;
+      top: -64px;
       left: 10px;
       background: white;
+
       label,
       span {
         display: block;
         font-size: 19px;
+        cursor: pointer;
       }
     }
 
@@ -284,12 +206,26 @@
 .Groups {
   box-shadow: 0 0 3px 0 #458485;
   border-radius: 5px;
+  margin: 6px 0;
+  height: 271px;
+  overflow: auto;
+  position: relative;
 
   .Group-Heading {
     font-size: 19px;
     font-weight: 500;
     text-align: center;
     padding: 9px 0;
+  }
+
+  .groupModel {
+    float: right;
+    background-color: #6e00ff;
+    color: #fff;
+    font-size: 21px;
+    margin: 0 11px 0 0;
+    padding: 3px;
+    border-radius: 3px;
   }
 
   .images {
@@ -362,4 +298,44 @@
   align-items: center;
   justify-content: center;
   height: 500px;
+}
+
+.Img_Details {
+  position: relative;
+
+  .Offline {
+    height: 13px;
+    width: 12px;
+    border-radius: 50%;
+    margin: 0;
+    height: 200;
+    top: -12%;
+    right: 26%;
+    background: red;
+    position: absolute;
+  }
+
+  .Busy {
+    height: 13px;
+    width: 12px;
+    border-radius: 50%;
+    margin: 0;
+    height: 200;
+    top: -12%;
+    right: 26%;
+    background: orange;
+    position: absolute;
+  }
+
+  .Available {
+    height: 13px;
+    width: 12px;
+    border-radius: 50%;
+    margin: 0;
+    height: 200;
+    top: -12%;
+    right: 26%;
+    background: green;
+    position: absolute;
+  }
 }

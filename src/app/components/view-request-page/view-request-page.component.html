@@ -24,16 +24,17 @@
         </div>
       </li>
 
-        <ngx-spinner
+      <ngx-spinner
         bdColor="rgba(0,0,0,0.32)"
         size="large"
         color="#8652d5"
         type="ball-clip-rotate-multiple"
-        [fullScreen]="false">
-  </ngx-spinner>
+        [fullScreen]="false"
+      >
+      </ngx-spinner>
     </ol>
   </div>
-  <div class="TicketREquest position-relative" >
+  <div class="TicketREquest position-relative">
     <h1>Ticket Request</h1>
     <ol>
       <li *ngFor="let ticketrequest of TicketRequest; let i = index">
@@ -50,22 +51,21 @@
               Give Access
             </button>
           </div>
-        
+
           <div *ngIf="ticketrequest.isPending == false">
             <h2>Approved</h2>
           </div>
         </div>
       </li>
 
-        <ngx-spinner
+      <ngx-spinner
         bdColor="rgba(0,0,0,0.32)"
         size="large"
         color="#8652d5"
         type="ball-clip-rotate-multiple"
         [fullScreen]="false"
       >
-  </ngx-spinner>
-
+      </ngx-spinner>
     </ol>
   </div>
 </div>

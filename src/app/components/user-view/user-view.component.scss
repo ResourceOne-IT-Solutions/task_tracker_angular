@@ -11,7 +11,6 @@ h1 {
     width: 33%;
     box-shadow: 0 0 5px;
     border-radius: 7px;
-    // margin: 0 0 0 21px;
     h1 {
       text-align: center;
       padding: 6px 0;
@@ -23,7 +22,6 @@ h1 {
     box-shadow: 0 0 5px;
     border-radius: 7px;
     width: 33%;
-    // margin: 0 12px 0 16px;
     h1 {
       text-align: center;
       padding: 6px 0;
@@ -31,32 +29,28 @@ h1 {
     }
   }
   .User-Messages {
-    // border: 3px solid red;
-    // display: flex;
     width: 33%;
     box-shadow: 0 0 5px;
     border-radius: 7px;
-    // margin: 0 12px 0 16px;
     h1 {
       text-align: center;
       padding: 6px 0;
       text-decoration: underline;
     }
-    // .message{
-    //     display: flex;
-    //     background-origin: 3px solid red;
-    // }
   }
 }
 
 ol {
   margin: 10px;
+
   li {
     border-bottom: 1px solid darkgray;
+
     div {
       display: block;
       justify-content: space-between;
       align-items: center;
+
       .isPending {
         margin: 6px 0;
       }
