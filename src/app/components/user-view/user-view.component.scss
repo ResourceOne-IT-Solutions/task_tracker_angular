@@ -5,13 +5,16 @@ h1 {
 .User-ViewRequest {
   display: flex;
   margin-top: 17px;
-  justify-content: space-around;
+  gap: 5px;
 
   .User-ChatRequest {
     width: 33%;
     box-shadow: 0 0 5px;
     border-radius: 7px;
-    // margin: 0 0 0 21px;
+    margin: 0 0 0 21px;
+    height: 300px;
+    overflow: auto;
+
     h1 {
       text-align: center;
       padding: 6px 0;
@@ -23,7 +26,9 @@ h1 {
     box-shadow: 0 0 5px;
     border-radius: 7px;
     width: 33%;
-    // margin: 0 12px 0 16px;
+    margin: 0 0 0 21px;
+    height: 550px;
+    overflow: auto;
     h1 {
       text-align: center;
       padding: 6px 0;
@@ -31,21 +36,17 @@ h1 {
     }
   }
   .User-Messages {
-    // border: 3px solid red;
-    // display: flex;
     width: 33%;
     box-shadow: 0 0 5px;
     border-radius: 7px;
-    // margin: 0 12px 0 16px;
+    margin: 0 0 0 21px;
+    height: 550px;
+    overflow: auto;
     h1 {
       text-align: center;
       padding: 6px 0;
       text-decoration: underline;
     }
-    // .message{
-    //     display: flex;
-    //     background-origin: 3px solid red;
-    // }
   }
 }
 

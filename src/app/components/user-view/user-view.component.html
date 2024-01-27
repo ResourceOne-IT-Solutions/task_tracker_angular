@@ -48,7 +48,7 @@
           <div *ngIf="ticketrequest.isPending == false">
             <button
               class="btn btn-sm btn-success"
-              (click)="ticketRequestApproved()"
+              (click)="ticketRequestApproved(ticketrequest)"
             >
               Approved
             </button>

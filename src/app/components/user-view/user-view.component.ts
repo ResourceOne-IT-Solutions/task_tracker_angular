@@ -27,7 +27,6 @@ export class UserViewComponent implements OnInit {
       this.userChatRequest = res.filter(
         (val: any) => val.sender.id === this.currentuser._id,
       );
-      console.log(this.userChatRequest, 'userchatrequest:::');
     });
 
     this.chatservice.getTickesRequest().subscribe((res: any) => {
@@ -41,20 +40,9 @@ export class UserViewComponent implements OnInit {
     });
   }
   chatRequestApproved(data: any) {
-    console.log(data, 'dataaa:::::::');
     this.selectedChatUser = data;
     this.chatservice.chatRequests(this.selectedChatUser);
     this.router.navigate(['Chat-Box']);
-
-    // this.selectedChatUser.push(data);
-    // console.log(this.selectedChatUser , '4444');
-    // const filteruser = this.selectedChatUser.filter((res:any) => {
-    //   return res.opponent.id
-    // });
-
-    // console.log(filteruser , '47:::::::');
   }
-  ticketRequestApproved() {
-    console.log('ticketrequest');
-  }
+  ticketRequestApproved(data: any) {}
 }
