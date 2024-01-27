@@ -11,10 +11,6 @@ h1 {
     width: 33%;
     box-shadow: 0 0 5px;
     border-radius: 7px;
-    margin: 0 0 0 21px;
-    height: 300px;
-    overflow: auto;
-
     h1 {
       text-align: center;
       padding: 6px 0;
@@ -26,9 +22,6 @@ h1 {
     box-shadow: 0 0 5px;
     border-radius: 7px;
     width: 33%;
-    margin: 0 0 0 21px;
-    height: 550px;
-    overflow: auto;
     h1 {
       text-align: center;
       padding: 6px 0;
@@ -39,9 +32,6 @@ h1 {
     width: 33%;
     box-shadow: 0 0 5px;
     border-radius: 7px;
-    margin: 0 0 0 21px;
-    height: 550px;
-    overflow: auto;
     h1 {
       text-align: center;
       padding: 6px 0;
@@ -52,12 +42,15 @@ h1 {
 
 ol {
   margin: 10px;
+
   li {
     border-bottom: 1px solid darkgray;
+
     div {
       display: block;
       justify-content: space-between;
       align-items: center;
+
       .isPending {
         margin: 6px 0;
       }

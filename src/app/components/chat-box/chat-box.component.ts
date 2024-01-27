@@ -20,13 +20,9 @@ export class ChatBoxComponent {
 
   groupList: any = [];
   displayIcons: boolean = false;
-  selectedUser: any;
-  messageArray: any;
   messageText: any;
-  sendingMessage: any;
   currentUser: any;
   UserListData: any = [];
-  SelectedUser: any;
   UserSelected: any;
   RoomId: any;
   TotalMessages: any;
@@ -34,6 +30,10 @@ export class ChatBoxComponent {
   ChatBox: boolean = false;
   isGroup: boolean = false;
   noGroupAvailable: any;
+  SearchFilter: any;
+  filteredUsers: any = [];
+  MockUserData: any;
+  MockGroupList: any;
   requestedChat: any;
   constructor(
     private chatservice: ChatService,
@@ -73,13 +73,13 @@ export class ChatBoxComponent {
             : this.UserListData;
         }
         this.loader.hide();
+        this.MockUserData = this.UserListData;
       });
     if (this.currentUser) {
       this.chatservice.getSocketData('roomMessages').subscribe((res) => {
         this.TotalMessages = res;
       });
     } else {
-      //  this.route.navigate([''])
     }
     this.chatservice.chatRequest.subscribe((res:any) => {
           if(res){
@@ -89,10 +89,12 @@ export class ChatBoxComponent {
     this.UserSelected = 'Test';
     this.chatservice.getSocketData('groupCreated').subscribe((res) => {
       this.groupList.push(res);
+      this.loader.hide();
     });
     if (this.currentUser.isAdmin) {
       this.chatservice.getAllGroups('').subscribe((res: any) => {
         this.groupList = res;
+        this.MockGroupList = this.groupList;
       });
     } else {
       this.chatservice.getAllGroups(this.currentUser._id).subscribe(
@@ -242,5 +244,16 @@ export class ChatBoxComponent {
         this.reUseableSendMessage(res.fileName, res.type, res._id);
       });
     }
+  }
+  SearchUsers() {
+    this.UserListData = this.MockUserData.filter(
+      (val: any) =>
+        val.firstName?.toLowerCase().indexOf(this.SearchFilter?.toLowerCase()) >
+        -1,
+    );
+    this.groupList = this.MockGroupList.filter(
+      (val: any) =>
+        val.name?.toLowerCase().indexOf(this.SearchFilter?.toLowerCase()) > -1,
+    );
   }
 }

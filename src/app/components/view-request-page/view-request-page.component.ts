@@ -16,6 +16,7 @@ export class ViewRequestPageComponent {
   ticketDetails: any;
   chatpayload: any;
   TicketRequest: any;
+
   approvedtype: any;
   constructor(
     private chatservice: ChatService,
