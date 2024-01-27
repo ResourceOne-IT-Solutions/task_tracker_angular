@@ -5,7 +5,7 @@ h1 {
 .User-ViewRequest {
   display: flex;
   margin-top: 17px;
-  justify-content: space-around;
+  gap: 5px;
 
   .User-ChatRequest {
     width: 33%;

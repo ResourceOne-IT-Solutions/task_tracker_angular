@@ -13,7 +13,11 @@ export class ViewRequestPageComponent {
   type = true;
   isChatRequest = true;
   ChatRequest: any;
+  ticketDetails: any;
+  chatpayload: any;
   TicketRequest: any;
+
+  approvedtype: any;
   constructor(
     private chatservice: ChatService,
     private loader: NgxSpinnerService,
@@ -21,9 +25,9 @@ export class ViewRequestPageComponent {
   ngOnInit() {
     this.loader.show();
     console.log(this.loader.show(), '20:::::', this.loader.hide());
-    this.chatservice
-      .getSocketData('userRequestApproved')
-      .subscribe((res) => {});
+    this.chatservice.getSocketData('userRequestApproved').subscribe((res) => {
+      this.approvedtype = res;
+    });
     this.chatservice.getChatMessages().subscribe((res) => {
       this.ChatRequest = res;
       this.loader.hide();
@@ -33,14 +37,13 @@ export class ViewRequestPageComponent {
       this.loader.hide();
     });
   }
-  approveUserRequest() {
-    if (this.ChatRequest) {
+  approveUserChatRequest(data: any) {
+    if (data) {
       const filteruser = this.ChatRequest.filter((res: any) => {
         return res.isPending == true;
       });
-
       const demo = filteruser.forEach((val: any) => {
-        const approvepayload = {
+        this.chatpayload = {
           user: {
             name: val.sender.name,
             id: val.sender.id,
@@ -51,10 +54,34 @@ export class ViewRequestPageComponent {
           type: 'CHAT',
           status: val.isPending === 'false',
         };
-        this.chatservice.sendSocketData({
-          key: 'approveUserRequest',
-          data: approvepayload,
-        });
+      });
+      this.chatservice.sendSocketData({
+        key: 'approveUserRequest',
+        data: this.chatpayload,
+      });
+    }
+  }
+  approveUserTicketRequest(data: any) {
+    if (data) {
+      const filterticket = this.TicketRequest.filter((res: any) => {
+        return res.isPending == true;
+      });
+      const demo = filterticket.forEach((val: any) => {
+        this.ticketDetails = {
+          user: {
+            name: val.sender.name,
+            id: val.sender.id,
+            time: this.chatservice.getFormattedTime(),
+            date: this.chatservice.getFormattedDate(new Date()),
+          },
+          requestId: val._id,
+          type: 'TICKET',
+          status: val.isPending === 'false',
+        };
+      });
+      this.chatservice.sendSocketData({
+        key: 'approveUserRequest',
+        data: this.ticketDetails,
       });
     }
   }

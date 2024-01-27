@@ -12,7 +12,7 @@
           <div *ngIf="chatrequest.isPending == true" class="isPending">
             <button
               class="btn btn-sm btn-success"
-              (click)="approveUserRequest()"
+              (click)="approveUserChatRequest(chatrequest)"
             >
               Give Access
             </button>
@@ -46,7 +46,7 @@
           <div *ngIf="ticketrequest.isPending == true" class="isPending">
             <button
               class="btn btn-sm btn-success"
-              (click)="approveUserRequest()"
+              (click)="approveUserTicketRequest(ticketrequest)"
             >
               Give Access
             </button>

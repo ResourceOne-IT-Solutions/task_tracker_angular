@@ -34,6 +34,7 @@ export class ChatBoxComponent {
   filteredUsers: any = [];
   MockUserData: any;
   MockGroupList: any;
+  requestedChat: any;
   constructor(
     private chatservice: ChatService,
     private location: Location,
@@ -46,7 +47,6 @@ export class ChatBoxComponent {
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.currentUser = res;
     });
-    this.chatservice.chatRequest.subscribe((res) => {});
     this.chatservice.sendSocketData({
       data: { userId: this.currentUser._id },
       key: 'newUser',
@@ -81,6 +81,11 @@ export class ChatBoxComponent {
       });
     } else {
     }
+    this.chatservice.chatRequest.subscribe((res:any) => {
+          if(res){
+            this.requestedChat = res
+          }
+    });
     this.UserSelected = 'Test';
     this.chatservice.getSocketData('groupCreated').subscribe((res) => {
       this.groupList.push(res);

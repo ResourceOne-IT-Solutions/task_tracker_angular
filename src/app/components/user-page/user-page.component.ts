@@ -147,14 +147,15 @@ export class UserPageComponent implements OnInit {
   ngOnInit(): void {
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.currentUser = res;
-      console.log(this.currentUser, 'currentuser');
     });
     //AllUserList.....
     this.chatservice.getAllUsers().subscribe((res) => {
       this.userList = res;
     });
     this.chatservice.getSocketData('adminMessageToAll').subscribe((res) => {
-      alert(`admin message  : ${res.content}`);
+      alert(
+        `Send By AdminName: ${res.sender.name} ,    Admin message  : ${res.content}`,
+      );
     });
     this.chatservice.getSocketData('statusUpdate').subscribe((res) => {
       this.UserData = res;
@@ -166,7 +167,6 @@ export class UserPageComponent implements OnInit {
     this.chatservice
       .getSocketData('resourceAssigned')
       .subscribe(({ resource, sender, ticket, user }) => {
-        console.log('165:::::::::', this.currentUser._id);
         if (this.currentUser._id === resource.id) {
           alert(
             `${user.name} is  needs ur help for the ${ticket.name} ticket, ${sender.name} assigned you as a resource`,
@@ -241,11 +241,7 @@ export class UserPageComponent implements OnInit {
       },
     });
   }
-  Logout() {
-    this.deleteCookie('token');
-    // this.chatservice.setCookie('token', '', 1)
-    this.router.navigate(['/']);
-  }
+
   deleteCookie(name: string) {
     document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC';
   }
@@ -322,6 +318,7 @@ export class UserPageComponent implements OnInit {
   }
 
   routeToTickets(data: any) {
+    this.chatservice.getuserTicketById(data);
     const CilentPayload = {
       client: {
         name: data.client.name,
