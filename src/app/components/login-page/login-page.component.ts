@@ -73,8 +73,8 @@ export class LoginPageComponent {
           (res: any) => {
             // localStorage.setItem('currentTaskUser', res.token)
             this.chatservice.setCookie('token', res.token, 1);
-            this.route.navigate(['dashboard']);
             this.chatservice.UserLogin(res);
+            this.route.navigate(['dashboard']);
           },
           (err: any) => {
             this.LoginBoolean = true;

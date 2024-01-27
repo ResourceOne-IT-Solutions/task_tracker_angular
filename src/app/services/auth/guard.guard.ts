@@ -25,7 +25,8 @@ export class guardGuard implements CanActivate {
           Authorization: token,
         }),
       };
-      if (route.routeConfig && route.routeConfig.path === 'login_page') {
+      console.log(route.routeConfig?.path , "url")
+      if (route.routeConfig && (route.routeConfig.path === 'login_page')) {
         this.router.navigate(['/dashboard']);
       }
       return this.chatservice.getLoginSetup(httpOptions).pipe(
@@ -38,8 +39,9 @@ export class guardGuard implements CanActivate {
       if (route.routeConfig && route.routeConfig.path === 'login_page') {
         return of(true);
       } else {
+        console.log('hello')
         this.router.navigate(['/']);
-        return of(false);
+        return of(true);
       }
     }
   }

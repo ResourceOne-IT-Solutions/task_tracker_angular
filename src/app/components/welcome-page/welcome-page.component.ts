@@ -11,7 +11,12 @@ export class WelComePageComponent {
   constructor(
     private Router: Router,
     private chatservice: ChatService,
-  ) {}
+  ) {
+    const token = this.chatservice.getToken()
+    if(token){
+      this.Router.navigate(['/dashboard'])
+    }
+  }
 
   LoginPage(role: any) {
     this.Router.navigate(['/login_page']);

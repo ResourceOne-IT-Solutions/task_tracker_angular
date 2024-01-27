@@ -47,6 +47,11 @@ export class ChatBoxComponent {
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.currentUser = res;
     });
+    this.chatservice.chatRequest.subscribe((res) => {
+      // this.ChatBox = true;
+      // this.UserSelected = res;
+    });
+
     this.chatservice.sendSocketData({
       data: { userId: this.currentUser._id },
       key: 'newUser',
@@ -162,6 +167,12 @@ export class ChatBoxComponent {
     this.UserSelected = user;
     this.NoUser = false;
     this.ChatBox = true;
+    Object.keys(this.currentUser.newMessages).forEach((val:any)=>{
+      if (val.includes(this.currentUser._id)) {
+        this.currentUser.newMessages[val] = 0
+      }
+    })
+    this.chatservice.sendSocketData({key:'updateUser' , data: this.currentUser });
     const roomId = this.genarateRoomId(user._id, this.currentUser._id);
     this.chatservice.sendSocketData({
       key: 'joinRoom',
@@ -176,6 +187,12 @@ export class ChatBoxComponent {
     this.UserSelected = group;
     this.isGroup = true;
     this.NoUser = false;
+    Object.keys(this.currentUser.newMessages).forEach((val:any)=>{
+      if (val.includes(group._id)) {
+        this.currentUser.newMessages[val] = 0
+      }
+    })
+    this.chatservice.sendSocketData({key:'updateUser' , data: this.currentUser });
     this.ChatBox = true;
     this.chatservice.sendSocketData({
       key: 'joinRoom',
@@ -244,6 +261,16 @@ export class ChatBoxComponent {
         this.reUseableSendMessage(res.fileName, res.type, res._id);
       });
     }
+  }
+  getNewMessages(id: any) {
+    let messages = 0
+    Object.keys(this.currentUser?.newMessages).forEach((val: any) => {
+      const data = val.split('-')
+      if (data.includes(id._id)) {
+        messages += this.currentUser?.newMessages[val]
+      }
+    })
+    return messages
   }
   SearchUsers() {
     this.UserListData = this.MockUserData.filter(

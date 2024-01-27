@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ChatService } from './services/chat.service';
 import { IdleTimeService } from './services/idle/idle-time.service';
+import { Observable, map } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -10,12 +11,24 @@ import { IdleTimeService } from './services/idle/idle-time.service';
 })
 export class AppComponent implements OnInit {
   title = 'Task-Tracker';
+  'userData$': Observable<any>;
+
   constructor(
     private route: Router,
     private chatservice: ChatService,
     private idleservice: IdleTimeService,
   ) {}
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.userData$ = this.chatservice.UserLoginData.pipe(
+      map((res: any) => {
+        return res;
+      }),
+    );
+    this.chatservice.getSocketData('userRequestApproved').subscribe((res) => {
+      console.log(res, 'app:::::::::::::::::::::');
+    });
+  }
+
 
   // @HostListener('document:mouseover', ['$event'])
   // onDocumentMouseOver(event: MouseEvent): void {

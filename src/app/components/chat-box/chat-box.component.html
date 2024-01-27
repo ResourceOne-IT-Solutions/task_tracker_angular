@@ -42,6 +42,7 @@
           </div>
           <div *ngIf="groupList.length <= 0">{{ noGroupAvailable }}</div>
         </div>
+  
         <div class="All-Users">
           <p class="User-Heading"><i class="fa-regular fa-user"></i> Users</p>
           <ngx-spinner
@@ -54,6 +55,7 @@
           </ngx-spinner>
           <div *ngFor="let user of UserListData">
             <div class="user-card" (click)="SelectUser(user)">
+              <div class="d-flex justify-content-between">
               <div class="Img_Details">
                 <img
                   *ngIf="user.profileImageUrl"
@@ -76,6 +78,7 @@
                 <h3 class="m-0">{{ user.firstName }}</h3>
                 <p class="designation">{{ user.designation }}</p>
               </div>
+              <p class="newmessage" *ngIf="getNewMessages(user) > 0">{{getNewMessages(user)}}</p>
             </div>
           </div>
         </div>
