@@ -49,7 +49,6 @@ export class ChatBoxComponent {
       this.currentUser = res;
     });
     this.chatservice.chatRequest.subscribe((res) => {
-      console.log(res, '55::::');
       // this.ChatBox = true;
       // this.UserSelected = res;
     });
@@ -70,9 +69,7 @@ export class ChatBoxComponent {
         }) : this.UserListData
       }
       this.loader.hide();
-      console.log(this.getNewMessages('65a8e5fedf5c30d6b39e920c') , 'ggfh')
 
-      console.log(this.UserListData, "123:::")
     });
     if (this.currentUser) {
       this.chatservice.getSocketData('roomMessages').subscribe((res) => {
@@ -146,6 +143,11 @@ export class ChatBoxComponent {
     this.UserSelected = user;
     this.NoUser = false;
     this.ChatBox = true;
+    Object.keys(this.currentUser.newMessages).forEach((val:any)=>{
+      if (val.includes(this.currentUser._id)) {
+        this.currentUser.newMessages[val] = ''
+      }
+    })
     const roomId = this.genarateRoomId(user._id, this.currentUser._id);
     this.chatservice.sendSocketData({
       key: 'joinRoom',
@@ -160,6 +162,11 @@ export class ChatBoxComponent {
     this.UserSelected = group;
     this.isGroup = true
     this.NoUser = false;
+    Object.keys(this.currentUser.newMessages).forEach((val:any)=>{
+      if (val.includes(group._id)) {
+        this.currentUser.newMessages[val] = ''
+      }
+    })
     this.ChatBox = true;
     this.chatservice.sendSocketData({
       key: 'joinRoom',
