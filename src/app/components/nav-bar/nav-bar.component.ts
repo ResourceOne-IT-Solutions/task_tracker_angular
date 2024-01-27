@@ -14,16 +14,13 @@ export class NavBarComponent {
 
   statuschange: any;
   @Input() userDetails: any;
-  Status: any;
+  @Input() Status: any;
   constructor(
     private router: Router,
     private chatservice: ChatService,
   ) {}
   ngOnInit() {
-    this.Status = this.userDetails.status;
-
     this.chatservice.getSocketData('statusUpdate').subscribe((res) => {
-      console.log(res, '27:::::::::::::::::::::');
     });
   }
   logout() {
@@ -32,6 +29,7 @@ export class NavBarComponent {
     const logoutpayload = {
       id: this.userDetails._id,
     };
+    this.chatservice.UserLogin('')
     this.chatservice.sendSocketData({ key: 'logout', data: logoutpayload.id });
     this.router.navigate(['/']);
   }

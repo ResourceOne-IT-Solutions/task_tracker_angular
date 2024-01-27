@@ -70,6 +70,9 @@ export class ChatBoxComponent {
         }) : this.UserListData
       }
       this.loader.hide();
+      console.log(this.getNewMessages('65a8e5fedf5c30d6b39e920c') , 'ggfh')
+
+      console.log(this.UserListData, "123:::")
     });
     if (this.currentUser) {
       this.chatservice.getSocketData('roomMessages').subscribe((res) => {
@@ -82,14 +85,14 @@ export class ChatBoxComponent {
     this.chatservice.getSocketData('groupCreated').subscribe((res) => {
       this.groupList.push(res)
     });
-    if(this.currentUser.isAdmin){
+    if (this.currentUser.isAdmin) {
       this.chatservice.getAllGroups('').subscribe((res: any) => {
         this.groupList = res
       })
-    }else{
+    } else {
       this.chatservice.getAllGroups(this.currentUser._id).subscribe((res: any) => {
         this.groupList = res
-      }, (error)=>{
+      }, (error) => {
         this.noGroupAvailable = error.error.error
       })
     }
@@ -222,5 +225,15 @@ export class ChatBoxComponent {
         this.reUseableSendMessage(res.fileName, res.type, res._id);
       });
     }
+  }
+  getNewMessages(id: any) {
+    let messages = ''
+    Object.keys(this.currentUser?.newMessages).forEach((val: any) => {
+      const data = val.split('-')
+      if (data.includes(id._id)) {
+        messages += this.currentUser?.newMessages[val]
+      }
+    })
+    return messages
   }
 }

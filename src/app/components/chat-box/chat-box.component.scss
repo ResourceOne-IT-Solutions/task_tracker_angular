@@ -26,6 +26,8 @@
 
     .user-card {
       display: flex;
+      justify-content: space-between;
+      width: 90%;
       padding: 10px;
       cursor: pointer;
 
@@ -293,12 +295,11 @@
   }
 
   .images {
-    display: flex;
     align-items: center;
     margin: 0 35px 11px;
     border-bottom: 1px solid #efe9e9;
     padding-bottom: 7px;
-
+    width: 80%;
     img {
       //height: 50px;
       width: 45px;
@@ -362,4 +363,13 @@
   align-items: center;
   justify-content: center;
   height: 500px;
+}
+.newmessage{
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    background-color: #458485;
+    color: white;
+    border: 1px solid #458485;
+    text-align: center;
 }
