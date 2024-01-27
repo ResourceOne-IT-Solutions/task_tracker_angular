@@ -145,9 +145,10 @@ export class ChatBoxComponent {
     this.ChatBox = true;
     Object.keys(this.currentUser.newMessages).forEach((val:any)=>{
       if (val.includes(this.currentUser._id)) {
-        this.currentUser.newMessages[val] = ''
+        this.currentUser.newMessages[val] = 0
       }
     })
+    this.chatservice.sendSocketData({key:'updateUser' , data: this.currentUser });
     const roomId = this.genarateRoomId(user._id, this.currentUser._id);
     this.chatservice.sendSocketData({
       key: 'joinRoom',
@@ -164,9 +165,10 @@ export class ChatBoxComponent {
     this.NoUser = false;
     Object.keys(this.currentUser.newMessages).forEach((val:any)=>{
       if (val.includes(group._id)) {
-        this.currentUser.newMessages[val] = ''
+        this.currentUser.newMessages[val] = 0
       }
     })
+    this.chatservice.sendSocketData({key:'updateUser' , data: this.currentUser });
     this.ChatBox = true;
     this.chatservice.sendSocketData({
       key: 'joinRoom',
@@ -234,7 +236,7 @@ export class ChatBoxComponent {
     }
   }
   getNewMessages(id: any) {
-    let messages = ''
+    let messages = 0
     Object.keys(this.currentUser?.newMessages).forEach((val: any) => {
       const data = val.split('-')
       if (data.includes(id._id)) {

@@ -18,7 +18,7 @@
           />
           <p>{{ group.name }}</p>
            </div>
-            <p class="newmessage" *ngIf="getNewMessages(group)">{{getNewMessages(group)}}</p>
+            <p class="newmessage" *ngIf="getNewMessages(group) > 0">{{getNewMessages(group)}}</p>
           </div>
           <div *ngIf="groupList.length <= 0">{{noGroupAvailable}}</div>
         </div>
@@ -62,7 +62,7 @@
                   <p class="designation">{{ user.designation }}</p>
                 </div>
               </div>
-              <p class="newmessage" *ngIf="getNewMessages(user)">{{getNewMessages(user)}}</p>
+              <p class="newmessage" *ngIf="getNewMessages(user) > 0">{{getNewMessages(user)}}</p>
             </div>
           </div>
         </div>
