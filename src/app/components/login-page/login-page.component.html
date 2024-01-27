@@ -1,49 +1,73 @@
 <div class="Main-Conatiner">
-    <div class="wrapper">
-        <div class="logo">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRrgJnM9FLGc_bijjNnpD5Fxu6wd6QEwjP2g&usqp=CAU"
-                alt="" />
-        </div>
-        <div class="text-center mt-4 LoginRole">
-            <p>
-                <b>{{ RoleDetails }}</b> Details Form
-            </p>
-        </div>
-        <form class="p-3 mt-3" [formGroup]="loginForm">
-            <div class="form-field d-flex align-items-center">
-                <input type="text" name="userName" id="userName" formControlName="userId" placeholder="UserId" />
-            </div>
-            <div class="form-field d-flex align-items-center">
-                <input [type]="fieldTextType.isTrue === true ? 'text' : 'password'" id="pwd" placeholder="Password"
-                    class="form-control" formControlName="password" (keyup.enter)="AdminLogin()" />
-                <button class="border-0" *ngIf="fieldTextType.isTrue" (click)="toggleFieldTextType()">
-                    <i class="fa-regular fa-eye"></i>
-                </button>
-                <button class="border-0" *ngIf="!fieldTextType.isTrue" (click)="toggleFieldTextType()">
-                    <i class="fa-regular fa-eye-slash"></i>
-                </button>
-            </div>
-            <p *ngIf="ErrorMsg" class="text-danger text-center">{{ ErrorMsg }}</p>
-            <button class="LoginButton mt-3" type="button" (click)="AdminLogin()">
-                {{ LoginBoolean ? "Login" : "Loading.." }}
-            </button>
-        </form>
-        <div class="Navigate">
-            <a href="javascript:void(0);" (click)="getNavigate()">click Here To {{ navigateData }}</a>
-        </div>
-        <div class="timezone">
-            <div class="countryTime">
-                <p>{{ est }}</p>
-                <p>EST</p>
-            </div>
-            <div class="countryTime">
-                <p>{{ pstDate }}</p>
-                <p>PST</p>
-            </div>
-            <div class="countryTime">
-                <p>{{ cstDate }}</p>
-                <p>CST</p>
-            </div>
-        </div>
+  <div class="wrapper">
+    <div class="logo">
+      <img
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRrgJnM9FLGc_bijjNnpD5Fxu6wd6QEwjP2g&usqp=CAU"
+        alt=""
+      />
     </div>
+    <div class="text-center mt-4 LoginRole">
+      <p>
+        <b>{{ RoleDetails }}</b> Details Form
+      </p>
+    </div>
+    <form class="p-3 mt-3" [formGroup]="loginForm">
+      <div class="form-field d-flex align-items-center">
+        <input
+          type="text"
+          name="userName"
+          id="userName"
+          formControlName="userId"
+          placeholder="UserId"
+        />
+      </div>
+      <div class="form-field d-flex align-items-center">
+        <input
+          [type]="fieldTextType.isTrue === true ? 'text' : 'password'"
+          id="pwd"
+          placeholder="Password"
+          class="form-control"
+          formControlName="password"
+          (keyup.enter)="AdminLogin()"
+        />
+        <button
+          class="border-0"
+          *ngIf="fieldTextType.isTrue"
+          (click)="toggleFieldTextType()"
+        >
+          <i class="fa-regular fa-eye"></i>
+        </button>
+        <button
+          class="border-0"
+          *ngIf="!fieldTextType.isTrue"
+          (click)="toggleFieldTextType()"
+        >
+          <i class="fa-regular fa-eye-slash"></i>
+        </button>
+      </div>
+      <p *ngIf="ErrorMsg" class="text-danger text-center">{{ ErrorMsg }}</p>
+      <button class="LoginButton mt-3" type="button" (click)="AdminLogin()">
+        {{ LoginBoolean ? "Login" : "Loading.." }}
+      </button>
+    </form>
+    <div class="Navigate">
+      <a href="javascript:void(0);" (click)="getNavigate()"
+        >click Here To {{ navigateData }}</a
+      >
+    </div>
+    <div class="timezone">
+      <div class="countryTime">
+        <p>{{ est }}</p>
+        <p>EST</p>
+      </div>
+      <div class="countryTime">
+        <p>{{ pstDate }}</p>
+        <p>PST</p>
+      </div>
+      <div class="countryTime">
+        <p>{{ cstDate }}</p>
+        <p>CST</p>
+      </div>
+    </div>
+  </div>
 </div>

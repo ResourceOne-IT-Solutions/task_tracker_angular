@@ -11,15 +11,20 @@
       </div>
       <div class="user-list-card">
         <div class="Groups">
-          <p class="Group-Heading">Groups</p><button (click)="openCreateGroupModel()">Create Group</button>
-          <div (click)="SelectGroup(group)" class="images" *ngFor="let group of groupList">
+          <p class="Group-Heading">Groups</p>
+          <button (click)="openCreateGroupModel()">Create Group</button>
+          <div
+            (click)="SelectGroup(group)"
+            class="images"
+            *ngFor="let group of groupList"
+          >
             <img
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG1rxXk6k-HqZSKT-bg9X65qcvr-VWa2fBFiMHuW9uvw&s"
               class="avatar"
             />
             <p>{{ group.name }}</p>
           </div>
-          <div *ngIf="groupList.length <= 0">{{noGroupAvailable}}</div>
+          <div *ngIf="groupList.length <= 0">{{ noGroupAvailable }}</div>
         </div>
         <div class="All-Users">
           <p class="User-Heading">Users</p>
@@ -95,8 +100,14 @@
               ></div>
             </div>
             <div>
-              <h3>{{ isGroup ?  UserSelected.name : UserSelected.firstName }}</h3>
-              <p>{{ isGroup ?  getMembers(UserSelected) :UserSelected.designation  }}</p>
+              <h3>
+                {{ isGroup ? UserSelected.name : UserSelected.firstName }}
+              </h3>
+              <p>
+                {{
+                  isGroup ? getMembers(UserSelected) : UserSelected.designation
+                }}
+              </p>
             </div>
           </div>
 
@@ -114,8 +125,8 @@
                       else fileRender
                     "
                   >
-                  <span>{{ message.content }}</span>
-                  <span>{{ message.time }}</span>
+                    <span>{{ message.content }}</span>
+                    <span>{{ message.time }}</span>
                   </p>
                   <!-- <img *ngIf="message.type === 'image/png'" [src]="getImageData(message)"  /> -->
                   <ng-template #fileRender>

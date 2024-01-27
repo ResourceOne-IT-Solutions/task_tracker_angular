@@ -9,6 +9,7 @@ import { io, Socket } from 'socket.io-client';
 export class ChatService {
   RoleData = new BehaviorSubject('');
   ticketsById = new BehaviorSubject('');
+  userticketsById = new BehaviorSubject('');
   chatRequest = new BehaviorSubject('');
   private socket: Socket;
 
@@ -17,6 +18,9 @@ export class ChatService {
   }
   getTicketId(clientid: any) {
     this.ticketsById.next(clientid);
+  }
+  getuserTicketById(ticketId: any) {
+    this.userticketsById.next(ticketId);
   }
   //User Behavior
   UserLoginData = new BehaviorSubject('');
@@ -70,6 +74,9 @@ export class ChatService {
 
   getAllTickets() {
     return this.get('/tickets');
+  }
+  getTicketById(ticketId: any) {
+    return this.get('/tickets/' + ticketId);
   }
   getChatMessages() {
     return this.get('/message/user-chat-request');
@@ -190,10 +197,10 @@ export class ChatService {
     });
   }
 
-  // groups 
+  // groups
 
-  getAllGroups(id:any){
-     return this.get(`/message/groups/${id}`)
+  getAllGroups(id: any) {
+    return this.get(`/message/groups/${id}`);
   }
 
   // api mian calls
@@ -234,15 +241,15 @@ export class ChatService {
 
   // get full Name
   getFullName(data: any) {
-    if(data.firstName && data.lastName) {
+    if (data.firstName && data.lastName) {
       return data.firstName + ' ' + data.lastName;
     }
     if (data.firstName) {
-      return data.firstname
+      return data.firstname;
     }
-    if(data.name) {
-      return data.name
+    if (data.name) {
+      return data.name;
     }
-    return "Invalid Name"
+    return 'Invalid Name';
   }
 }
