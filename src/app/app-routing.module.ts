@@ -44,7 +44,7 @@ const routes: Routes = [
   },
   { path: 'tickets', component: TicketsComponent, canActivate: [guardGuard] },
   {
-    path: 'user-tickets',
+    path: 'client-tickets',
     component: ClientTicketsComponent,
     canActivate: [guardGuard],
   },

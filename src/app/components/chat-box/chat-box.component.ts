@@ -18,15 +18,11 @@ import { CreateGroupComponent } from '../create-group/create-group.component';
 export class ChatBoxComponent {
   @ViewChild('groupModel', { static: false }) groupModel: any;
 
-  groupList: any = []
+  groupList: any = [];
   displayIcons: boolean = false;
-  selectedUser: any;
-  messageArray: any;
   messageText: any;
-  sendingMessage: any;
   currentUser: any;
   UserListData: any = [];
-  SelectedUser: any;
   UserSelected: any;
   RoomId: any;
   TotalMessages: any;
@@ -34,15 +30,18 @@ export class ChatBoxComponent {
   ChatBox: boolean = false;
   isGroup: boolean = false;
   noGroupAvailable: any;
+  SearchFilter: any;
+  filteredUsers: any = [];
+  MockUserData: any;
+  MockGroupList: any;
+  requestedChat: any;
   constructor(
     private chatservice: ChatService,
     private location: Location,
     private route: Router,
     private loader: NgxSpinnerService,
-    public dialog: MatDialog
-  ) {
-
-  }
+    public dialog: MatDialog,
+  ) {}
   ngOnInit() {
     this.loader.show();
     this.chatservice.UserLoginData.subscribe((res: any) => {
@@ -52,46 +51,65 @@ export class ChatBoxComponent {
       // this.ChatBox = true;
       // this.UserSelected = res;
     });
+
     this.chatservice.sendSocketData({
       data: { userId: this.currentUser._id },
       key: 'newUser',
     });
-    this.chatservice.getSocketData('newUser').subscribe(({ userPayload, userId, opponentPayload, opponentId }) => {
-      if (this.currentUser._id == userId) {
-        this.UserListData = this.currentUser.isAdmin ? userPayload : this.getOnlyAdmins(userPayload);
-      } else if (this.currentUser._id == opponentId) {
-        this.UserListData = this.currentUser.isAdmin ? opponentPayload : this.getOnlyAdmins(opponentPayload);
-      } else {
-
-        this.UserListData = userPayload ? this.UserListData.map((user: any) => {
-          user.status = userPayload.find((val: any) => val._id === user._id).status;
-          return user;
-        }) : this.UserListData
-      }
-      this.loader.hide();
-
-    });
+    this.chatservice
+      .getSocketData('newUser')
+      .subscribe(({ userPayload, userId, opponentPayload, opponentId }) => {
+        if (this.currentUser._id == userId) {
+          this.UserListData = this.currentUser.isAdmin
+            ? userPayload
+            : this.getOnlyAdmins(userPayload);
+        } else if (this.currentUser._id == opponentId) {
+          this.UserListData = this.currentUser.isAdmin
+            ? opponentPayload
+            : this.getOnlyAdmins(opponentPayload);
+        } else {
+          this.UserListData = userPayload
+            ? this.UserListData.map((user: any) => {
+                user.status = userPayload.find(
+                  (val: any) => val._id === user._id,
+                ).status;
+                return user;
+              })
+            : this.UserListData;
+        }
+        this.loader.hide();
+        this.MockUserData = this.UserListData;
+      });
     if (this.currentUser) {
       this.chatservice.getSocketData('roomMessages').subscribe((res) => {
         this.TotalMessages = res;
       });
     } else {
-      //  this.route.navigate([''])
     }
+    this.chatservice.chatRequest.subscribe((res:any) => {
+          if(res){
+            this.requestedChat = res
+          }
+    });
     this.UserSelected = 'Test';
     this.chatservice.getSocketData('groupCreated').subscribe((res) => {
-      this.groupList.push(res)
+      this.groupList.push(res);
+      this.loader.hide();
     });
     if (this.currentUser.isAdmin) {
       this.chatservice.getAllGroups('').subscribe((res: any) => {
-        this.groupList = res
-      })
+        this.groupList = res;
+        this.MockGroupList = this.groupList;
+      });
     } else {
-      this.chatservice.getAllGroups(this.currentUser._id).subscribe((res: any) => {
-        this.groupList = res
-      }, (error) => {
-        this.noGroupAvailable = error.error.error
-      })
+      this.chatservice.getAllGroups(this.currentUser._id).subscribe(
+        (res: any) => {
+          this.groupList = res;
+        },
+        (error) => {
+          this.noGroupAvailable = error.error.error;
+        },
+      );
     }
   }
   getFormattedTime() {
@@ -100,7 +118,7 @@ export class ChatBoxComponent {
     return t + ' ' + d[2];
   }
   getOnlyAdmins(data: any) {
-    return data.filter((val: any) => val.isAdmin)
+    return data.filter((val: any) => val.isAdmin);
   }
   getFormattedDate(date: Date, format?: any) {
     // const date = new Date()
@@ -130,16 +148,22 @@ export class ChatBoxComponent {
       if (result) {
         const payload = {
           name: result.groupName,
-          members: result.userlist.map((res: any) => ({ name: this.chatservice.getFullName(res), id: res._id })),
+          members: result.userlist.map((res: any) => ({
+            name: this.chatservice.getFullName(res),
+            id: res._id,
+          })),
           description: result.description,
-          admin: { name: this.chatservice.getFullName(this.currentUser), id: this.currentUser._id }
-        }
-        this.chatservice.sendSocketData({ key: 'createGroup', data: payload })
+          admin: {
+            name: this.chatservice.getFullName(this.currentUser),
+            id: this.currentUser._id,
+          },
+        };
+        this.chatservice.sendSocketData({ key: 'createGroup', data: payload });
       }
     });
   }
   SelectUser(user: any) {
-    this.isGroup = false
+    this.isGroup = false;
     this.UserSelected = user;
     this.NoUser = false;
     this.ChatBox = true;
@@ -154,14 +178,14 @@ export class ChatBoxComponent {
       key: 'joinRoom',
       data: { room: roomId, previousRoom: this.RoomId },
     });
-    this.RoomId = roomId
+    this.RoomId = roomId;
   }
   getMembers(data: any) {
-    return data.members.map((res: any) => res.name).toString()
+    return data.members.map((res: any) => res.name).toString();
   }
   SelectGroup(group: any) {
     this.UserSelected = group;
-    this.isGroup = true
+    this.isGroup = true;
     this.NoUser = false;
     Object.keys(this.currentUser.newMessages).forEach((val:any)=>{
       if (val.includes(group._id)) {
@@ -174,7 +198,7 @@ export class ChatBoxComponent {
       key: 'joinRoom',
       data: { room: group._id, previousRoom: this.RoomId },
     });
-    this.RoomId = group._id
+    this.RoomId = group._id;
   }
 
   sendMessage() {
@@ -188,13 +212,16 @@ export class ChatBoxComponent {
     const socketPayload = {
       to: this.RoomId,
       content,
-      from: { name: this.chatservice.getFullName(this.currentUser), id: this.currentUser._id },
+      from: {
+        name: this.chatservice.getFullName(this.currentUser),
+        id: this.currentUser._id,
+      },
       time: this.getFormattedTime(),
       date: this.getFormattedDate(new Date()),
       opponentId: this.UserSelected._id,
       type,
       fileLink,
-      isGroup: this.isGroup
+      isGroup: this.isGroup,
     };
     this.chatservice.sendSocketData({
       key: 'sendMessage',
@@ -244,5 +271,16 @@ export class ChatBoxComponent {
       }
     })
     return messages
+  }
+  SearchUsers() {
+    this.UserListData = this.MockUserData.filter(
+      (val: any) =>
+        val.firstName?.toLowerCase().indexOf(this.SearchFilter?.toLowerCase()) >
+        -1,
+    );
+    this.groupList = this.MockGroupList.filter(
+      (val: any) =>
+        val.name?.toLowerCase().indexOf(this.SearchFilter?.toLowerCase()) > -1,
+    );
   }
 }

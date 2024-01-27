@@ -21,12 +21,12 @@ export class LoginPageComponent {
   ErrorHandling: boolean = true;
   password: any;
   show = true;
-  fieldTextType: any={isTrue: false};
+  fieldTextType: any = { isTrue: false };
   constructor(
     private route: Router,
     private fb: FormBuilder,
     private chatservice: ChatService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
   ) {}
   'loginForm': FormGroup;
   ngOnInit() {
@@ -68,9 +68,9 @@ export class LoginPageComponent {
     const isAdmin = this.RoleDetails === 'Admin';
     if (this.loginForm.valid) {
       this.chatservice
-      .currentTaskUser({ ...this.loginForm.value, isAdmin })
-      .subscribe(
-        (res: any) => {
+        .currentTaskUser({ ...this.loginForm.value, isAdmin })
+        .subscribe(
+          (res: any) => {
             // localStorage.setItem('currentTaskUser', res.token)
             this.chatservice.setCookie('token', res.token, 1);
             this.chatservice.UserLogin(res);

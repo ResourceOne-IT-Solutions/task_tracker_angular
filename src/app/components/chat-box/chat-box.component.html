@@ -5,26 +5,22 @@
         <button class="border-0 fs-4 bg-white text-dark" (click)="goBack()">
           <i class="fa fa-arrow-left" aria-hidden="true"></i>
         </button>
-        <input type="text" class="value" placeholder="Search" />
+        <input
+          type="text"
+          class="value"
+          [(ngModel)]="SearchFilter"
+          (keyup)="SearchUsers()"
+          placeholder="Search"
+        />
       </div>
       <div class="user-list-card">
         <div class="Groups">
-          <p class="Group-Heading">Groups</p><button (click)="openCreateGroupModel()">Create Group</button>
-          <div (click)="SelectGroup(group)" class="images d-flex justify-content-between" *ngFor="let group of groupList">
-           <div class="d-flex">
-            <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG1rxXk6k-HqZSKT-bg9X65qcvr-VWa2fBFiMHuW9uvw&s"
-            class="avatar"
-          />
-          <p>{{ group.name }}</p>
-           </div>
-            <p class="newmessage" *ngIf="getNewMessages(group) > 0">{{getNewMessages(group)}}</p>
-          </div>
-          <div *ngIf="groupList.length <= 0">{{noGroupAvailable}}</div>
-        </div>
-  
-        <div class="All-Users">
-          <p class="User-Heading">Users</p>
+          <p class="Group-Heading">
+            <span><i class="fa-solid fa-people-group"></i> Groups</span
+            ><span class="groupModel" (click)="openCreateGroupModel()"
+              ><i class="fa-solid fa-plus"></i
+            ></span>
+          </p>
           <ngx-spinner
             bdColor="rgba(0,0,0,0.32)"
             size="large"
@@ -34,33 +30,53 @@
           >
           </ngx-spinner>
           <div
-            [ngClass]="user?.phone === selectedUser?.phone ? 'active' : ''"
-            *ngFor="let user of UserListData"
+            (click)="SelectGroup(group)"
+            class="images"
+            *ngFor="let group of groupList"
           >
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU"
+              class="avatar"
+            />
+            <p>{{ group.name }}</p>
+          </div>
+          <div *ngIf="groupList.length <= 0">{{ noGroupAvailable }}</div>
+        </div>
+  
+        <div class="All-Users">
+          <p class="User-Heading"><i class="fa-regular fa-user"></i> Users</p>
+          <ngx-spinner
+            bdColor="rgba(0,0,0,0.32)"
+            size="large"
+            color="#8652d5"
+            type="ball-clip-rotate-multiple"
+            [fullScreen]="false"
+          >
+          </ngx-spinner>
+          <div *ngFor="let user of UserListData">
             <div class="user-card" (click)="SelectUser(user)">
               <div class="d-flex justify-content-between">
-                <div class="Img_Details">
-                  <img
-                    *ngIf="user.profileImageUrl"
-                    src="{{ user.profileImageUrl }}"
-                    class="avatar"
-                  />
-                  <img
-                    *ngIf="!user.profileImageUrl"
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG1rxXk6k-HqZSKT-bg9X65qcvr-VWa2fBFiMHuW9uvw&s"
-                    class="avatar"
-                  />
-                  <div *ngIf="user.status === 'Offline'" class="Offline"></div>
-                  <div *ngIf="user.status === 'Busy'" class="Busy"></div>
-                  <div
-                    *ngIf="user.status === 'Available'"
-                    class="Available"
-                  ></div>
-                </div>
-                <div>
-                  <h3>{{ user.firstName }}</h3>
-                  <p class="designation">{{ user.designation }}</p>
-                </div>
+              <div class="Img_Details">
+                <img
+                  *ngIf="user.profileImageUrl"
+                  src="{{ user.profileImageUrl }}"
+                  class="avatar"
+                />
+                <img
+                  *ngIf="!user.profileImageUrl"
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU"
+                  class="avatar"
+                />
+                <div *ngIf="user.status === 'Offline'" class="Offline"></div>
+                <div *ngIf="user.status === 'Busy'" class="Busy"></div>
+                <div
+                  *ngIf="user.status === 'Available'"
+                  class="Available"
+                ></div>
+              </div>
+              <div>
+                <h3 class="m-0">{{ user.firstName }}</h3>
+                <p class="designation">{{ user.designation }}</p>
               </div>
               <p class="newmessage" *ngIf="getNewMessages(user) > 0">{{getNewMessages(user)}}</p>
             </div>
@@ -100,8 +116,14 @@
               ></div>
             </div>
             <div>
-              <h3>{{ isGroup ?  UserSelected.name : UserSelected.firstName }}</h3>
-              <p>{{ isGroup ?  getMembers(UserSelected) :UserSelected.designation  }}</p>
+              <h3 class="m-0">
+                {{ isGroup ? UserSelected.name : UserSelected.firstName }}
+              </h3>
+              <p class="m-0">
+                {{
+                  isGroup ? getMembers(UserSelected) : UserSelected.designation
+                }}
+              </p>
             </div>
           </div>
 
@@ -119,10 +141,10 @@
                       else fileRender
                     "
                   >
-                  <span>{{ message.content }}</span>
-                  <span>{{ message.time }}</span>
+                    <span class="message-content">{{ message.content }}</span>
+                    <span class="message-Time">{{ message.time }}</span>
+
                   </p>
-                  <!-- <img *ngIf="message.type === 'image/png'" [src]="getImageData(message)"  /> -->
                   <ng-template #fileRender>
                     <app-file-render [message]="message"></app-file-render>
                   </ng-template>
@@ -133,7 +155,7 @@
           <div class="chat-footer">
             <div class="file-container" *ngIf="displayIcons">
               <label for="imageFile"
-                >file :<i class="fa-solid fa-file"></i>
+                >file : <i class="fa-solid fa-file"></i>
                 <input
                   style="display: none"
                   type="file"
@@ -141,7 +163,7 @@
                   (change)="SelectedImage($event)"
                 />
               </label>
-              <span>contacts :<i class="fa-solid fa-address-book"></i> </span>
+              <span>contacts : <i class="fa-solid fa-address-book"></i> </span>
             </div>
             <span (click)="displayIcons = !displayIcons" class="file-icon">{{
               displayIcons ? "-" : "+"

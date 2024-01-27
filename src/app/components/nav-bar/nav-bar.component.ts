@@ -20,12 +20,11 @@ export class NavBarComponent {
     private chatservice: ChatService,
   ) {}
   ngOnInit() {
-    this.chatservice.getSocketData('statusUpdate').subscribe((res) => {
-    });
+    this.Status = this.userDetails.status;
   }
   logout() {
     this.deleteCookie('token');
-    
+
     const logoutpayload = {
       id: this.userDetails._id,
     };
@@ -60,6 +59,7 @@ export class NavBarComponent {
     this.router.navigate(['user-view-request']);
   }
   userTickets() {
-    this.router.navigate(['user-tickets']);
+    this.router.navigate(['tickets']);
+    // this.router.navigate(['tickets']);
   }
 }
