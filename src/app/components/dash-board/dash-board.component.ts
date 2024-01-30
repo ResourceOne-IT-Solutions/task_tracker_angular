@@ -253,7 +253,7 @@ export class DashBoardComponent {
   mailSuccessMsg: any;
   loadingStaus: boolean = false;
   constructor(
-    private chatservice: ChatService,
+    public chatservice: ChatService,
     private router: Router,
     private modalService: NgbModal,
     private fb: FormBuilder,
