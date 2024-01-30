@@ -271,7 +271,7 @@ export class DashBoardComponent {
   OnTicket: any = [];
   UserListData: any;
   constructor(
-    private chatservice: ChatService,
+    public chatservice: ChatService,
     private router: Router,
     private modalService: NgbModal,
     private fb: FormBuilder,
@@ -376,9 +376,9 @@ export class DashBoardComponent {
       textField: 'technology',
     };
 
-    this.user = localStorage.getItem('userData');
     this.chatservice.getAllUsers().subscribe((res) => {
       this.userList = res;
+      this.chatservice.TotalUser.next(this.userList.length)
     });
     this.chatservice.sendSocketData({
       data: { userId: this.adminDetails._id },
@@ -751,7 +751,8 @@ export class DashBoardComponent {
     if (data.name == 'Send Mail') {
       this.openPopup(this.sendMailModel);
       this.ticketDetails = data.userDetails;
-      this.description = `Task Update:\n${this.ticketDetails.client.name},\n\n${this.ticketDetails.description}\n\nRegards,\nSupport Team.`;
+      console.log(this.ticketDetails , "ticketdetails")
+      this.description = this.ticketDetails.description;
     } else {
       this.assignTicket(data.userDetails);
     }
@@ -760,8 +761,9 @@ export class DashBoardComponent {
     this.loadingStaus = true;
 
     const payload = {
-      to: 'bhaskarpaleti70366@gmail.com',
-      content: `<pre>${this.description}</pre>`,
+      to: this.ticketDetails.client.email,
+      content: this.description,
+      client  : this.chatservice.getFullName(this.ticketDetails.client)
     };
     this.chatservice.sendMail(payload).subscribe((res) => {
       this.loadingStaus = false;
