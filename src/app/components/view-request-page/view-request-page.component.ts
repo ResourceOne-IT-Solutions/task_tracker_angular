@@ -11,6 +11,8 @@ import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
 })
 export class ViewRequestPageComponent {
   type = true;
+  time:any;
+  date:any;
   isChatRequest = true;
   ChatRequest: any;
   ticketDetails: any;
@@ -36,6 +38,9 @@ export class ViewRequestPageComponent {
       this.TicketRequest = res;
       this.loader.hide();
     });
+   this. time = this.chatservice.getFormattedTime();
+    this.date = this.chatservice.getFormattedDate(new Date());
+    console.log(this.time , this.date , '4333')
   }
   approveUserChatRequest(data: any) {
     if (data) {

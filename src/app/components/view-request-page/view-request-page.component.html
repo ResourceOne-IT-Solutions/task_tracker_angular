@@ -8,6 +8,8 @@
           <p>
             {{ chatrequest.sender.name }} Is Requisting To Chat With
             {{ chatrequest.opponent.name }}
+            {{chatrequest.time}}
+            {{chatrequest.date}}
           </p>
           <div *ngIf="chatrequest.isPending == true" class="isPending">
             <button
@@ -42,6 +44,8 @@
           <p>
             {{ ticketrequest.sender.name }} Is Requisting For
             {{ ticketrequest.client.name }}
+            {{ticketrequest.time}}
+            {{ticketrequest.date}}
           </p>
           <div *ngIf="ticketrequest.isPending == true" class="isPending">
             <button

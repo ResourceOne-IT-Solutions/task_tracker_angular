@@ -152,11 +152,7 @@ export class UserPageComponent implements OnInit {
     this.chatservice.getAllUsers().subscribe((res) => {
       this.userList = res;
     });
-    this.chatservice.getSocketData('adminMessageToAll').subscribe((res) => {
-      alert(
-        `Send By AdminName: ${res.sender.name} ,    Admin message  : ${res.content}`,
-      );
-    });
+   
     this.chatservice.getSocketData('statusUpdate').subscribe((res) => {
       this.UserData = res;
     });

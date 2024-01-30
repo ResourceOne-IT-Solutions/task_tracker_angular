@@ -88,7 +88,7 @@ export class ChatBoxComponent {
     }
     this.chatservice.chatRequest.subscribe((res:any) => {
           if(res){
-            this.requestedChat = res
+            this.requestedChat = res;
           }
     });
     this.UserSelected = 'Test';

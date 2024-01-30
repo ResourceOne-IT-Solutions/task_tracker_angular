@@ -44,5 +44,8 @@ export class UserViewComponent implements OnInit {
     this.chatservice.chatRequests(this.selectedChatUser);
     this.router.navigate(['Chat-Box']);
   }
-  ticketRequestApproved(data: any) {}
+  ticketRequestApproved(data: any) {
+    this.chatservice.ticketRequests(data);
+    this.router.navigate(['tickets'])
+  }
 }
