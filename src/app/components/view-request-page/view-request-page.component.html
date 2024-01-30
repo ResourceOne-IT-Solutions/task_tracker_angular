@@ -12,10 +12,7 @@
             {{chatrequest.date}}
           </p>
           <div *ngIf="chatrequest.isPending == true" class="isPending">
-            <button
-              class="btn btn-sm btn-success"
-              (click)="approveUserChatRequest(chatrequest)"
-            >
+            <button class="btn btn-sm btn-success" (click)="approveUserChatRequest(chatrequest)">
               Give Access
             </button>
           </div>
@@ -26,13 +23,8 @@
         </div>
       </li>
 
-      <ngx-spinner
-        bdColor="rgba(0,0,0,0.32)"
-        size="large"
-        color="#8652d5"
-        type="ball-clip-rotate-multiple"
-        [fullScreen]="false"
-      >
+      <ngx-spinner bdColor="rgba(0,0,0,0.32)" size="large" color="#8652d5" type="ball-clip-rotate-multiple"
+        [fullScreen]="false">
       </ngx-spinner>
     </ol>
   </div>
@@ -48,10 +40,7 @@
             {{ticketrequest.date}}
           </p>
           <div *ngIf="ticketrequest.isPending == true" class="isPending">
-            <button
-              class="btn btn-sm btn-success"
-              (click)="approveUserTicketRequest(ticketrequest)"
-            >
+            <button class="btn btn-sm btn-success" (click)="approveUserTicketRequest(ticketrequest)">
               Give Access
             </button>
           </div>
@@ -62,13 +51,31 @@
         </div>
       </li>
 
-      <ngx-spinner
-        bdColor="rgba(0,0,0,0.32)"
-        size="large"
-        color="#8652d5"
-        type="ball-clip-rotate-multiple"
-        [fullScreen]="false"
-      >
+      <ngx-spinner bdColor="rgba(0,0,0,0.32)" size="large" color="#8652d5" type="ball-clip-rotate-multiple"
+        [fullScreen]="false">
+      </ngx-spinner>
+    </ol>
+  </div>
+  <div class="TicketREquest position-relative px-2">
+    <h1>Admin Message</h1>
+    <ol>
+      <h3>Total User : {{totalUser}}</h3> 
+      <li *ngFor="let messages of adminMessages; let i = index">
+        <div class="message">
+          <div>
+            <p>Message : {{ messages.content }}</p>
+            <p>Sent By :{{ messages.sender.name }}</p>
+            <p>Time :{{ messages.time }}</p>
+          </div>
+          <div>
+           <p> Delivered To : {{messages.deliveredTo.length}}</p> 
+           <p>Seen By : {{messages.viewedBy.length}}</p> 
+          </div>
+        </div>
+      </li>
+
+      <ngx-spinner bdColor="rgba(0,0,0,0.32)" size="large" color="#8652d5" type="ball-clip-rotate-multiple"
+        [fullScreen]="false">
       </ngx-spinner>
     </ol>
   </div>

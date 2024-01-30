@@ -48,4 +48,15 @@ export class UserViewComponent implements OnInit {
     this.chatservice.ticketRequests(data);
     this.router.navigate(['tickets'])
   }
+  updateMessage(message:any){
+    console.log(message , "message")
+    const payload = {
+      status : 'SEEN',
+      messageId : message._id , 
+      userId :this.currentuser._id,
+    }
+    message.viewedBy.push(this.currentuser._id)
+    this.chatservice.sendSocketData({key:'updateAdminMessageStatus' , data :payload})
+  }
+
 }
