@@ -60,6 +60,8 @@ export class NavBarComponent {
   }
   userTickets() {
     this.router.navigate(['tickets']);
-    // this.router.navigate(['tickets']);
+  }
+  gotDashBoard(){
+    this.router.navigate(['dashboard'])
   }
 }

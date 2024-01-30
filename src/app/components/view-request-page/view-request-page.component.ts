@@ -24,7 +24,6 @@ export class ViewRequestPageComponent {
   ) {}
   ngOnInit() {
     this.loader.show();
-    console.log(this.loader.show(), '20:::::', this.loader.hide());
     this.chatservice.getSocketData('userRequestApproved').subscribe((res) => {
       this.approvedtype = res;
     });
