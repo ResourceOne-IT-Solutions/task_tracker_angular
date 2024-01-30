@@ -271,7 +271,7 @@ export class DashBoardComponent {
   OnTicket: any = [];
   UserListData: any;
   constructor(
-    private chatservice: ChatService,
+    public chatservice: ChatService,
     private router: Router,
     private modalService: NgbModal,
     private fb: FormBuilder,
