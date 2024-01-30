@@ -169,7 +169,7 @@ export class ChatBoxComponent {
     this.ChatBox = true;
     Object.keys(this.currentUser.newMessages).forEach((val:any)=>{
       if (val.includes(this.currentUser._id)) {
-        this.currentUser.newMessages[val] = 0
+        delete this.currentUser.newMessages[val] 
       }
     })
     this.chatservice.sendSocketData({key:'updateUser' , data: this.currentUser });
@@ -189,7 +189,7 @@ export class ChatBoxComponent {
     this.NoUser = false;
     Object.keys(this.currentUser.newMessages).forEach((val:any)=>{
       if (val.includes(group._id)) {
-        this.currentUser.newMessages[val] = 0
+       delete this.currentUser.newMessages[val] 
       }
     })
     this.chatservice.sendSocketData({key:'updateUser' , data: this.currentUser });
