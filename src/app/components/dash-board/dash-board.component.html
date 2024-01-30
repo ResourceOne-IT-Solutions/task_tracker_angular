@@ -1,6 +1,5 @@
 <div>
   <h1>Admin Page</h1>
-
   <div class="d-flex">
     <div class="d-flex admin-content">
       <div class="admin-page">
@@ -16,10 +15,10 @@
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU"
           />
           <div class="mt-5 mb-5">
-            <h1 class="m-0">{{ adminDetails.firstName }}</h1>
+            <h1 class="m-0 d-flex gap-3">{{ chatservice.getFullName(adminDetails) }} <span class="online"></span>
+            </h1>
             <p>{{ adminDetails.designation }}</p>
           </div>
-          <span class="online"></span>
         </div>
         <div class="d-flex justify-content-around">
           <div>
@@ -90,9 +89,12 @@
       </div>
     </div>
   </div>
+  <div class="pieChart">
+    <canvas id="Userpiechart"> </canvas>
+  </div>
   <div>
     <button
-      class="btn btn-primary m-2"
+      class="btn btn-primary m-2 sample"
       (click)="
         displayUsers = true; displayTickets = false; displayClient = false
       "
@@ -128,6 +130,7 @@
       Send Message toAll
     </button>
   </div>
+
 </div>
 
 <app-table

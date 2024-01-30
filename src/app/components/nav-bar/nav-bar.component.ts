@@ -63,4 +63,7 @@ export class NavBarComponent {
     this.chatservice.ticketRequests('');
     this.router.navigate(['tickets']);
   }
+  gotDashBoard(){
+    this.router.navigate(['dashboard'])
+  }
 }

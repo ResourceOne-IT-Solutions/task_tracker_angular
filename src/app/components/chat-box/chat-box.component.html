@@ -48,7 +48,7 @@
                     <div *ngIf="user.status === 'Available'" class="Available"></div>
                   </div>
                   <div>
-                    <h3 class="m-0">{{ user.firstName }}</h3>
+                    <h3 class="m-0">{{ chatservice.getFullName(user) }}</h3>
                     <p class="designation">{{ user.designation }}</p>
                   </div>
                 </div>

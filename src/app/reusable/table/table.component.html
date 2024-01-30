@@ -58,7 +58,8 @@
             *ngIf="disCol.isImage"
             (click)="openUserDetails(element)"
           >
-            <img src="{{ disCol.cell(element) }}" class="profileImage" />
+            <img *ngIf="disCol.cell(element)" src="{{ disCol.cell(element) }}" class="profileImage" />
+            <img *ngIf="!disCol.cell(element)" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU" class="profileImage" />
             <span [ngClass]="element.isActive ? 'online' : 'offline'"></span>
           </p>
         </td>
