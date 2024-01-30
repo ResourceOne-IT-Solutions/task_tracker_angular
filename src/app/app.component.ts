@@ -27,6 +27,11 @@ export class AppComponent implements OnInit {
     this.chatservice.getSocketData('userRequestApproved').subscribe((res) => {
       console.log(res, 'app:::::::::::::::::::::');
     });
+    this.chatservice.getSocketData('adminMessageToAll').subscribe((res) => {
+      alert(
+        `Send By AdminName: ${res.sender.name} ,    Admin message  : ${res.content}`,
+      );
+    });
   }
 
 

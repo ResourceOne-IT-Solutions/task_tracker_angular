@@ -11,6 +11,8 @@ import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
 })
 export class ViewRequestPageComponent {
   type = true;
+  time:any;
+  date:any;
   isChatRequest = true;
   ChatRequest: any;
   ticketDetails: any;
@@ -44,6 +46,8 @@ export class ViewRequestPageComponent {
       this.TicketRequest = res;
       this.loader.hide();
     });
+   this. time = this.chatservice.getFormattedTime();
+    this.date = this.chatservice.getFormattedDate(new Date());
     this.chatservice.getSocketData('adminMessageStatusUpdated').subscribe((res:any)=>{
     this.adminMessages =  this.adminMessages.map((val:any)=>val._id === res._id ? res : val)
     })

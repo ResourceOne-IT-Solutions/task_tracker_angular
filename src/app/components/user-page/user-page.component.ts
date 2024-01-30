@@ -164,6 +164,7 @@ export class UserPageComponent implements OnInit {
       }
       this.chatservice.sendSocketData({key:'updateAdminMessageStatus' , data :payload})
     });
+
     this.chatservice.getSocketData('statusUpdate').subscribe((res) => {
       this.UserData = res;
     });
