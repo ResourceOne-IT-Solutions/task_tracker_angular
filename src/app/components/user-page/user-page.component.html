@@ -1,6 +1,7 @@
 <div class="Container">
   <div class="userinfo">
-    <img src="{{ UserData.profileImageUrl }}" alt="" />
+    <img *ngIf="UserData.profileImageUrl" src="{{ UserData.profileImageUrl }}" alt="" />
+    <img *ngIf="!UserData.profileImageUrl" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU" alt="">
     <p>{{ UserData.firstName }}</p>
     &nbsp;&nbsp;
     <span>({{ UserData.userId }} )</span>

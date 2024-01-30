@@ -1,5 +1,6 @@
 import {
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   Output,
@@ -28,7 +29,6 @@ export class DashBoardComponent {
   @ViewChild('assignTicketModel', { static: false }) assignTicketModel: any;
   @ViewChild('requestTicketmodal', { static: false }) requestTicketmodal: any;
   @ViewChild('sendMailModel', { static: false }) sendMailModel: any;
-
   isAdminStatus = false;
 
   phone: any;
@@ -213,6 +213,13 @@ export class DashBoardComponent {
     'Not Assigned',
     'Improper Requirment',
   ];
+  UserpieChartLabels: string[] = [
+    'Avalible',
+    'Offline',
+    'Break',
+    'On Ticket',
+  ]
+
   pieChartColors: string[] = [
     'blue',
     'gray',
@@ -220,6 +227,12 @@ export class DashBoardComponent {
     'green',
     'red',
     'purple',
+  ];
+  UserpieChartColors: string[] = [
+    'green',
+    'orange',
+    'red',
+    'blue'
   ];
   cities: any;
   technology = ['React Saga', 'Angular', 'Python', 'Vue Js', 'JQuery'];
@@ -252,6 +265,11 @@ export class DashBoardComponent {
   description: any;
   mailSuccessMsg: any;
   loadingStaus: boolean = false;
+  Avalible: any = [];
+  Offline: any = [];
+  Break: any = [];
+  OnTicket: any = [];
+  UserListData: any;
   constructor(
     public chatservice: ChatService,
     private router: Router,
@@ -362,15 +380,54 @@ export class DashBoardComponent {
       this.userList = res;
       this.chatservice.TotalUser.next(this.userList.length)
     });
+    this.chatservice.sendSocketData({
+      data: { userId: this.adminDetails._id },
+      key: 'newUser',
+    });
+    this.chatservice
+      .getSocketData('newUser').subscribe(({ userPayload }) => {
+        this.UserListData = userPayload,
+          this.Avalible = this.UserListData.filter(
+            (val: any) => val.status == 'Available',
+          ).length,
+          (this.Offline = this.UserListData.filter(
+            (val: any) => val.status == 'Offline',
+          ).length),
+          (this.Break = this.UserListData.filter(
+            (val: any) => val.status == 'Break',
+          ).length),
+          (this.OnTicket = this.UserListData.filter(
+            (val: any) => val.status == 'On Ticket',
+          ).length),
+        this.UserpieChart(this.Avalible, this.Offline, this.Break, this.OnTicket)
+      })
   }
 
+  UserpieChart(avalible: any, offline: any, breakk: any, Onticket: any) {
+    new Chart('Userpiechart', {
+      type: 'pie',
+      data: {
+        labels: this.UserpieChartLabels,
+        datasets: [
+          {
+            label: '',
+            data: [avalible, offline, breakk, Onticket],
+            backgroundColor: this.UserpieChartColors,
+          },
+        ],
+      },
+    });
+
+  }
+ 
+  
   openPopup(content: any): void {
     this.modalService.open(content);
   }
 
   /// admin status
 
-  selectChange(data: any) {}
+  selectChange(data: any) { }
 
   // user functions
 
@@ -569,7 +626,7 @@ export class DashBoardComponent {
         data: {
           user: {
             name:
-              this.AssignedUser.firstName + ' ' + this.AssignedUser.lastName,
+              this.chatservice.getFullName(this.AssignedUser),
             id: this.AssignedUser._id,
           },
           status: 'Assigned',
@@ -583,7 +640,7 @@ export class DashBoardComponent {
           id: this.AssignedUser._id,
           sender: {
             id: this.adminDetails._id,
-            name: this.adminDetails.firstName,
+            name: this.chatservice.getFullName(this.adminDetails),
           },
         };
         this.chatservice.sendSocketData({ key: 'assignTicket', data: payload });
@@ -595,7 +652,7 @@ export class DashBoardComponent {
         data: {
           addOnResource: {
             name:
-              this.AssignedUser.firstName + ' ' + this.AssignedUser.lastName,
+              this.chatservice.getFullName(this.AssignedUser),
             id: this.AssignedUser._id,
           },
         },
@@ -607,12 +664,12 @@ export class DashBoardComponent {
             user: { name: res.user.name, id: res.user.id },
             resource: {
               name:
-                this.AssignedUser.firstName + ' ' + this.AssignedUser.lastName,
+                this.chatservice.getFullName(this.AssignedUser),
               id: this.AssignedUser._id,
             },
             sender: {
               name:
-                this.adminDetails.firstName + ' ' + this.adminDetails.lastName,
+                this.chatservice.getFullName(this.adminDetails),
               id: this.adminDetails._id,
             },
           };
@@ -669,6 +726,7 @@ export class DashBoardComponent {
     });
   }
 
+
   routeToClientTickets(data: any) {
     this.router.navigate(['/client-tickets']);
     this.chatservice.getTicketId(data);
@@ -680,7 +738,7 @@ export class DashBoardComponent {
       data: {
         sender: {
           id: this.adminDetails._id,
-          name: this.adminDetails.firstName,
+          name: this.chatservice.getFullName(this.adminDetails),
         },
         content: this.requestticketForm.value.request,
         time: this.chatservice.getFormattedTime(),
@@ -689,11 +747,6 @@ export class DashBoardComponent {
     });
     dismiss();
   }
-  xlSheet(data: any) {}
-  // this.chatservice.sendSocketData({key:'requestChat',data:{user:{name:this.currentUser.firstName,id:this.currentUser._id},opponent:{name:this.SelectedUserdata.firstName,id:this.SelectedUserdata._id}}})
-  // this.chatservice.sendSocketData({key:'adminMessage',data:{sender:{id:this.adminDetails._id, name : this.adminDetails.firstName},content:{this.this.requestticketForm.value,}})
-
-  //  this.chatservice.sendSocketData({key : '' , data :adminMessagePayload })
   singleButtonClick(data: any) {
     if (data.name == 'Send Mail') {
       this.openPopup(this.sendMailModel);

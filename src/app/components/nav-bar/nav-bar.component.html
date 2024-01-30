@@ -1,5 +1,5 @@
 <nav class="navbar navbar-light bg-light justify-content-between p-2" *ngIf="userDetails">
-  <a class="navbar-brand">Dashboard</a>
+  <a class="navbar-brand" (click)="gotDashBoard()">Dashboard</a>
   <div class="mr-sm-2">
     <button class="btn btn-info m-2" (click)="ViewTicket()" *ngIf="isAdmin">
       Tickets
