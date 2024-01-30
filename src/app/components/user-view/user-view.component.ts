@@ -37,7 +37,6 @@ export class UserViewComponent implements OnInit {
 
     this.chatservice.getAdminChatMessages().subscribe((res) => {
       this.adminMessages = res;
-      console.log(this.adminMessages,'400')
     });
   }
   chatRequestApproved(data: any) {
