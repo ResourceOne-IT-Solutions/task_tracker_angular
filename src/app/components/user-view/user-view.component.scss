@@ -46,8 +46,8 @@ ol {
   li {
     border-bottom: 1px solid darkgray;
 
-    div {
-      display: block;
+    .message {
+      display: flex;
       justify-content: space-between;
       align-items: center;
 

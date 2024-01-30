@@ -456,6 +456,7 @@
 <ng-template #sendMailModel let-d="dismiss">
   <div class="modal-header p-2 m-0">Update</div>
   <div class="modal-body m-2">
+    <h3>{{chatservice.getFullName(ticketDetails.client)}}</h3>
     <input type="text" [value]="ticketDetails.client.email" disabled />
     <textarea class="form-control m-2" [(ngModel)]="description"> </textarea>
     <div class="successMsg" *ngIf="mailSuccessMsg && mailSuccessMsg.message">

@@ -11,6 +11,7 @@ export class ChatService {
   ticketsById = new BehaviorSubject('');
   userticketsById = new BehaviorSubject('');
   chatRequest = new BehaviorSubject('');
+  TotalUser = new BehaviorSubject('');
   private socket: Socket;
 
   getRoleData(role: any) {
