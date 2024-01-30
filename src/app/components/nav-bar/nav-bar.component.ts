@@ -59,7 +59,11 @@ export class NavBarComponent {
     this.router.navigate(['user-view-request']);
   }
   userTickets() {
+    console.log('63:')
+    this.chatservice.ticketRequests('');
     this.router.navigate(['tickets']);
-    // this.router.navigate(['tickets']);
+  }
+  gotDashBoard(){
+    this.router.navigate(['dashboard'])
   }
 }

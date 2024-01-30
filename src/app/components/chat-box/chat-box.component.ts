@@ -36,7 +36,7 @@ export class ChatBoxComponent {
   MockGroupList: any;
   requestedChat: any;
   constructor(
-    private chatservice: ChatService,
+    public chatservice: ChatService,
     private location: Location,
     private route: Router,
     private loader: NgxSpinnerService,
@@ -51,7 +51,6 @@ export class ChatBoxComponent {
       // this.ChatBox = true;
       // this.UserSelected = res;
     });
-
     this.chatservice.sendSocketData({
       data: { userId: this.currentUser._id },
       key: 'newUser',
@@ -88,7 +87,7 @@ export class ChatBoxComponent {
     }
     this.chatservice.chatRequest.subscribe((res:any) => {
           if(res){
-            this.requestedChat = res
+            this.requestedChat = res;
           }
     });
     this.UserSelected = 'Test';
