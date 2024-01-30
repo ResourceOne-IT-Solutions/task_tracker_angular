@@ -18,12 +18,17 @@ export class ViewRequestPageComponent {
   TicketRequest: any;
 
   approvedtype: any;
+  adminMessages: any;
+  totalUser: any;
   constructor(
     private chatservice: ChatService,
     private loader: NgxSpinnerService,
   ) {}
   ngOnInit() {
     this.loader.show();
+    this.chatservice.TotalUser.subscribe((res:any)=>{
+      this.totalUser = res
+    })
     this.chatservice.getSocketData('userRequestApproved').subscribe((res) => {
       this.approvedtype = res;
     });
@@ -31,10 +36,17 @@ export class ViewRequestPageComponent {
       this.ChatRequest = res;
       this.loader.hide();
     });
+    this.chatservice.getAdminChatMessages().subscribe((res:any) => {
+      this.adminMessages = res;
+      this.loader.hide();
+    });
     this.chatservice.getTickesRequest().subscribe((res) => {
       this.TicketRequest = res;
       this.loader.hide();
     });
+    this.chatservice.getSocketData('adminMessageStatusUpdated').subscribe((res:any)=>{
+    this.adminMessages =  this.adminMessages.map((val:any)=>val._id === res._id ? res : val)
+    })
   }
   approveUserChatRequest(data: any) {
     if (data) {
