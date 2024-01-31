@@ -163,14 +163,14 @@ export class ChatService {
     let day = date.getDate().toString();
     day = day.length > 1 ? day : '0' + day;
     switch (format) {
-      case 'dd/mm/yyyy': {
-        return `${day}/${month}/${year}`;
+      case 'dd-mm-yyyy': {
+        return `${day}-${month}-${year}`;
       }
-      case 'yyyy/mm/dd': {
-        return `${year}/${month}/${day}`;
+      case 'mm-dd-yyyy': {
+        return `${month}-${day}-${year}`;
       }
       default: {
-        return `${month}/${day}/${year}`;
+        return `${year}-${month}-${day}`;
       }
     }
   }

@@ -9,11 +9,13 @@
   justify-content: flex-end;
   margin: 14px 10px;
 }
-// .update-status{
-//     margin-top: 4px;
-//     width: 8.5%;
-
-// }
+.status{
+  width: 80%;
+  margin: 10px auto;
+  box-shadow: 0 0 5px 0px;
+  border-radius: 6px;
+  padding: 30px;
+}
 .Container {
   width: 80%;
   margin: 10px auto;
@@ -57,17 +59,7 @@
       font-size: 29px;
       margin: 15px 0 0 0;
     }
-    // .offline{
-    //     height: 10px;
-    //     width: 9px;
-    //     border-radius: 50%;
-    //     margin: 0;
-    //     top: 47%;
-    //     right: 39%;
-    //     background: red;
-    //     position: absolute;
-
-    // }
+ 
 
     span {
       font-size: 14px;
@@ -77,33 +69,6 @@
 
   .employeList {
     margin: 33px 0 0 0;
-
-    .main-userDetails {
-      display: flex;
-      justify-content: space-around;
-
-      .Profile {
-        .userslabel {
-          font-weight: 500;
-          text-decoration: underline;
-        }
-
-        p {
-          margin: 0;
-        }
-
-        img {
-          width: 158px;
-          border: 1px solid darkgray;
-          border-radius: 10px;
-        }
-      }
-
-      .userslabel {
-        font-weight: 500;
-        text-decoration: underline;
-      }
-    }
   }
 
   .main-employeDetails {
