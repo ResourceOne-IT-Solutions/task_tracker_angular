@@ -15,12 +15,17 @@ export class NavBarComponent {
   statuschange: any;
   @Input() userDetails: any;
   @Input() Status: any;
+  'roomCount': number;
   constructor(
     private router: Router,
     private chatservice: ChatService,
   ) {}
   ngOnInit() {
     this.Status = this.userDetails.status;
+    this.roomCount = Object.keys(this.userDetails.newMessages).length
+    this.chatservice.getSocketData('statusUpdate').subscribe((res) => {
+      this.roomCount = Object.keys(this.userDetails.newMessages).length
+    });
   }
   logout() {
     this.deleteCookie('token');
