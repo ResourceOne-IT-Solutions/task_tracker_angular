@@ -6,6 +6,7 @@
     </button>
     <button class="btn btn-warning m-2" (click)="OpenChatBox()">
       Chat Box
+      <span class="roomcount">{{roomCount}}</span>
     </button>
     <button class="btn btn-info m-2" *ngIf="isAdmin" (click)="ViewRequest()">
       View Request
