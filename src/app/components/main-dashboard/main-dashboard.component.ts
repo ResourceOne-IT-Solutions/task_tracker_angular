@@ -11,7 +11,7 @@ import { IdleTimeService } from 'src/app/services/idle/idle-time.service';
 })
 export class MainDashboardComponent {
   data: any;
-  'isAdmin$': Observable<any>;
+  'userData$': Observable<any>;
   constructor(
     private chatservice: ChatService,
     private idleSerive: IdleTimeService,
@@ -21,7 +21,7 @@ export class MainDashboardComponent {
     this.chatservice.getSocketData('error').subscribe((res) => {
       alert(res);
     });
-    this.isAdmin$ = this.chatservice.UserLoginData.pipe(
+    this.userData$ = this.chatservice.UserLoginData.pipe(
       map((res: any) => {
         if (!res.isAdmin) {
           this.idleSerive.startIdleMonitoring();

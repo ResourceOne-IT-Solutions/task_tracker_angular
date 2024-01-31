@@ -43,13 +43,20 @@ export class ChatBoxComponent {
     public dialog: MatDialog,
   ) {}
   ngOnInit() {
+    this.chatservice.getSocketData('notifications').subscribe((res:any)=>{
+      console.log(res , this.currentUser)
+      if(res.room.includes(this.currentUser._id)){
+        if(this.currentUser.newMessages.hasOwnProperty(res.room)){
+          this.currentUser.newMessages[res.room]++
+        }else{
+          this.currentUser.newMessages[res.room] =1
+        }
+        console.log(this.currentUser , 'new message')
+      }
+    })
     this.loader.show();
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.currentUser = res;
-    });
-    this.chatservice.chatRequest.subscribe((res) => {
-      // this.ChatBox = true;
-      // this.UserSelected = res;
     });
     this.chatservice.sendSocketData({
       data: { userId: this.currentUser._id },
@@ -82,6 +89,7 @@ export class ChatBoxComponent {
     if (this.currentUser) {
       this.chatservice.getSocketData('roomMessages').subscribe((res) => {
         this.TotalMessages = res;
+        console.log(res , "123")
       });
     } else {
     }

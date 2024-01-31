@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
 import { Chart, registerables } from 'node_modules/chart.js';
 import { from } from 'rxjs';
-import { LocationStrategy } from '@angular/common';
+import { LocationStrategy, formatDate } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Column } from '../dash-board/dash-board.component';
@@ -125,6 +125,8 @@ export class UserPageComponent implements OnInit {
   SelectedUserdata: any;
   statuschange: any;
   resourceAssigned: any;
+  statusByDate: any;
+  loginTime: any;
   constructor(
     public chatservice: ChatService,
     private router: Router,
@@ -147,22 +149,27 @@ export class UserPageComponent implements OnInit {
   ngOnInit(): void {
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.currentUser = res;
+      this.UserData = res;
+      this.statusByDate = this.statusGroupedByDate()
+      console.log(this.statusByDate , "status")
+      this.loginTime = new Date(this.UserData.loginTimings[this.UserData.loginTimings.length-1].inTime).toLocaleTimeString()
+      console.log(this.loginTime)
     });
     //AllUserList.....
     this.chatservice.getAllUsers().subscribe((res) => {
       this.userList = res;
     });
     this.chatservice.getSocketData('adminMessageToAll').subscribe((res) => {
-      console.log(res , "admin message")
+      console.log(res, "admin message")
       alert(
         `Send By AdminName: ${res.sender.name} ,  Admin message  : ${res.content}`,
       );
       const payload = {
-        status : 'DELIVERY',
-        messageId : res._id , 
-        userId :this.currentUser._id,
+        status: 'DELIVERY',
+        messageId: res._id,
+        userId: this.currentUser._id,
       }
-      this.chatservice.sendSocketData({key:'updateAdminMessageStatus' , data :payload})
+      this.chatservice.sendSocketData({ key: 'updateAdminMessageStatus', data: payload })
     });
 
     this.chatservice.getSocketData('statusUpdate').subscribe((res) => {
@@ -186,10 +193,6 @@ export class UserPageComponent implements OnInit {
           );
         }
       });
-
-    this.chatservice.UserLoginData.subscribe((res: any) => {
-      this.UserData = res;
-    });
 
     this.chatservice.getAllTickets().subscribe((res: any) => {
       this.userTickets = res.filter(
@@ -249,6 +252,34 @@ export class UserPageComponent implements OnInit {
         ],
       },
     });
+  }
+  statusGroupedByDate() {
+    const groupedStatus = this.getStatusByDate();
+    return Object.keys(groupedStatus).map((date) => ({
+      date: this.formatDate(date),
+      status: groupedStatus[date],
+    })).sort((a:any,b:any)=> a.date < b.date ?1 : -1);
+  }
+  private formatDate(date: string): string {
+    const today = new Date();
+    const statusdate = new Date(date)
+    console.log(today.toLocaleDateString() , date)
+    if (today.toLocaleDateString() === statusdate.toLocaleDateString()) {
+      return 'Today';
+    } else {
+      return formatDate(date, 'dd/MM/yyyy', 'en-US');
+    }
+  }
+ getStatusByDate() {
+    return this.UserData.breakTime.reduce((acc: any, status :any) => {
+      const date= status.startDate
+      if (acc[date]) {
+        acc[date].push(status);
+      } else {
+        acc[date] = [status];
+      }
+      return acc;
+    }, {});
   }
 
   deleteCookie(name: string) {
