@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Route, Router } from '@angular/router';
 import { ChatService } from 'src/app/services/chat.service';
+import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
+
 
 @Component({
   selector: 'app-user-view',
@@ -16,9 +18,12 @@ export class UserViewComponent implements OnInit {
   constructor(
     private chatservice: ChatService,
     private router: Router,
+    private loader: NgxSpinnerService,
+
   ) {}
 
   ngOnInit() {
+    this.loader.show();
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.currentuser = res;
     });
@@ -27,16 +32,19 @@ export class UserViewComponent implements OnInit {
       this.userChatRequest = res.filter(
         (val: any) => val.sender.id === this.currentuser._id,
       );
+      this.loader.hide();
     });
 
     this.chatservice.getTickesRequest().subscribe((res: any) => {
       this.userTicketRequest = res.filter(
         (val: any) => val.sender.id === this.currentuser._id,
       );
+      this.loader.hide();
     });
 
     this.chatservice.getAdminChatMessages().subscribe((res) => {
       this.adminMessages = res;
+      this.loader.hide();
     });
   }
   chatRequestApproved(data: any) {
