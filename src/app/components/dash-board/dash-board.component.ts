@@ -15,7 +15,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Chart, registerables } from 'node_modules/chart.js';
+import { Chart, ChartType, registerables } from 'node_modules/chart.js';
 @Component({
   selector: 'app-dash-board',
   templateUrl: './dash-board.component.html',
@@ -270,6 +270,8 @@ export class DashBoardComponent {
   Break: any = [];
   OnTicket: any = [];
   UserListData: any;
+  private chat!: Chart<'pie', any[], string>;
+
   constructor(
     public chatservice: ChatService,
     private router: Router,
@@ -399,18 +401,23 @@ export class DashBoardComponent {
           (this.OnTicket = this.UserListData.filter(
             (val: any) => val.status == 'On Ticket',
           ).length),
-        this.UserpieChart(this.Avalible, this.Offline, this.Break, this.OnTicket)
+          this.UserpieChart(this.Avalible, this.Offline, this.Break, this.OnTicket)
       })
   }
 
+  ngAfterViewInit() {
+    this.UserpieChart(0, 0, 0, 0);
+  }
+
   UserpieChart(avalible: any, offline: any, breakk: any, Onticket: any) {
-    new Chart('Userpiechart', {
+    this.destroyPieChart();
+    const canvas: any = document.getElementById('Userpiechart');
+    this.chat = new Chart(canvas, {
       type: 'pie',
       data: {
         labels: this.UserpieChartLabels,
         datasets: [
           {
-            label: '',
             data: [avalible, offline, breakk, Onticket],
             backgroundColor: this.UserpieChartColors,
           },
@@ -419,8 +426,12 @@ export class DashBoardComponent {
     });
 
   }
- 
-  
+
+  private destroyPieChart() {
+    if (this.chat) {
+      this.chat.destroy();
+    }
+  }
   openPopup(content: any): void {
     this.modalService.open(content);
   }
@@ -751,7 +762,6 @@ export class DashBoardComponent {
     if (data.name == 'Send Mail') {
       this.openPopup(this.sendMailModel);
       this.ticketDetails = data.userDetails;
-      console.log(this.ticketDetails , "ticketdetails")
       this.description = this.ticketDetails.description;
     } else {
       this.assignTicket(data.userDetails);
@@ -763,7 +773,7 @@ export class DashBoardComponent {
     const payload = {
       to: this.ticketDetails.client.email,
       content: this.description,
-      client  : this.chatservice.getFullName(this.ticketDetails.client)
+      client: this.chatservice.getFullName(this.ticketDetails.client)
     };
     this.chatservice.sendMail(payload).subscribe((res) => {
       this.loadingStaus = false;
