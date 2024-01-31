@@ -126,7 +126,7 @@ export class UserPageComponent implements OnInit {
   statuschange: any;
   resourceAssigned: any;
   constructor(
-    private chatservice: ChatService,
+    public chatservice: ChatService,
     private router: Router,
     private fb: FormBuilder,
     private modalService: NgbModal,
@@ -167,6 +167,7 @@ export class UserPageComponent implements OnInit {
 
     this.chatservice.getSocketData('statusUpdate').subscribe((res) => {
       this.UserData = res;
+      console.log(this.UserData,'170:::')
     });
 
     this.chatservice.getTicketSocketData('ticketAssigned').subscribe((data) => {

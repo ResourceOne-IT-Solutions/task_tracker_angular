@@ -6,51 +6,30 @@
     &nbsp;&nbsp;
     <span>({{ UserData.userId }} )</span>
     <span [ngClass]="UserData.status"></span>&nbsp;
+    <span class="OnTicket" *ngIf="UserData.status == 'On Ticket'"></span>
   </div>
   <div class="employeList">
-    <div class="main-userDetails">
-      <div class="Profile">
-        <p class="userslabel">Profile Image</p>
-        <!-- <img src="{{ UserData.profileImageUrl }}" alt="" /> -->
-      </div>
-      <div class="Employeee_Role">
-        <div class="Role">
-          <p class="userslabel">Role</p>
-          <p>{{ UserData.designation }}</p>
-        </div>
-        <div class="Team">
-          <p class="userslabel">Team</p>
-          <p>Angular Community</p>
-        </div>
-      </div>
-      <div class="Employeee_Join">
-        <div class="Jion">
-          <p class="userslabel">Joined On</p>
-          <p>{{ UserData.joinedDate | date: "y/M/d" }}</p>
-        </div>
-        <div class="Team">
-          <p class="userslabel">Working from</p>
-          <p>Angular Community</p>
-        </div>
-      </div>
-    </div>
     <div class="main-employeDetails">
       <div>
         <p class="userslabel">Employeee Details</p>
         <p>Emp ID : {{ UserData.empId }}</p>
-        <p>First Name : {{ UserData.firstName }}</p>
-        <p>Last Name : {{ UserData.lastName }}</p>
+        <p>Employe Name : {{ chatservice.getFullName(UserData) }}</p>
         <p>Email : {{ UserData.email }}</p>
         <p>Phone : {{ UserData.mobile }}</p>
         <p>Role : {{ UserData.designation }}</p>
         <p>Status :{{ UserData.status }}</p>
-        <p>Gender :{{ UserData.gender }}</p>
+        <p>Gender :{{ UserData.gender }}</p>  
+      </div>
+      <div>
+        <p class="userslabel">Last LoggedIn Data</p>
+        <p>Browser :</p>
+        <p>Ip Address :</p>
+        <p>Login Time Invalid Date :</p>
         <div>
           <button class="btn btn-info" (click)="requestChat()">
             Request Chat with User
           </button>
         </div>
-
         <div class="requestchat" *ngIf="requestchat">
           <mat-form-field>
             <mat-select
@@ -70,13 +49,6 @@
             send Admin
           </button>
         </div>
-      </div>
-
-      <div>
-        <p class="userslabel">Last LoggedIn Data</p>
-        <p>Browser :</p>
-        <p>Ip Address :</p>
-        <p>Login Time Invalid Date :</p>
       </div>
       <div>
         <p class="userslabel">Stats</p>
