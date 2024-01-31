@@ -174,6 +174,7 @@ export class UserPageComponent implements OnInit {
 
     this.chatservice.getSocketData('statusUpdate').subscribe((res) => {
       this.UserData = res;
+      console.log(this.UserData,'170:::')
     });
 
     this.chatservice.getTicketSocketData('ticketAssigned').subscribe((data) => {

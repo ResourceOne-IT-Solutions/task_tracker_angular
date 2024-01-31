@@ -1,19 +1,12 @@
 <div>
-  <h1>Admin Page</h1>
-  <div class="d-flex">
+  <h1 class="text-center">Admin Page</h1>
+  <div class="d-flex adminMain">
     <div class="d-flex admin-content">
       <div class="admin-page">
-        <div class="d-flex">
-          <img
-            *ngIf="adminDetails.profileImageUrl"
-            class="adminpic"
-            src="{{ adminDetails.profileImageUrl }}"
-          />
-          <img
-            *ngIf="!adminDetails.profileImageUrl"
-            class="adminpic"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU"
-          />
+        <div class="d-flex justify-content-center">
+          <img *ngIf="adminDetails.profileImageUrl" class="adminpic" src="{{ adminDetails.profileImageUrl }}" />
+          <img *ngIf="!adminDetails.profileImageUrl" class="adminpic"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU" />
           <div class="mt-5 mb-5">
             <h1 class="m-0 d-flex gap-3">{{ chatservice.getFullName(adminDetails) }} <span class="online"></span>
             </h1>
@@ -22,18 +15,18 @@
         </div>
         <div class="d-flex justify-content-around">
           <div>
-            <p>first name : {{ adminDetails.firstName }}</p>
-            <p>last name : {{ adminDetails.lastName }}</p>
-            <p>isAdmin : {{ adminDetails.isAdmin }}</p>
-            <p>first name : {{ adminDetails.firstName }}</p>
-            <p>Status : {{ adminDetails.status }}</p>
+            <p class="fs-6 text-decoration-underline">Admin Details</p>
+            <p><span class="usersDetails">First name :</span> {{ chatservice.getFullName(adminDetails) }}</p>
+            <p><span class="usersDetails">IsAdmin : </span>{{ adminDetails.isAdmin }}</p>
+            <p><span class="usersDetails">Status : </span>{{ adminDetails.status }}</p>
           </div>
           <div>
-            <p>Total Tickets : {{ ticketData.length }}</p>
-            <p>todays Tickets : {{ todaysTickets?.length }}</p>
-            <p>pending Tickets :{{ pendingTickets }}</p>
-            <p>completed Tickets :{{ resolvedTickets }}</p>
-            <p>inprogress Tickets :{{ inprogressTickets }}</p>
+            <p class="fs-6 text-decoration-underline">Status</p>
+            <p> <span class="usersDetails">Total Tickets :</span> {{ ticketData.length }}</p>
+            <p><span class="usersDetails">Todays Tickets :</span> {{ todaysTickets?.length }}</p>
+            <p><span class="usersDetails">Pending Tickets :</span>{{ pendingTickets }}</p>
+            <p><span class="usersDetails">Completed Tickets :</span>{{ resolvedTickets }}</p>
+            <p><span class="usersDetails">Inprogress Tickets :</span>{{ inprogressTickets }}</p>
           </div>
         </div>
       </div>
@@ -41,10 +34,7 @@
     <div class="d-flex piechart-container">
       <div class="pieChart">
         <div class="chart-legend">
-          <div
-            class="grid-item"
-            *ngFor="let label of pieChartLabels; let i = index"
-          >
+          <div class="grid-item" *ngFor="let label of pieChartLabels; let i = index">
             <span [style.color]="pieChartColors[i]">&#9632;</span>
             {{ label }}: {{ pieChartData[i] }}
           </div>
@@ -52,69 +42,27 @@
         <canvas id="pieChart"> </canvas>
         <p>Total Tickets : {{ ticketData.length }}</p>
       </div>
-      <div>
-        Resolved
-        <div class="progress" style="height: 10px">
-          <div
-            class="progress-bar bg-success"
-            role="progressbar"
-            [style.width]="(resolvedTickets / ticketData.length) * 100 + '%'"
-            aria-valuenow="6"
-            aria-valuemin="0"
-            aria-valuemax="10"
-          ></div>
-        </div>
-        Pending
-        <div class="progress" style="height: 10px">
-          <div
-            class="progress-bar bg-info"
-            role="progressbar"
-            [style.width]="(pendingTickets / ticketData.length) * 100 + '%'"
-            aria-valuenow="8"
-            aria-valuemin="0"
-            aria-valuemax="10"
-          ></div>
-        </div>
-        Inprogress
-        <div class="progress" style="height: 10px">
-          <div
-            class="progress-bar bg-warning"
-            role="progressbar"
-            [style.width]="(inprogressTickets / ticketData.length) * 100 + '%'"
-            aria-valuenow="2"
-            aria-valuemin="0"
-            aria-valuemax="10"
-          ></div>
-        </div>
-      </div>
     </div>
   </div>
-  <div class="userpieChart">
+  <div class="piechartRange">
+    <h3 class="fw-bold">Users status</h3>
     <canvas id="Userpiechart"></canvas>
+
   </div>
   <div>
-    <button
-      class="btn btn-primary m-2 sample"
-      (click)="
+    <button class="btn btn-primary m-2 sample" (click)="
         displayUsers = true; displayTickets = false; displayClient = false
-      "
-    >
+      ">
       User List
     </button>
-    <button
-      class="btn btn-primary m-2"
-      (click)="
+    <button class="btn btn-primary m-2" (click)="
         displayUsers = false; displayTickets = false; displayClient = true
-      "
-    >
+      ">
       Client List
     </button>
-    <button
-      class="btn btn-primary m-2"
-      (click)="
+    <button class="btn btn-primary m-2" (click)="
         displayUsers = false; displayTickets = true; displayClient = false
-      "
-    >
+      ">
       Tickets
     </button>
     <button class="btn btn-primary m-2" (click)="OpenTicketModel()">
@@ -133,26 +81,12 @@
 
 </div>
 
-<app-table
-  *ngIf="displayUsers"
-  [data]="userList"
-  (firstBtnClick)="editUser($event)"
-  (userDetails)="openUserDetails($event)"
-  [tableColumns]="userColumns"
-></app-table>
-<app-table
-  *ngIf="displayClient"
-  [data]="clientData"
-  (firstBtnClick)="editClient($event)"
-  (clientnameClick)="routeToClientTickets($event)"
-  [tableColumns]="clientColumns"
-></app-table>
-<app-table
-  *ngIf="displayTickets"
-  [data]="ticketData"
-  (singleButtonClick)="singleButtonClick($event)"
-  [tableColumns]="ticketColumns"
-></app-table>
+<app-table *ngIf="displayUsers" [data]="userList" (firstBtnClick)="editUser($event)"
+  (userDetails)="openUserDetails($event)" [tableColumns]="userColumns"></app-table>
+<app-table *ngIf="displayClient" [data]="clientData" (firstBtnClick)="editClient($event)"
+  (clientnameClick)="routeToClientTickets($event)" [tableColumns]="clientColumns"></app-table>
+<app-table *ngIf="displayTickets" [data]="ticketData" (singleButtonClick)="singleButtonClick($event)"
+  [tableColumns]="ticketColumns"></app-table>
 
 <!--User Model-->
 
@@ -165,52 +99,19 @@
       <div class="col-md-12">
         <div class="form-group" [formGroup]="userForm">
           <label class="ms-2">First Name</label>
-          <input
-            type="text"
-            placeholder="First Name"
-            class="form-control m-2"
-            formControlName="fname"
-          />
+          <input type="text" placeholder="First Name" class="form-control m-2" formControlName="fname" />
           <label class="ms-2">Last Name</label>
-          <input
-            type="text"
-            placeholder="Last Name"
-            class="form-control m-2"
-            formControlName="lname"
-          />
+          <input type="text" placeholder="Last Name" class="form-control m-2" formControlName="lname" />
           <label class="ms-2">Email</label>
-          <input
-            type="email"
-            placeholder="Email"
-            class="form-control m-2"
-            formControlName="email"
-          />
+          <input type="email" placeholder="Email" class="form-control m-2" formControlName="email" />
           <label class="ms-2">Phone Number</label>
-          <input
-            type="text"
-            placeholder="Phone Number"
-            class="form-control m-2"
-            formControlName="phone"
-          />
+          <input type="text" placeholder="Phone Number" class="form-control m-2" formControlName="phone" />
           <div *ngIf="addNewUser">
             <label class="ms-2">Join Date</label>
-            <input
-              type="date"
-              placeholder="Join Date"
-              class="form-control m-2"
-              formControlName="joiningDate"
-            />
+            <input type="date" placeholder="Join Date" class="form-control m-2" formControlName="joiningDate" />
             <label class="ms-2">Profile Image</label>
-            <input
-              type="file"
-              class="form-control m-2"
-              formControlName="profileImageUrl"
-            />
-            <select
-              class="form-control m-2"
-              formControlName="gender"
-              *ngIf="modelHeader === 'Add New User'"
-            >
+            <input type="file" class="form-control m-2" formControlName="profileImageUrl" />
+            <select class="form-control m-2" formControlName="gender" *ngIf="modelHeader === 'Add New User'">
               <option [value]="selectLocation" disabled selected class="hide">
                 Select Gender
               </option>
@@ -220,11 +121,7 @@
             </select>
 
             <label class="ms-2">Address</label>
-            <textarea
-              formControlName="address"
-              class="form-control m-2"
-              placeholder="Enter Your Address"
-            ></textarea>
+            <textarea formControlName="address" class="form-control m-2" placeholder="Enter Your Address"></textarea>
           </div>
           <label class="ms-2">Date Of Birth</label>
           <input type="date" class="form-control m-2" formControlName="dob" />
@@ -238,18 +135,10 @@
   </div>
   <div class="modal-footer">
     <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
-    <button
-      class="btn btn-sm btn-primary"
-      (click)="addUser(d)"
-      *ngIf="modelHeader === 'Add New User'"
-    >
+    <button class="btn btn-sm btn-primary" (click)="addUser(d)" *ngIf="modelHeader === 'Add New User'">
       Add User
     </button>
-    <button
-      class="btn btn-sm btn-primary"
-      (click)="updateUser(d)"
-      *ngIf="modelHeader === 'Update User'"
-    >
+    <button class="btn btn-sm btn-primary" (click)="updateUser(d)" *ngIf="modelHeader === 'Update User'">
       Update
     </button>
   </div>
@@ -265,12 +154,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="form-group" [formGroup]="clientForm">
-          <input
-            type="text"
-            placeholder="first name"
-            class="form-control m-2"
-            formControlName="name"
-          />
+          <input type="text" placeholder="first name" class="form-control m-2" formControlName="name" />
           <!-- <input type="text" placeholder="location" class="form-control m-2" formControlName="location"> -->
           <select class="form-control m-2" formControlName="location">
             <option [value]="selectLocation" disabled selected class="hide">
@@ -280,54 +164,21 @@
               {{ city }}
             </option>
           </select>
-          <input
-            type="email"
-            placeholder="email"
-            class="form-control m-2"
-            formControlName="email"
-          />
-          <input
-            type="number"
-            placeholder="phone number"
-            class="form-control m-2"
-            formControlName="mobile"
-          />
-          <input
-            type="text"
-            placeholder="technologies"
-            class="form-control m-2"
-            formControlName="technologies"
-          />
-          <input
-            type="text"
-            placeholder="applicationType"
-            class="form-control m-2"
-            formControlName="applicationType"
-          />
-          <input
-            type="text"
-            placeholder="companyName"
-            class="form-control m-2"
-            formControlName="companyName"
-          />
+          <input type="email" placeholder="email" class="form-control m-2" formControlName="email" />
+          <input type="number" placeholder="phone number" class="form-control m-2" formControlName="mobile" />
+          <input type="text" placeholder="technologies" class="form-control m-2" formControlName="technologies" />
+          <input type="text" placeholder="applicationType" class="form-control m-2" formControlName="applicationType" />
+          <input type="text" placeholder="companyName" class="form-control m-2" formControlName="companyName" />
         </div>
       </div>
     </div>
   </div>
   <div class="modal-footer">
     <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
-    <button
-      class="btn btn-sm btn-primary"
-      (click)="newClient(d)"
-      *ngIf="modelHeader === 'Add New Client'"
-    >
+    <button class="btn btn-sm btn-primary" (click)="newClient(d)" *ngIf="modelHeader === 'Add New Client'">
       Add New Client
     </button>
-    <button
-      class="btn btn-sm btn-primary"
-      (click)="updateClient(d)"
-      *ngIf="modelHeader === 'Update Client'"
-    >
+    <button class="btn btn-sm btn-primary" (click)="updateClient(d)" *ngIf="modelHeader === 'Update Client'">
       Update
     </button>
   </div>
@@ -388,17 +239,9 @@
         </option>
       </select>
       <label class="ms-2">Taget Date</label>
-      <input
-        class="form-control m-2"
-        type="date"
-        formControlName="targetDate"
-      />
+      <input class="form-control m-2" type="date" formControlName="targetDate" />
       <label class="ms-2">Description</label>
-      <textarea
-        class="form-control m-2"
-        placeholder="description"
-        formControlName="description"
-      ></textarea>
+      <textarea class="form-control m-2" placeholder="description" formControlName="description"></textarea>
     </form>
   </div>
   <div class="modal-footer">
@@ -439,11 +282,7 @@
   <div class="modal-body m-2">
     <form [formGroup]="requestticketForm">
       <label class="ms-2">Request All</label>
-      <textarea
-        class="form-control m-2"
-        placeholder="description"
-        formControlName="request"
-      ></textarea>
+      <textarea class="form-control m-2" placeholder="description" formControlName="request"></textarea>
     </form>
   </div>
   <div class="modal-footer">

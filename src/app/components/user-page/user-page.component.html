@@ -8,13 +8,14 @@
     &nbsp;&nbsp;
     <span>({{ UserData.userId }} )</span>
     <span [ngClass]="UserData.status"></span>&nbsp;
+    <span class="OnTicket" *ngIf="UserData.status == 'On Ticket'"></span>
   </div>
   <div class="employeList">
     <div class="main-employeDetails">
       <div>
         <p class="userslabel">Employeee Details</p>
         <p>Emp ID : {{ UserData.empId }}</p>
-        <p>Emp Name : {{chatservice.getFullName(UserData) }} </p>
+        <p>Employe Name : {{ chatservice.getFullName(UserData) }}</p>
         <p>Email : {{ UserData.email }}</p>
         <p>Phone : {{ UserData.mobile }}</p>
         <p>Role : {{ UserData.designation }}</p>
@@ -26,7 +27,6 @@
             Request Chat with User
           </button>
         </div>
-
         <div class="requestchat" *ngIf="requestchat">
           <mat-form-field>
             <mat-select placeholder="Select user" (selectionChange)="selectuser($event.value)">

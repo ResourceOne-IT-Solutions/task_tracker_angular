@@ -70,7 +70,7 @@
             <div class="Img_Details">
               <img *ngIf="UserSelected.profileImageUrl" src="{{ UserSelected.profileImageUrl }}" class="avatar" />
               <img *ngIf="!UserSelected.profileImageUrl"
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG1rxXk6k-HqZSKT-bg9X65qcvr-VWa2fBFiMHuW9uvw&s"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU"
                 class="avatar" />
               <div *ngIf="UserSelected.status === 'Offline'" class="Offline"></div>
               <div *ngIf="UserSelected.status === 'Busy'" class="Busy"></div>
@@ -98,9 +98,9 @@
                       else fileRender
                     "
                     class="d-flex flex-column text-start">
-                    <span class="fw-semibold">{{message.from.name}}</span>
-                    <span class="message-content">{{ message.content }}</span>
-                    <span class="message-Time text-end">{{ message.time }}</span>
+                    <span class="fw-semibold" *ngIf="isGroup">{{message.from.name}}</span>
+                      <span class="message-content">{{ message.content }}</span>
+                      <span class="message-Time text-end">{{ message.time }}</span>
                   </p>
                   <ng-template #fileRender>
                     <app-file-render [message]="message"></app-file-render>

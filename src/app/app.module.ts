@@ -76,6 +76,7 @@ import { CreateGroupComponent } from './components/create-group/create-group.com
     MatSelectModule,
     NgxSpinnerModule,
   ],
+ 
   providers: [
     guardGuard,
     { provide: APP_BASE_HREF, useValue: '/task_tracker_angular/' },
