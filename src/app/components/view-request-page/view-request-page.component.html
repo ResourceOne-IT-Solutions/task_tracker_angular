@@ -11,9 +11,14 @@
             {{chatrequest.time}}
             {{chatrequest.date}}
           </p>
+          <div *ngIf="chatrequest.isPending == true" class="isPending">
             <button class="btn btn-sm btn-success" (click)="approveUserChatRequest(chatrequest)">
-             {{chatrequest.isPending?'GiveAccess':'Approved'}}
+              Give Access
             </button>
+          </div>
+          <div *ngIf="chatrequest.isPending == false">
+            <h2>Approved</h2>
+          </div>
         </div>
       </li>
       <ngx-spinner bdColor="rgba(0,0,0,0.32)" size="large" color="#8652d5" type="ball-clip-rotate-multiple"
@@ -32,9 +37,15 @@
             {{ticketrequest.time}}
             {{ticketrequest.date}}
           </p>
+          <div *ngIf="ticketrequest.isPending == true" class="isPending">
+
             <button class="btn btn-sm btn-success" (click)="approveUserTicketRequest(ticketrequest)">
-             {{ticketrequest.isPending?'GiveAccess':'Approved'}}
+             Give Access
             </button>
+            </div>
+            <div *ngIf="ticketrequest.isPending == false">
+              <h2>Approved</h2>
+            </div>
         </div>
       </li>
 

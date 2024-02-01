@@ -57,8 +57,8 @@ export class ViewRequestPageComponent {
       const filteruser = this.ChatRequest.filter((res: any) => {
         return res.isPending == true;
       });
-      
       data.isPending = !data.isPending;
+      
       const demo = filteruser.forEach((val: any) => {
         this.chatpayload = {
           user: {
