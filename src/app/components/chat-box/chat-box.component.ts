@@ -81,8 +81,14 @@ export class ChatBoxComponent {
                 ).status;
                 return user;
               })
-            : this.UserListData;
+            : this.UserListData;   
         }
+        if(this.requestedChat){
+          const user  = this.UserListData.find((res:any)=> res._id ===  this.requestedChat.opponent.id)
+         if(user){
+           this.SelectUser(user)
+         }
+       }
         this.loader.hide();
         this.MockUserData = this.UserListData;
       });
