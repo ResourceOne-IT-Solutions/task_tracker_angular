@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule, Type } from '@angular/core';
+import { ActivatedRoute, RouterModule, Routes } from '@angular/router';
 import { WelComePageComponent } from './components/welcome-page/welcome-page.component';
 import { LoginPageComponent } from './components/login-page/login-page.component';
 import { DashBoardComponent } from './components/dash-board/dash-board.component';
@@ -14,6 +14,12 @@ import { ClientTicketsComponent } from './components/client-tickets/client-ticke
 import { ViewRequestPageComponent } from './components/view-request-page/view-request-page.component';
 import { UserViewComponent } from './components/user-view/user-view.component';
 
+
+const dynamicComponent: any = (route: ActivatedRoute) => {
+  console.log('hello',)
+  const isAdmin = route.parent?.snapshot.data?.['isAdmin'];
+  return isAdmin ? DashBoardComponent : UserPageComponent;
+};
 const routes: Routes = [
   { path: '', component: WelComePageComponent },
   {
@@ -25,37 +31,27 @@ const routes: Routes = [
     path: 'dashboard',
     component: MainDashboardComponent,
     canActivate: [guardGuard],
+    children: [
+      { path: '', component: DashBoardComponent },
+      { path: 'Chat-Box', component: ChatBoxComponent, canActivate: [guardGuard] },
+      { path: 'tickets', component: TicketsComponent, canActivate: [guardGuard] },
+      { path: 'User-page', component: UserPageComponent, canActivate: [guardGuard] },
+      { path: 'create-user', component: CreateUserComponent, canActivate: [guardGuard] },
+      {
+        path: 'view-requestPage',
+        component: ViewRequestPageComponent,
+        canActivate: [guardGuard],
+      },
+      {
+        path: 'user-view-request',
+        component: UserViewComponent,
+        canActivate: [guardGuard],
+      },
+    ]
   },
-  {
-    path: 'create-user',
-    component: CreateUserComponent,
-    canActivate: [guardGuard],
-  },
-  {
-    path: 'User-page',
-    component: UserPageComponent,
-    canActivate: [guardGuard],
-  },
-  { path: 'Chat-Box', component: ChatBoxComponent, canActivate: [guardGuard] },
-  {
-    path: 'User-page',
-    component: UserPageComponent,
-    canActivate: [guardGuard],
-  },
-  { path: 'tickets', component: TicketsComponent, canActivate: [guardGuard] },
   {
     path: 'client-tickets',
     component: ClientTicketsComponent,
-    canActivate: [guardGuard],
-  },
-  {
-    path: 'view-requestPage',
-    component: ViewRequestPageComponent,
-    canActivate: [guardGuard],
-  },
-  {
-    path: 'user-view-request',
-    component: UserViewComponent,
     canActivate: [guardGuard],
   },
 ];
@@ -64,4 +60,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

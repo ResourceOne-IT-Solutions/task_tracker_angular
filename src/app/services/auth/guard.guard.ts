@@ -31,6 +31,7 @@ export class guardGuard implements CanActivate {
       }
       return this.chatservice.getLoginSetup(httpOptions).pipe(
         map((res: any) => {
+          route.data = { isAdmin: res.isAdmin }
           this.chatservice.UserLogin(res);
           return true;
         }),

@@ -1,35 +1,111 @@
 <nav class="navbar navbar-light bg-light justify-content-between p-2" *ngIf="userDetails">
   <a class="navbar-brand Dashboard" (click)="gotDashBoard()">Dashboard</a>
   <div class="mr-sm-2">
-    <button class="btn btn-info m-2" (click)="ViewTicket()" *ngIf="isAdmin">
-      Tickets
-    </button>
-    <button class="btn btn-warning m-2" (click)="OpenChatBox()">
-      Chat Box
-      <span class="roomcount">{{roomCount}}</span>
-    </button>
-    <button class="btn btn-info m-2" *ngIf="isAdmin" (click)="ViewRequest()">
-      View Request
-    </button>
-    <button class="btn btn-primary ms-2 my-2 my-sm-0" *ngIf="!isAdmin">
-      Status :
-      <select (change)="changeStatus($event)" [(ngModel)]="Status">
-        <option
-          class="ms-3"
-          [value]="update"
-          *ngFor="let update of adminStatus"
-        >
-          {{ update }}
-        </option>
-      </select>
-    </button>
-    <button class="btn btn-info m-2" *ngIf="!isAdmin" (click)="user()">
-      View Request User
-    </button>
-    <button class="btn btn-info m-2" *ngIf="!isAdmin" (click)="userTickets()">
-      Tickets
-    </button>
 
+    <button class="btn btn-warning m-2">
+     <a [routerLink]="['Chat-Box']" class="text-decoration-none">Chat Box</a>
+      <span class="roomcount" *ngIf="roomCount>0">{{roomCount}}</span>
+    </button>
+    <ng-container *ngIf="!isAdmin ; else admintemplete">
+      <button class="btn btn-primary ms-2 my-2 my-sm-0">
+        Status :
+        <select (change)="changeStatus($event)" [(ngModel)]="Status">
+          <option class="ms-3" [value]="update" *ngFor="let update of adminStatus">
+            {{ update }}
+          </option>
+        </select>
+      </button>
+
+      <button class="btn btn-info m-2" (click)="user()">
+        View Request User
+      </button>
+      <button class="btn btn-info m-2" (click)="userTickets()">
+        <!-- <a [routerLink]="['tickets']" class="text-decoration-none">Tickets</a> -->
+        Tickets
+      </button>
+    </ng-container>
     <button class="btn btn-danger ms-3" (click)="logout()">LogOut</button>
   </div>
 </nav>
+
+
+<ng-template #admintemplete>
+  <button class="btn btn-primary m-2" (click)="OpenTicketModel()">
+    Create Ticket
+  </button>
+  <button class="btn btn-primary m-2" (click)="openUserModel()">
+    <a [routerLink]="['create-user']" class="text-decoration-none text-white">Add User</a>
+  </button>
+  <button class="btn btn-primary m-2" (click)="openClientModel()">
+    Add Client
+  </button>
+  <button class="btn btn-info m-2" (click)="ViewTicket()">
+    Tickets
+  </button>
+  <button class="btn btn-info m-2" (click)="ViewRequest()">
+    View Request
+  </button>
+</ng-template>
+
+<ng-template #clientModel let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Add New Client</h4>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group" [formGroup]="clientForm">
+          <input type="text" placeholder="first name" class="form-control m-2" formControlName="name" />
+          <input type="text" placeholder="location" class="form-control m-2" formControlName="location" />
+          <input type="email" placeholder="email" class="form-control m-2" formControlName="email" />
+          <input type="text" placeholder="phone number" class="form-control m-2" formControlName="mobile" />
+          <input type="text" placeholder="technologies" class="form-control m-2" formControlName="technologies" />
+          <input type="text" placeholder="applicationType" class="form-control m-2" formControlName="applicationType" />
+          <input type="text" placeholder="companyName" class="form-control m-2" formControlName="companyName" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
+    <button class="btn btn-sm btn-primary" (click)="newClient(d)">
+      Add New Client
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #ticketModel let-d="dismiss">
+  <div class="modal-header p-2 m-0">
+    <h4 class="modal-title p-0 m-0">Creat Ticket</h4>
+  </div>
+  <div class="modal-body m-2">
+    <form [formGroup]="TicketCreationForm">
+      <label class="ms-2">Client</label>
+      <select class="form-control m-2" formControlName="client">
+        <option value="" disabled selected class="hide">Select Client</option>
+        <option *ngFor="let client of clientData" [ngValue]="client">
+          {{ client.firstName }}
+        </option>
+      </select>
+      <label class="ms-2">Technologies</label>
+      <select class="form-control m-2" formControlName="technologies">
+        <option value="" disabled selected class="hide">
+          Select technologies
+        </option>
+        <option *ngFor="let client of technology" [value]="client">
+          {{ client }}
+        </option>
+      </select>
+      <label class="ms-2">Taget Date</label>
+      <input class="form-control m-2" type="date" formControlName="targetDate" />
+      <label class="ms-2">Description</label>
+      <textarea class="form-control m-2" placeholder="description" formControlName="description"></textarea>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-sm btn-primary" (click)="createTicket(d)">
+      Create Ticket
+    </button>
+    <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
+  </div>
+</ng-template>
