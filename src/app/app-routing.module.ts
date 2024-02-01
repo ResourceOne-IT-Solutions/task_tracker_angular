@@ -13,6 +13,7 @@ import { TicketsComponent } from './components/tickets/tickets.component';
 import { ClientTicketsComponent } from './components/client-tickets/client-tickets.component';
 import { ViewRequestPageComponent } from './components/view-request-page/view-request-page.component';
 import { UserViewComponent } from './components/user-view/user-view.component';
+import { UserlistComponent } from './components/userlist/userlist.component';
 
 const routes: Routes = [
   { path: '', component: WelComePageComponent },
@@ -56,6 +57,21 @@ const routes: Routes = [
   {
     path: 'user-view-request',
     component: UserViewComponent,
+    canActivate: [guardGuard],
+  },
+  {
+    path: 'user-list',
+    component: UserlistComponent,
+    canActivate: [guardGuard],
+  },
+  {
+    path: 'client-list',
+    component: UserlistComponent,
+    canActivate: [guardGuard],
+  },
+  {
+    path: 'today-tickets',
+    component: UserlistComponent,
     canActivate: [guardGuard],
   },
 ];

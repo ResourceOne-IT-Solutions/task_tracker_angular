@@ -1,4 +1,7 @@
-<h1>View Request Page!</h1>
+<h1>View Request Page</h1>
+<div class="Back">
+  <button (click)="goback()" class="btn btn-danger">Go To Back</button>
+</div>
 <div class="Main-ViewRequest">
   <div class="ChatRequest position-relative">
     <h1>Chat Request</h1>
@@ -21,6 +24,7 @@
           </div>
         </div>
       </li>
+      <h3 *ngIf="ChatRequest <= 0">No Request Messages</h3>
       <ngx-spinner bdColor="rgba(0,0,0,0.32)" size="large" color="#8652d5" type="ball-clip-rotate-multiple"
         [fullScreen]="false">
       </ngx-spinner>
@@ -48,10 +52,11 @@
             </div>
         </div>
       </li>
-
+      <h3 *ngIf="TicketRequest <= 0">No Request Messages</h3>
       <ngx-spinner bdColor="rgba(0,0,0,0.32)" size="large" color="#8652d5" type="ball-clip-rotate-multiple"
         [fullScreen]="false">
       </ngx-spinner>
+ 
     </ol>
   </div>
   <div class="TicketREquest position-relative px-2">
@@ -75,6 +80,8 @@
       <ngx-spinner bdColor="rgba(0,0,0,0.32)" size="large" color="#8652d5" type="ball-clip-rotate-multiple"
         [fullScreen]="false">
       </ngx-spinner>
+      <h3 *ngIf="adminMessages <= 0">No Request Messages</h3>
+
     </ol>
   </div>
 </div>
