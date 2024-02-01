@@ -68,18 +68,16 @@ export class TicketsComponent {
     private modalService: NgbModal,
   ) { }
   ngOnInit() {
-   
     this.chatservice.ticketRequest.subscribe((res: any) => {
       this.selectedTicket = res;
       if (this.selectedTicket) {
         this.chatservice.getClientById(this.selectedTicket.client?.id).subscribe((res: any) => {
           this.ticketsData = res;
         })
-      }else{
+      } else {
         this.chatservice.getAllTickets().subscribe((res: any) => {
           this.mockTicketsData = res;
           this.ticketsData = res;
-    
           this.statusData = [
             ...new Set(this.ticketsData.map((val: any) => val.status)),
           ];

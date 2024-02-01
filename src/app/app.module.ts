@@ -35,6 +35,7 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { UserViewComponent } from './components/user-view/user-view.component';
 import { FileRenderComponent } from './reusable/file-render/file-render.component';
 import { CreateGroupComponent } from './components/create-group/create-group.component';
+import { UserlistComponent } from './components/userlist/userlist.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,6 +54,7 @@ import { CreateGroupComponent } from './components/create-group/create-group.com
     UserViewComponent,
     FileRenderComponent,
     CreateGroupComponent,
+    UserlistComponent,
   ],
   imports: [
     BrowserModule,

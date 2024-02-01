@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ChatService } from 'src/app/services/chat.service';
+import { Location } from '@angular/common';
 import { Column } from '../dash-board/dash-board.component';
 // import { NgxSpinnerService } from 'ngx-spinner';
 import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
@@ -25,6 +26,7 @@ export class ViewRequestPageComponent {
   constructor(
     private chatservice: ChatService,
     private loader: NgxSpinnerService,
+    private location:Location
   ) {}
   ngOnInit() {
     this.loader.show();
@@ -51,6 +53,9 @@ export class ViewRequestPageComponent {
     this.chatservice.getSocketData('adminMessageStatusUpdated').subscribe((res:any)=>{
     this.adminMessages =  this.adminMessages.map((val:any)=>val._id === res._id ? res : val)
     })
+  }
+  goback(){
+    this.location.back()
   }
   approveUserChatRequest(data: any) {
     if (data) {
