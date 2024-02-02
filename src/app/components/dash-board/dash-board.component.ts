@@ -445,4 +445,5 @@ export interface Column {
   isButton?: boolean;
   isImage?: boolean;
   isText?: boolean;
+  isLink?:boolean;
 }

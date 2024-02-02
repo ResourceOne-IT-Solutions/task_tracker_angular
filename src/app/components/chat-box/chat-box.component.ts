@@ -29,22 +29,29 @@ export class ChatBoxComponent {
   NoUser: boolean = true;
   ChatBox: boolean = false;
   isGroup: boolean = false;
+  ClientContactModel:boolean =false;
   noGroupAvailable: any;
   SearchFilter: any;
   filteredUsers: any = [];
   MockUserData: any;
   MockGroupList: any;
   requestedChat: any;
+  ClientContacts: any;
+  SelectedContact: any=[];
+  ClientContactDetails:boolean=false;
+  today: number = Date.now();
   constructor(
     public chatservice: ChatService,
     private location: Location,
     private route: Router,
     private loader: NgxSpinnerService,
     public dialog: MatDialog,
-  ) {}
+  ) {
+    this.today = Date.now()
+  }
   ngOnInit() {
     this.chatservice.getSocketData('notifications').subscribe((res:any)=>{
-      console.log(res , this.currentUser)
+      console.log(res ,'47::', this.currentUser)
       if(res.room.includes(this.currentUser._id)){
         if(this.currentUser.newMessages.hasOwnProperty(res.room)){
           this.currentUser.newMessages[res.room]++
@@ -57,6 +64,8 @@ export class ChatBoxComponent {
     this.loader.show();
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.currentUser = res;
+      console.log('47::', this.currentUser)
+
     });
     this.chatservice.sendSocketData({
       data: { userId: this.currentUser._id },
@@ -125,32 +134,8 @@ export class ChatBoxComponent {
       );
     }
   }
-  getFormattedTime() {
-    const d = new Date().toLocaleString().split(' ');
-    const t = d[1].slice(0, -3);
-    return t + ' ' + d[2];
-  }
   getOnlyAdmins(data: any) {
     return data.filter((val: any) => val.isAdmin);
-  }
-  getFormattedDate(date: Date, format?: any) {
-    // const date = new Date()
-    const year = date.getFullYear();
-    let month = (1 + date.getMonth()).toString();
-    month = month.length > 1 ? month : '0' + month;
-    let day = date.getDate().toString();
-    day = day.length > 1 ? day : '0' + day;
-    switch (format) {
-      case 'dd/mm/yyyy': {
-        return `${day}/${month}/${year}`;
-      }
-      case 'yyyy/mm/dd': {
-        return `${year}/${month}/${day}`;
-      }
-      default: {
-        return `${month}/${day}/${year}`;
-      }
-    }
   }
   openCreateGroupModel() {
     const dialogRef = this.dialog.open(CreateGroupComponent, {
@@ -176,6 +161,7 @@ export class ChatBoxComponent {
     });
   }
   SelectUser(user: any) {
+    console.log(user,'user')
     this.isGroup = false;
     this.UserSelected = user;
     this.NoUser = false;
@@ -214,6 +200,23 @@ export class ChatBoxComponent {
     this.RoomId = group._id;
   }
 
+  Contacts(){
+    this.chatservice.getAllClients().subscribe((res: any) => {
+      this.ClientContacts = res;
+      this.ClientContactModel = !this.ClientContactModel;
+    });
+  }
+  SeclectContact(contacts:any){
+    const {firstName,mobile} = contacts
+    // this.SelectedContact.push(contacts);
+    this.ClientContactModel=false;
+    this.displayIcons = false;
+    console.log(this.SelectedContact,'2299::::')
+    this.reUseableSendMessage(firstName,'contact', JSON.stringify({name:firstName,mobile}))
+  }
+  Close(){
+    this.ClientContactModel=false;
+  }
   sendMessage() {
     const content = this.messageText;
     const type = 'message';
@@ -229,8 +232,8 @@ export class ChatBoxComponent {
         name: this.chatservice.getFullName(this.currentUser),
         id: this.currentUser._id,
       },
-      time: this.getFormattedTime(),
-      date: this.getFormattedDate(new Date()),
+      time: this.chatservice.getDate(),
+      date: new Date().toDateString(),
       opponentId: this.UserSelected._id,
       type,
       fileLink,
@@ -240,6 +243,7 @@ export class ChatBoxComponent {
       key: 'sendMessage',
       data: socketPayload,
     });
+    console.log(socketPayload,'270::::::')
     this.chatservice.sendSocketData({
       data: { userId: this.currentUser._id, opponentId: this.UserSelected._id },
       key: 'newUser',

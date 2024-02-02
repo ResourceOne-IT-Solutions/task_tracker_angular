@@ -27,6 +27,7 @@ export class TableComponent {
   @Output() firstBtnClick = new EventEmitter();
   @Output() secondBtnClick = new EventEmitter();
   @Output() clientnameClick = new EventEmitter();
+  @Output() description = new EventEmitter();
   @Input() tableData: any[] = [];
   @Output() userDetails = new EventEmitter();
   @Output() singleButtonClick = new EventEmitter();
@@ -55,6 +56,9 @@ export class TableComponent {
     this.secondBtnClick.emit(data);
   }
   clientNameClick(data: any) {
+    this.clientnameClick.emit(data);
+  }
+  Description(data: any) {
     this.clientnameClick.emit(data);
   }
   openUserDetails(userDetails: any) {

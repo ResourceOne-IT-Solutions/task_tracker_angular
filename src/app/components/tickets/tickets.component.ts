@@ -3,6 +3,7 @@ import { ChatService } from 'src/app/services/chat.service';
 import { Column } from '../dash-board/dash-board.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as XLSX from 'xlsx';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tickets',
@@ -10,6 +11,8 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./tickets.component.scss'],
 })
 export class TicketsComponent {
+  @ViewChild('ExcelDialouge', { static: false }) ExcelDialouge: any;
+
   searchText: string = '';
   selectedStatus: string = '';
   ticketsData: any = [];
@@ -52,6 +55,14 @@ export class TicketsComponent {
         `${element['addOnResource']?.map((res: any) => res.name)?.toString() || '--'}`,
       isText: true,
     },
+    {
+      columnDef: 'description',
+      header: 'Description',
+      cell: (element: any) =>
+        `${element['description']}`,
+      isText: true,
+      isLink:true
+    },
   ];
   dateData: any = ['today', 'month', '3months', 'year'];
   mockTicketsData: any = [];
@@ -66,6 +77,7 @@ export class TicketsComponent {
   constructor(
     private chatservice: ChatService,
     private modalService: NgbModal,
+    private route:Router
   ) { }
   ngOnInit() {
     this.chatservice.ticketRequest.subscribe((res: any) => {
@@ -78,6 +90,7 @@ export class TicketsComponent {
         this.chatservice.getAllTickets().subscribe((res: any) => {
           this.mockTicketsData = res;
           this.ticketsData = res;
+          console.log(this.ticketsData,'8888')
           this.statusData = [
             ...new Set(this.ticketsData.map((val: any) => val.status)),
           ];
@@ -86,7 +99,10 @@ export class TicketsComponent {
     })
 
   }
-
+  gotodescription(data:any){
+    console.log(data,'11111')
+    this.route.navigate(['/client-tickets'])
+  }
   searchFilter() {
     if (!this.isFilterDate && this.isStatusSeleted) {
       this.ticketsData = this.filterByNames(
@@ -193,7 +209,13 @@ export class TicketsComponent {
   openPopup(content: any): void {
     this.modalService.open(content);
   }
-  exportToExcel(): void {
+  excelModal(): void {
+    this.modalService.open(this.ExcelDialouge);
+  }
+  cancel(dismiss: any) {
+    dismiss();
+  }
+  ConvertExcel(){
     const covertedData = this.ticketsData.map((element: any) => {
       const modifiedElement = {
         ...element,

@@ -44,6 +44,21 @@ const routes: Routes = [
         component: UserViewComponent,
         canActivate: [guardGuard],
       },
+      {
+        path: 'user-list',
+        component: UserlistComponent,
+        canActivate: [guardGuard],
+      },
+      {
+        path: 'client-list',
+        component: UserlistComponent,
+        canActivate: [guardGuard],
+      },
+      {
+        path: 'today-tickets',
+        component: UserlistComponent,
+        canActivate: [guardGuard],
+      },
     ]
   },
   {
@@ -51,21 +66,7 @@ const routes: Routes = [
     component: ClientTicketsComponent,
     canActivate: [guardGuard],
   },
-  {
-    path: 'user-list',
-    component: UserlistComponent,
-    canActivate: [guardGuard],
-  },
-  {
-    path: 'client-list',
-    component: UserlistComponent,
-    canActivate: [guardGuard],
-  },
-  {
-    path: 'today-tickets',
-    component: UserlistComponent,
-    canActivate: [guardGuard],
-  },
+ 
 ];
 
 @NgModule({

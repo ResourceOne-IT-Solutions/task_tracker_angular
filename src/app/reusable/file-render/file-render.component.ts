@@ -10,12 +10,14 @@ export class FileRenderComponent {
   @Input() message: any;
   url: any;
   safeurl: any;
+  FileContact: any;
   constructor(
     private chatservice: ChatService,
     private sanitizer: DomSanitizer,
   ) {}
   ngOnInit() {
-    if (this.message.fileLink) {
+    this.FileContact = JSON.parse(this.message.fileLink);
+    if (this.message.fileLink && this.message.type !== 'contact') {
       this.chatservice.getFile(this.message.fileLink).subscribe(
         (res: any) => {
           if (res) {

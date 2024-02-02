@@ -44,9 +44,24 @@
     </button>
   </div>
   <div>
-    <button class="btn btn-primary" (click)="exportToExcel()">
+    <button class="btn btn-primary" (click)="excelModal()">
       Convert To Excel
     </button>
   </div>
 </div>
-<app-table [data]="ticketsData" [tableColumns]="ticketColumns"></app-table>
+<!--Excel Confirm Dialouge Box -->
+<ng-template #ExcelDialouge let-d="dismiss">
+  <div class="modal-header p-2 m-0 d-block text-center">
+    <h2 class="modal-title p-0 m-0">Excel</h2>
+  </div>
+  <div class="modal-body m-2">
+    <p>Are You Confirm the Convert to Excel..👍</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-sm btn-primary" (click)="ConvertExcel()">
+      Continue
+    </button>
+    <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
+  </div>
+</ng-template>
+<app-table [data]="ticketsData" [tableColumns]="ticketColumns" (description)="gotodescription($event)"></app-table>
