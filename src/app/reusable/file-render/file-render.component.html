@@ -7,6 +7,12 @@
 >
   <img [src]="url" *ngIf="url" />
 </div>
+<div class="SendUser" *ngIf="message.type === 'contact'">
+  <p>
+    <span> {{FileContact.name}}</span>
+    <span> {{FileContact.mobile}}</span>
+  </p>
+</div>
 <div
   *ngIf="getMessageType(message.type) === 'application/pdf'"
   (click)="downloadFile($event, url, message.content)"

@@ -147,7 +147,9 @@ export class ChatService {
   sendSocketData(data: any) {
     this.socket.emit(data.key, data.data);
   }
-
+getDate(date=new Date()){
+  return new Date(date).toISOString()
+}
   // time
   getFormattedTime() {
     const d = new Date().toLocaleString().split(' ');

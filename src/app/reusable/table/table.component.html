@@ -32,6 +32,9 @@
           <span (click)="clientNameClick(element)" *ngIf="disCol.isText">
             {{ disCol.cell(element) }}
           </span>
+          <p>
+            <a href="javascript:void(0)" (click)="Description(element)"  *ngIf="disCol.isLink">Client Description</a>
+          </p>
           <span *ngIf="disCol.isMultiButton">
             <button
               mat-raised-button

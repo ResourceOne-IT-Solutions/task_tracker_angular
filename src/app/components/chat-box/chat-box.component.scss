@@ -83,6 +83,7 @@
     overflow-y: auto;
     min-height: 478px;
     max-height: 478px;
+    position: relative;
 
     .message-container {
       background-color: white;
@@ -107,7 +108,7 @@
       .SendUser {
         margin: 17px 0;
         border-radius: 9px;
-
+        text-align: end;
         p {
           background: #6e00ff;
           color: #fff;
@@ -192,6 +193,12 @@
       left: 10px;
       background: white;
 
+      label {
+        border-bottom: 1px solid;
+        padding: 0 0 5px 0;
+        margin-bottom: 5px;
+      }
+
       label,
       span {
         display: block;
@@ -236,6 +243,7 @@
     border-bottom: 1px solid #efe9e9;
     padding-bottom: 7px;
     width: 80%;
+
     img {
       //height: 50px;
       width: 45px;
@@ -300,14 +308,15 @@
   justify-content: center;
   height: 500px;
 }
-.newmessage{
-    width: 20px;
-    height: 20px;
-    border-radius: 20px;
-    background-color: #458485;
-    color: white;
-    border: 1px solid #458485;
-    text-align: center;
+
+.newmessage {
+  width: 20px;
+  height: 20px;
+  border-radius: 20px;
+  background-color: #458485;
+  color: white;
+  border: 1px solid #458485;
+  text-align: center;
 }
 
 .Img_Details {
@@ -347,5 +356,69 @@
     right: 26%;
     background: green;
     position: absolute;
+  }
+}
+
+.SelectedUser {
+  background-color: #6e00ff;
+  color: #fff;
+  border-radius: 5px;
+}
+
+.ClientContacts {
+  box-shadow: 0 0 3px 0;
+  width: 34%;
+  background: #f1e9e9;
+  border-radius: 5px;
+  position: absolute;
+  top: 0;
+  right: 3%;
+  bottom: 0;
+  margin: 15px 0 0 0;
+
+  .Close{
+    border: 0;
+    background: none;
+    font-size: 18px;
+    margin: 8px 0 0 15px;
+  }
+  .Close:hover{
+    background-color: red;
+    color: #fff;
+  }
+  .contacts {
+    border-bottom: 1px solid darkgrey;
+    margin: 2px;
+    padding: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  .contacts:hover {
+    background: #6e00ff;
+    color: #fff;
+
+  }
+}
+.ContactDetails{
+  text-align: end;
+  p{
+  background: #6e00ff;
+  color: #fff;
+  padding: 6px 33px;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin-right: 0;
+  margin: auto;
+  border-radius: 8px 0 11px 6px;
+  text-align: center;
+  margin-right: 0;
+  max-width: 250px;
+  line-break: anywhere;
+  margin-bottom: 15px;
+  .time{
+    font-size: 10px;
+  }
   }
 }

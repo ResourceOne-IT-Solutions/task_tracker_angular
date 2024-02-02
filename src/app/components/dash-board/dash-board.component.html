@@ -40,7 +40,78 @@
     <div class="piechartRange">
       <h3 class="fw-bold">Users status</h3>
       <canvas id="Userpiechart"></canvas>
+    </div>
+  <div>
+    <button class="btn btn-primary m-2 sample" [routerLink]="['user-list']">
+  User List
+</button>
+    <button class="btn btn-primary m-2" [routerLink]="['client-list']">
+  Client List
+</button>
+    <button class="btn btn-primary m-2" [routerLink]="['today-tickets']">
+      Tickets
+    </button>
+    <button class="btn btn-primary m-2" (click)="OpenTicketModel()">
+      Create Ticket
+    </button>
+    <button class="btn btn-primary m-2" (click)="openUserModel()">
+      Add User
+    </button>
+    <button class="btn btn-primary m-2" (click)="openClientModel()">
+      Add Client
+    </button>
+    <button class="btn btn-info m-2" (click)="sendMessageToAll()">
+      Send Message toAll
+    </button>
+  </div>
+</div>
 
+<!-- UserModel -->
+<ng-template #userModel let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">{{ modelHeader }}</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group" [formGroup]="userForm">
+                    <label class="ms-2">First Name</label>
+                    <input type="text" placeholder="First Name" class="form-control m-2" formControlName="fname" />
+                    <label class="ms-2">Last Name</label>
+                    <input type="text" placeholder="Last Name" class="form-control m-2" formControlName="lname" />
+                    <label class="ms-2">Email</label>
+                    <input type="email" placeholder="Email" class="form-control m-2" formControlName="email" />
+                    <label class="ms-2">Phone Number</label>
+                    <input type="text" placeholder="Phone Number" class="form-control m-2" formControlName="phone" />
+                    <div *ngIf="addNewUser">
+                        <label class="ms-2">Join Date</label>
+                        <input type="date" placeholder="Join Date" class="form-control m-2"
+                            formControlName="joiningDate" />
+                        <label class="ms-2">Profile Image</label>
+                        <input type="file" class="form-control m-2" formControlName="profileImageUrl" />
+                        <select class="form-control m-2" formControlName="gender"
+                            *ngIf="modelHeader === 'Add New User'">
+                            <option [value]="selectLocation" disabled selected class="hide">
+                                Select Gender
+                            </option>
+                            <option *ngFor="let gender of genders" [value]="gender">
+                                {{ gender }}
+                            </option>
+                        </select>
+
+                        <label class="ms-2">Address</label>
+                        <textarea formControlName="address" class="form-control m-2"
+                            placeholder="Enter Your Address"></textarea>
+                    </div>
+                    <label class="ms-2">Date Of Birth</label>
+                    <input type="date" class="form-control m-2" formControlName="dob" />
+                    <span *ngIf="modelHeader === 'Add New User'">
+                        <input type="checkbox" formControlName="isAdmin" checked="false" />
+                        <label class="ms-2">isAdmin</label>
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
     <div>
       <div>
