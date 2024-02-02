@@ -36,11 +36,11 @@
       </div>
     </div>
   </div>
-  <div class="piechartRange">
-    <h3 class="fw-bold">Users status</h3>
-    <canvas id="Userpiechart"></canvas>
-
-  </div>
+  <div class="d-flex">
+    <div class="piechartRange">
+      <h3 class="fw-bold">Users status</h3>
+      <canvas id="Userpiechart"></canvas>
+    </div>
   <div>
     <button class="btn btn-primary m-2 sample" [routerLink]="['user-list']">
   User List
@@ -113,86 +113,27 @@
             </div>
         </div>
     </div>
-    <div class="modal-footer">
-        <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
-        <button class="btn btn-sm btn-primary" (click)="addUser(d)" *ngIf="modelHeader === 'Add New User'">
-        Add User
-      </button>
-        <button class="btn btn-sm btn-primary" (click)="updateUser(d)" *ngIf="modelHeader === 'Update User'">
-            Update
+    <div>
+      <div>
+        <button class="btn btn-primary m-2 sample" [routerLink]="['user-list']">
+          User List
         </button>
-    </div>
-</ng-template>
-<!--Ticket Model-->
-
-<ng-template #ticketModel let-d="dismiss">
-  <div class="modal-header p-2 m-0">
-    <h4 class="modal-title p-0 m-0">Creat Ticket</h4>
-  </div>
-  <div class="modal-body m-2">
-    <form [formGroup]="TicketCreationForm">
-      <label class="ms-2">Client</label>
-      <select class="form-control m-2" formControlName="client">
-        <option value="" disabled selected class="hide">Select Client</option>
-        <option *ngFor="let client of clientData" [ngValue]="client">
-          {{ client.firstName }}
-        </option>
-      </select>
-      <label class="ms-2">Technologies</label>
-      <select class="form-control m-2" formControlName="technologies">
-        <option value="" disabled selected class="hide">
-          Select technologies
-        </option>
-        <option *ngFor="let client of technology" [value]="client">
-          {{ client }}
-        </option>
-      </select>
-      <label class="ms-2">Taget Date</label>
-      <input class="form-control m-2" type="date" formControlName="targetDate" />
-      <label class="ms-2">Description</label>
-      <textarea class="form-control m-2" placeholder="description" formControlName="description"></textarea>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-sm btn-primary" (click)="createTicket(d)">
-      Create Ticket
-    </button>
-    <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
-  </div>
-</ng-template>
-
-<!-- Add Client -->
-
-<ng-template #clientModel let-d="dismiss">
-  <div class="modal-header">
-      <h4 class="modal-title">{{ modelHeader }}</h4>
-  </div>
-  <div class="modal-body">
-      <div class="row">
-          <div class="col-md-12">
-              <div class="form-group" [formGroup]="clientForm">
-                  <input type="text" placeholder="First name" class="form-control m-2" formControlName="name" />
-                  <input type="text" placeholder="Location" class="form-control m-2" formControlName="location">
-              
-                  <input type="email" placeholder="Email" class="form-control m-2" formControlName="email" />
-                  <input type="number" placeholder="Phone number" class="form-control m-2" formControlName="mobile" />
-                  <input type="text" placeholder="Technologies" class="form-control m-2"
-                      formControlName="technologies" />
-                  <input type="text" placeholder="ApplicationType" class="form-control m-2"
-                      formControlName="applicationType" />
-                  <input type="text" placeholder="CompanyName" class="form-control m-2"
-                      formControlName="companyName" />
-              </div>
-          </div>
+        <button class="btn btn-primary m-2" [routerLink]="['client-list']">
+          Client List
+        </button>
       </div>
+      <div>
+        <button class="btn btn-primary m-2" [routerLink]="['today-tickets']">
+          Today Tickets
+        </button>
+        <button class="btn btn-info m-2" (click)="sendMessageToAll()">
+          Send Message toAll
+        </button>
+      </div>
+    </div>
   </div>
-  <div class="modal-footer">
-      <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
-      <button class="btn btn-sm btn-primary" (click)="newClient(d)" *ngIf="modelHeader === 'Add New Client'">
-          Add New Client
-      </button>
-  </div>
-</ng-template>
+</div>
+
 <!-- requestTicket modal -->
 <ng-template #requestTicketmodal let-d="dismiss">
   <div class="modal-header p-2 m-0"></div>

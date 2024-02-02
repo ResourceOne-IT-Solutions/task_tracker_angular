@@ -260,4 +260,15 @@ getDate(date=new Date()){
     }
     return 'Invalid Name';
   }
+  groupByDate(data:any , key :any) {
+    return data.reduce((acc: any, status :any) => {
+      const date= status[key]
+      if (acc[date]) {
+        acc[date].push(status);
+      } else {
+        acc[date] = [status];
+      }
+      return acc;
+    }, {});
+  }
 }

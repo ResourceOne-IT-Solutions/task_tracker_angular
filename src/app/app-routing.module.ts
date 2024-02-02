@@ -32,7 +32,7 @@ const routes: Routes = [
       { path: '', component: DashBoardComponent , canActivate : [guardGuard ,adminGuard] },
       { path: 'Chat-Box', component: ChatBoxComponent, canActivate: [guardGuard] },
       { path: 'tickets', component: TicketsComponent, canActivate: [guardGuard] },
-      { path: 'User-page', component: UserPageComponent, canActivate: [guardGuard] },
+      { path: 'user/:id', component: UserPageComponent, canActivate: [guardGuard] },
       { path: 'create-user', component: CreateUserComponent, canActivate: [guardGuard] },
       {
         path: 'view-requestPage',
@@ -42,6 +42,11 @@ const routes: Routes = [
       {
         path: 'user-view-request',
         component: UserViewComponent,
+        canActivate: [guardGuard],
+      },
+      {
+        path: 'client-tickets',
+        component: ClientTicketsComponent,
         canActivate: [guardGuard],
       },
       {
@@ -60,11 +65,6 @@ const routes: Routes = [
         canActivate: [guardGuard],
       },
     ]
-  },
-  {
-    path: 'client-tickets',
-    component: ClientTicketsComponent,
-    canActivate: [guardGuard],
   },
  
 ];
