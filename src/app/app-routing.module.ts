@@ -13,13 +13,8 @@ import { TicketsComponent } from './components/tickets/tickets.component';
 import { ClientTicketsComponent } from './components/client-tickets/client-tickets.component';
 import { ViewRequestPageComponent } from './components/view-request-page/view-request-page.component';
 import { UserViewComponent } from './components/user-view/user-view.component';
+import { adminGuard } from './services/admin/admin.guard';
 
-
-const dynamicComponent: any = (route: ActivatedRoute) => {
-  console.log('hello',)
-  const isAdmin = route.parent?.snapshot.data?.['isAdmin'];
-  return isAdmin ? DashBoardComponent : UserPageComponent;
-};
 const routes: Routes = [
   { path: '', component: WelComePageComponent },
   {
@@ -32,7 +27,7 @@ const routes: Routes = [
     component: MainDashboardComponent,
     canActivate: [guardGuard],
     children: [
-      { path: '', component: DashBoardComponent },
+      { path: '', component: DashBoardComponent , canActivate : [guardGuard ,adminGuard] },
       { path: 'Chat-Box', component: ChatBoxComponent, canActivate: [guardGuard] },
       { path: 'tickets', component: TicketsComponent, canActivate: [guardGuard] },
       { path: 'User-page', component: UserPageComponent, canActivate: [guardGuard] },
