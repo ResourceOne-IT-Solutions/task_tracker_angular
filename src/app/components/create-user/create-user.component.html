@@ -1,0 +1,162 @@
+<section class=" gradient-custom">
+    <div class="container py-2">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-12 col-lg-9 col-xl-7">
+                <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                    <div class="card-body p-3 p-md-3">
+                        <h1 class="text-center text-decoration-underline">Create User Form</h1>
+                        <form [formGroup]="createUserForm">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-outline">
+                                        <label class="form-label" for="firstName">First Name</label>
+                                        <input [ngClass]="submitted && fname.errors ? 'invalidInput':''" type="text" id="firstName" formControlName="fname"
+                                            class="form-control" />
+                                    </div>
+                                    <div class="invalid" *ngIf="submitted && fname.errors">
+                                        <div *ngIf="fname.errors['required']">First Name is required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-outline">
+                                        <label class="form-label" for="lastName">Last Name</label>
+                                        <input [ngClass]="submitted && lname.errors ? 'invalidInput':''" type="text" id="lastName" formControlName="lname"
+                                            class="form-control" />
+                                    </div>
+                                    <div class="invalid" *ngIf="submitted && lname.errors">
+                                        <div *ngIf="lname.errors['required']">Last Name is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                    <div class="form-outline">
+                                        <label class="form-label" for="email">Email</label>
+                                        <input [ngClass]="submitted && email.errors ? 'invalidInput':''" type="text" id="email" formControlName="email"
+                                            class="form-control" />
+                                    </div>
+                                    <div class="invalid" *ngIf="submitted && email.errors">
+                                        <div *ngIf="email.errors['required']">Email is required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+
+                                    <div class="form-outline">
+                                        <label class="form-label" for="phone">Phone Number</label>
+                                        <input (keypress)="phoneValidation($event)" [ngClass]="submitted && phone.errors ? 'invalidInput':''" type="text" id="phone" formControlName="phone"
+                                            class="form-control" />
+                                    </div>
+                                    <div class="invalid" *ngIf="submitted && phone.errors">
+                                        <div *ngIf="phone.errors['required']">Phone Number is required</div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-outline">
+                                        <label for="birthdayDate" class="form-label">Birthday</label>
+                                        <input [ngClass]="submitted && dob.errors ? 'invalidInput':''" type="date" class="form-control" id="birthdayDate"
+                                            formControlName="dob" />
+                                    </div>
+                                    <div class="invalid" *ngIf="submitted && dob.errors">
+                                        <div *ngIf="dob.errors['required']">Date of Birth is required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+
+                                    <div class="form-outline">
+                                        <label for="joinDate" class="form-label">Join Date</label>
+                                        <input [ngClass]="submitted && joiningDate.errors ? 'invalidInput':''" type="date" class="form-control" id="joinDate"
+                                            formControlName="joiningDate" />
+                                    </div>
+                                    <div class="invalid" *ngIf="submitted && joiningDate.errors">
+                                        <div *ngIf="joiningDate.errors['required']">Joining Date is required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-outline">
+                                        <label for="" class="form-label">Gender</label>
+                                        <select class="form-control" formControlName="gender">
+                                            <option [value]="''" disabled selected class="hide">
+                                              Select Gender
+                                            </option>
+                                            <option *ngFor="let gender of genders" [value]="gender">
+                                              {{ gender }}
+                                            </option>
+                                          </select>
+                                    </div>
+                                    <div class="invalid" *ngIf="submitted && gender.errors">
+                                        <div *ngIf="gender.errors['required']">Gender is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-outline">
+                                        <label for="profileImageUrl" class="form-label">Profile Image</label>
+                                        <input [ngClass]="submitted && profileImageUrl.errors ? 'invalidInput':''" type="file" class="form-control" id="profileImageUrl"
+                                            formControlName="profileImageUrl" />
+                                    </div>
+                                    <div class="invalid" *ngIf="submitted && profileImageUrl.errors">
+                                        <div *ngIf="profileImageUrl.errors['required']">Profile Image is required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-outline">
+                                        <label for="designation" class="form-label">Designation</label>
+                                        <input [ngClass]="submitted && designation.errors ? 'invalidInput':''" type="text" class="form-control" id="designation"
+                                            formControlName="designation" />
+                                    </div>
+                                    <div class="invalid" *ngIf="submitted && designation.errors">
+                                        <div *ngIf="designation.errors['required']">Designation is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-outline">
+                                        <label class="form-label" for="password">Password</label>
+                                        <input  class="form-control" [ngClass]="submitted && isAdmin.errors ? 'invalidInput':''" type="password" formControlName="password" id="password"  />
+                                    </div>
+                                    <div class="invalid" *ngIf="submitted && password.errors">
+                                        <div *ngIf="password.errors['required']">Password is required</div>
+                                    </div>
+                                </div> 
+                                <div class="col-md-6">
+                                    <div class="form-outline">
+                                        <label for="" class="form-label">isAdmin</label><br >
+                                        <input [ngClass]="submitted && isAdmin.errors ? 'invalidInput':''" type="radio" formControlName="isAdmin" id="Yes" [value]="true" />
+                                        <label for="Yes" class="m-2">Yes</label>
+                                        <input [ngClass]="submitted && isAdmin.errors ? 'invalidInput':''" type="radio" formControlName="isAdmin" id="No" [value]="false" />
+                                        <label for="No" class="m-2">No</label>
+                                    </div>
+                                    <div class="invalid" *ngIf="submitted && isAdmin.errors">
+                                        <div *ngIf="isAdmin.errors['required']">isAdmin is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-outline">
+                                        <label class="ms-2">Address</label>
+                                        <textarea [ngClass]="submitted && address.errors ? 'invalidInput':''" formControlName="address" class="form-control m-2"
+                                            placeholder="Enter Your Address"></textarea>
+                                    </div>
+                                    <div class="invalid ms-2" *ngIf="submitted && address.errors">
+                                        <div *ngIf="address.errors['required']">Address is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                    <button class="btn btn-primary" (click)="createNewUser()">Create User</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
