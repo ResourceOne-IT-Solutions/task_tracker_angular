@@ -6,7 +6,7 @@ import { LocationStrategy, formatDate } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Column } from '../dash-board/dash-board.component';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 Chart.register(...registerables);
 @Component({
@@ -22,7 +22,6 @@ export class UserPageComponent implements OnInit {
   date = new Date();
   @ViewChild('updateModel', { static: false }) updateModel: any;
   userstatus = ['In Progress', 'Pending', 'Resolved', 'Improper Requirment'];
-  UserData: any;
   userTickets: any = [];
   // selectedIndex:any
   modelHeader: string = '';
@@ -99,14 +98,7 @@ export class UserPageComponent implements OnInit {
       header: 'status',
       cell: (element: any) => `${element['status']}`,
       isText: true,
-    },
-    {
-      columnDef: 'TicketRaised',
-      header: 'Ticket Rise',
-      cell: (element: any) =>
-        element === 'btn1' ? 'Update Ticket' : 'Request ticket',
-      isMultiButton: true,
-    },
+    }
   ];
 
   displayColumns = [
@@ -127,9 +119,14 @@ export class UserPageComponent implements OnInit {
   resourceAssigned: any;
   statusByDate: any;
   loginTime: any;
+  isAdminView: boolean = false;
+  paramId: any;
+  breakTimes: any;
+  loginTiming: any;
   constructor(
     public chatservice: ChatService,
     private router: Router,
+    private route: ActivatedRoute,
     private fb: FormBuilder,
     private modalService: NgbModal,
     private location: LocationStrategy,
@@ -147,17 +144,25 @@ export class UserPageComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    this.paramId = this.route.snapshot.paramMap.get('id')
     this.chatservice.UserLoginData.subscribe((res: any) => {
-      this.currentUser = res;
-      this.UserData = res;
-      this.statusByDate = this.statusGroupedByDate()
-      console.log(this.statusByDate , "status")
-      this.loginTime = new Date(this.UserData.loginTimings[this.UserData.loginTimings.length-1].inTime).toLocaleTimeString()
-      console.log(this.loginTime)
+      if (this.paramId) {
+        this.isAdminView = true
+      } else {
+        this.currentUser = res;
+        this.breakLoginTimeings(this.currentUser)
+        this.statusByDate = this.statusGroupedByDate()
+      }
+
     });
     //AllUserList.....
     this.chatservice.getAllUsers().subscribe((res) => {
       this.userList = res;
+      console.log(this.route)
+      if (this.paramId) {
+        this.currentUser = this.userList.find((val: any) => val._id === this.paramId)
+        this.breakLoginTimeings(this.currentUser)
+      }
     });
     this.chatservice.getSocketData('adminMessageToAll').subscribe((res) => {
       console.log(res, "admin message")
@@ -173,8 +178,7 @@ export class UserPageComponent implements OnInit {
     });
 
     this.chatservice.getSocketData('statusUpdate').subscribe((res) => {
-      this.UserData = res;
-      console.log(this.UserData,'170:::')
+      this.currentUser = res;
     });
 
     this.chatservice.getTicketSocketData('ticketAssigned').subscribe((data) => {
@@ -195,35 +199,37 @@ export class UserPageComponent implements OnInit {
       });
 
     this.chatservice.getAllTickets().subscribe((res: any) => {
-      this.userTickets = res.filter(
-        (item: any) => item.user.id === this.currentUser._id,
-      );
+      if (this.currentUser) {
+        this.userTickets = res.filter((item: any) => item.user.id === this.currentUser._id);
 
-      (this.Resolved = this.userTickets.filter(
-        (val: any) => val.status == 'Resolved',
-      ).length),
-        (this.Assigned = this.userTickets.filter(
-          (val: any) => val.status == 'Assigned',
+        (this.Resolved = this.userTickets.filter(
+          (val: any) => val.status == 'Resolved',
         ).length),
-        (this.pending = this.userTickets.filter(
-          (val: any) => val.status == 'Pending',
-        ).length),
-        (this.Improper = this.userTickets.filter(
-          (val: any) => val.status == 'Improper Requirment',
-        ).length),
-        (this.helpedTickets = this.UserData.helpedTickets),
-        (this.inprogress = this.userTickets.filter(
-          (val: any) => val.status == 'In Progress',
-        ).length);
-      this.pieChart(
-        this.Resolved,
-        this.Assigned,
-        this.pending,
-        this.inprogress,
-        this.helpedTickets,
-        this.Improper,
-      );
-    });
+          (this.Assigned = this.userTickets.filter(
+            (val: any) => val.status == 'Assigned',
+          ).length),
+          (this.pending = this.userTickets.filter(
+            (val: any) => val.status == 'Pending',
+          ).length),
+          (this.Improper = this.userTickets.filter(
+            (val: any) => val.status == 'Improper Requirment',
+          ).length),
+          (this.helpedTickets = this.currentUser.helpedTickets),
+          (this.inprogress = this.userTickets.filter(
+            (val: any) => val.status == 'In Progress',
+          ).length);
+        this.pieChart(
+          this.Resolved,
+          this.Assigned,
+          this.pending,
+          this.inprogress,
+          this.helpedTickets,
+          this.Improper,
+        );
+      }
+    }
+    );
+
   }
   pieChart(
     resolved: any,
@@ -246,40 +252,63 @@ export class UserPageComponent implements OnInit {
         ],
         datasets: [
           {
-            label: this.chatservice.getFullName(this.UserData),
+            label: this.chatservice.getFullName(this.currentUser),
             data: [resolved, assigned, pending, inprogress, helped, Improper],
           },
         ],
       },
     });
   }
+  breakLoginTimeings(user: any) {
+    const statusByBreak = this.statusGroupedByDate()
+    const loginTime = this.loginTimeGroupedByDate()
+    this.breakTimes = statusByBreak ? statusByBreak[0] : undefined;
+    this.loginTiming = loginTime ? loginTime : undefined
+    console.log(user ,'login')
+    if(!this.isAdminView){
+      this.ticketColumns.push({
+      columnDef: 'TicketRaised',
+      header: 'Ticket Rise',
+      cell: (element: any) =>
+        element === 'btn1' ? 'Update Ticket' : 'Request ticket',
+      isMultiButton: true,
+    })
+    }
+  }
+  /*
+  {
+    "inTime": "2024-02-02T01:31:23.421Z",
+    "date": "2024-02-02T01:31:23.421Z",
+    "_id": "65bc45eb7517dbc3c35eda0e"
+}
+  */
+  loginTimeGroupedByDate(){
+     const groupByTime = this.chatservice.groupByDate(this.currentUser.loginTimings, 'date');
+     return Object.keys(groupByTime).map((date) => ({
+      date: this.formatDate(date),
+      loginTime: groupByTime[date].map((time:any)=>{
+        time.inTime =time.inTime ? new Date(time.inTime).toLocaleTimeString() : ''
+        time.outTime = time.outTime ? new Date(time.outTime).toLocaleTimeString() : ''
+        return time
+      }),
+    })).sort((a: any, b: any) => a.date < b.date ? 1 : -1);
+  }
   statusGroupedByDate() {
-    const groupedStatus = this.getStatusByDate();
+    const groupedStatus = this.chatservice.groupByDate(this.currentUser.breakTime, 'startDate');
     return Object.keys(groupedStatus).map((date) => ({
       date: this.formatDate(date),
       status: groupedStatus[date],
-    })).sort((a:any,b:any)=> a.date < b.date ?1 : -1);
+    })).sort((a: any, b: any) => a.date < b.date ? 1 : -1);
   }
   private formatDate(date: string): string {
     const today = new Date();
     const statusdate = new Date(date)
-    console.log(today.toLocaleDateString() , date)
+    console.log(today.toLocaleDateString(), date)
     if (today.toLocaleDateString() === statusdate.toLocaleDateString()) {
       return 'Today';
     } else {
       return formatDate(date, 'dd/MM/yyyy', 'en-US');
     }
-  }
- getStatusByDate() {
-    return this.UserData.breakTime.reduce((acc: any, status :any) => {
-      const date= status.startDate
-      if (acc[date]) {
-        acc[date].push(status);
-      } else {
-        acc[date] = [status];
-      }
-      return acc;
-    }, {});
   }
 
   deleteCookie(name: string) {
@@ -306,8 +335,8 @@ export class UserPageComponent implements OnInit {
         data: {
           ...this.updateForm.value,
           updatedBy: {
-            name: this.chatservice.getFullName(this.UserData),
-            id: this.UserData._id,
+            name: this.chatservice.getFullName(this.currentUser),
+            id: this.currentUser._id,
           },
         },
       };

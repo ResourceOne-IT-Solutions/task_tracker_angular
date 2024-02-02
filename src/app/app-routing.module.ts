@@ -32,7 +32,7 @@ const routes: Routes = [
       { path: '', component: DashBoardComponent , canActivate : [guardGuard ,adminGuard] },
       { path: 'Chat-Box', component: ChatBoxComponent, canActivate: [guardGuard] },
       { path: 'tickets', component: TicketsComponent, canActivate: [guardGuard] },
-      { path: 'User-page', component: UserPageComponent, canActivate: [guardGuard] },
+      { path: 'user/:id', component: UserPageComponent, canActivate: [guardGuard] },
       { path: 'create-user', component: CreateUserComponent, canActivate: [guardGuard] },
       {
         path: 'view-requestPage',
@@ -44,28 +44,29 @@ const routes: Routes = [
         component: UserViewComponent,
         canActivate: [guardGuard],
       },
+      {
+        path: 'client-tickets',
+        component: ClientTicketsComponent,
+        canActivate: [guardGuard],
+      },
+      {
+        path: 'user-list',
+        component: UserlistComponent,
+        canActivate: [guardGuard],
+      },
+      {
+        path: 'client-list',
+        component: UserlistComponent,
+        canActivate: [guardGuard],
+      },
+      {
+        path: 'today-tickets',
+        component: UserlistComponent,
+        canActivate: [guardGuard],
+      },
     ]
   },
-  {
-    path: 'client-tickets',
-    component: ClientTicketsComponent,
-    canActivate: [guardGuard],
-  },
-  {
-    path: 'user-list',
-    component: UserlistComponent,
-    canActivate: [guardGuard],
-  },
-  {
-    path: 'client-list',
-    component: UserlistComponent,
-    canActivate: [guardGuard],
-  },
-  {
-    path: 'today-tickets',
-    component: UserlistComponent,
-    canActivate: [guardGuard],
-  },
+
 ];
 
 @NgModule({

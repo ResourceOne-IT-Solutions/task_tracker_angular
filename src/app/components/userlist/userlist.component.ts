@@ -341,7 +341,7 @@ export class UserlistComponent {
   }
   UserPage(dismiss: any) {
     dismiss();
-    this.router.navigate(['/User-page']);
+    this.router.navigate(['../user' , this.userModelData._id], {relativeTo : this.route});
   }
   newClient(dismiss: any) {
     dismiss();
