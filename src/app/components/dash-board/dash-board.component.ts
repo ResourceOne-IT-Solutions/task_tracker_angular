@@ -22,11 +22,8 @@ import { Chart, ChartType, registerables } from 'node_modules/chart.js';
   styleUrls: ['./dash-board.component.scss'],
 })
 export class DashBoardComponent {
-  @ViewChild('ticketModel', { static: false }) ticketModel: any;
   @ViewChild('requestTicketmodal', { static: false }) requestTicketmodal: any;
-  @ViewChild('userModel', { static: false }) userModel: any;
-  @ViewChild('clientModel', { static: false }) clientModel: any;
-
+  
   isAdminStatus = false;
 
   phone: any;
@@ -107,40 +104,11 @@ export class DashBoardComponent {
     private fb: FormBuilder,
     private route:ActivatedRoute
   ) {
-    this.TicketCreationForm = this.fb.group({
-      client: ['', Validators.required],
-      technologies: ['', Validators.required],
-      targetDate: ['', Validators.required],
-      description: ['', Validators.required],
-    });
-    this.requestticketForm = this.fb.group({
-      request: ['', Validators.required],
-    });
+  
   }
   ngOnInit() {
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.adminDetails = res;
-    });
-    this.userForm = this.fb.group({
-      fname: ['', Validators.required],
-      lname: ['', Validators.required],
-      email: ['', Validators.required],
-      phone: ['', Validators.required],
-      dob: ['', Validators.required],
-      joiningDate: ['', Validators.required],
-      profileImageUrl: ['', Validators.required],
-      gender: ['', Validators.required],
-      address: ['', Validators.required],
-      isAdmin: [false],
-    });
-    this.clientForm = this.fb.group({
-      name: ['', Validators.required],
-      location: ['', Validators.required],
-      mobile: ['', [Validators.required, this.validateNumberLength.bind(this)]],
-      technologies: ['', Validators.required],
-      email: ['', Validators.required],
-      applicationType: ['', Validators.required],
-      companyName: ['', Validators.required],
     });
     this.chatservice.getSocketData('chatRequest').subscribe((res) => {
       const message = `${res.sender.name} is Requisting to Chat with ${res.opponent.name}`;
@@ -257,78 +225,11 @@ export class DashBoardComponent {
 
   selectChange(data: any) { }
 
-  // user functions
-
-  openUserModel() {
-    this.userForm?.reset();
-    this.addNewUser = true;
-    this.modelHeader = 'Add New User';
-    this.openPopup(this.userModel);
-  }
   // client functions
 
-  openClientModel() {
-    this.modelHeader = 'Add New Client';
-    this.selectLocation = null;
-    this.clientForm.reset();
-    this.openPopup(this.clientModel);
-  }
   sendMessageToAll() {
     this.modelHeader = 'request ';
     this.openPopup(this.requestTicketmodal);
-  }
-  addUser(dismiss: any): void {
-    const Data = {
-      firstName: this.userForm.value.fname,
-      lastName: this.userForm.value.lname,
-      email: this.userForm.value.email,
-      mobile: this.userForm.value.phone,
-      password: `${this.userForm.value.fname}@123`,
-      joinedDate: this.userForm.value.joiningDate,
-      dob: this.userForm.value.dob,
-      isAdmin: this.userForm.value.isAdmin !== null,
-      gender: this.userForm.value.gender,
-      designation: 'angular',
-      profileImageUrl: this.userForm.value.profileImageUrl,
-    };
-    this.chatservice.AddNewUsers(Data).subscribe((res) => console.log(res));
-    dismiss();
-    this.userForm.reset();
-  }
-  newClient(dismiss: any) {
-    dismiss();
-    const data = {
-      firstName: this.clientForm.value.name,
-      email: this.clientForm.value.email,
-      mobile: this.clientForm.value.mobile,
-      location: { area: this.clientForm.value.location, zone: 'EST' },
-      companyName: this.clientForm.value.companyName,
-      technology: this.clientForm.value.technologies,
-      applicationType: this.clientForm.value.applicationType,
-    };
-    this.chatservice
-      .AddNewClient(data)
-      .subscribe((res) => console.log(res, 'new client res'));
-  }
-  updateUser(dismiss: any): void {
-    const Data = {
-      firstName: this.userForm.value.fname,
-      lastName: this.userForm.value.lname,
-      email: this.userForm.value.email,
-      mobile: this.userForm.value.phone,
-      designation: this.userDetails.designation,
-    };
-    const payload = {
-      id: this.userDetails._id,
-      data: Data,
-    };
-    this.chatservice.UpdateUsers(payload).subscribe((res: any) => {
-      this.userList = this.userList.map((element: any) =>
-        element._id === res._id ? res : element,
-      );
-    });
-    dismiss();
-    this.userForm.reset();
   }
   cancel(dismiss: any) {
     dismiss();
@@ -345,35 +246,7 @@ export class DashBoardComponent {
     this.router.navigate(['/User-page']);
   }
 
-  // ticket functions
-  createTicket(dismiss: any) {
-    if (this.TicketCreationForm.valid) {
-      const payload = {
-        client: {
-          name: this.TicketCreationForm.value.client.firstName,
-          id: this.TicketCreationForm.value.client._id,
-          mobile: this.TicketCreationForm.value.client.mobile,
-          email: this.TicketCreationForm.value.client.email,
-        },
-        user: {
-          name: '',
-          id: '',
-        },
-        technology: this.TicketCreationForm.value.technologies,
-        description: this.TicketCreationForm.value.description,
-        targetDate: this.TicketCreationForm.value.targetDate,
-      };
-      this.chatservice
-        .createNewTicket(payload)
-        .subscribe((res: any) => console.log(res, 'created ticket'));
-    }
-    this.TicketCreationForm.reset();
-    dismiss();
-  }
 
-  OpenTicketModel() {
-    this.modalService.open(this.ticketModel);
-  }
   validateNumberLength(control: AbstractControl) {
     if (control.value && control.value.toString().length > 10) {
       return { maxLengthExceeded: true };

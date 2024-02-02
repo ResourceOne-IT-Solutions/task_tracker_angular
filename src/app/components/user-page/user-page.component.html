@@ -1,29 +1,40 @@
-<div class="Container">
+<div class="Container" *ngIf="currentUser">
   <div class="userinfo">
-    <img *ngIf="UserData.profileImageUrl" src="{{ UserData.profileImageUrl }}" alt="" />
-    <img *ngIf="!UserData.profileImageUrl"
+    <img *ngIf="currentUser.profileImageUrl" src="{{ currentUser.profileImageUrl }}" alt="" />
+    <img *ngIf="!currentUser.profileImageUrl"
       src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU"
       alt="">
-    <p>{{ UserData.firstName }}</p>
+    <p>{{ currentUser.firstName }}</p>
     &nbsp;&nbsp;
-    <span>({{ UserData.userId }} )</span>
-    <span [ngClass]="UserData.status"></span>&nbsp;
-    <span class="OnTicket" *ngIf="UserData.status == 'On Ticket'"></span>
+    <span>({{ currentUser.userId }} )</span>
+    <span [ngClass]="currentUser.status"></span>&nbsp;
+    <span class="OnTicket" *ngIf="currentUser.status == 'On Ticket'"></span>
   </div>
   <div class="employeList">
     <div class="main-employeDetails">
       <div>
         <p class="userslabel">Employeee Details</p>
-        <p>Emp ID : {{ UserData.empId }}</p>
-        <p>Employe Name : {{ chatservice.getFullName(UserData) }}</p>
-        <p>Email : {{ UserData.email }}</p>
-        <p>Phone : {{ UserData.mobile }}</p>
-        <p>Role : {{ UserData.designation }}</p>
-        <p>Status :{{ UserData.status }}</p>
-        <p>Gender :{{ UserData.gender }}</p>
-        <p>LoginAt : {{loginTime}}</p>
+        <p>Emp ID : {{ currentUser.empId }}</p>
+        <p>Employe Name : {{ chatservice.getFullName(currentUser) }}</p>
+        <p>Email : {{ currentUser.email }}</p>
+        <p>Phone : {{ currentUser.mobile }}</p>
+        <p>Role : {{ currentUser.designation }}</p>
+        <p>Status :{{ currentUser.status }}</p>
+        <p>Gender :{{ currentUser.gender }}</p>
+        <div class="logintime" *ngIf="loginTiming?.length">
+            <h2>Login Time</h2>
+            <div *ngFor="let logintime of loginTiming">
+              <p>{{logintime.date}} : <span *ngFor="let time of logintime.loginTime">
+                {{time.inTime}} - login :{{ time.outTime ? time.outTime : '***' }} - logout</span></p>
+            </div>
+        </div>
+        <div class="status" *ngIf="breakTimes">
+          <h2>Break Time</h2>
+          <p *ngFor="let status of  breakTimes.status"><span *ngIf="status.type==='END'">Start :{{status.startTime}} - End
+              :{{status.endTime}}</span></p>
+        </div>
         <div>
-          <button class="btn btn-info" (click)="requestChat()">
+          <button class="btn btn-info" (click)="requestChat()" *ngIf="!isAdminView">
             Request Chat with User
           </button>
         </div>
@@ -50,11 +61,7 @@
     </div>
   </div>
 </div>
-<div class="status">
-  <h2>{{statusByDate[0].date}}</h2>
-  <p *ngFor="let status of  statusByDate[0].status"><span *ngIf="status.type==='END'">Start :{{status.startTime}} - End
-      :{{status.endTime}}</span></p>
-</div>
+
 
 <app-table [data]="userTickets" [tableColumns]="ticketColumns" (firstBtnClick)="update($event)"
   (secondBtnClick)="routeToTickets($event)">
