@@ -36,6 +36,8 @@ import { UserViewComponent } from './components/user-view/user-view.component';
 import { FileRenderComponent } from './reusable/file-render/file-render.component';
 import { CreateGroupComponent } from './components/create-group/create-group.component';
 import { adminGuard } from './services/admin/admin.guard';
+import { UserlistComponent } from './components/userlist/userlist.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,6 +56,7 @@ import { adminGuard } from './services/admin/admin.guard';
     UserViewComponent,
     FileRenderComponent,
     CreateGroupComponent,
+    UserlistComponent,
   ],
   imports: [
     BrowserModule,
