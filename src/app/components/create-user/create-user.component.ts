@@ -11,6 +11,7 @@ export class CreateUserComponent {
   'createUserForm': FormGroup;
   genders: any = ['Male', 'Female', 'Not Specified'];
   submitted: boolean = false
+  currentUser: any;
   constructor(private fb: FormBuilder, private chatservice: ChatService) {
     this.createUserForm = this.fb.group({
       fname: ['', Validators.required],
@@ -27,7 +28,11 @@ export class CreateUserComponent {
       isAdmin: ['', Validators.required],
     });
   }
-  ngOnInit() { }
+  ngOnInit() {
+    this.chatservice.UserLoginData.subscribe((res:any)=>{
+      this.currentUser = res
+    })
+   }
   get user() { return this.createUserForm.controls; }
   get fname() { return this.user['fname'] }
   get lname() { return this.user['lname'] }
@@ -67,8 +72,10 @@ export class CreateUserComponent {
         designation: this.createUserForm.value.designation,
         address: this.createUserForm.value.address,
         profileImageUrl: this.createUserForm.value.profileImageUrl,
+        createdBy: {name :this.chatservice.getFullName(this.currentUser), id : this.currentUser._id}
       };
-      this.chatservice.AddNewUsers(Data).subscribe((res) => console.log(res));
+       console.log(Date , 'user')
+      // this.chatservice.AddNewUsers(Data).subscribe((res) => console.log(res));
       this.createUserForm.reset();
     }
   }

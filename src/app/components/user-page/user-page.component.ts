@@ -123,6 +123,9 @@ export class UserPageComponent implements OnInit {
   paramId: any;
   breakTimes: any;
   loginTiming: any;
+  'cstDate': string;
+  'pstDate': string;
+  'est': string;
   constructor(
     public chatservice: ChatService,
     private router: Router,
@@ -144,6 +147,20 @@ export class UserPageComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    setInterval(() => {
+      let Estdate = new Date();
+      this.est = Estdate.toLocaleTimeString('en-US', {
+        timeZone: 'America/New_York',
+      });
+      var myDate = new Date();
+      this.pstDate = myDate.toLocaleTimeString('en-US', {
+        timeZone: 'America/Los_Angeles',
+      });
+      var myDate = new Date();
+      this.cstDate = myDate.toLocaleTimeString('en-US', {
+        timeZone: 'America/Chicago',
+      });
+    }, 1000);
     this.paramId = this.route.snapshot.paramMap.get('id')
     this.chatservice.UserLoginData.subscribe((res: any) => {
       if (this.paramId) {

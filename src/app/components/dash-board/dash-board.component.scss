@@ -88,7 +88,35 @@ textarea {
     padding: 2px;
   }
 }
+.timezone {
+  display: flex;
+  gap: 14px;
+  text-align: center;
+  justify-content: center;
 
+  .countryTime {
+    width: 91px;
+    padding: 10px;
+    margin: 10px;
+    span{
+      font-weight: bold;
+    }
+    // border: 1px solid;
+    height: 81px;
+    border-radius: 50%;
+    box-shadow:
+      inset 8px 8px 8px #cbced1,
+      inset -8px -8px 8px #e7cfcf;
+
+    p {
+      margin: 9px;
+      font-weight: 550;
+      span{
+        display: block;
+      }
+    }
+  }
+}
 .online {
   display: block;
   margin-top: 10px;
