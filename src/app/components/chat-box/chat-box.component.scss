@@ -109,38 +109,44 @@
         margin: 17px 0;
         border-radius: 9px;
         text-align: end;
-        p {
-          background: #6e00ff;
-          color: #fff;
-          padding: 6px 33px;
-          width: fit-content;
-          margin-right: 0;
-          margin: auto;
-          border-radius: 8px 0 11px 6px;
-          text-align: center;
-          margin-right: 0;
-          max-width: 250px;
-          line-break: anywhere;
+
+        ::ng-deep {
+          p {
+            background: #6e00ff;
+            color: #fff;
+            padding: 6px 33px;
+            width: fit-content;
+            margin-right: 0;
+            margin: auto;
+            border-radius: 8px 0 11px 6px;
+            text-align: center;
+            margin-right: 0;
+            max-width: 250px;
+            line-break: anywhere;
+          }
         }
       }
 
       .receive {
         width: fit-content;
 
-        p {
-          background: #514b58;
-          color: #fff;
-          padding: 6px 29px;
-          width: -moz-fit-content;
-          width: fit-content;
-          margin-right: 0;
-          margin: auto;
-          border-radius: 0 6px 8px 15px;
-          text-align: center;
-          margin-right: 0;
-          margin: 5px 5px;
-          max-width: 250px;
-          line-break: anywhere;
+        ::ng-deep {
+
+          p {
+            background: #514b58;
+            color: #fff;
+            padding: 6px 29px;
+            width: -moz-fit-content;
+            width: fit-content;
+            margin-right: 0;
+            margin: auto;
+            border-radius: 0 6px 8px 15px;
+            text-align: center;
+            margin-right: 0;
+            margin: 5px 5px;
+            max-width: 250px;
+            line-break: anywhere;
+          }
         }
       }
 
@@ -371,21 +377,21 @@
   background: #f1e9e9;
   border-radius: 5px;
   position: absolute;
-  top: 0;
   right: 3%;
-  bottom: 0;
   margin: 15px 0 0 0;
 
-  .Close{
+  .Close {
     border: 0;
     background: none;
     font-size: 18px;
     margin: 8px 0 0 15px;
   }
-  .Close:hover{
+
+  .Close:hover {
     background-color: red;
     color: #fff;
   }
+
   .contacts {
     border-bottom: 1px solid darkgrey;
     margin: 2px;
@@ -401,24 +407,27 @@
 
   }
 }
-.ContactDetails{
+
+.ContactDetails {
   text-align: end;
-  p{
-  background: #6e00ff;
-  color: #fff;
-  padding: 6px 33px;
-  width: -moz-fit-content;
-  width: fit-content;
-  margin-right: 0;
-  margin: auto;
-  border-radius: 8px 0 11px 6px;
-  text-align: center;
-  margin-right: 0;
-  max-width: 250px;
-  line-break: anywhere;
-  margin-bottom: 15px;
-  .time{
-    font-size: 10px;
-  }
+
+  p {
+    background: #6e00ff;
+    color: #fff;
+    padding: 6px 33px;
+    width: -moz-fit-content;
+    width: fit-content;
+    margin-right: 0;
+    margin: auto;
+    border-radius: 8px 0 11px 6px;
+    text-align: center;
+    margin-right: 0;
+    max-width: 250px;
+    line-break: anywhere;
+    margin-bottom: 15px;
+
+    .time {
+      font-size: 10px;
+    }
   }
 }

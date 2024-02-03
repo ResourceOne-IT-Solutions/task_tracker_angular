@@ -18,7 +18,7 @@ export class UserlistComponent {
   @ViewChild('sendMailModel', { static: false }) sendMailModel: any;
   @ViewChild('assignTicketModel', { static: false }) assignTicketModel: any;
 
-  userList: any=[];
+  userList: any = [];
   modelHeader: string = '';
   'userForm': FormGroup;
   'clientForm': FormGroup;
@@ -28,7 +28,7 @@ export class UserlistComponent {
   displayClient: boolean = true;
   loadingStaus: boolean = false;
   selectLocation: any = null;
-  searchFilter:any;
+  searchFilter: any;
   clientData: any = [];
   ticketData: any = [];
   todaysTickets: any = [];
@@ -215,15 +215,15 @@ export class UserlistComponent {
   params: any;
   MockticketData: any;
   MockClientData: any;
-  constructor(public chatservice:ChatService,
+  constructor(public chatservice: ChatService,
     private modalService: NgbModal,
     private fb: FormBuilder,
     private router: Router,
     private location: Location,
-    private route:ActivatedRoute
-    ){}
+    private route: ActivatedRoute
+  ) { }
 
-  ngOnInit(){
+  ngOnInit() {
     this.params = this.route.snapshot.routeConfig?.path?.split('-').join(' ');
     this.userForm = this.fb.group({
       fname: ['', Validators.required],
@@ -249,13 +249,12 @@ export class UserlistComponent {
     this.chatservice.getAllUsers().subscribe((res) => {
       this.userList = res;
       this.MockUsers = this.userList
-      console.log(this.userList,'384::::')
+      console.log(this.userList, '384::::')
       this.chatservice.TotalUser.next(this.userList.length)
     });
     this.chatservice.getAllClients().subscribe((res: any) => {
       this.clientData = res;
       this.MockClientData = this.clientData;
-      console.log(this.MockClientData,'258:::')
       this.cities = [
         ...new Set(this.clientData.map((res: any) => res.location.area)),
       ].filter((val: any) => val !== undefined);
@@ -276,14 +275,14 @@ export class UserlistComponent {
       );
     });
   }
-  goback(){
+  goback() {
     this.location.back()
   }
-  SearchUsers(){
-       this.userList = this.MockUsers.filter((val:any) => val.firstName.toLowerCase().indexOf(this.searchFilter.toLowerCase()) > -1);
-       this.ticketData = this.MockticketData.filter((val:any) => val.client.name.toLowerCase().indexOf(this.searchFilter.toLowerCase()) > -1)
-       this.clientData = this.MockClientData.filter((val:any) => val.firstName.toLowerCase().indexOf(this.searchFilter.toLowerCase()) > -1)
-      }
+  SearchUsers() {
+    this.userList = this.MockUsers.filter((val: any) => val.firstName.toLowerCase().indexOf(this.searchFilter.toLowerCase()) > -1);
+    this.ticketData = this.MockticketData.filter((val: any) => val.client.name.toLowerCase().indexOf(this.searchFilter.toLowerCase()) > -1)
+    this.clientData = this.MockClientData.filter((val: any) => val.firstName.toLowerCase().indexOf(this.searchFilter.toLowerCase()) > -1)
+  }
   editUser(userData: any) {
     this.addNewUser = false;
     this.modelHeader = 'Update User';
@@ -341,7 +340,7 @@ export class UserlistComponent {
   }
   UserPage(dismiss: any) {
     dismiss();
-    this.router.navigate(['../user' , this.userModelData._id], {relativeTo : this.route});
+    this.router.navigate(['../user', this.userModelData._id], { relativeTo: this.route });
   }
   newClient(dismiss: any) {
     dismiss();
@@ -395,7 +394,7 @@ export class UserlistComponent {
     });
   }
   routeToClientTickets(data: any) {
-    this.router.navigate(['/client-tickets']);
+    this.router.navigate(['../client-tickets'], { relativeTo: this.route });
     this.chatservice.getTicketId(data);
   }
   //Tickets

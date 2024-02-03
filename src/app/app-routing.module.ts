@@ -15,6 +15,7 @@ import { ViewRequestPageComponent } from './components/view-request-page/view-re
 import { UserViewComponent } from './components/user-view/user-view.component';
 import { adminGuard } from './services/admin/admin.guard';
 import { UserlistComponent } from './components/userlist/userlist.component';
+import { ClientdescriptionComponent } from './components/clientdescription/clientdescription.component';
 
 
 const routes: Routes = [
@@ -29,7 +30,7 @@ const routes: Routes = [
     component: MainDashboardComponent,
     canActivate: [guardGuard],
     children: [
-      { path: '', component: DashBoardComponent , canActivate : [guardGuard ,adminGuard] },
+      { path: '', component: DashBoardComponent, canActivate: [guardGuard, adminGuard] },
       { path: 'Chat-Box', component: ChatBoxComponent, canActivate: [guardGuard] },
       { path: 'tickets', component: TicketsComponent, canActivate: [guardGuard] },
       { path: 'user/:id', component: UserPageComponent, canActivate: [guardGuard] },
@@ -64,9 +65,14 @@ const routes: Routes = [
         component: UserlistComponent,
         canActivate: [guardGuard],
       },
+      {
+        path: 'client-description/:id',
+        component: ClientdescriptionComponent,
+        canActivate: [guardGuard],
+      },
     ]
   },
- 
+
 ];
 
 @NgModule({

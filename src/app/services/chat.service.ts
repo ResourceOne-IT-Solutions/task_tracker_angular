@@ -10,6 +10,7 @@ export class ChatService {
   RoleData = new BehaviorSubject('');
   ticketsById = new BehaviorSubject('');
   userticketsById = new BehaviorSubject('');
+  ClientDesc = new BehaviorSubject('');
   ticketRequest = new BehaviorSubject('')
   chatRequest = new BehaviorSubject('');
   TotalUser = new BehaviorSubject('');
@@ -36,6 +37,9 @@ export class ChatService {
    // ticketrequest Behavior
    ticketRequests(data: any) {
     this.ticketRequest.next(data);
+  }
+  clientdescriptiondata(data:any){
+    this.ClientDesc.next(data)
   }
   BE_SERVER = 'https://task-tracker-server-2njm.onrender.com';
   BE_LOCAL = 'http://192.168.10.30:1234';
