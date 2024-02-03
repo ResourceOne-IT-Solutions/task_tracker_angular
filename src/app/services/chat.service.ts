@@ -10,7 +10,7 @@ export class ChatService {
   RoleData = new BehaviorSubject('');
   ticketsById = new BehaviorSubject('');
   userticketsById = new BehaviorSubject('');
-  ticketRequest = new BehaviorSubject('')
+  ticketRequest = new BehaviorSubject('');
   chatRequest = new BehaviorSubject('');
   TotalUser = new BehaviorSubject('');
   private socket: Socket;
@@ -33,8 +33,8 @@ export class ChatService {
   chatRequests(data: any) {
     this.chatRequest.next(data);
   }
-   // ticketrequest Behavior
-   ticketRequests(data: any) {
+  // ticketrequest Behavior
+  ticketRequests(data: any) {
     this.ticketRequest.next(data);
   }
   BE_SERVER = 'https://task-tracker-server-2njm.onrender.com';
@@ -147,9 +147,9 @@ export class ChatService {
   sendSocketData(data: any) {
     this.socket.emit(data.key, data.data);
   }
-getDate(date=new Date()){
-  return new Date(date).toISOString()
-}
+  getDate(date = new Date()) {
+    return new Date(date).toISOString();
+  }
   // time
   getFormattedTime() {
     const d = new Date().toLocaleString().split(' ');
@@ -260,9 +260,9 @@ getDate(date=new Date()){
     }
     return 'Invalid Name';
   }
-  groupByDate(data:any , key :any) {
-    return data.reduce((acc: any, status :any) => {
-      const date= status[key]
+  groupByDate(data: any, key: any) {
+    return data.reduce((acc: any, status: any) => {
+      const date = status[key];
       if (acc[date]) {
         acc[date].push(status);
       } else {

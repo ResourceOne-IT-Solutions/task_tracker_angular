@@ -20,15 +20,15 @@ export class NavBarComponent {
   @Input() userDetails: any;
   @Input() Status: any;
   'roomCount': number;
-  'clientForm' :FormGroup
-  'TicketCreationForm' :FormGroup;
-  clientData:any
+  'clientForm': FormGroup;
+  'TicketCreationForm': FormGroup;
+  clientData: any;
   constructor(
     private router: Router,
     private chatservice: ChatService,
-    private route :ActivatedRoute,
+    private route: ActivatedRoute,
     private modalService: NgbModal,
-    private fb : FormBuilder
+    private fb: FormBuilder,
   ) {
     this.clientForm = this.fb.group({
       name: ['', Validators.required],
@@ -48,9 +48,9 @@ export class NavBarComponent {
   }
   ngOnInit() {
     this.Status = this.userDetails.status;
-    this.roomCount = Object.keys(this.userDetails.newMessages).length
+    this.roomCount = Object.keys(this.userDetails.newMessages).length;
     this.chatservice.getSocketData('statusUpdate').subscribe((res) => {
-      this.roomCount = Object.keys(this.userDetails.newMessages).length
+      this.roomCount = Object.keys(this.userDetails.newMessages).length;
     });
     this.chatservice.getAllClients().subscribe((res: any) => {
       this.clientData = res;
@@ -62,7 +62,7 @@ export class NavBarComponent {
     const logoutpayload = {
       id: this.userDetails._id,
     };
-    this.chatservice.UserLogin('')
+    this.chatservice.UserLogin('');
     this.chatservice.sendSocketData({ key: 'logout', data: logoutpayload.id });
     this.router.navigate(['/']);
   }
@@ -81,31 +81,29 @@ export class NavBarComponent {
     document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC';
   }
   OpenChatBox() {
-    this.router.navigate(['Chat-Box'],{ relativeTo: this.route });
+    this.router.navigate(['Chat-Box'], { relativeTo: this.route });
   }
   ViewRequest() {
-    this.router.navigate(['view-requestPage'],{relativeTo :this.route});
+    this.router.navigate(['view-requestPage'], { relativeTo: this.route });
   }
   ViewTicket() {
-    this.router.navigate(['tickets'] , {relativeTo :this.route});
+    this.router.navigate(['tickets'], { relativeTo: this.route });
   }
   user() {
-    this.router.navigate(['user-view-request'],{relativeTo :this.route});
+    this.router.navigate(['user-view-request'], { relativeTo: this.route });
   }
   userTickets() {
-    console.log('63:')
+    console.log('63:');
     this.chatservice.ticketRequests('');
-    this.router.navigate(['tickets'] , {relativeTo :this.route});
+    this.router.navigate(['tickets'], { relativeTo: this.route });
   }
-  gotDashBoard(){
-    this.router.navigate(['dashboard'])
+  gotDashBoard() {
+    this.router.navigate(['dashboard']);
   }
   OpenTicketModel() {
     this.modalService.open(this.ticketModel);
-
   }
-  openUserModel() {
-  }
+  openUserModel() {}
   openClientModel() {
     this.clientForm.reset();
     this.openPopup(this.clientModel);

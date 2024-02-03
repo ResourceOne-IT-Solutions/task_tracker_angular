@@ -18,7 +18,7 @@ export class MainDashboardComponent {
   constructor(
     private chatservice: ChatService,
     private idleSerive: IdleTimeService,
-    private route :ActivatedRoute
+    private route: ActivatedRoute,
   ) {}
   ngOnInit() {
     this.data = localStorage.getItem('currentTaskUser');
@@ -27,7 +27,6 @@ export class MainDashboardComponent {
     });
     this.userData$ = this.chatservice.UserLoginData.pipe(
       map((res: any) => {
-       
         if (!res.isAdmin) {
           this.idleSerive.startIdleMonitoring();
         }

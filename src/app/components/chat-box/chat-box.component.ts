@@ -29,7 +29,7 @@ export class ChatBoxComponent {
   NoUser: boolean = true;
   ChatBox: boolean = false;
   isGroup: boolean = false;
-  ClientContactModel:boolean =false;
+  ClientContactModel: boolean = false;
   noGroupAvailable: any;
   SearchFilter: any;
   filteredUsers: any = [];
@@ -37,8 +37,8 @@ export class ChatBoxComponent {
   MockGroupList: any;
   requestedChat: any;
   ClientContacts: any;
-  SelectedContact: any=[];
-  ClientContactDetails:boolean=false;
+  SelectedContact: any = [];
+  ClientContactDetails: boolean = false;
   today: number = Date.now();
   constructor(
     public chatservice: ChatService,
@@ -47,25 +47,24 @@ export class ChatBoxComponent {
     private loader: NgxSpinnerService,
     public dialog: MatDialog,
   ) {
-    this.today = Date.now()
+    this.today = Date.now();
   }
   ngOnInit() {
-    this.chatservice.getSocketData('notifications').subscribe((res:any)=>{
-      console.log(res ,'47::', this.currentUser)
-      if(res.room.includes(this.currentUser._id)){
-        if(this.currentUser.newMessages.hasOwnProperty(res.room)){
-          this.currentUser.newMessages[res.room]++
-        }else{
-          this.currentUser.newMessages[res.room] =1
+    this.chatservice.getSocketData('notifications').subscribe((res: any) => {
+      console.log(res, '47::', this.currentUser);
+      if (res.room.includes(this.currentUser._id)) {
+        if (this.currentUser.newMessages.hasOwnProperty(res.room)) {
+          this.currentUser.newMessages[res.room]++;
+        } else {
+          this.currentUser.newMessages[res.room] = 1;
         }
-        console.log(this.currentUser , 'new message')
+        console.log(this.currentUser, 'new message');
       }
-    })
+    });
     this.loader.show();
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.currentUser = res;
-      console.log('47::', this.currentUser)
-
+      console.log('47::', this.currentUser);
     });
     this.chatservice.sendSocketData({
       data: { userId: this.currentUser._id },
@@ -90,28 +89,30 @@ export class ChatBoxComponent {
                 ).status;
                 return user;
               })
-            : this.UserListData;   
+            : this.UserListData;
         }
-        if(this.requestedChat){
-          const user  = this.UserListData.find((res:any)=> res._id ===  this.requestedChat.opponent.id)
-         if(user){
-           this.SelectUser(user)
-         }
-       }
+        if (this.requestedChat) {
+          const user = this.UserListData.find(
+            (res: any) => res._id === this.requestedChat.opponent.id,
+          );
+          if (user) {
+            this.SelectUser(user);
+          }
+        }
         this.loader.hide();
         this.MockUserData = this.UserListData;
       });
     if (this.currentUser) {
       this.chatservice.getSocketData('roomMessages').subscribe((res) => {
         this.TotalMessages = res;
-        console.log(res , "123")
+        console.log(res, '123');
       });
     } else {
     }
-    this.chatservice.chatRequest.subscribe((res:any) => {
-          if(res){
-            this.requestedChat = res;
-          }
+    this.chatservice.chatRequest.subscribe((res: any) => {
+      if (res) {
+        this.requestedChat = res;
+      }
     });
     this.UserSelected = 'Test';
     this.chatservice.getSocketData('groupCreated').subscribe((res) => {
@@ -161,17 +162,20 @@ export class ChatBoxComponent {
     });
   }
   SelectUser(user: any) {
-    console.log(user,'user')
+    console.log(user, 'user');
     this.isGroup = false;
     this.UserSelected = user;
     this.NoUser = false;
     this.ChatBox = true;
-    Object.keys(this.currentUser.newMessages).forEach((val:any)=>{
+    Object.keys(this.currentUser.newMessages).forEach((val: any) => {
       if (val.includes(this.currentUser._id)) {
-        delete this.currentUser.newMessages[val] 
+        delete this.currentUser.newMessages[val];
       }
-    })
-    this.chatservice.sendSocketData({key:'updateUser' , data: this.currentUser });
+    });
+    this.chatservice.sendSocketData({
+      key: 'updateUser',
+      data: this.currentUser,
+    });
     const roomId = this.genarateRoomId(user._id, this.currentUser._id);
     this.chatservice.sendSocketData({
       key: 'joinRoom',
@@ -186,12 +190,15 @@ export class ChatBoxComponent {
     this.UserSelected = group;
     this.isGroup = true;
     this.NoUser = false;
-    Object.keys(this.currentUser.newMessages).forEach((val:any)=>{
+    Object.keys(this.currentUser.newMessages).forEach((val: any) => {
       if (val.includes(group._id)) {
-       delete this.currentUser.newMessages[val] 
+        delete this.currentUser.newMessages[val];
       }
-    })
-    this.chatservice.sendSocketData({key:'updateUser' , data: this.currentUser });
+    });
+    this.chatservice.sendSocketData({
+      key: 'updateUser',
+      data: this.currentUser,
+    });
     this.ChatBox = true;
     this.chatservice.sendSocketData({
       key: 'joinRoom',
@@ -200,22 +207,26 @@ export class ChatBoxComponent {
     this.RoomId = group._id;
   }
 
-  Contacts(){
+  Contacts() {
     this.chatservice.getAllClients().subscribe((res: any) => {
       this.ClientContacts = res;
       this.ClientContactModel = !this.ClientContactModel;
     });
   }
-  SeclectContact(contacts:any){
-    const {firstName,mobile} = contacts
+  SeclectContact(contacts: any) {
+    const { firstName, mobile } = contacts;
     // this.SelectedContact.push(contacts);
-    this.ClientContactModel=false;
+    this.ClientContactModel = false;
     this.displayIcons = false;
-    console.log(this.SelectedContact,'2299::::')
-    this.reUseableSendMessage(firstName,'contact', JSON.stringify({name:firstName,mobile}))
+    console.log(this.SelectedContact, '2299::::');
+    this.reUseableSendMessage(
+      firstName,
+      'contact',
+      JSON.stringify({ name: firstName, mobile }),
+    );
   }
-  Close(){
-    this.ClientContactModel=false;
+  Close() {
+    this.ClientContactModel = false;
   }
   sendMessage() {
     const content = this.messageText;
@@ -243,7 +254,7 @@ export class ChatBoxComponent {
       key: 'sendMessage',
       data: socketPayload,
     });
-    console.log(socketPayload,'270::::::')
+    console.log(socketPayload, '270::::::');
     this.chatservice.sendSocketData({
       data: { userId: this.currentUser._id, opponentId: this.UserSelected._id },
       key: 'newUser',
@@ -280,14 +291,14 @@ export class ChatBoxComponent {
     }
   }
   getNewMessages(id: any) {
-    let messages = 0
+    let messages = 0;
     Object.keys(this.currentUser?.newMessages).forEach((val: any) => {
-      const data = val.split('-')
+      const data = val.split('-');
       if (data.includes(id._id)) {
-        messages += this.currentUser?.newMessages[val]
+        messages += this.currentUser?.newMessages[val];
       }
-    })
-    return messages
+    });
+    return messages;
   }
   SearchUsers() {
     this.UserListData = this.MockUserData.filter(

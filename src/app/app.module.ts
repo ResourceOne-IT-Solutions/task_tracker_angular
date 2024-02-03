@@ -88,4 +88,4 @@ import { UserlistComponent } from './components/userlist/userlist.component';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

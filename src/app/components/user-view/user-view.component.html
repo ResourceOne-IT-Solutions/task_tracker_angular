@@ -26,9 +26,14 @@
           </div>
         </div>
       </li>
-      <ngx-spinner bdColor="rgba(0,0,0,0.32)" size="large" color="#8652d5" type="ball-clip-rotate-multiple"
-      [fullScreen]="false">
-    </ngx-spinner>
+      <ngx-spinner
+        bdColor="rgba(0,0,0,0.32)"
+        size="large"
+        color="#8652d5"
+        type="ball-clip-rotate-multiple"
+        [fullScreen]="false"
+      >
+      </ngx-spinner>
     </ol>
   </div>
   <div class="User-TicketRequest position-relative">
@@ -58,9 +63,14 @@
           </div>
         </div>
       </li>
-      <ngx-spinner bdColor="rgba(0,0,0,0.32)" size="large" color="#8652d5" type="ball-clip-rotate-multiple"
-      [fullScreen]="false">
-    </ngx-spinner>
+      <ngx-spinner
+        bdColor="rgba(0,0,0,0.32)"
+        size="large"
+        color="#8652d5"
+        type="ball-clip-rotate-multiple"
+        [fullScreen]="false"
+      >
+      </ngx-spinner>
     </ol>
   </div>
   <div class="User-Messages position-relative">
@@ -68,19 +78,30 @@
     <ol>
       <li *ngFor="let messages of adminMessages; let i = index">
         <div class="message">
-         <div>
-          <p>Message : {{ messages.content }}</p>
-          <p>Sent By :{{ messages.sender.name }}</p>
-          <p>Time :{{ messages.time }}</p>
-         </div>
-         <div>
-           <button  class="btn btn-primary"  [disabled]="messages.viewedBy.includes(currentuser._id)" (click)="updateMessage(messages)">Seen</button>
-         </div>
+          <div>
+            <p>Message : {{ messages.content }}</p>
+            <p>Sent By :{{ messages.sender.name }}</p>
+            <p>Time :{{ messages.time }}</p>
+          </div>
+          <div>
+            <button
+              class="btn btn-primary"
+              [disabled]="messages.viewedBy.includes(currentuser._id)"
+              (click)="updateMessage(messages)"
+            >
+              Seen
+            </button>
+          </div>
         </div>
       </li>
-      <ngx-spinner bdColor="rgba(0,0,0,0.32)" size="large" color="#8652d5" type="ball-clip-rotate-multiple"
-      [fullScreen]="false">
-    </ngx-spinner>
+      <ngx-spinner
+        bdColor="rgba(0,0,0,0.32)"
+        size="large"
+        color="#8652d5"
+        type="ball-clip-rotate-multiple"
+        [fullScreen]="false"
+      >
+      </ngx-spinner>
     </ol>
   </div>
 </div>

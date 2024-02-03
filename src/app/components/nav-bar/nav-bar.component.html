@@ -1,16 +1,22 @@
-<nav class="navbar navbar-light bg-light justify-content-between p-2" *ngIf="userDetails">
+<nav
+  class="navbar navbar-light bg-light justify-content-between p-2"
+  *ngIf="userDetails"
+>
   <a class="navbar-brand Dashboard" (click)="gotDashBoard()">Dashboard</a>
   <div class="mr-sm-2">
-
     <button class="btn btn-warning m-2">
-     <a [routerLink]="['Chat-Box']" class="text-decoration-none">Chat Box</a>
-      <span class="roomcount" *ngIf="roomCount>0">{{roomCount}}</span>
+      <a [routerLink]="['Chat-Box']" class="text-decoration-none">Chat Box</a>
+      <span class="roomcount" *ngIf="roomCount > 0">{{ roomCount }}</span>
     </button>
-    <ng-container *ngIf="!isAdmin ; else admintemplete">
+    <ng-container *ngIf="!isAdmin; else admintemplete">
       <button class="btn btn-primary ms-2 my-2 my-sm-0">
         Status :
         <select (change)="changeStatus($event)" [(ngModel)]="Status">
-          <option class="ms-3" [value]="update" *ngFor="let update of adminStatus">
+          <option
+            class="ms-3"
+            [value]="update"
+            *ngFor="let update of adminStatus"
+          >
             {{ update }}
           </option>
         </select>
@@ -28,23 +34,20 @@
   </div>
 </nav>
 
-
 <ng-template #admintemplete>
   <button class="btn btn-primary m-2" (click)="OpenTicketModel()">
     Create Ticket
   </button>
   <button class="btn btn-primary m-2" (click)="openUserModel()">
-    <a [routerLink]="['create-user']" class="text-decoration-none text-white">Add User</a>
+    <a [routerLink]="['create-user']" class="text-decoration-none text-white"
+      >Add User</a
+    >
   </button>
   <button class="btn btn-primary m-2" (click)="openClientModel()">
     Add Client
   </button>
-  <button class="btn btn-info m-2" (click)="ViewTicket()">
-    Tickets
-  </button>
-  <button class="btn btn-info m-2" (click)="ViewRequest()">
-    View Request
-  </button>
+  <button class="btn btn-info m-2" (click)="ViewTicket()">Tickets</button>
+  <button class="btn btn-info m-2" (click)="ViewRequest()">View Request</button>
 </ng-template>
 
 <ng-template #clientModel let-d="dismiss">
@@ -55,13 +58,48 @@
     <div class="row">
       <div class="col-md-12">
         <div class="form-group" [formGroup]="clientForm">
-          <input type="text" placeholder="first name" class="form-control m-2" formControlName="name" />
-          <input type="text" placeholder="location" class="form-control m-2" formControlName="location" />
-          <input type="email" placeholder="email" class="form-control m-2" formControlName="email" />
-          <input type="text" placeholder="phone number" class="form-control m-2" formControlName="mobile" />
-          <input type="text" placeholder="technologies" class="form-control m-2" formControlName="technologies" />
-          <input type="text" placeholder="applicationType" class="form-control m-2" formControlName="applicationType" />
-          <input type="text" placeholder="companyName" class="form-control m-2" formControlName="companyName" />
+          <input
+            type="text"
+            placeholder="first name"
+            class="form-control m-2"
+            formControlName="name"
+          />
+          <input
+            type="text"
+            placeholder="location"
+            class="form-control m-2"
+            formControlName="location"
+          />
+          <input
+            type="email"
+            placeholder="email"
+            class="form-control m-2"
+            formControlName="email"
+          />
+          <input
+            type="text"
+            placeholder="phone number"
+            class="form-control m-2"
+            formControlName="mobile"
+          />
+          <input
+            type="text"
+            placeholder="technologies"
+            class="form-control m-2"
+            formControlName="technologies"
+          />
+          <input
+            type="text"
+            placeholder="applicationType"
+            class="form-control m-2"
+            formControlName="applicationType"
+          />
+          <input
+            type="text"
+            placeholder="companyName"
+            class="form-control m-2"
+            formControlName="companyName"
+          />
         </div>
       </div>
     </div>
@@ -97,9 +135,17 @@
         </option>
       </select>
       <label class="ms-2">Taget Date</label>
-      <input class="form-control m-2" type="date" formControlName="targetDate" />
+      <input
+        class="form-control m-2"
+        type="date"
+        formControlName="targetDate"
+      />
       <label class="ms-2">Description</label>
-      <textarea class="form-control m-2" placeholder="description" formControlName="description"></textarea>
+      <textarea
+        class="form-control m-2"
+        placeholder="description"
+        formControlName="description"
+      ></textarea>
     </form>
   </div>
   <div class="modal-footer">

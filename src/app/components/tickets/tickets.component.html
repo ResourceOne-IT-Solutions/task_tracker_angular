@@ -64,4 +64,8 @@
     <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
   </div>
 </ng-template>
-<app-table [data]="ticketsData" [tableColumns]="ticketColumns" (description)="gotodescription($event)"></app-table>
+<app-table
+  [data]="ticketsData"
+  [tableColumns]="ticketColumns"
+  (description)="gotodescription($event)"
+></app-table>

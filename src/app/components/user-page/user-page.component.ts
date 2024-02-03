@@ -98,7 +98,7 @@ export class UserPageComponent implements OnInit {
       header: 'status',
       cell: (element: any) => `${element['status']}`,
       isText: true,
-    }
+    },
   ];
 
   displayColumns = [
@@ -144,28 +144,29 @@ export class UserPageComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    this.paramId = this.route.snapshot.paramMap.get('id')
+    this.paramId = this.route.snapshot.paramMap.get('id');
     this.chatservice.UserLoginData.subscribe((res: any) => {
       if (this.paramId) {
-        this.isAdminView = true
+        this.isAdminView = true;
       } else {
         this.currentUser = res;
-        this.breakLoginTimeings(this.currentUser)
-        this.statusByDate = this.statusGroupedByDate()
+        this.breakLoginTimeings(this.currentUser);
+        this.statusByDate = this.statusGroupedByDate();
       }
-
     });
     //AllUserList.....
     this.chatservice.getAllUsers().subscribe((res) => {
       this.userList = res;
-      console.log(this.route)
+      console.log(this.route);
       if (this.paramId) {
-        this.currentUser = this.userList.find((val: any) => val._id === this.paramId)
-        this.breakLoginTimeings(this.currentUser)
+        this.currentUser = this.userList.find(
+          (val: any) => val._id === this.paramId,
+        );
+        this.breakLoginTimeings(this.currentUser);
       }
     });
     this.chatservice.getSocketData('adminMessageToAll').subscribe((res) => {
-      console.log(res, "admin message")
+      console.log(res, 'admin message');
       alert(
         `Send By AdminName: ${res.sender.name} ,  Admin message  : ${res.content}`,
       );
@@ -173,8 +174,11 @@ export class UserPageComponent implements OnInit {
         status: 'DELIVERY',
         messageId: res._id,
         userId: this.currentUser._id,
-      }
-      this.chatservice.sendSocketData({ key: 'updateAdminMessageStatus', data: payload })
+      };
+      this.chatservice.sendSocketData({
+        key: 'updateAdminMessageStatus',
+        data: payload,
+      });
     });
 
     this.chatservice.getSocketData('statusUpdate').subscribe((res) => {
@@ -200,7 +204,9 @@ export class UserPageComponent implements OnInit {
 
     this.chatservice.getAllTickets().subscribe((res: any) => {
       if (this.currentUser) {
-        this.userTickets = res.filter((item: any) => item.user.id === this.currentUser._id);
+        this.userTickets = res.filter(
+          (item: any) => item.user.id === this.currentUser._id,
+        );
 
         (this.Resolved = this.userTickets.filter(
           (val: any) => val.status == 'Resolved',
@@ -227,9 +233,7 @@ export class UserPageComponent implements OnInit {
           this.Improper,
         );
       }
-    }
-    );
-
+    });
   }
   pieChart(
     resolved: any,
@@ -260,19 +264,19 @@ export class UserPageComponent implements OnInit {
     });
   }
   breakLoginTimeings(user: any) {
-    const statusByBreak = this.statusGroupedByDate()
-    const loginTime = this.loginTimeGroupedByDate()
+    const statusByBreak = this.statusGroupedByDate();
+    const loginTime = this.loginTimeGroupedByDate();
     this.breakTimes = statusByBreak ? statusByBreak[0] : undefined;
-    this.loginTiming = loginTime ? loginTime : undefined
-    console.log(user ,'login')
-    if(!this.isAdminView){
+    this.loginTiming = loginTime ? loginTime : undefined;
+    console.log(user, 'login');
+    if (!this.isAdminView) {
       this.ticketColumns.push({
-      columnDef: 'TicketRaised',
-      header: 'Ticket Rise',
-      cell: (element: any) =>
-        element === 'btn1' ? 'Update Ticket' : 'Request ticket',
-      isMultiButton: true,
-    })
+        columnDef: 'TicketRaised',
+        header: 'Ticket Rise',
+        cell: (element: any) =>
+          element === 'btn1' ? 'Update Ticket' : 'Request ticket',
+        isMultiButton: true,
+      });
     }
   }
   /*
@@ -282,28 +286,42 @@ export class UserPageComponent implements OnInit {
     "_id": "65bc45eb7517dbc3c35eda0e"
 }
   */
-  loginTimeGroupedByDate(){
-     const groupByTime = this.chatservice.groupByDate(this.currentUser.loginTimings, 'date');
-     return Object.keys(groupByTime).map((date) => ({
-      date: this.formatDate(date),
-      loginTime: groupByTime[date].map((time:any)=>{
-        time.inTime =time.inTime ? new Date(time.inTime).toLocaleTimeString() : ''
-        time.outTime = time.outTime ? new Date(time.outTime).toLocaleTimeString() : ''
-        return time
-      }),
-    })).sort((a: any, b: any) => a.date < b.date ? 1 : -1);
+  loginTimeGroupedByDate() {
+    const groupByTime = this.chatservice.groupByDate(
+      this.currentUser.loginTimings,
+      'date',
+    );
+    return Object.keys(groupByTime)
+      .map((date) => ({
+        date: this.formatDate(date),
+        loginTime: groupByTime[date].map((time: any) => {
+          time.inTime = time.inTime
+            ? new Date(time.inTime).toLocaleTimeString()
+            : '';
+          time.outTime = time.outTime
+            ? new Date(time.outTime).toLocaleTimeString()
+            : '';
+          return time;
+        }),
+      }))
+      .sort((a: any, b: any) => (a.date < b.date ? 1 : -1));
   }
   statusGroupedByDate() {
-    const groupedStatus = this.chatservice.groupByDate(this.currentUser.breakTime, 'startDate');
-    return Object.keys(groupedStatus).map((date) => ({
-      date: this.formatDate(date),
-      status: groupedStatus[date],
-    })).sort((a: any, b: any) => a.date < b.date ? 1 : -1);
+    const groupedStatus = this.chatservice.groupByDate(
+      this.currentUser.breakTime,
+      'startDate',
+    );
+    return Object.keys(groupedStatus)
+      .map((date) => ({
+        date: this.formatDate(date),
+        status: groupedStatus[date],
+      }))
+      .sort((a: any, b: any) => (a.date < b.date ? 1 : -1));
   }
   private formatDate(date: string): string {
     const today = new Date();
-    const statusdate = new Date(date)
-    console.log(today.toLocaleDateString(), date)
+    const statusdate = new Date(date);
+    console.log(today.toLocaleDateString(), date);
     if (today.toLocaleDateString() === statusdate.toLocaleDateString()) {
       return 'Today';
     } else {

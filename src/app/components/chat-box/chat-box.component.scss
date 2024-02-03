@@ -376,13 +376,13 @@
   bottom: 0;
   margin: 15px 0 0 0;
 
-  .Close{
+  .Close {
     border: 0;
     background: none;
     font-size: 18px;
     margin: 8px 0 0 15px;
   }
-  .Close:hover{
+  .Close:hover {
     background-color: red;
     color: #fff;
   }
@@ -398,27 +398,26 @@
   .contacts:hover {
     background: #6e00ff;
     color: #fff;
-
   }
 }
-.ContactDetails{
+.ContactDetails {
   text-align: end;
-  p{
-  background: #6e00ff;
-  color: #fff;
-  padding: 6px 33px;
-  width: -moz-fit-content;
-  width: fit-content;
-  margin-right: 0;
-  margin: auto;
-  border-radius: 8px 0 11px 6px;
-  text-align: center;
-  margin-right: 0;
-  max-width: 250px;
-  line-break: anywhere;
-  margin-bottom: 15px;
-  .time{
-    font-size: 10px;
-  }
+  p {
+    background: #6e00ff;
+    color: #fff;
+    padding: 6px 33px;
+    width: -moz-fit-content;
+    width: fit-content;
+    margin-right: 0;
+    margin: auto;
+    border-radius: 8px 0 11px 6px;
+    text-align: center;
+    margin-right: 0;
+    max-width: 250px;
+    line-break: anywhere;
+    margin-bottom: 15px;
+    .time {
+      font-size: 10px;
+    }
   }
 }

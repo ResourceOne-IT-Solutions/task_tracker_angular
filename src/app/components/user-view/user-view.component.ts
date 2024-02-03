@@ -3,7 +3,6 @@ import { Route, Router } from '@angular/router';
 import { ChatService } from 'src/app/services/chat.service';
 import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
 
-
 @Component({
   selector: 'app-user-view',
   templateUrl: './user-view.component.html',
@@ -19,7 +18,6 @@ export class UserViewComponent implements OnInit {
     private chatservice: ChatService,
     private router: Router,
     private loader: NgxSpinnerService,
-
   ) {}
 
   ngOnInit() {
@@ -54,17 +52,19 @@ export class UserViewComponent implements OnInit {
   }
   ticketRequestApproved(data: any) {
     this.chatservice.ticketRequests(data);
-    this.router.navigate(['tickets'])
+    this.router.navigate(['tickets']);
   }
-  updateMessage(message:any){
-    console.log(message , "message")
+  updateMessage(message: any) {
+    console.log(message, 'message');
     const payload = {
-      status : 'SEEN',
-      messageId : message._id , 
-      userId :this.currentuser._id,
-    }
-    message.viewedBy.push(this.currentuser._id)
-    this.chatservice.sendSocketData({key:'updateAdminMessageStatus' , data :payload})
+      status: 'SEEN',
+      messageId: message._id,
+      userId: this.currentuser._id,
+    };
+    message.viewedBy.push(this.currentuser._id);
+    this.chatservice.sendSocketData({
+      key: 'updateAdminMessageStatus',
+      data: payload,
+    });
   }
-
 }

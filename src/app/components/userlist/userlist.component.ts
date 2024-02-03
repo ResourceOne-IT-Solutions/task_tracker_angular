@@ -1,7 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
 import { ChatService } from 'src/app/services/chat.service';
 import { Column } from '../dash-board/dash-board.component';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -9,7 +14,7 @@ import { Location } from '@angular/common';
 @Component({
   selector: 'app-userlist',
   templateUrl: './userlist.component.html',
-  styleUrls: ['./userlist.component.scss']
+  styleUrls: ['./userlist.component.scss'],
 })
 export class UserlistComponent {
   @ViewChild('userModel', { static: false }) userModel: any;
@@ -18,7 +23,7 @@ export class UserlistComponent {
   @ViewChild('sendMailModel', { static: false }) sendMailModel: any;
   @ViewChild('assignTicketModel', { static: false }) assignTicketModel: any;
 
-  userList: any=[];
+  userList: any = [];
   modelHeader: string = '';
   'userForm': FormGroup;
   'clientForm': FormGroup;
@@ -28,7 +33,7 @@ export class UserlistComponent {
   displayClient: boolean = true;
   loadingStaus: boolean = false;
   selectLocation: any = null;
-  searchFilter:any;
+  searchFilter: any;
   clientData: any = [];
   ticketData: any = [];
   todaysTickets: any = [];
@@ -215,15 +220,16 @@ export class UserlistComponent {
   params: any;
   MockticketData: any;
   MockClientData: any;
-  constructor(public chatservice:ChatService,
+  constructor(
+    public chatservice: ChatService,
     private modalService: NgbModal,
     private fb: FormBuilder,
     private router: Router,
     private location: Location,
-    private route:ActivatedRoute
-    ){}
+    private route: ActivatedRoute,
+  ) {}
 
-  ngOnInit(){
+  ngOnInit() {
     this.params = this.route.snapshot.routeConfig?.path?.split('-').join(' ');
     this.userForm = this.fb.group({
       fname: ['', Validators.required],
@@ -248,14 +254,14 @@ export class UserlistComponent {
     });
     this.chatservice.getAllUsers().subscribe((res) => {
       this.userList = res;
-      this.MockUsers = this.userList
-      console.log(this.userList,'384::::')
-      this.chatservice.TotalUser.next(this.userList.length)
+      this.MockUsers = this.userList;
+      console.log(this.userList, '384::::');
+      this.chatservice.TotalUser.next(this.userList.length);
     });
     this.chatservice.getAllClients().subscribe((res: any) => {
       this.clientData = res;
       this.MockClientData = this.clientData;
-      console.log(this.MockClientData,'258:::')
+      console.log(this.MockClientData, '258:::');
       this.cities = [
         ...new Set(this.clientData.map((res: any) => res.location.area)),
       ].filter((val: any) => val !== undefined);
@@ -276,14 +282,26 @@ export class UserlistComponent {
       );
     });
   }
-  goback(){
-    this.location.back()
+  goback() {
+    this.location.back();
   }
-  SearchUsers(){
-       this.userList = this.MockUsers.filter((val:any) => val.firstName.toLowerCase().indexOf(this.searchFilter.toLowerCase()) > -1);
-       this.ticketData = this.MockticketData.filter((val:any) => val.client.name.toLowerCase().indexOf(this.searchFilter.toLowerCase()) > -1)
-       this.clientData = this.MockClientData.filter((val:any) => val.firstName.toLowerCase().indexOf(this.searchFilter.toLowerCase()) > -1)
-      }
+  SearchUsers() {
+    this.userList = this.MockUsers.filter(
+      (val: any) =>
+        val.firstName.toLowerCase().indexOf(this.searchFilter.toLowerCase()) >
+        -1,
+    );
+    this.ticketData = this.MockticketData.filter(
+      (val: any) =>
+        val.client.name.toLowerCase().indexOf(this.searchFilter.toLowerCase()) >
+        -1,
+    );
+    this.clientData = this.MockClientData.filter(
+      (val: any) =>
+        val.firstName.toLowerCase().indexOf(this.searchFilter.toLowerCase()) >
+        -1,
+    );
+  }
   editUser(userData: any) {
     this.addNewUser = false;
     this.modelHeader = 'Update User';
@@ -341,7 +359,9 @@ export class UserlistComponent {
   }
   UserPage(dismiss: any) {
     dismiss();
-    this.router.navigate(['../user' , this.userModelData._id], {relativeTo : this.route});
+    this.router.navigate(['../user', this.userModelData._id], {
+      relativeTo: this.route,
+    });
   }
   newClient(dismiss: any) {
     dismiss();
@@ -421,8 +441,7 @@ export class UserlistComponent {
         id: this.ticketDetails._id,
         data: {
           user: {
-            name:
-              this.chatservice.getFullName(this.AssignedUser),
+            name: this.chatservice.getFullName(this.AssignedUser),
             id: this.AssignedUser._id,
           },
           status: 'Assigned',
@@ -447,8 +466,7 @@ export class UserlistComponent {
         id: this.ticketDetails._id,
         data: {
           addOnResource: {
-            name:
-              this.chatservice.getFullName(this.AssignedUser),
+            name: this.chatservice.getFullName(this.AssignedUser),
             id: this.AssignedUser._id,
           },
         },
@@ -459,13 +477,11 @@ export class UserlistComponent {
             ticket: { name: res.client.name, id: res._id },
             user: { name: res.user.name, id: res.user.id },
             resource: {
-              name:
-                this.chatservice.getFullName(this.AssignedUser),
+              name: this.chatservice.getFullName(this.AssignedUser),
               id: this.AssignedUser._id,
             },
             sender: {
-              name:
-                this.chatservice.getFullName(this.adminDetails),
+              name: this.chatservice.getFullName(this.adminDetails),
               id: this.adminDetails._id,
             },
           };
@@ -489,7 +505,7 @@ export class UserlistComponent {
     const payload = {
       to: this.ticketDetails.client.email,
       content: this.description,
-      client: this.chatservice.getFullName(this.ticketDetails.client)
+      client: this.chatservice.getFullName(this.ticketDetails.client),
     };
     this.chatservice.sendMail(payload).subscribe((res) => {
       this.loadingStaus = false;

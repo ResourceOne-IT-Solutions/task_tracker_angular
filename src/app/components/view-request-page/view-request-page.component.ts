@@ -12,8 +12,8 @@ import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
 })
 export class ViewRequestPageComponent {
   type = true;
-  time:any;
-  date:any;
+  time: any;
+  date: any;
   isChatRequest = true;
   ChatRequest: any;
   ticketDetails: any;
@@ -26,13 +26,13 @@ export class ViewRequestPageComponent {
   constructor(
     private chatservice: ChatService,
     private loader: NgxSpinnerService,
-    private location:Location
+    private location: Location,
   ) {}
   ngOnInit() {
     this.loader.show();
-    this.chatservice.TotalUser.subscribe((res:any)=>{
-      this.totalUser = res
-    })
+    this.chatservice.TotalUser.subscribe((res: any) => {
+      this.totalUser = res;
+    });
     this.chatservice.getSocketData('userRequestApproved').subscribe((res) => {
       this.approvedtype = res;
     });
@@ -40,7 +40,7 @@ export class ViewRequestPageComponent {
       this.ChatRequest = res;
       this.loader.hide();
     });
-    this.chatservice.getAdminChatMessages().subscribe((res:any) => {
+    this.chatservice.getAdminChatMessages().subscribe((res: any) => {
       this.adminMessages = res;
       this.loader.hide();
     });
@@ -48,14 +48,18 @@ export class ViewRequestPageComponent {
       this.TicketRequest = res;
       this.loader.hide();
     });
-   this. time = this.chatservice.getFormattedTime();
+    this.time = this.chatservice.getFormattedTime();
     this.date = this.chatservice.getFormattedDate(new Date());
-    this.chatservice.getSocketData('adminMessageStatusUpdated').subscribe((res:any)=>{
-    this.adminMessages =  this.adminMessages.map((val:any)=>val._id === res._id ? res : val)
-    })
+    this.chatservice
+      .getSocketData('adminMessageStatusUpdated')
+      .subscribe((res: any) => {
+        this.adminMessages = this.adminMessages.map((val: any) =>
+          val._id === res._id ? res : val,
+        );
+      });
   }
-  goback(){
-    this.location.back()
+  goback() {
+    this.location.back();
   }
   approveUserChatRequest(data: any) {
     if (data) {
@@ -63,7 +67,7 @@ export class ViewRequestPageComponent {
         return res.isPending == true;
       });
       data.isPending = !data.isPending;
-      
+
       const demo = filteruser.forEach((val: any) => {
         this.chatpayload = {
           user: {
@@ -88,7 +92,7 @@ export class ViewRequestPageComponent {
       const filterticket = this.TicketRequest.filter((res: any) => {
         return res.isPending == true;
       });
-      data.isPending=!data.isPending;
+      data.isPending = !data.isPending;
       const demo = filterticket.forEach((val: any) => {
         this.ticketDetails = {
           user: {
