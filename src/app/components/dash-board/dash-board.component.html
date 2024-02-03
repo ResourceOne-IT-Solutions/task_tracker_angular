@@ -4,20 +4,11 @@
     <div class="d-flex admin-content">
       <div class="admin-page">
         <div class="d-flex justify-content-center">
-          <img
-            *ngIf="adminDetails.profileImageUrl"
-            class="adminpic"
-            src="{{ adminDetails.profileImageUrl }}"
-          />
-          <img
-            *ngIf="!adminDetails.profileImageUrl"
-            class="adminpic"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU"
-          />
+          <img *ngIf="adminDetails.profileImageUrl" class="adminpic" src="{{ adminDetails.profileImageUrl }}" />
+          <img *ngIf="!adminDetails.profileImageUrl" class="adminpic"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU" />
           <div class="mt-5 mb-5">
-            <h1 class="m-0 d-flex gap-3">
-              {{ chatservice.getFullName(adminDetails)
-              }}<span class="online"></span>
+            <h1 class="m-0 d-flex gap-3">{{ chatservice.getFullName(adminDetails) }}<span class="online"></span>
             </h1>
             <p>{{ adminDetails.designation }}</p>
           </div>
@@ -25,17 +16,9 @@
         <div class="d-flex justify-content-around">
           <div>
             <p class="fs-6 text-decoration-underline">Admin Details</p>
-            <p>
-              <span class="usersDetails">Admin Name :</span>
-              {{ chatservice.getFullName(adminDetails) }}
-            </p>
-            <p>
-              <span class="usersDetails">Email : </span>{{ adminDetails.email }}
-            </p>
-            <p>
-              <span class="usersDetails">Mobile : </span
-              >{{ adminDetails.mobile }}
-            </p>
+            <p><span class="usersDetails">Admin Name :</span> {{ chatservice.getFullName(adminDetails) }}</p>
+            <p><span class="usersDetails">Email : </span>{{ adminDetails.email }}</p>
+            <p><span class="usersDetails">Mobile : </span>{{ adminDetails.mobile }}</p>
           </div>
         </div>
       </div>
@@ -43,10 +26,7 @@
     <div class="d-flex piechart-container">
       <div class="pieChart">
         <div class="chart-legend">
-          <div
-            class="grid-item"
-            *ngFor="let label of pieChartLabels; let i = index"
-          >
+          <div class="grid-item" *ngFor="let label of pieChartLabels; let i = index">
             <span [style.color]="pieChartColors[i]">&#9632;</span>
             {{ label }}: {{ pieChartData[i] }}
           </div>
@@ -88,11 +68,7 @@
   <div class="modal-body m-2">
     <form [formGroup]="requestticketForm">
       <label class="ms-2">Request All</label>
-      <textarea
-        class="form-control m-2"
-        placeholder="description"
-        formControlName="request"
-      ></textarea>
+      <textarea class="form-control m-2" placeholder="description" formControlName="request"></textarea>
     </form>
   </div>
   <div class="modal-footer">
