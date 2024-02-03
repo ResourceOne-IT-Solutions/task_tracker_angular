@@ -14,7 +14,7 @@ Chart.register(...registerables);
 export class ClientTicketsComponent implements OnInit {
   clientDataTable: any;
   clientTicketById: any[] = [];
-  Resolved: any;
+  Closed: any;
   NotAssigned: any;
   Assigned: any;
   Pending: any;
@@ -69,8 +69,8 @@ export class ClientTicketsComponent implements OnInit {
       .getClientById(this.clientDataTable._id)
       .subscribe((res: any) => {
         this.clientTicketById = res;
-        (this.Resolved = this.clientTicketById.filter(
-          (val: any) => val.status == 'Resolved',
+        (this.Closed = this.clientTicketById.filter(
+          (val: any) => val.status == 'Closed',
         ).length),
           (this.NotAssigned = this.clientTicketById.filter(
             (val: any) => val.status == 'Not Assigned',
@@ -88,7 +88,7 @@ export class ClientTicketsComponent implements OnInit {
             (val: any) => val.status == 'In Progress',
           ).length);
         this.pieChart(
-          this.Resolved,
+          this.Closed,
           this.NotAssigned,
           this.Assigned,
           this.Pending,
@@ -110,7 +110,7 @@ export class ClientTicketsComponent implements OnInit {
       type: 'pie',
       data: {
         labels: [
-          'Resolved',
+          'Closed',
           'NotAssigned',
           'Assigned',
           'Pending',

@@ -33,7 +33,7 @@ export class DashBoardComponent {
   'TicketCreationForm': FormGroup;
   pieChartData: number[] = [];
   pieChartLabels: string[] = [
-    'Resolved',
+    'Closed',
     'Assigned',
     'Pending',
     'In Progress',
