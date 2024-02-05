@@ -94,3 +94,32 @@
   }
  
 }
+.timezone {
+  align-items: center;
+  display: flex;
+  gap: 14px;
+  text-align: center;
+  justify-content: center;
+
+  .countryTime {
+    width: 91px;
+    // border: 1px solid;
+    padding: 10px;
+    span{
+      font-weight: bold;
+    }
+    height: 81px;
+    border-radius: 50%;
+    box-shadow:
+      inset 8px 8px 8px #cbced1,
+      inset -8px -8px 8px #e7cfcf;
+
+    p {
+      margin: 9px;
+      font-weight: 550;
+      span{
+        display: block;
+      }
+    }
+  }
+}

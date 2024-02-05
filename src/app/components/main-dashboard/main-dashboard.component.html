@@ -1,4 +1,4 @@
-<div *ngIf="userData$ | async as userData">
+<div class="nav-header" *ngIf="userData$ | async as userData">
     <app-nav-bar
     [userDetails]="userData"
     [isAdmin]="userData.isAdmin"
