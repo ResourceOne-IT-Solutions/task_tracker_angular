@@ -38,6 +38,7 @@ import { CreateGroupComponent } from './components/create-group/create-group.com
 import { adminGuard } from './services/admin/admin.guard';
 import { UserlistComponent } from './components/userlist/userlist.component';
 import { TicketdescriptionComponent } from './components/ticket-description/ticket-description.component';
+import { DialogModelComponent } from './reusable/dialog-model/dialog-model.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { TicketdescriptionComponent } from './components/ticket-description/tick
     FileRenderComponent,
     CreateGroupComponent,
     UserlistComponent,
-    TicketdescriptionComponent
+    TicketdescriptionComponent,
+    DialogModelComponent
   ],
   imports: [
     BrowserModule,

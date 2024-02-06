@@ -21,6 +21,7 @@ export class LoginPageComponent {
   ErrorHandling: boolean = true;
   password: any;
   show = true;
+  showpassword:boolean = false
   fieldTextType: any = { isTrue: false };
   constructor(
     private route: Router,
@@ -61,7 +62,10 @@ export class LoginPageComponent {
     }, 1000);
     this.password = 'password';
   }
-
+  togglePassword() {
+    this.showpassword = !this.showpassword;
+    this.cd.detectChanges();
+  }
   AdminLogin() {
     this.UserDataa = true;
     this.LoginBoolean = false;
