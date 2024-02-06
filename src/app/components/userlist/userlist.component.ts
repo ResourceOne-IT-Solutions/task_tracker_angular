@@ -271,7 +271,7 @@ export class UserlistComponent {
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.adminDetails = res;
     });
-    this.chatservice.getAllTickets().subscribe((res: any) => {
+    this.chatservice.getPendingTickets().subscribe((res: any) => {
       this.ticketData = res;
       this.MockticketData = this.ticketData;
       this.todaysTickets = this.ticketData.filter(

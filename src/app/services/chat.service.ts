@@ -261,7 +261,10 @@ getDate(date=new Date()){
   sendMail(data: any) {
     return this.post('/mail/client-update', data);
   }
-
+  ticketsendmail(data:any){
+    console.log(data,'257:::::')
+    return this.post('/mail/ticket-update',data)
+  }
   // get full Name
   getFullName(data: any) {
     if (data.firstName && data.lastName) {

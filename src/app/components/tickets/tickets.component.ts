@@ -88,7 +88,7 @@ export class TicketsComponent {
           this.ticketsData = res;
         })
       } else {
-        this.chatservice.getPendingTickets().subscribe((res: any) => {
+        this.chatservice.getAllTickets().subscribe((res: any) => {
           this.mockTicketsData = res;
           this.ticketsData = res;
           this.statusData = [
@@ -100,7 +100,8 @@ export class TicketsComponent {
 
   }
   gotodescription(data: any) {
-    this.route.navigate(['../client-description', data._id], { relativeTo: this.router });
+    console.log(data,'103:::::')
+    this.route.navigate(['../ticket-description', data._id], { relativeTo: this.router });
     this.chatservice.clientdescriptiondata(data)
   }
   searchFilter() {

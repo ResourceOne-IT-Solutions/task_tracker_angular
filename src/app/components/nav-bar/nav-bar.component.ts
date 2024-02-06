@@ -123,7 +123,6 @@ export class NavBarComponent {
     this.router.navigate(['user-view-request'], { relativeTo: this.route });
   }
   userTickets() {
-    console.log('63:')
     this.chatservice.ticketRequests('');
     this.router.navigate(['tickets'], { relativeTo: this.route });
   }
