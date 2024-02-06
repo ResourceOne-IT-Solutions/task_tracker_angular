@@ -21,13 +21,13 @@ export class UserPageComponent implements OnInit {
   selectedstatus: any;
   date = new Date();
   @ViewChild('updateModel', { static: false }) updateModel: any;
-  userstatus = ['In Progress', 'Pending', 'Resolved', 'Improper Requirment'];
+  userstatus = ['In Progress', 'Pending', 'Closed', 'Improper Requirment'];
   userTickets: any = [];
   // selectedIndex:any
   modelHeader: string = '';
   userID: any = [];
   updateForm: FormGroup;
-  Resolved: any;
+  Closed: any;
   Assigned: any;
   pending: any;
   inprogress: any;
@@ -123,6 +123,9 @@ export class UserPageComponent implements OnInit {
   paramId: any;
   breakTimes: any;
   loginTiming: any;
+  'cstDate': string;
+  'pstDate': string;
+  'est': string;
   constructor(
     public chatservice: ChatService,
     private router: Router,
@@ -144,6 +147,20 @@ export class UserPageComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    setInterval(() => {
+      let Estdate = new Date();
+      this.est = Estdate.toLocaleTimeString('en-US', {
+        timeZone: 'America/New_York',
+      });
+      var myDate = new Date();
+      this.pstDate = myDate.toLocaleTimeString('en-US', {
+        timeZone: 'America/Los_Angeles',
+      });
+      var myDate = new Date();
+      this.cstDate = myDate.toLocaleTimeString('en-US', {
+        timeZone: 'America/Chicago',
+      });
+    }, 1000);
     this.paramId = this.route.snapshot.paramMap.get('id')
     this.chatservice.UserLoginData.subscribe((res: any) => {
       if (this.paramId) {
@@ -202,8 +219,8 @@ export class UserPageComponent implements OnInit {
       if (this.currentUser) {
         this.userTickets = res.filter((item: any) => item.user.id === this.currentUser._id);
 
-        (this.Resolved = this.userTickets.filter(
-          (val: any) => val.status == 'Resolved',
+        (this.Closed = this.userTickets.filter(
+          (val: any) => val.status == 'Closed',
         ).length),
           (this.Assigned = this.userTickets.filter(
             (val: any) => val.status == 'Assigned',
@@ -219,7 +236,7 @@ export class UserPageComponent implements OnInit {
             (val: any) => val.status == 'In Progress',
           ).length);
         this.pieChart(
-          this.Resolved,
+          this.Closed,
           this.Assigned,
           this.pending,
           this.inprogress,
@@ -243,7 +260,7 @@ export class UserPageComponent implements OnInit {
       type: 'pie',
       data: {
         labels: [
-          'Resolved',
+          'Closed',
           'Assigned',
           'Pending',
           'InProgress',

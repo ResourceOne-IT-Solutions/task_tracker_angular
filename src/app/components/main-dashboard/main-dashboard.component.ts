@@ -15,6 +15,7 @@ import { UserPageComponent } from '../user-page/user-page.component';
 export class MainDashboardComponent {
   data: any;
   'userData$': Observable<any>;
+  isAdmin: boolean = false;
   constructor(
     private chatservice: ChatService,
     private idleSerive: IdleTimeService,
@@ -23,16 +24,23 @@ export class MainDashboardComponent {
   ngOnInit() {
     this.data = localStorage.getItem('currentTaskUser');
     this.chatservice.getSocketData('error').subscribe((res) => {
-      alert(res);
+    //  alert(res);
     });
     this.userData$ = this.chatservice.UserLoginData.pipe(
       map((res: any) => {
-
+        this.isAdmin = res.isAdmin
         if (!res.isAdmin) {
           this.idleSerive.startIdleMonitoring();
         }
         return res;
       }),
-    );
+      );
+      this.chatservice.getSocketData('adminMessageToAll').subscribe((res) => {
+        if(!this.isAdmin){
+          alert(
+            `Send By AdminName: ${res.sender.name} ,    Admin message  : ${res.content}`,
+          );
+        }
+      });
   }
 }

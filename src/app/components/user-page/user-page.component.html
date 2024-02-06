@@ -22,15 +22,16 @@
         <p>Status :{{ currentUser.status }}</p>
         <p>Gender :{{ currentUser.gender }}</p>
         <div class="logintime" *ngIf="loginTiming?.length">
-            <h2>Login Time</h2>
-            <div *ngFor="let logintime of loginTiming">
-              <p>{{logintime.date}} : <span *ngFor="let time of logintime.loginTime">
+          <h2>Login Time</h2>
+          <div *ngFor="let logintime of loginTiming">
+            <p>{{logintime.date}} : <span *ngFor="let time of logintime.loginTime">
                 {{time.inTime}} - login :{{ time.outTime ? time.outTime : '***' }} - logout</span></p>
-            </div>
+          </div>
         </div>
         <div class="status" *ngIf="breakTimes">
           <h2>Break Time</h2>
-          <p *ngFor="let status of  breakTimes.status"><span *ngIf="status.type==='END'">Start :{{status.startTime}} - End
+          <p *ngFor="let status of  breakTimes.status"><span *ngIf="status.type==='END'">Start :{{status.startTime}} -
+              End
               :{{status.endTime}}</span></p>
         </div>
         <div>
@@ -51,12 +52,27 @@
           </button>
         </div>
       </div>
-      <div>
-        <p class="userslabel">Stats</p>
-        <div class="pieChart">
-          <canvas id="piechartdemo"> </canvas>
+      <div class="d-flex flex-column justify-content-around">
+        <div>
+          <p class="userslabel">Stats</p>
+          <div class="pieChart">
+            <canvas id="piechartdemo"> </canvas>
+          </div>
+          <p class="tickets">Total Tickets : {{ userTickets.length }}</p>
         </div>
-        <p class="tickets">Total Tickets : {{ userTickets.length }}</p>
+        <div class="timezone d-flex">
+          <div class="countryTime"><span>EST</span>
+            <p>{{ est }}
+            </p>
+         
+          </div>
+          <div class="countryTime"><span>PST</span>
+            <p>{{ pstDate }}</p>
+          </div>
+          <div class="countryTime"><span>CST</span>
+            <p>{{ cstDate }}</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>

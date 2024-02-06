@@ -88,7 +88,7 @@ export class TicketsComponent {
           this.ticketsData = res;
         })
       } else {
-        this.chatservice.getAllTickets().subscribe((res: any) => {
+        this.chatservice.getPendingTickets().subscribe((res: any) => {
           this.mockTicketsData = res;
           this.ticketsData = res;
           this.statusData = [

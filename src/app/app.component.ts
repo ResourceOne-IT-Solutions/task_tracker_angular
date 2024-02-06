@@ -10,42 +10,14 @@ import { Observable, map } from 'rxjs';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  title = 'Task-Tracker';
-  'userData$': Observable<any>;
-
   constructor(
     private route: Router,
     private chatservice: ChatService,
     private idleservice: IdleTimeService,
   ) {}
   ngOnInit(): void {
-    this.userData$ = this.chatservice.UserLoginData.pipe(
-      map((res: any) => {
-        return res;
-      }),
-    );
     // this.chatservice.getSocketData('userRequestApproved').subscribe((res) => {
     //   console.log(res, 'app:::::::::::::::::::::');
     // });
-    this.chatservice.getSocketData('adminMessageToAll').subscribe((res) => {
-      alert(
-        `Send By AdminName: ${res.sender.name} ,    Admin message  : ${res.content}`,
-      );
-    });
   }
-
-
-  // @HostListener('document:mouseover', ['$event'])
-  // onDocumentMouseOver(event: MouseEvent): void {
-  //   // Handle mouseover event
-  //   console.log('mouseover')
-  //   this.chatservice.resetIdleTimer();
-  // }
-
-  // @HostListener('document:click', ['$event'])
-  // onDocumentKeyPress(event: KeyboardEvent): void {
-  //   // Handle keypress event
-  //   console.log('keypress');
-  //   this.idleservice.resetIdleTimer();
-  // }
 }

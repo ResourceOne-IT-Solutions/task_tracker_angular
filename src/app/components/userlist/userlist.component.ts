@@ -17,7 +17,6 @@ export class UserlistComponent {
   @ViewChild('clientModel', { static: false }) clientModel: any;
   @ViewChild('sendMailModel', { static: false }) sendMailModel: any;
   @ViewChild('assignTicketModel', { static: false }) assignTicketModel: any;
-
   userList: any = [];
   modelHeader: string = '';
   'userForm': FormGroup;
@@ -32,10 +31,10 @@ export class UserlistComponent {
   clientData: any = [];
   ticketData: any = [];
   todaysTickets: any = [];
-
+  addResourceData:any = []
   genders: any = ['Male', 'Female', 'Not Specified'];
   MockUsers: any;
-  cities: any;
+  zones :any = ['EST' ,'IST', 'CST' , 'PST']
   clientDetails: any;
   ticketDetails: any;
   description: any;
@@ -142,30 +141,6 @@ export class UserlistComponent {
       isText: true,
     },
     {
-      columnDef: 'status',
-      header: 'status',
-      cell: (element: any) => `${element['status']}`,
-      isText: true,
-    },
-    {
-      columnDef: 'closedDate',
-      header: 'closed date',
-      cell: (element: any) => `${element['closedDate']}`,
-      isText: true,
-    },
-    {
-      columnDef: 'comments',
-      header: 'comments',
-      cell: (element: any) => `${element['comments']}`,
-      isText: true,
-    },
-    {
-      columnDef: 'description',
-      header: 'description',
-      cell: (element: any) => `${element['description']}`,
-      isText: true,
-    },
-    {
       columnDef: 'user',
       header: 'user name',
       cell: (element: any) => `${element['user'].name || '--'}`,
@@ -180,15 +155,44 @@ export class UserlistComponent {
     {
       columnDef: 'receivedDate',
       header: 'received Date',
-      cell: (element: any) =>
-        `${new Date(element['receivedDate']).toLocaleString()}`,
+      cell: (element: any) =>element['receivedDate'] ?  `${new Date(element['receivedDate']).toLocaleString()}`:'',
       isText: true,
     },
     {
       columnDef: 'assignedDate',
       header: 'assigned Date',
-      cell: (element: any) =>
-        `${new Date(element['assignedDate']).toLocaleString()}`,
+      cell: (element: any) =>element['assignedDate'] ?  `${new Date(element['assignedDate']).toLocaleString()}` :'',
+      isText: true,
+    },
+    {
+      columnDef: 'description',
+      header: 'description',
+      cell: (element: any) => `${element['description']}`,
+      isText: true,
+    },
+    {
+      columnDef: 'comments',
+      header: 'comments',
+      cell: (element: any) => `${element['comments']}`,
+      isText: true,
+    },
+    {
+      columnDef: 'closedDate',
+      header: 'closed date',
+      cell: (element: any) =>element['closedDate'] ? `${new Date(element['closedDate']).toLocaleString()}` : '--',
+      isText: true,
+    },
+    {
+      columnDef: 'targetDate',
+      header: 'Target Date',
+      cell: (element: any) => element['targetDate'] ? `${new Date(element['targetDate']).toLocaleString()}` :'',
+      isText: true,
+    },
+
+    {
+      columnDef: 'status',
+      header: 'status',
+      cell: (element: any) => `${element['status']}`,
       isText: true,
     },
     {
@@ -209,6 +213,12 @@ export class UserlistComponent {
       columnDef: 'Update',
       header: 'update',
       cell: (element: any) => 'Send Mail',
+      isButton: true,
+    },
+    {
+      columnDef: 'Closed',
+      header: 'Closed',
+      cell: (element: any) => element.isClosed ? 'Close' : 'Closed',
       isButton: true,
     },
   ];
@@ -233,17 +243,13 @@ export class UserlistComponent {
       dob: ['', Validators.required],
       joiningDate: ['', Validators.required],
       profileImageUrl: ['', Validators.required],
-      gender: ['', Validators.required],
       address: ['', Validators.required],
-      isAdmin: [false],
     });
     this.clientForm = this.fb.group({
-      name: ['', Validators.required],
       location: ['', Validators.required],
+      zone: ['', Validators.required],
       mobile: ['', [Validators.required, this.validateNumberLength.bind(this)]],
       technologies: ['', Validators.required],
-      email: ['', Validators.required],
-      applicationType: ['', Validators.required],
       companyName: ['', Validators.required],
     });
     this.chatservice.getAllUsers().subscribe((res) => {
@@ -267,6 +273,7 @@ export class UserlistComponent {
     });
     this.chatservice.getAllTickets().subscribe((res: any) => {
       this.ticketData = res;
+      console.log(this.ticketData , "tickets")
       this.MockticketData = this.ticketData;
       this.todaysTickets = this.ticketData.filter(
         (val: any) =>
@@ -285,7 +292,6 @@ export class UserlistComponent {
   }
   editUser(userData: any) {
     this.addNewUser = false;
-    this.modelHeader = 'Update User';
     this.openPopup(this.userModel);
     this.userForm.patchValue({
       fname: userData.firstName,
@@ -342,36 +348,20 @@ export class UserlistComponent {
     dismiss();
     this.router.navigate(['../user', this.userModelData._id], { relativeTo: this.route });
   }
-  newClient(dismiss: any) {
-    dismiss();
-    const data = {
-      firstName: this.clientForm.value.name,
-      email: this.clientForm.value.email,
-      mobile: this.clientForm.value.mobile,
-      location: { area: this.clientForm.value.location, zone: 'EST' },
-      companyName: this.clientForm.value.companyName,
-      technology: this.clientForm.value.technologies,
-      applicationType: this.clientForm.value.applicationType,
-    };
-    this.chatservice
-      .AddNewClient(data)
-      .subscribe((res) => console.log(res, 'new client res'));
-  }
+
   updateClient(dismiss: any) {
     dismiss();
     const data = {
-      firstName: this.clientForm.value.name,
-      email: this.clientForm.value.email,
       mobile: this.clientForm.value.mobile,
-      location: { area: this.clientForm.value.location, zone: 'EST' },
+      location: { area: this.clientForm.value.location, zone: this.clientForm.value.zone },
       companyName: this.clientForm.value.companyName,
       technology: this.clientForm.value.technologies,
-      applicationType: this.clientForm.value.applicationType,
     };
     const payload = {
       id: this.clientDetails._id,
       data: data,
     };
+    console.log(payload , 'upadte client payload')
     this.chatservice.updateClient(payload).subscribe((res: any) => {
       this.clientData = this.clientData.map((element: any) =>
         element._id === res._id ? res : element,
@@ -380,12 +370,12 @@ export class UserlistComponent {
   }
   editClient(clientDetails: any) {
     this.selectLocation = clientDetails.location.area ? null : undefined;
-    this.modelHeader = 'Update Client';
     this.openPopup(this.clientModel);
     this.clientDetails = clientDetails;
     this.clientForm.patchValue({
       name: clientDetails.firstName,
       location: clientDetails.location.area,
+      zone : clientDetails.location.zone,
       mobile: clientDetails.mobile,
       technologies: clientDetails.technology,
       email: clientDetails.email,
@@ -399,6 +389,9 @@ export class UserlistComponent {
   }
   //Tickets
   assignTicket(ticket: any) {
+    console.log(ticket , "ticket")
+    const userdata :any = this.MockUsers.filter((val:any)=> !val.isAdmin && val._id !== ticket.user.id)
+    this.addResourceData = userdata.filter((val:any)=>!ticket.addOnResource.map((res:any)=>res.id).includes(val._id))
     this.assignErr = '';
     this.ticketDetails = ticket;
     this.assignUser = ticket.user?.name ? 'Assign Resource' : 'Assign User';
@@ -495,23 +488,10 @@ export class UserlistComponent {
       this.mailSuccessMsg = res;
     });
   }
-
-  addUser(dismiss: any): void {
-    const Data = {
-      firstName: this.userForm.value.fname,
-      lastName: this.userForm.value.lname,
-      email: this.userForm.value.email,
-      mobile: this.userForm.value.phone,
-      password: `${this.userForm.value.fname}@123`,
-      joinedDate: this.userForm.value.joiningDate,
-      dob: this.userForm.value.dob,
-      isAdmin: this.userForm.value.isAdmin !== null,
-      gender: this.userForm.value.gender,
-      designation: 'angular',
-      profileImageUrl: this.userForm.value.profileImageUrl,
-    };
-    this.chatservice.AddNewUsers(Data).subscribe((res) => console.log(res));
-    dismiss();
-    this.userForm.reset();
+  deleteUser(user:any){
+      this.chatservice.delete(`/clients/${user._id}`).subscribe((res:any)=>console.log(res, 'user Deleted'))
+  }
+  deleteClient(client:any){
+    this.chatservice.delete(`/clients/${client._id}`).subscribe((res:any)=>console.log(res, 'Client Deleted'))
   }
 }

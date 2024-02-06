@@ -51,6 +51,7 @@
             <button
               mat-raised-button
               color="primary"
+              [disabled]="disCol.cell(element) === 'Closed'"
               (click)="onClick(element, disCol.cell(element))"
             >
               {{ disCol.cell(element) }}

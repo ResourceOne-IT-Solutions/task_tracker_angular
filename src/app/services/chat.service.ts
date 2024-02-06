@@ -85,6 +85,9 @@ export class ChatService {
   getAllTickets() {
     return this.get('/tickets');
   }
+  getPendingTickets() {
+    return this.get('/tickets/pending-tickets');
+  }
   getTicketById(ticketId: any) {
     return this.get('/tickets/' + ticketId);
   }

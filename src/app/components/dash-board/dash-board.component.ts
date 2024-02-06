@@ -33,7 +33,7 @@ export class DashBoardComponent {
   'TicketCreationForm': FormGroup;
   pieChartData: number[] = [];
   pieChartLabels: string[] = [
-    'Resolved',
+    'Closed',
     'Assigned',
     'Pending',
     'In Progress',
@@ -96,6 +96,9 @@ export class DashBoardComponent {
   UserListData: any;
   genders: any = ['Male', 'Female', 'Not Specified'];
   private chat!: Chart<'pie', any[], string>;
+  'cstDate': string;
+  'pstDate': string;
+  'est': string;
 
   constructor(
     public chatservice: ChatService,
@@ -189,6 +192,20 @@ export class DashBoardComponent {
           ).length),
           this.UserpieChart(this.Avalible, this.Offline, this.Break, this.OnTicket)
       })
+      setInterval(() => {
+        let Estdate = new Date();
+        this.est = Estdate.toLocaleTimeString('en-US', {
+          timeZone: 'America/New_York',
+        });
+        var myDate = new Date();
+        this.pstDate = myDate.toLocaleTimeString('en-US', {
+          timeZone: 'America/Los_Angeles',
+        });
+        var myDate = new Date();
+        this.cstDate = myDate.toLocaleTimeString('en-US', {
+          timeZone: 'America/Chicago',
+        });
+      }, 1000);
   }
 
   ngAfterViewInit() {
@@ -301,7 +318,7 @@ export class DashBoardComponent {
           id: this.adminDetails._id,
           name: this.chatservice.getFullName(this.adminDetails),
         },
-        content: this.requestticketForm.value.request,
+        content: this.requestticketForm,
         time: this.chatservice.getFormattedTime(),
         date: this.chatservice.getFormattedDate(new Date()),
       },
