@@ -59,7 +59,7 @@ export class TableComponent {
     this.clientnameClick.emit(data);
   }
   Description(data: any) {
-    this.clientnameClick.emit(data);
+    this.descriptionClick.emit(data);
   }
   openUserDetails(userDetails: any) {
     this.userDetails.emit(userDetails);

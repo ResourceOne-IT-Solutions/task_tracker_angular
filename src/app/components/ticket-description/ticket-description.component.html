@@ -2,6 +2,10 @@
     <button (click)="goback()" class="btn btn-danger back">Go To Back</button>
     <h1>TICKETS BY ID</h1>
     <div class="ClientDetails">
+        <div>
+            <button class="btn btn-primary back" (click)="ConvertToExcel()">Convert Excel</button>
+            <button class="btn btn-primary back" (click)="SendMail()">Send Mail</button>
+        </div>
         <p><b>Client Name :</b>{{description.client.name}}</p>
         <p><b>UserName :</b>{{description.user.name}}</p>
         <p><b>Technology :</b>{{description.technology}}</p>
@@ -10,6 +14,31 @@
         <p><b>Comments :</b>{{description.comments}}</p>
         <p><b>ReceivedDate :</b>{{description.receivedDate}}</p>
         <b>addOnResource :</b> <span>{{getaddonResource()}}</span>
-
+        <ul>
+            <li *ngFor="let updates of description.updates let i=index">
+                <p class="fw-bold text-decoration-underline ">Update {{i+1}}</p>
+               <p><span class="fw-medium">Date: &nbsp;</span> {{updates.date}}</p> 
+               <p><span class="fw-medium">Description: &nbsp;</span> {{updates.description}}</p> 
+               <p><span class="fw-medium">Comments: &nbsp;</span> {{updates.comments}}</p> 
+               <p><span class="fw-medium">Status: &nbsp;</span> {{updates.status}}</p> 
+               <p><span class="fw-medium">UpdateBy: &nbsp;</span> {{updates.updatedBy.name}}</p> 
+            </li>
+        </ul>
     </div>
 </div>
+  <!-- Send mail -->
+  <ng-template #sendMailModel let-d="dismiss">
+    <div class="modal-header p-2 m-0 fw-bold text-bg-info fs-6">Send Email:</div>
+    <div class="modal-body m-2">
+      <h3>Tickets Description:</h3>
+      <input type="text" class="form-control" [value]="CurrentUser.email" disabled />
+      <textarea class="form-control m-2" rows="8" [value]=UpdateContent(description)></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
+      <button class="btn btn-sm btn-primary" (click)="TicketsSendMail(d)">
+        {{ loadingStaus ? "loading..." : "Send Mail" }}
+      </button>
+    </div>
+    <div></div>
+  </ng-template>
