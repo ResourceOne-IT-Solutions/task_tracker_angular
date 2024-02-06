@@ -23,6 +23,7 @@ export class NavBarComponent {
   'TicketCreationForm': FormGroup;
   clientData: any
   submitted: boolean=false;
+  submitTicketForm: boolean = false;
   constructor(
     private router: Router,
     private chatservice: ChatService,
@@ -43,7 +44,7 @@ export class NavBarComponent {
       client: ['', Validators.required],
       technologies: ['', Validators.required],
       targetDate: ['', Validators.required],
-      description: ['', Validators.required],
+      description: ['',Validators.required],
     });
   }
   ngOnInit() {
@@ -55,7 +56,21 @@ export class NavBarComponent {
     this.chatservice.getAllClients().subscribe((res: any) => {
       this.clientData = res;
     });
+    this.chatservice.getSocketData('notifications').subscribe((res:any)=>{
+      if(res.id === this.userDetails._id){
+        if(this.userDetails.newMessages.hasOwnProperty(res.room)){
+          this.userDetails.newMessages[res.room]++
+        }else{
+          this.userDetails.newMessages[res.room] = 1
+        }
+        alert(`you got new ${res.type} from ${res.from.name}`)
+        this.roomCount = Object.keys(this.userDetails.newMessages).length
+        this.chatservice.UserLogin(this.userDetails)
+      }
+    })
   }
+
+  // client form 
   get client() { return this.clientForm.controls; }
   get fname() { return this.client['name'] }
   get location() { return this.client['location'] }
@@ -65,6 +80,12 @@ export class NavBarComponent {
   get applicationType() { return this.client['applicationType'] }
   get companyName() { return this.client['companyName'] }
 
+  // ticket creation form
+  get ticketform() { return this.TicketCreationForm.controls; }
+  get clientName() { return this.ticketform['client'] }
+  get tickettech() {return this.ticketform['technologies']}
+  get targetDate() {return this.ticketform['targetDate']}
+  get description() {return this.ticketform['description']}
   logout() {
     this.deleteCookie('token');
 
@@ -122,8 +143,6 @@ export class NavBarComponent {
     this.modalService.open(this.ticketModel);
 
   }
-  openUserModel() {
-  }
   openClientModel() {
     this.openPopup(this.clientModel);
   }
@@ -154,6 +173,7 @@ export class NavBarComponent {
     this.clientForm.reset();
   }
   createTicket(dismiss: any) {
+    this.submitTicketForm =true
     if (this.TicketCreationForm.valid) {
       const payload = {
         client: {
@@ -174,9 +194,9 @@ export class NavBarComponent {
       this.chatservice
         .createNewTicket(payload)
         .subscribe((res: any) => console.log(res, 'created ticket'));
+        dismiss();
+        this.TicketCreationForm.reset();
     }
-    this.TicketCreationForm.reset();
-    dismiss();
   }
   phoneValidation(evt: any) {
     console.log(this.mobile?.value)

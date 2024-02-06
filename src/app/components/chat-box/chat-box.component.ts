@@ -52,21 +52,10 @@ export class ChatBoxComponent {
     this.today = Date.now()
   }
   ngOnInit() {
-    this.chatservice.getSocketData('notifications').subscribe((res: any) => {
-      console.log(res, '47::', this.currentUser)
-      if (res.room.includes(this.currentUser._id)) {
-        if (this.currentUser.newMessages.hasOwnProperty(res.room)) {
-          this.currentUser.newMessages[res.room]++
-        } else {
-          this.currentUser.newMessages[res.room] = 1
-        }
-        console.log(this.currentUser, 'new message')
-      }
-    })
+
     this.loader.show();
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.currentUser = res;
-      console.log('47::', this.currentUser)
 
     });
     this.chatservice.sendSocketData({
@@ -100,13 +89,13 @@ export class ChatBoxComponent {
             this.SelectUser(user)
           }
         }
+        this.UserListData = this.UserListData.filter((res:any)=> res._id !== this.currentUser._id)
         this.loader.hide();
         this.MockUserData = this.UserListData;
       });
     if (this.currentUser) {
       this.chatservice.getSocketData('roomMessages').subscribe((res) => {
         this.TotalMessages = res;
-        this.scrollToBottom();
       });
     } else {
     }
@@ -163,6 +152,7 @@ export class ChatBoxComponent {
     });
   }
   SelectUser(user: any) {
+    console.log(user, 'user')
     this.isGroup = false;
     this.UserSelected = user;
     this.NoUser = false;
@@ -208,17 +198,12 @@ export class ChatBoxComponent {
     });
   }
   SeclectContact(contacts: any) {
-    const { firstName, mobile } = contacts;
+    const { firstName, mobile } = contacts
+    // this.SelectedContact.push(contacts);
     this.ClientContactModel = false;
-    this.contact = contacts
     this.displayIcons = false;
     console.log(this.SelectedContact, '2299::::')
     this.reUseableSendMessage(firstName, 'contact', JSON.stringify({ name: firstName, mobile }))
-  }
-  // scroll to function for the new message 
-
-  scrollToBottom() {
-    this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight + 10;
   }
   Close() {
     this.ClientContactModel = false;
@@ -249,6 +234,7 @@ export class ChatBoxComponent {
       key: 'sendMessage',
       data: socketPayload,
     });
+    console.log(socketPayload, '270::::::')
     this.chatservice.sendSocketData({
       data: { userId: this.currentUser._id, opponentId: this.UserSelected._id },
       key: 'newUser',

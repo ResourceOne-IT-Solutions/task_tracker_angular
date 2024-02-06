@@ -5,6 +5,8 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogModelComponent } from 'src/app/reusable/dialog-model/dialog-model.component';
 
 @Component({
   selector: 'app-userlist',
@@ -31,10 +33,10 @@ export class UserlistComponent {
   clientData: any = [];
   ticketData: any = [];
   todaysTickets: any = [];
-  addResourceData:any = []
+  addResourceData: any = []
   genders: any = ['Male', 'Female', 'Not Specified'];
   MockUsers: any;
-  zones :any = ['EST' ,'IST', 'CST' , 'PST']
+  zones: any = ['EST', 'IST', 'CST', 'PST']
   clientDetails: any;
   ticketDetails: any;
   description: any;
@@ -155,13 +157,13 @@ export class UserlistComponent {
     {
       columnDef: 'receivedDate',
       header: 'received Date',
-      cell: (element: any) =>element['receivedDate'] ?  `${new Date(element['receivedDate']).toLocaleString()}`:'',
+      cell: (element: any) => element['receivedDate'] ? `${new Date(element['receivedDate']).toLocaleString()}` : '',
       isText: true,
     },
     {
       columnDef: 'assignedDate',
       header: 'assigned Date',
-      cell: (element: any) =>element['assignedDate'] ?  `${new Date(element['assignedDate']).toLocaleString()}` :'',
+      cell: (element: any) => element['assignedDate'] ? `${new Date(element['assignedDate']).toLocaleString()}` : '',
       isText: true,
     },
     {
@@ -179,13 +181,13 @@ export class UserlistComponent {
     {
       columnDef: 'closedDate',
       header: 'closed date',
-      cell: (element: any) =>element['closedDate'] ? `${new Date(element['closedDate']).toLocaleString()}` : '--',
+      cell: (element: any) => element['closedDate'] ? `${new Date(element['closedDate']).toLocaleString()}` : '--',
       isText: true,
     },
     {
       columnDef: 'targetDate',
       header: 'Target Date',
-      cell: (element: any) => element['targetDate'] ? `${new Date(element['targetDate']).toLocaleString()}` :'',
+      cell: (element: any) => element['targetDate'] ? `${new Date(element['targetDate']).toLocaleString()}` : '',
       isText: true,
     },
 
@@ -218,7 +220,7 @@ export class UserlistComponent {
     {
       columnDef: 'Closed',
       header: 'Closed',
-      cell: (element: any) => element.isClosed ? 'Close' : 'Closed',
+      cell: (element: any) => element.isClosed ? 'Closed' : 'Close',
       isButton: true,
     },
   ];
@@ -230,7 +232,9 @@ export class UserlistComponent {
     private fb: FormBuilder,
     private router: Router,
     private location: Location,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public dialog: MatDialog,
+
   ) { }
 
   ngOnInit() {
@@ -255,13 +259,11 @@ export class UserlistComponent {
     this.chatservice.getAllUsers().subscribe((res) => {
       this.userList = res;
       this.MockUsers = this.userList
-      console.log(this.userList, '384::::')
       this.chatservice.TotalUser.next(this.userList.length)
     });
     this.chatservice.getAllClients().subscribe((res: any) => {
       this.clientData = res;
       this.MockClientData = this.clientData;
-
     });
     this.chatservice.getSocketData('statusUpdate').subscribe((res) => {
       this.adminDetails = res;
@@ -271,7 +273,6 @@ export class UserlistComponent {
     });
     this.chatservice.getPendingTickets().subscribe((res: any) => {
       this.ticketData = res;
-      console.log(this.ticketData , "tickets")
       this.MockticketData = this.ticketData;
       this.todaysTickets = this.ticketData.filter(
         (val: any) =>
@@ -280,6 +281,25 @@ export class UserlistComponent {
       );
     });
   }
+  // user form
+  get user() { return this.userForm.controls }
+  get fname() { return this.user['fname'] }
+  get lname() { return this.user['lname'] }
+  get email() { return this.user['email'] }
+  get phone() { return this.user['phone'] }
+  get dob() { return this.user['dob'] }
+  get joiningDate() { return this.user['joiningDate'] }
+  get profileImageUrl() { return this.user['profileImageUrl'] }
+  get address() { return this.user['address'] }
+
+  // client form
+  get client() { return this.clientForm.controls }
+  get clientLocation() { return this.client['location'] }
+  get zone() { return this.client['zone'] }
+  get technologies() { return this.client['technologies'] }
+  get mobile() { return this.client['mobile'] }
+  get companyName() { return this.client['companyName'] }
+
   goback() {
     this.location.back()
   }
@@ -359,7 +379,7 @@ export class UserlistComponent {
       id: this.clientDetails._id,
       data: data,
     };
-    console.log(payload , 'upadte client payload')
+    console.log(payload, 'upadte client payload')
     this.chatservice.updateClient(payload).subscribe((res: any) => {
       this.clientData = this.clientData.map((element: any) =>
         element._id === res._id ? res : element,
@@ -373,7 +393,7 @@ export class UserlistComponent {
     this.clientForm.patchValue({
       name: clientDetails.firstName,
       location: clientDetails.location.area,
-      zone : clientDetails.location.zone,
+      zone: clientDetails.location.zone,
       mobile: clientDetails.mobile,
       technologies: clientDetails.technology,
       email: clientDetails.email,
@@ -387,9 +407,9 @@ export class UserlistComponent {
   }
   //Tickets
   assignTicket(ticket: any) {
-    console.log(ticket , "ticket")
-    const userdata :any = this.MockUsers.filter((val:any)=> !val.isAdmin && val._id !== ticket.user.id)
-    this.addResourceData = userdata.filter((val:any)=>!ticket.addOnResource.map((res:any)=>res.id).includes(val._id))
+    console.log(ticket, "ticket")
+    const userdata: any = this.MockUsers.filter((val: any) => !val.isAdmin && val._id !== ticket.user.id)
+    this.addResourceData = userdata.filter((val: any) => !ticket.addOnResource.map((res: any) => res.id).includes(val._id))
     this.assignErr = '';
     this.ticketDetails = ticket;
     this.assignUser = ticket.user?.name ? 'Assign Resource' : 'Assign User';
@@ -401,10 +421,13 @@ export class UserlistComponent {
       this.openPopup(this.sendMailModel);
       this.ticketDetails = data.userDetails;
       this.description = this.ticketDetails.description;
-    } else {
+    } else if (data.name == 'Assign User' || data.name == 'Add Resource') {
       this.assignTicket(data.userDetails);
+    } else if (data.name === 'Close') {
+      this.closeTicket(data.userDetails)
     }
   }
+ 
   ticketAssign(dismiss: any) {
     if (this.assignUser == 'Assign User') {
       const payload = {
@@ -486,10 +509,56 @@ export class UserlistComponent {
       this.mailSuccessMsg = res;
     });
   }
-  deleteUser(user:any){
-      this.chatservice.delete(`/clients/${user._id}`).subscribe((res:any)=>console.log(res, 'user Deleted'))
+  closeTicket(data: any) {
+    const dialogRef = this.dialog.open(DialogModelComponent, {
+      data: { message :'Are Sure You Want To Close The Ticket ?' , btn1 : 'Yes' , btn2 : 'No' },
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if(result){
+        const ticketpayload = {
+          id: data._id,
+          data: {
+            isClosed: true
+          },
+        };
+        this.chatservice.updateTicket(ticketpayload).subscribe((res: any) => {
+          this.ticketData = this.ticketData.map((element: any) =>
+            element._id === res._id ? res : element,
+          );
+        })
+      }
+    });
+   
   }
-  deleteClient(client:any){
-    this.chatservice.delete(`/clients/${client._id}`).subscribe((res:any)=>console.log(res, 'Client Deleted'))
+  deleteUser(user: any) {
+    const dialogRef = this.dialog.open(DialogModelComponent, {
+      data: { message :'Are Sure You Want To Delete This User ?' , btn1 : 'Yes' , btn2 : 'No' },
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if(result){
+        this.chatservice.delete(`/clients/${user._id}`).subscribe((res: any) => console.log(res, 'user Deleted'))
+      }
+    })
+  }
+  deleteClient(client: any) {
+    const dialogRef = this.dialog.open(DialogModelComponent, {
+      data: { message :'Are Sure You Want To Delete This Client ?' , btn1 : 'Yes' , btn2 : 'No' },
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if(result){
+        this.chatservice.delete(`/clients/${client._id}`).subscribe((res: any) => console.log(res, 'Client Deleted'))
+      }
+    })
+  }
+  phoneValidation(evt: any) {
+    console.log(this.phone?.value)
+    const inputChar = String.fromCharCode(evt.charCode);
+    if (this.phone?.value.length > 9 || !/^\d+$/.test(inputChar)) {
+      evt.preventDefault()
+      return
+    }
   }
 }

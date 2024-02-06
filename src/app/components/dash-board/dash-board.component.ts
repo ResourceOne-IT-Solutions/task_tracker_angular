@@ -61,7 +61,6 @@ export class DashBoardComponent {
     'red',
     'blue'
   ];
-  cities: any;
   technology = ['React Saga', 'Angular', 'Python', 'Vue Js', 'JQuery'];
   user: any;
   dropdownSettings: any;
