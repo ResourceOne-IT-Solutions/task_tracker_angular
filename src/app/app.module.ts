@@ -37,7 +37,7 @@ import { FileRenderComponent } from './reusable/file-render/file-render.componen
 import { CreateGroupComponent } from './components/create-group/create-group.component';
 import { adminGuard } from './services/admin/admin.guard';
 import { UserlistComponent } from './components/userlist/userlist.component';
-import { ClientdescriptionComponent } from './components/clientdescription/clientdescription.component';
+import { TicketdescriptionComponent } from './components/ticket-description/ticket-description.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +58,7 @@ import { ClientdescriptionComponent } from './components/clientdescription/clien
     FileRenderComponent,
     CreateGroupComponent,
     UserlistComponent,
-    ClientdescriptionComponent,
+    TicketdescriptionComponent
   ],
   imports: [
     BrowserModule,

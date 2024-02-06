@@ -15,7 +15,8 @@ import { ViewRequestPageComponent } from './components/view-request-page/view-re
 import { UserViewComponent } from './components/user-view/user-view.component';
 import { adminGuard } from './services/admin/admin.guard';
 import { UserlistComponent } from './components/userlist/userlist.component';
-import { ClientdescriptionComponent } from './components/clientdescription/clientdescription.component';
+import { TicketdescriptionComponent } from './components/ticket-description/ticket-description.component';
+// import { ClientdescriptionComponent } from './components/ticket-description/ticket-description';
 
 
 const routes: Routes = [
@@ -66,8 +67,8 @@ const routes: Routes = [
         canActivate: [guardGuard],
       },
       {
-        path: 'client-description/:id',
-        component: ClientdescriptionComponent,
+        path: 'ticket-description/:id',
+        component: TicketdescriptionComponent,
         canActivate: [guardGuard],
       },
     ]

@@ -4,11 +4,11 @@ import { ActivatedRoute } from '@angular/router';
 import { ChatService } from 'src/app/services/chat.service';
 
 @Component({
-  selector: 'app-clientdescription',
-  templateUrl: './clientdescription.component.html',
-  styleUrls: ['./clientdescription.component.scss']
+  selector: 'app-ticket-description',
+  templateUrl: './ticket-description.component.html',
+  styleUrls: ['./ticket-description.component.scss']
 })
-export class ClientdescriptionComponent {
+export class TicketdescriptionComponent {
   description: any;
   paramId: any;
   constructor(private chatservice: ChatService, private route: ActivatedRoute, private location: Location) { }
