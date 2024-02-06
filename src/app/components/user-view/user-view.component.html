@@ -5,7 +5,7 @@
       <li *ngFor="let chatrequest of userChatRequest; let i = index">
         <div>
           <p>
-            {{ chatrequest.sender.name }}is Requisting to Chat with
+            {{ chatrequest.sender.name }} is Requisting to Chat with
             {{ chatrequest.opponent.name }}
           </p>
           <div *ngIf="chatrequest.isPending == true" class="isPending">
@@ -37,7 +37,7 @@
       <li *ngFor="let ticketrequest of userTicketRequest; let i = index">
         <div>
           <p>
-            {{ ticketrequest.sender.name }}is Requisting for
+            {{ ticketrequest.sender.name }} is Requisting for
             {{ ticketrequest.client.name }}
           </p>
           <div *ngIf="ticketrequest.isPending == true" class="isPending">

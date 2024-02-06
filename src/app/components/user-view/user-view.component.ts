@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Route, Router } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { ChatService } from 'src/app/services/chat.service';
 import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
 
@@ -19,6 +19,7 @@ export class UserViewComponent implements OnInit {
     private chatservice: ChatService,
     private router: Router,
     private loader: NgxSpinnerService,
+    private route : ActivatedRoute
 
   ) {}
 
@@ -28,20 +29,14 @@ export class UserViewComponent implements OnInit {
       this.currentuser = res;
     });
 
-    this.chatservice.getChatMessages().subscribe((res: any) => {
-      this.userChatRequest = res.filter(
-        (val: any) => val.sender.id === this.currentuser._id,
-      );
+    this.chatservice.getChatMessageById(this.currentuser._id).subscribe(res=>{
+      this.userChatRequest = res;
       this.loader.hide();
-    });
-
-    this.chatservice.getTickesRequest().subscribe((res: any) => {
-      this.userTicketRequest = res.filter(
-        (val: any) => val.sender.id === this.currentuser._id,
-      );
+    })
+    this.chatservice.getTickesRequestMesgById(this.currentuser._id).subscribe(res=>{
+      this.userTicketRequest = res;
       this.loader.hide();
-    });
-
+    })
     this.chatservice.getAdminChatMessages().subscribe((res) => {
       this.adminMessages = res;
       this.loader.hide();
@@ -50,11 +45,11 @@ export class UserViewComponent implements OnInit {
   chatRequestApproved(data: any) {
     this.selectedChatUser = data;
     this.chatservice.chatRequests(this.selectedChatUser);
-    this.router.navigate(['Chat-Box']);
+    this.router.navigate(['../Chat-Box'],{ relativeTo: this.route });
   }
   ticketRequestApproved(data: any) {
     this.chatservice.ticketRequests(data);
-    this.router.navigate(['tickets'])
+    this.router.navigate(['../tickets'],{ relativeTo: this.route })
   }
   updateMessage(message:any){
     console.log(message , "message")

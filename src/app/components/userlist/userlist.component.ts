@@ -261,9 +261,6 @@ export class UserlistComponent {
     this.chatservice.getAllClients().subscribe((res: any) => {
       this.clientData = res;
       this.MockClientData = this.clientData;
-      this.cities = [
-        ...new Set(this.clientData.map((res: any) => res.location.area)),
-      ].filter((val: any) => val !== undefined);
     });
     this.chatservice.getSocketData('statusUpdate').subscribe((res) => {
       this.adminDetails = res;

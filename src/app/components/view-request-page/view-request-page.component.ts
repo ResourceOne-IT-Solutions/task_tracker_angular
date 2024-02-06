@@ -19,8 +19,8 @@ export class ViewRequestPageComponent {
   ticketDetails: any;
   chatpayload: any;
   TicketRequest: any;
-
-  approvedtype: any;
+  chatDetails:any;
+  currentuser:any;
   adminMessages: any;
   totalUser: any;
   constructor(
@@ -33,8 +33,26 @@ export class ViewRequestPageComponent {
     this.chatservice.TotalUser.subscribe((res:any)=>{
       this.totalUser = res
     })
-    this.chatservice.getSocketData('userRequestApproved').subscribe((res) => {
-      this.approvedtype = res;
+    this.chatservice.UserLoginData.subscribe((res: any) => {
+      this.currentuser = res;
+    });
+    this.chatservice.getSocketData('userRequestApproved').subscribe(({type, result}) => {
+      if(type==='TICKET'){
+        console.log('ticket')
+        this.TicketRequest.forEach((tkt:any) => {
+          if (tkt._id === result._id) {
+            tkt = result
+          }
+        })
+      }
+      if(type==='CHAT'){
+        console.log('chat');
+        this.ChatRequest.forEach((chat:any) => {
+          if (chat._id === result._id) {
+            chat = result
+          }
+        })
+      }
     });
     this.chatservice.getChatMessages().subscribe((res) => {
       this.ChatRequest = res;
@@ -58,50 +76,41 @@ export class ViewRequestPageComponent {
     this.location.back()
   }
   approveUserChatRequest(data: any) {
+    data.isPending =!data.isPending;
     if (data) {
-      const filteruser = this.ChatRequest.filter((res: any) => {
-        return res.isPending == true;
-      });
-      data.isPending = !data.isPending;
       
-      const demo = filteruser.forEach((val: any) => {
-        this.chatpayload = {
-          user: {
-            name: val.sender.name,
-            id: val.sender.id,
-            time: this.chatservice.getFormattedTime(),
-            date: this.chatservice.getFormattedDate(new Date()),
-          },
-          requestId: val._id,
-          type: 'CHAT',
-          status: val.isPending === 'false',
-        };
-      });
+      this.chatDetails = {
+        user: {
+          name:this.chatservice.getFullName(this.currentuser),
+          id:  this.currentuser._id,
+          time: this.chatservice.getFormattedTime(),
+          date: this.chatservice.getFormattedDate(new Date()),
+        },
+        requestId: data._id,
+        type: 'CHAT',
+        status: false,
+      };
       this.chatservice.sendSocketData({
         key: 'approveUserRequest',
-        data: this.chatpayload,
+        data: this.chatDetails,
       });
     }
   }
   approveUserTicketRequest(data: any) {
+    data.isPending =!data.isPending;
     if (data) {
-      const filterticket = this.TicketRequest.filter((res: any) => {
-        return res.isPending == true;
-      });
-      data.isPending=!data.isPending;
-      const demo = filterticket.forEach((val: any) => {
-        this.ticketDetails = {
-          user: {
-            name: val.sender.name,
-            id: val.sender.id,
-            time: this.chatservice.getFormattedTime(),
-            date: this.chatservice.getFormattedDate(new Date()),
-          },
-          requestId: val._id,
-          type: 'TICKET',
-          status: val.isPending === 'false',
-        };
-      });
+      
+      this.ticketDetails = {
+        user: {
+          name:this.chatservice.getFullName(this.currentuser),
+          id:  this.currentuser._id,
+          time: this.chatservice.getFormattedTime(),
+          date: this.chatservice.getFormattedDate(new Date()),
+        },
+        requestId: data._id,
+        type: 'TICKET',
+        status: false,
+      };
       this.chatservice.sendSocketData({
         key: 'approveUserRequest',
         data: this.ticketDetails,

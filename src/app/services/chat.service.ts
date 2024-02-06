@@ -80,6 +80,24 @@ export class ChatService {
     return this.put('/clients/update', data);
   }
 
+  // messages api calls
+  getChatMessages() {
+    return this.get('/message/user-chat-request');
+  }
+  getChatMessageById(id:any){
+    return this.get('/message/user-chat-request/' + id);
+  }
+  getTickesRequest() {
+    return this.get('/message/user-ticket-request');
+  }
+  getTickesRequestMesgById(id:any) {
+    return this.get('/message/user-ticket-request/' + id);
+  }
+  getAdminChatMessages() {
+    return this.get('/message/admin-messages');
+  }
+
+
   // tickets api calls
 
   getAllTickets() {
@@ -91,16 +109,6 @@ export class ChatService {
   getTicketById(ticketId: any) {
     return this.get('/tickets/' + ticketId);
   }
-  getChatMessages() {
-    return this.get('/message/user-chat-request');
-  }
-  getTickesRequest() {
-    return this.get('/message/user-ticket-request');
-  }
-  getAdminChatMessages() {
-    return this.get('/message/admin-messages');
-  }
-
   createNewTicket(data: any) {
     return this.post('/tickets/create', data);
   }
