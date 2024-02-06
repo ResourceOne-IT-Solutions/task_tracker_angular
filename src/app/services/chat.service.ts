@@ -44,7 +44,7 @@ export class ChatService {
   BE_SERVER = 'https://task-tracker-server-2njm.onrender.com';
   BE_LOCAL = 'http://192.168.10.30:1234';
   BE_LOCAL2 = 'http://192.168.29.109:1234';
-  BE_URL = this.BE_SERVER;
+  BE_URL = this.BE_LOCAL;
   constructor(private http: HttpClient) {
     this.socket = io(this.BE_URL, {
       transports: ['websocket', 'polling', 'flashsocket'],

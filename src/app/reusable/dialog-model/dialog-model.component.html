@@ -1,0 +1,11 @@
+<div class="content" mat-dialog-content>
+    <mat-icon (click)="onNoClick()" class="color-danger">clear</mat-icon>
+    <p>{{data.message}}</p>
+</div>
+<div class="actions" mat-dialog-actions>
+    <button  class="btn btn-sm btn-primary" (click)="acceptClick()">
+        {{data.btn1}}
+      </button>
+  <button class="btn btn-sm btn-danger" (click)="onNoClick()">{{data.btn2}}</button>
+  
+</div>
