@@ -3,7 +3,7 @@ import { ChatService } from 'src/app/services/chat.service';
 import { Column } from '../dash-board/dash-board.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as XLSX from 'xlsx';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-tickets',
@@ -61,7 +61,7 @@ export class TicketsComponent {
       cell: (element: any) =>
         `${element['description']}`,
       isText: true,
-      isLink:true
+      isLink: true
     },
   ];
   dateData: any = ['today', 'month', '3months', 'year'];
@@ -77,7 +77,8 @@ export class TicketsComponent {
   constructor(
     private chatservice: ChatService,
     private modalService: NgbModal,
-    private route:Router
+    private route: Router,
+    private router: ActivatedRoute
   ) { }
   ngOnInit() {
     this.chatservice.ticketRequest.subscribe((res: any) => {
@@ -90,7 +91,6 @@ export class TicketsComponent {
         this.chatservice.getPendingTickets().subscribe((res: any) => {
           this.mockTicketsData = res;
           this.ticketsData = res;
-          console.log(this.ticketsData,'8888')
           this.statusData = [
             ...new Set(this.ticketsData.map((val: any) => val.status)),
           ];
@@ -99,9 +99,9 @@ export class TicketsComponent {
     })
 
   }
-  gotodescription(data:any){
-    console.log(data,'11111')
-    this.route.navigate(['/client-tickets'])
+  gotodescription(data: any) {
+    this.route.navigate(['../client-description', data._id], { relativeTo: this.router });
+    this.chatservice.clientdescriptiondata(data)
   }
   searchFilter() {
     if (!this.isFilterDate && this.isStatusSeleted) {

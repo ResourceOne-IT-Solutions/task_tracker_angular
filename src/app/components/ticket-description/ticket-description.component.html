@@ -1,0 +1,15 @@
+<div class="text-center" *ngIf="description">
+    <button (click)="goback()" class="btn btn-danger back">Go To Back</button>
+    <h1>TICKETS BY ID</h1>
+    <div class="ClientDetails">
+        <p><b>Client Name :</b>{{description.client.name}}</p>
+        <p><b>UserName :</b>{{description.user.name}}</p>
+        <p><b>Technology :</b>{{description.technology}}</p>
+        <p><b>Status :</b>{{description.status}}</p>
+        <p><b>Description :</b>{{description.description}}</p>
+        <p><b>Comments :</b>{{description.comments}}</p>
+        <p><b>ReceivedDate :</b>{{description.receivedDate}}</p>
+        <b>addOnResource :</b> <span>{{getaddonResource()}}</span>
+
+    </div>
+</div>
