@@ -15,10 +15,10 @@ export class ViewRequestPageComponent {
   time: any;
   date: any;
   isChatRequest = true;
-  ChatRequest: any;
+  ChatRequest: any = [];
   ticketDetails: any;
   chatpayload: any;
-  TicketRequest: any;
+  TicketRequest: any = [];
   chatDetails: any;
   currentuser: any;
   adminMessages: any;
@@ -27,8 +27,9 @@ export class ViewRequestPageComponent {
     private chatservice: ChatService,
     private loader: NgxSpinnerService,
     private location: Location,
-  ) {}
+  ) { }
   ngOnInit() {
+
     this.loader.show();
     this.chatservice.TotalUser.subscribe((res: any) => {
       this.totalUser = res;
@@ -58,6 +59,9 @@ export class ViewRequestPageComponent {
       this.ChatRequest = res;
       this.loader.hide();
     });
+    this.chatservice.getSocketData('chatRequest').subscribe((res) => {
+      this.ChatRequest.unshift(res)
+    });
     this.chatservice.getAdminChatMessages().subscribe((res: any) => {
       this.adminMessages = res;
       this.loader.hide();
@@ -65,6 +69,9 @@ export class ViewRequestPageComponent {
     this.chatservice.getTickesRequest().subscribe((res) => {
       this.TicketRequest = res;
       this.loader.hide();
+    });
+    this.chatservice.getSocketData('ticketsRequest').subscribe((res) => {
+      this.TicketRequest.unshift(res);
     });
     this.time = this.chatservice.getFormattedTime();
     this.date = this.chatservice.getFormattedDate(new Date());

@@ -95,15 +95,12 @@ export class DashBoardComponent {
     private modalService: NgbModal,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-  ) {}
+  ) { }
   ngOnInit() {
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.adminDetails = res;
     });
-    this.chatservice.getSocketData('chatRequest').subscribe((res) => {
-      const message = `${res.sender.name} is Requisting to Chat with ${res.opponent.name}`;
-      alert(message);
-    });
+
     this.chatservice.getSocketData('statusUpdate').subscribe((res) => {
       this.adminDetails = res;
     });
@@ -230,7 +227,7 @@ export class DashBoardComponent {
   }
   /// admin status
 
-  selectChange(data: any) {}
+  selectChange(data: any) { }
 
   // client functions
 
