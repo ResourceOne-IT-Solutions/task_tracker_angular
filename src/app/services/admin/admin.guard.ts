@@ -1,6 +1,11 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, CanActivateFn, Router } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  CanActivateFn,
+  Router,
+} from '@angular/router';
 import { Observable, map, of } from 'rxjs';
 import { ChatService } from '../chat.service';
 import { DashBoardComponent } from 'src/app/components/dash-board/dash-board.component';
@@ -23,11 +28,13 @@ export class adminGuard implements CanActivate {
       };
       return this.chatservice.getLoginSetup(httpOptions).pipe(
         map((res: any) => {
-          route.component = res.isAdmin ? DashBoardComponent :UserPageComponent
+          route.component = res.isAdmin
+            ? DashBoardComponent
+            : UserPageComponent;
           return true;
         }),
       );
     }
-    return of(false)
+    return of(false);
   }
 }

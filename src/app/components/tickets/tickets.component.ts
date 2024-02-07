@@ -58,10 +58,9 @@ export class TicketsComponent {
     {
       columnDef: 'description',
       header: 'Description',
-      cell: (element: any) =>
-        `${element['description']}`,
+      cell: (element: any) => `${element['description']}`,
       isText: true,
-      isLink: true
+      isLink: true,
     },
   ];
   dateData: any = ['today', 'month', '3months', 'year'];
@@ -78,15 +77,17 @@ export class TicketsComponent {
     private chatservice: ChatService,
     private modalService: NgbModal,
     private route: Router,
-    private router: ActivatedRoute
-  ) { }
+    private router: ActivatedRoute,
+  ) {}
   ngOnInit() {
     this.chatservice.ticketRequest.subscribe((res: any) => {
       this.selectedTicket = res;
       if (this.selectedTicket) {
-        this.chatservice.getClientById(this.selectedTicket.client?.id).subscribe((res: any) => {
-          this.ticketsData = res;
-        })
+        this.chatservice
+          .getClientById(this.selectedTicket.client?.id)
+          .subscribe((res: any) => {
+            this.ticketsData = res;
+          });
       } else {
         this.chatservice.getAllTickets().subscribe((res: any) => {
           this.mockTicketsData = res;
@@ -96,13 +97,14 @@ export class TicketsComponent {
           ];
         });
       }
-    })
-
+    });
   }
   gotodescription(data: any) {
-    console.log(data,'103:::::')
-    this.route.navigate(['../ticket-description', data._id], { relativeTo: this.router });
-    this.chatservice.clientdescriptiondata(data)
+    console.log(data, '103:::::');
+    this.route.navigate(['../ticket-description', data._id], {
+      relativeTo: this.router,
+    });
+    this.chatservice.clientdescriptiondata(data);
   }
   searchFilter() {
     if (!this.isFilterDate && this.isStatusSeleted) {
@@ -147,7 +149,7 @@ export class TicketsComponent {
     return tickets.filter(
       (res: any) =>
         res.client.name.toLowerCase().indexOf(this.searchText.toLowerCase()) >
-        -1 ||
+          -1 ||
         res.user.name.toLowerCase().indexOf(this.searchText.toLowerCase()) > -1,
     );
   }
@@ -216,7 +218,7 @@ export class TicketsComponent {
   cancel(dismiss: any) {
     dismiss();
   }
-  ConvertExcel(){
+  ConvertExcel() {
     const covertedData = this.ticketsData.map((element: any) => {
       const modifiedElement = {
         ...element,
