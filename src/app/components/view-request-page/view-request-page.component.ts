@@ -15,10 +15,10 @@ export class ViewRequestPageComponent {
   time: any;
   date: any;
   isChatRequest = true;
-  ChatRequest: any;
+  ChatRequest: any = [];
   ticketDetails: any;
   chatpayload: any;
-  TicketRequest: any;
+  TicketRequest: any = [];
   chatDetails: any;
   currentuser: any;
   adminMessages: any;
@@ -27,8 +27,9 @@ export class ViewRequestPageComponent {
     private chatservice: ChatService,
     private loader: NgxSpinnerService,
     private location: Location,
-  ) {}
+  ) { }
   ngOnInit() {
+
     this.loader.show();
     this.chatservice.TotalUser.subscribe((res: any) => {
       this.totalUser = res;
@@ -40,7 +41,6 @@ export class ViewRequestPageComponent {
       .getSocketData('userRequestApproved')
       .subscribe(({ type, result }) => {
         if (type === 'TICKET') {
-          console.log('ticket');
           this.TicketRequest.forEach((tkt: any) => {
             if (tkt._id === result._id) {
               tkt = result;
@@ -48,7 +48,6 @@ export class ViewRequestPageComponent {
           });
         }
         if (type === 'CHAT') {
-          console.log('chat');
           this.ChatRequest.forEach((chat: any) => {
             if (chat._id === result._id) {
               chat = result;
@@ -60,6 +59,9 @@ export class ViewRequestPageComponent {
       this.ChatRequest = res;
       this.loader.hide();
     });
+    this.chatservice.getSocketData('chatRequest').subscribe((res) => {
+      this.ChatRequest.unshift(res)
+    });
     this.chatservice.getAdminChatMessages().subscribe((res: any) => {
       this.adminMessages = res;
       this.loader.hide();
@@ -67,6 +69,9 @@ export class ViewRequestPageComponent {
     this.chatservice.getTickesRequest().subscribe((res) => {
       this.TicketRequest = res;
       this.loader.hide();
+    });
+    this.chatservice.getSocketData('ticketsRequest').subscribe((res) => {
+      this.TicketRequest.unshift(res);
     });
     this.time = this.chatservice.getFormattedTime();
     this.date = this.chatservice.getFormattedDate(new Date());
