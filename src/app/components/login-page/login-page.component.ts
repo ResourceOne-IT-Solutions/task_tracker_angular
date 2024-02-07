@@ -12,10 +12,8 @@ export class LoginPageComponent {
   UserData: any;
   UserDataa: boolean = false;
   LoginBoolean: boolean = true;
-  est: any;
-  pstDate: any;
-  cstDate: any;
   RoleDetails: any;
+  submitted: boolean = false
   ErrorMsg: any;
   navigateData: any;
   ErrorHandling: boolean = true;
@@ -28,7 +26,7 @@ export class LoginPageComponent {
     private fb: FormBuilder,
     private chatservice: ChatService,
     private cd: ChangeDetectorRef,
-  ) {}
+  ) { }
   'loginForm': FormGroup;
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -46,20 +44,6 @@ export class LoginPageComponent {
         this.navigateData = 'Admin';
       }
     });
-    setInterval(() => {
-      let Estdate = new Date();
-      this.est = Estdate.toLocaleTimeString('en-US', {
-        timeZone: 'America/New_York',
-      });
-      var myDate = new Date();
-      this.pstDate = myDate.toLocaleTimeString('en-US', {
-        timeZone: 'America/Los_Angeles',
-      });
-      var myDate = new Date();
-      this.cstDate = myDate.toLocaleTimeString('en-US', {
-        timeZone: 'America/Chicago',
-      });
-    }, 1000);
     this.password = 'password';
   }
   togglePassword() {
@@ -68,9 +52,10 @@ export class LoginPageComponent {
   }
   AdminLogin() {
     this.UserDataa = true;
-    this.LoginBoolean = false;
+    this.submitted = true
     const isAdmin = this.RoleDetails === 'Admin';
     if (this.loginForm.valid) {
+      this.LoginBoolean = false;
       this.chatservice
         .currentTaskUser({ ...this.loginForm.value, isAdmin })
         .subscribe(
@@ -87,7 +72,9 @@ export class LoginPageComponent {
         );
     }
   }
-
+  get login() { return this.loginForm.controls };
+  get userId() { return this.login['userId'] };
+  get pwd() { return this.login['password'] }
   getNavigate() {
     const data = this.chatservice.getRoleData(this.navigateData);
     this.loginForm.reset();

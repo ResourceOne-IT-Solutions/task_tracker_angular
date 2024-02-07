@@ -20,7 +20,7 @@ export class MainDashboardComponent {
     private chatservice: ChatService,
     private idleSerive: IdleTimeService,
     private route: ActivatedRoute,
-  ) {}
+  ) { }
   ngOnInit() {
     this.data = localStorage.getItem('currentTaskUser');
     this.chatservice.getSocketData('error').subscribe((res) => {
@@ -29,7 +29,7 @@ export class MainDashboardComponent {
     this.userData$ = this.chatservice.UserLoginData.pipe(
       map((res: any) => {
         this.isAdmin = res.isAdmin;
-        if (!res.isAdmin) {
+        if (!res.isAdmin && res.status === 'Available') {
           this.idleSerive.startIdleMonitoring();
         }
         return res;

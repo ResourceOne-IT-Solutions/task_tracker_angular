@@ -15,7 +15,9 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { User } from '../../interface/users'
 import { Chart, ChartType, registerables } from 'node_modules/chart.js';
+import { Task } from 'src/app/interface/tickets';
 @Component({
   selector: 'app-dash-board',
   templateUrl: './dash-board.component.html',
@@ -25,12 +27,10 @@ export class DashBoardComponent {
   @ViewChild('requestTicketmodal', { static: false }) requestTicketmodal: any;
 
   isAdminStatus = false;
-
-  phone: any;
   modelHeader: string = '';
-  'userForm': FormGroup;
-  'clientForm': FormGroup;
-  'TicketCreationForm': FormGroup;
+  userForm!: FormGroup;
+  clientForm!: FormGroup;
+  TicketCreationForm!: FormGroup;
   pieChartData: number[] = [];
   pieChartLabels: string[] = [
     'Closed',
@@ -51,43 +51,17 @@ export class DashBoardComponent {
     'purple',
   ];
   UserpieChartColors: string[] = ['green', 'orange', 'red', 'blue'];
-  technology = ['React Saga', 'Angular', 'Python', 'Vue Js', 'JQuery'];
-  user: any;
   dropdownSettings: any;
-  technologies: any = [];
-  userList: any = [];
-  clientData: any = [];
-  ticketData: any = [];
-  displayUsers: boolean = true;
-  displayClient: boolean = false;
-  displayTickets: boolean = false;
-  userDetails: any;
-  adminDetails: any;
-  clientDetails: any;
-  ticketDetails: any;
-  assignUser: any;
-  todaysTickets: any = [];
-  resolvedTickets: any = [];
-  pendingTickets: any = [];
-  inprogressTickets: any = [];
-  statuschange: any;
-  selectLocation: any = null;
-  selectGender: any = null;
-  requestticketForm: any;
-  assignErr: any;
-  addNewUser: boolean = false;
-  description: any;
+  ticketData: Task[] = [];
+  adminDetails!: User | undefined;
+  todaysTickets: Task[] = [];
+  requestticketForm: string = '';
   loadingStaus: boolean = false;
-  Avalible: any = [];
-  Offline: any = [];
-  Break: any = [];
-  OnTicket: any = [];
-  UserListData: any;
-  genders: any = ['Male', 'Female', 'Not Specified'];
+  UserListData!: User[];
   private chat!: Chart<'pie', any[], string>;
-  'cstDate': string;
-  'pstDate': string;
-  'est': string;
+  cstDate!: string;
+  pstDate!: string;
+  est!: string;
 
   constructor(
     public chatservice: ChatService,
@@ -95,94 +69,68 @@ export class DashBoardComponent {
     private modalService: NgbModal,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-  ) {}
+  ) { }
   ngOnInit() {
-    this.chatservice.UserLoginData.subscribe((res: any) => {
+    this.chatservice.UserLoginData.subscribe((res: User | undefined) => {
       this.adminDetails = res;
+      console.log(JSON.parse(JSON.stringify(res)), "user")
     });
     this.chatservice.getSocketData('chatRequest').subscribe((res) => {
       const message = `${res.sender.name} is Requisting to Chat with ${res.opponent.name}`;
       alert(message);
     });
-    this.chatservice.getSocketData('statusUpdate').subscribe((res) => {
+    this.chatservice.getSocketData('statusUpdate').subscribe((res: User) => {
       this.adminDetails = res;
     });
     this.chatservice.getSocketData('ticketsRequest').subscribe((res) => {
       const message = `${res.sender.name} is Requisting for ${res.client.name} Tickets`;
       alert(message);
     });
-    this.chatservice.getAllTickets().subscribe((res: any) => {
+    this.chatservice.getAllTickets().subscribe((res: Task[]) => {
       this.ticketData = res;
       this.todaysTickets = this.ticketData.filter(
-        (val: any) =>
+        (val: Task) =>
           new Date(val.receivedDate).toLocaleDateString() ===
           new Date().toLocaleDateString(),
       );
-      this.resolvedTickets = this.ticketData.filter(
-        (val: any) => val.status.toLowerCase() == 'resolved',
-      ).length;
-      this.pendingTickets = this.ticketData.filter(
-        (val: any) => val.status.toLowerCase() == 'pending',
-      ).length;
-      this.inprogressTickets = this.ticketData.filter(
-        (val: any) =>
-          val.status.toLowerCase() == 'in progress' ||
-          val.status.toLowerCase() == 'in progess',
-      ).length;
-      const assigned = this.ticketData.filter(
-        (val: any) => val.status.toLowerCase() == 'assigned',
-      ).length;
-      const improper = this.ticketData.filter(
-        (val: any) => val.status.toLowerCase() == 'Improper Requirment',
-      ).length;
-      const notAssigned = this.ticketData.filter(
-        (val: any) => val.status.toLowerCase() == 'not assigned',
-      ).length;
+      const resolvedTickets = this.getTicketStatus('resolved');
+      const pendingTickets = this.getTicketStatus('pending');
+      const inprogressTickets = this.getTicketStatus('in progress')
+      const assigned = this.getTicketStatus('assigned')
+      const improper = this.getTicketStatus('improper requirment');
+      const notAssigned = this.getTicketStatus('not assigned');
       this.pieChart(
-        this.resolvedTickets,
+        resolvedTickets,
         assigned,
-        this.pendingTickets,
-        this.inprogressTickets,
+        pendingTickets,
+        inprogressTickets,
         notAssigned,
         improper,
       );
     });
-    this.technologies = [
-      { id: 1, technology: 'Angular' },
-      { id: 2, technology: 'React Js' },
-      { id: 3, technology: 'Vue Js' },
-      { id: 4, technology: 'Python' },
-      { id: 5, technology: 'Jquery' },
-    ];
+
     this.dropdownSettings = {
       idField: 'id',
       textField: 'technology',
     };
     this.chatservice.sendSocketData({
-      data: { userId: this.adminDetails._id },
+      data: { userId: this.adminDetails?._id },
       key: 'newUser',
     });
     this.chatservice.getSocketData('newUser').subscribe(({ userPayload }) => {
-      (this.UserListData = userPayload),
-        (this.Avalible = this.UserListData.filter(
-          (val: any) => val.status == 'Available',
-        ).length),
-        (this.Offline = this.UserListData.filter(
-          (val: any) => val.status == 'Offline',
-        ).length),
-        (this.Break = this.UserListData.filter(
-          (val: any) => val.status == 'Break',
-        ).length),
-        (this.OnTicket = this.UserListData.filter(
-          (val: any) => val.status == 'On Ticket',
-        ).length),
-        this.UserpieChart(
-          this.Avalible,
-          this.Offline,
-          this.Break,
-          this.OnTicket,
-        );
+      this.UserListData = userPayload
+      const Avalible = this.getUserByStatus('available')
+      const Offline = this.getUserByStatus('offline')
+      const Break = this.getUserByStatus('break')
+      const OnTicket = this.getUserByStatus('on ticket')
+      this.UserpieChart(
+        Avalible,
+        Offline,
+        Break,
+        OnTicket,
+      );
     });
+
     setInterval(() => {
       let Estdate = new Date();
       this.est = Estdate.toLocaleTimeString('en-US', {
@@ -202,7 +150,12 @@ export class DashBoardComponent {
   ngAfterViewInit() {
     this.UserpieChart(0, 0, 0, 0);
   }
-
+  getUserByStatus(status: string) {
+    return this.UserListData.filter((val: User) => val.status.toLowerCase() == status).length
+  }
+  getTicketStatus(status: string) {
+    return this.ticketData.filter((val: Task) => val.status.toLowerCase() === status).length
+  }
   UserpieChart(avalible: any, offline: any, breakk: any, Onticket: any) {
     this.destroyPieChart();
     const canvas: any = document.getElementById('Userpiechart');
@@ -230,7 +183,7 @@ export class DashBoardComponent {
   }
   /// admin status
 
-  selectChange(data: any) {}
+  selectChange(data: any) { }
 
   // client functions
 
@@ -300,19 +253,21 @@ export class DashBoardComponent {
   }
 
   adminMessage(dismiss: any) {
-    this.chatservice.sendSocketData({
-      key: 'adminMessage',
-      data: {
-        sender: {
-          id: this.adminDetails._id,
-          name: this.chatservice.getFullName(this.adminDetails),
+    if (this.adminDetails) {
+      this.chatservice.sendSocketData({
+        key: 'adminMessage',
+        data: {
+          sender: {
+            id: this.adminDetails._id,
+            name: this.chatservice.getFullName(this.adminDetails),
+          },
+          content: this.requestticketForm,
+          time: this.chatservice.getFormattedTime(),
+          date: this.chatservice.getFormattedDate(new Date()),
         },
-        content: this.requestticketForm,
-        time: this.chatservice.getFormattedTime(),
-        date: this.chatservice.getFormattedDate(new Date()),
-      },
-    });
-    dismiss();
+      });
+      dismiss();
+    }
   }
 }
 
