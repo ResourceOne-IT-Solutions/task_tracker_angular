@@ -152,7 +152,6 @@ export class ChatBoxComponent {
     });
   }
   SelectUser(user: any) {
-    console.log(user, 'user')
     this.isGroup = false;
     this.UserSelected = user;
     this.NoUser = false;
@@ -202,7 +201,6 @@ export class ChatBoxComponent {
     // this.SelectedContact.push(contacts);
     this.ClientContactModel = false;
     this.displayIcons = false;
-    console.log(this.SelectedContact, '2299::::')
     this.reUseableSendMessage(firstName, 'contact', JSON.stringify({ name: firstName, mobile }))
   }
   Close() {
@@ -234,7 +232,6 @@ export class ChatBoxComponent {
       key: 'sendMessage',
       data: socketPayload,
     });
-    console.log(socketPayload, '270::::::')
     this.chatservice.sendSocketData({
       data: { userId: this.currentUser._id, opponentId: this.UserSelected._id },
       key: 'newUser',

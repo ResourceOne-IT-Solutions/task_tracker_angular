@@ -16,8 +16,5 @@ export class AppComponent implements OnInit {
     private idleservice: IdleTimeService,
   ) {}
   ngOnInit(): void {
-    // this.chatservice.getSocketData('userRequestApproved').subscribe((res) => {
-    //   console.log(res, 'app:::::::::::::::::::::');
-    // });
   }
 }

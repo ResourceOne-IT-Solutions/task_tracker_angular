@@ -149,10 +149,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="text-end">
+                            <div class="text-end" [ngClass]="creteuserError || isAccountcreate ? 'footer':''">
+                                    <p class="text-primary" *ngIf="isAccountcreate">Account Created Successful</p>
+                                    <p class="text-danger" *ngIf="creteuserError">{{ creteuserError }}</p>
                                     <button class="btn btn-primary" (click)="createNewUser()">Create User</button>
                             </div>
-
                         </form>
                     </div>
                 </div>

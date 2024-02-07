@@ -12,6 +12,8 @@ export class CreateUserComponent {
   genders: any = ['Male', 'Female', 'Not Specified'];
   submitted: boolean = false
   currentUser: any;
+  creteuserError: any;
+  isAccountcreate: boolean = false;
   constructor(private fb: FormBuilder, private chatservice: ChatService) {
     this.createUserForm = this.fb.group({
       fname: ['', Validators.required],
@@ -48,7 +50,6 @@ export class CreateUserComponent {
   get password() { return this.user['password'] }
 
   phoneValidation(evt: any) {
-    console.log(this.phone?.value)
     const inputChar = String.fromCharCode(evt.charCode);
     if (this.phone?.value.length > 9 || !/^\d+$/.test(inputChar)) {
       evt.preventDefault()
@@ -74,9 +75,14 @@ export class CreateUserComponent {
         profileImageUrl: this.createUserForm.value.profileImageUrl,
         createdBy: {name :this.chatservice.getFullName(this.currentUser), id : this.currentUser._id}
       };
-       console.log(Date , 'user')
-      // this.chatservice.AddNewUsers(Data).subscribe((res) => console.log(res));
-      this.createUserForm.reset();
+      this.chatservice.AddNewUsers(Data).subscribe((res)=>{
+        this.isAccountcreate = true
+        this.submitted = false
+        this.createUserForm.reset()
+      },(error)=>{
+        this.creteuserError = error.error.error
+        console.log(error)
+      });
     }
   }
 }

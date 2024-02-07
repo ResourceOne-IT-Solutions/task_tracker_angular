@@ -201,7 +201,7 @@ export class NavBarComponent {
   phoneValidation(evt: any) {
     console.log(this.mobile?.value)
     const inputChar = String.fromCharCode(evt.charCode);
-    if (this.mobile?.value.length > 9 || !/^\d+$/.test(inputChar)) {
+    if (!/^\d+$/.test(inputChar)) {
       evt.preventDefault()
       return
     }
