@@ -31,7 +31,7 @@ export class TableComponent {
   @Input() tableData: any[] = [];
   @Output() userDetails = new EventEmitter();
   @Output() singleButtonClick = new EventEmitter();
-  constructor(private loader: NgxSpinnerService) { }
+  constructor(private loader: NgxSpinnerService) {}
   ngOnInit() {
     this.loader.show();
     setTimeout(() => {

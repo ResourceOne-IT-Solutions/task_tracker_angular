@@ -15,6 +15,5 @@ export class AppComponent implements OnInit {
     private chatservice: ChatService,
     private idleservice: IdleTimeService,
   ) {}
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 }

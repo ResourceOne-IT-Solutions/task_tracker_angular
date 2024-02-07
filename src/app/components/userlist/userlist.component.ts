@@ -1,7 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
 import { ChatService } from 'src/app/services/chat.service';
 import { Column } from '../dash-board/dash-board.component';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -11,7 +16,7 @@ import { DialogModelComponent } from 'src/app/reusable/dialog-model/dialog-model
 @Component({
   selector: 'app-userlist',
   templateUrl: './userlist.component.html',
-  styleUrls: ['./userlist.component.scss']
+  styleUrls: ['./userlist.component.scss'],
 })
 export class UserlistComponent {
   @ViewChild('userModel', { static: false }) userModel: any;
@@ -33,10 +38,10 @@ export class UserlistComponent {
   clientData: any = [];
   ticketData: any = [];
   todaysTickets: any = [];
-  addResourceData: any = []
+  addResourceData: any = [];
   genders: any = ['Male', 'Female', 'Not Specified'];
   MockUsers: any;
-  zones: any = ['EST', 'IST', 'CST', 'PST']
+  zones: any = ['EST', 'IST', 'CST', 'PST'];
   clientDetails: any;
   ticketDetails: any;
   description: any;
@@ -157,13 +162,19 @@ export class UserlistComponent {
     {
       columnDef: 'receivedDate',
       header: 'received Date',
-      cell: (element: any) => element['receivedDate'] ? `${new Date(element['receivedDate']).toLocaleString()}` : '',
+      cell: (element: any) =>
+        element['receivedDate']
+          ? `${new Date(element['receivedDate']).toLocaleString()}`
+          : '',
       isText: true,
     },
     {
       columnDef: 'assignedDate',
       header: 'assigned Date',
-      cell: (element: any) => element['assignedDate'] ? `${new Date(element['assignedDate']).toLocaleString()}` : '',
+      cell: (element: any) =>
+        element['assignedDate']
+          ? `${new Date(element['assignedDate']).toLocaleString()}`
+          : '',
       isText: true,
     },
     {
@@ -181,13 +192,19 @@ export class UserlistComponent {
     {
       columnDef: 'closedDate',
       header: 'closed date',
-      cell: (element: any) => element['closedDate'] ? `${new Date(element['closedDate']).toLocaleString()}` : '--',
+      cell: (element: any) =>
+        element['closedDate']
+          ? `${new Date(element['closedDate']).toLocaleString()}`
+          : '--',
       isText: true,
     },
     {
       columnDef: 'targetDate',
       header: 'Target Date',
-      cell: (element: any) => element['targetDate'] ? `${new Date(element['targetDate']).toLocaleString()}` : '',
+      cell: (element: any) =>
+        element['targetDate']
+          ? `${new Date(element['targetDate']).toLocaleString()}`
+          : '',
       isText: true,
     },
 
@@ -220,22 +237,22 @@ export class UserlistComponent {
     {
       columnDef: 'Closed',
       header: 'Closed',
-      cell: (element: any) => element.isClosed ? 'Closed' : 'Close',
+      cell: (element: any) => (element.isClosed ? 'Closed' : 'Close'),
       isButton: true,
     },
   ];
   params: any;
   MockticketData: any;
   MockClientData: any;
-  constructor(public chatservice: ChatService,
+  constructor(
+    public chatservice: ChatService,
     private modalService: NgbModal,
     private fb: FormBuilder,
     private router: Router,
     private location: Location,
     private route: ActivatedRoute,
     public dialog: MatDialog,
-
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.params = this.route.snapshot.routeConfig?.path?.split('-').join(' ');
@@ -258,8 +275,8 @@ export class UserlistComponent {
     });
     this.chatservice.getAllUsers().subscribe((res) => {
       this.userList = res;
-      this.MockUsers = this.userList
-      this.chatservice.TotalUser.next(this.userList.length)
+      this.MockUsers = this.userList;
+      this.chatservice.TotalUser.next(this.userList.length);
     });
     this.chatservice.getAllClients().subscribe((res: any) => {
       this.clientData = res;
@@ -282,31 +299,73 @@ export class UserlistComponent {
     });
   }
   // user form
-  get user() { return this.userForm.controls }
-  get fname() { return this.user['fname'] }
-  get lname() { return this.user['lname'] }
-  get email() { return this.user['email'] }
-  get phone() { return this.user['phone'] }
-  get dob() { return this.user['dob'] }
-  get joiningDate() { return this.user['joiningDate'] }
-  get profileImageUrl() { return this.user['profileImageUrl'] }
-  get address() { return this.user['address'] }
+  get user() {
+    return this.userForm.controls;
+  }
+  get fname() {
+    return this.user['fname'];
+  }
+  get lname() {
+    return this.user['lname'];
+  }
+  get email() {
+    return this.user['email'];
+  }
+  get phone() {
+    return this.user['phone'];
+  }
+  get dob() {
+    return this.user['dob'];
+  }
+  get joiningDate() {
+    return this.user['joiningDate'];
+  }
+  get profileImageUrl() {
+    return this.user['profileImageUrl'];
+  }
+  get address() {
+    return this.user['address'];
+  }
 
   // client form
-  get client() { return this.clientForm.controls }
-  get clientLocation() { return this.client['location'] }
-  get zone() { return this.client['zone'] }
-  get technologies() { return this.client['technologies'] }
-  get mobile() { return this.client['mobile'] }
-  get companyName() { return this.client['companyName'] }
+  get client() {
+    return this.clientForm.controls;
+  }
+  get clientLocation() {
+    return this.client['location'];
+  }
+  get zone() {
+    return this.client['zone'];
+  }
+  get technologies() {
+    return this.client['technologies'];
+  }
+  get mobile() {
+    return this.client['mobile'];
+  }
+  get companyName() {
+    return this.client['companyName'];
+  }
 
   goback() {
-    this.location.back()
+    this.location.back();
   }
   SearchUsers() {
-    this.userList = this.MockUsers.filter((val: any) => val.firstName.toLowerCase().indexOf(this.searchFilter.toLowerCase()) > -1);
-    this.ticketData = this.MockticketData.filter((val: any) => val.client.name.toLowerCase().indexOf(this.searchFilter.toLowerCase()) > -1)
-    this.clientData = this.MockClientData.filter((val: any) => val.firstName.toLowerCase().indexOf(this.searchFilter.toLowerCase()) > -1)
+    this.userList = this.MockUsers.filter(
+      (val: any) =>
+        val.firstName.toLowerCase().indexOf(this.searchFilter.toLowerCase()) >
+        -1,
+    );
+    this.ticketData = this.MockticketData.filter(
+      (val: any) =>
+        val.client.name.toLowerCase().indexOf(this.searchFilter.toLowerCase()) >
+        -1,
+    );
+    this.clientData = this.MockClientData.filter(
+      (val: any) =>
+        val.firstName.toLowerCase().indexOf(this.searchFilter.toLowerCase()) >
+        -1,
+    );
   }
   editUser(userData: any) {
     this.addNewUser = false;
@@ -364,14 +423,19 @@ export class UserlistComponent {
   }
   UserPage(dismiss: any) {
     dismiss();
-    this.router.navigate(['../user', this.userModelData._id], { relativeTo: this.route });
+    this.router.navigate(['../user', this.userModelData._id], {
+      relativeTo: this.route,
+    });
   }
 
   updateClient(dismiss: any) {
     dismiss();
     const data = {
       mobile: this.clientForm.value.mobile,
-      location: { area: this.clientForm.value.location, zone: this.clientForm.value.zone },
+      location: {
+        area: this.clientForm.value.location,
+        zone: this.clientForm.value.zone,
+      },
       companyName: this.clientForm.value.companyName,
       technology: this.clientForm.value.technologies,
     };
@@ -379,7 +443,7 @@ export class UserlistComponent {
       id: this.clientDetails._id,
       data: data,
     };
-    console.log(payload, 'upadte client payload')
+    console.log(payload, 'upadte client payload');
     this.chatservice.updateClient(payload).subscribe((res: any) => {
       this.clientData = this.clientData.map((element: any) =>
         element._id === res._id ? res : element,
@@ -407,9 +471,14 @@ export class UserlistComponent {
   }
   //Tickets
   assignTicket(ticket: any) {
-    console.log(ticket, "ticket")
-    const userdata: any = this.MockUsers.filter((val: any) => !val.isAdmin && val._id !== ticket.user.id)
-    this.addResourceData = userdata.filter((val: any) => !ticket.addOnResource.map((res: any) => res.id).includes(val._id))
+    console.log(ticket, 'ticket');
+    const userdata: any = this.MockUsers.filter(
+      (val: any) => !val.isAdmin && val._id !== ticket.user.id,
+    );
+    this.addResourceData = userdata.filter(
+      (val: any) =>
+        !ticket.addOnResource.map((res: any) => res.id).includes(val._id),
+    );
     this.assignErr = '';
     this.ticketDetails = ticket;
     this.assignUser = ticket.user?.name ? 'Assign Resource' : 'Assign User';
@@ -424,18 +493,17 @@ export class UserlistComponent {
     } else if (data.name == 'Assign User' || data.name == 'Add Resource') {
       this.assignTicket(data.userDetails);
     } else if (data.name === 'Close') {
-      this.closeTicket(data.userDetails)
+      this.closeTicket(data.userDetails);
     }
   }
- 
+
   ticketAssign(dismiss: any) {
     if (this.assignUser == 'Assign User') {
       const payload = {
         id: this.ticketDetails._id,
         data: {
           user: {
-            name:
-              this.chatservice.getFullName(this.AssignedUser),
+            name: this.chatservice.getFullName(this.AssignedUser),
             id: this.AssignedUser._id,
           },
           status: 'Assigned',
@@ -460,8 +528,7 @@ export class UserlistComponent {
         id: this.ticketDetails._id,
         data: {
           addOnResource: {
-            name:
-              this.chatservice.getFullName(this.AssignedUser),
+            name: this.chatservice.getFullName(this.AssignedUser),
             id: this.AssignedUser._id,
           },
         },
@@ -472,13 +539,11 @@ export class UserlistComponent {
             ticket: { name: res.client.name, id: res._id },
             user: { name: res.user.name, id: res.user.id },
             resource: {
-              name:
-                this.chatservice.getFullName(this.AssignedUser),
+              name: this.chatservice.getFullName(this.AssignedUser),
               id: this.AssignedUser._id,
             },
             sender: {
-              name:
-                this.chatservice.getFullName(this.adminDetails),
+              name: this.chatservice.getFullName(this.adminDetails),
               id: this.adminDetails._id,
             },
           };
@@ -502,7 +567,7 @@ export class UserlistComponent {
     const payload = {
       to: this.ticketDetails.client.email,
       content: this.description,
-      client: this.chatservice.getFullName(this.ticketDetails.client)
+      client: this.chatservice.getFullName(this.ticketDetails.client),
     };
     this.chatservice.sendMail(payload).subscribe((res) => {
       this.loadingStaus = false;
@@ -511,54 +576,69 @@ export class UserlistComponent {
   }
   closeTicket(data: any) {
     const dialogRef = this.dialog.open(DialogModelComponent, {
-      data: { message :'Are Sure You Want To Close The Ticket ?' , btn1 : 'Yes' , btn2 : 'No' },
+      data: {
+        message: 'Are Sure You Want To Close The Ticket ?',
+        btn1: 'Yes',
+        btn2: 'No',
+      },
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      if(result){
+      if (result) {
         const ticketpayload = {
           id: data._id,
           data: {
-            isClosed: true
+            isClosed: true,
           },
         };
         this.chatservice.updateTicket(ticketpayload).subscribe((res: any) => {
           this.ticketData = this.ticketData.map((element: any) =>
             element._id === res._id ? res : element,
           );
-        })
+        });
       }
     });
-   
   }
   deleteUser(user: any) {
     const dialogRef = this.dialog.open(DialogModelComponent, {
-      data: { message :'Are Sure You Want To Delete This User ?' , btn1 : 'Yes' , btn2 : 'No' },
+      data: {
+        message: 'Are Sure You Want To Delete This User ?',
+        btn1: 'Yes',
+        btn2: 'No',
+      },
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      if(result){
-        this.chatservice.delete(`/clients/${user._id}`).subscribe((res: any) => console.log(res, 'user Deleted'))
+      if (result) {
+        this.chatservice
+          .delete(`/clients/${user._id}`)
+          .subscribe((res: any) => console.log(res, 'user Deleted'));
       }
-    })
+    });
   }
   deleteClient(client: any) {
     const dialogRef = this.dialog.open(DialogModelComponent, {
-      data: { message :'Are Sure You Want To Delete This Client ?' , btn1 : 'Yes' , btn2 : 'No' },
+      data: {
+        message: 'Are Sure You Want To Delete This Client ?',
+        btn1: 'Yes',
+        btn2: 'No',
+      },
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      if(result){
-        this.chatservice.delete(`/clients/${client._id}`).subscribe((res: any) => console.log(res, 'Client Deleted'))
+      if (result) {
+        this.chatservice
+          .delete(`/clients/${client._id}`)
+          .subscribe((res: any) => console.log(res, 'Client Deleted'));
       }
-    })
+    });
   }
   phoneValidation(evt: any) {
-    console.log(this.phone?.value)
+    console.log(this.phone?.value);
     const inputChar = String.fromCharCode(evt.charCode);
     if (this.phone?.value.length > 9 || !/^\d+$/.test(inputChar)) {
-      evt.preventDefault()
-      return
+      evt.preventDefault();
+      return;
     }
   }
 }

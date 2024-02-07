@@ -1,8 +1,10 @@
 <div class="Main-Conatiner">
   <div class="wrapper">
     <div class="logo">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRrgJnM9FLGc_bijjNnpD5Fxu6wd6QEwjP2g&usqp=CAU"
-        alt="" />
+      <img
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRrgJnM9FLGc_bijjNnpD5Fxu6wd6QEwjP2g&usqp=CAU"
+        alt=""
+      />
     </div>
     <div class="text-center mt-4 LoginRole">
       <p>
@@ -11,13 +13,29 @@
     </div>
     <form class="p-3 mt-3" [formGroup]="loginForm">
       <div class="form-field d-flex align-items-center">
-        <input type="text" name="userName" id="userName" formControlName="userId" placeholder="UserId" />
+        <input
+          type="text"
+          name="userName"
+          id="userName"
+          formControlName="userId"
+          placeholder="UserId"
+        />
       </div>
       <div class="form-field d-flex align-items-center">
-        <input [type]="showpassword === true ? 'text' : 'password'" id="pwd" placeholder="Password" class="form-control"
-          formControlName="password" (keyup.enter)="AdminLogin()" />
-        <span (click)="togglePassword()" *ngIf="showpassword"> <i class="fa-regular fa-eye"></i></span>
-        <span (click)="togglePassword()" *ngIf="!showpassword"> <i class="fa-regular fa-eye-slash"></i></span>
+        <input
+          [type]="showpassword === true ? 'text' : 'password'"
+          id="pwd"
+          placeholder="Password"
+          class="form-control"
+          formControlName="password"
+          (keyup.enter)="AdminLogin()"
+        />
+        <span (click)="togglePassword()" *ngIf="showpassword">
+          <i class="fa-regular fa-eye"></i
+        ></span>
+        <span (click)="togglePassword()" *ngIf="!showpassword">
+          <i class="fa-regular fa-eye-slash"></i
+        ></span>
       </div>
       <p *ngIf="ErrorMsg" class="text-danger text-center">{{ ErrorMsg }}</p>
       <button class="LoginButton mt-3" type="button" (click)="AdminLogin()">
@@ -25,8 +43,9 @@
       </button>
     </form>
     <div class="Navigate">
-      <a href="javascript:void(0);" (click)="getNavigate()">click Here To {{ navigateData }}</a>
+      <a href="javascript:void(0);" (click)="getNavigate()"
+        >click Here To {{ navigateData }}</a
+      >
     </div>
-
   </div>
 </div>

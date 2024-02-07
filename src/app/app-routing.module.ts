@@ -18,7 +18,6 @@ import { UserlistComponent } from './components/userlist/userlist.component';
 import { TicketdescriptionComponent } from './components/ticket-description/ticket-description.component';
 // import { ClientdescriptionComponent } from './components/ticket-description/ticket-description';
 
-
 const routes: Routes = [
   { path: '', component: WelComePageComponent },
   {
@@ -31,11 +30,31 @@ const routes: Routes = [
     component: MainDashboardComponent,
     canActivate: [guardGuard],
     children: [
-      { path: '', component: DashBoardComponent, canActivate: [guardGuard, adminGuard] },
-      { path: 'Chat-Box', component: ChatBoxComponent, canActivate: [guardGuard] },
-      { path: 'tickets', component: TicketsComponent, canActivate: [guardGuard] },
-      { path: 'user/:id', component: UserPageComponent, canActivate: [guardGuard] },
-      { path: 'create-user', component: CreateUserComponent, canActivate: [guardGuard] },
+      {
+        path: '',
+        component: DashBoardComponent,
+        canActivate: [guardGuard, adminGuard],
+      },
+      {
+        path: 'Chat-Box',
+        component: ChatBoxComponent,
+        canActivate: [guardGuard],
+      },
+      {
+        path: 'tickets',
+        component: TicketsComponent,
+        canActivate: [guardGuard],
+      },
+      {
+        path: 'user/:id',
+        component: UserPageComponent,
+        canActivate: [guardGuard],
+      },
+      {
+        path: 'create-user',
+        component: CreateUserComponent,
+        canActivate: [guardGuard],
+      },
       {
         path: 'view-requestPage',
         component: ViewRequestPageComponent,
@@ -71,13 +90,12 @@ const routes: Routes = [
         component: TicketdescriptionComponent,
         canActivate: [guardGuard],
       },
-    ]
+    ],
   },
-
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

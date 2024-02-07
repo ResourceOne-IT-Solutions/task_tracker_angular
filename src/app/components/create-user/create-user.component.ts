@@ -10,11 +10,14 @@ import { ChatService } from 'src/app/services/chat.service';
 export class CreateUserComponent {
   'createUserForm': FormGroup;
   genders: any = ['Male', 'Female', 'Not Specified'];
-  submitted: boolean = false
+  submitted: boolean = false;
   currentUser: any;
   creteuserError: any;
   isAccountcreate: boolean = false;
-  constructor(private fb: FormBuilder, private chatservice: ChatService) {
+  constructor(
+    private fb: FormBuilder,
+    private chatservice: ChatService,
+  ) {
     this.createUserForm = this.fb.group({
       fname: ['', Validators.required],
       lname: ['', Validators.required],
@@ -31,34 +34,60 @@ export class CreateUserComponent {
     });
   }
   ngOnInit() {
-    this.chatservice.UserLoginData.subscribe((res:any)=>{
-      this.currentUser = res
-    })
-   }
-  get user() { return this.createUserForm.controls; }
-  get fname() { return this.user['fname'] }
-  get lname() { return this.user['lname'] }
-  get email() { return this.user['email'] }
-  get phone() { return this.user['phone'] }
-  get dob() { return this.user['dob'] }
-  get joiningDate() { return this.user['joiningDate'] }
-  get designation() { return this.user['designation'] }
-  get profileImageUrl() { return this.user['profileImageUrl'] }
-  get gender() { return this.user['gender'] }
-  get address() { return this.user['address'] }
-  get isAdmin() { return this.user['isAdmin'] }
-  get password() { return this.user['password'] }
+    this.chatservice.UserLoginData.subscribe((res: any) => {
+      this.currentUser = res;
+    });
+  }
+  get user() {
+    return this.createUserForm.controls;
+  }
+  get fname() {
+    return this.user['fname'];
+  }
+  get lname() {
+    return this.user['lname'];
+  }
+  get email() {
+    return this.user['email'];
+  }
+  get phone() {
+    return this.user['phone'];
+  }
+  get dob() {
+    return this.user['dob'];
+  }
+  get joiningDate() {
+    return this.user['joiningDate'];
+  }
+  get designation() {
+    return this.user['designation'];
+  }
+  get profileImageUrl() {
+    return this.user['profileImageUrl'];
+  }
+  get gender() {
+    return this.user['gender'];
+  }
+  get address() {
+    return this.user['address'];
+  }
+  get isAdmin() {
+    return this.user['isAdmin'];
+  }
+  get password() {
+    return this.user['password'];
+  }
 
   phoneValidation(evt: any) {
     const inputChar = String.fromCharCode(evt.charCode);
     if (this.phone?.value.length > 9 || !/^\d+$/.test(inputChar)) {
-      evt.preventDefault()
-      return
+      evt.preventDefault();
+      return;
     }
   }
 
   createNewUser() {
-    this.submitted = true
+    this.submitted = true;
     if (this.createUserForm.valid) {
       const Data = {
         firstName: this.createUserForm.value.fname,
@@ -73,16 +102,22 @@ export class CreateUserComponent {
         designation: this.createUserForm.value.designation,
         address: this.createUserForm.value.address,
         profileImageUrl: this.createUserForm.value.profileImageUrl,
-        createdBy: {name :this.chatservice.getFullName(this.currentUser), id : this.currentUser._id}
+        createdBy: {
+          name: this.chatservice.getFullName(this.currentUser),
+          id: this.currentUser._id,
+        },
       };
-      this.chatservice.AddNewUsers(Data).subscribe((res)=>{
-        this.isAccountcreate = true
-        this.submitted = false
-        this.createUserForm.reset()
-      },(error)=>{
-        this.creteuserError = error.error.error
-        console.log(error)
-      });
+      this.chatservice.AddNewUsers(Data).subscribe(
+        (res) => {
+          this.isAccountcreate = true;
+          this.submitted = false;
+          this.createUserForm.reset();
+        },
+        (error) => {
+          this.creteuserError = error.error.error;
+          console.log(error);
+        },
+      );
     }
   }
 }

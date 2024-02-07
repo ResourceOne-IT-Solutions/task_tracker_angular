@@ -1,13 +1,19 @@
-<div *ngIf="
+<div
+  *ngIf="
     getMessageType(message.type) === 'image/png' ||
     getMessageType(message.type) === 'image/jpeg'
-  " (click)="downloadFile($event, url, message.content)">
+  "
+  (click)="downloadFile($event, url, message.content)"
+>
   <img [src]="url" *ngIf="url" />
 </div>
 <p *ngIf="message.type === 'contact'">
-  <span> {{FileContact.name}}</span>
-  <span> {{FileContact.mobile}}</span>
+  <span> {{ FileContact.name }}</span>
+  <span> {{ FileContact.mobile }}</span>
 </p>
-<div *ngIf="getMessageType(message.type) === 'application/pdf'" (click)="downloadFile($event, url, message.content)">
+<div
+  *ngIf="getMessageType(message.type) === 'application/pdf'"
+  (click)="downloadFile($event, url, message.content)"
+>
   <iframe [src]="safeurl" width="100%" title="PDF Viewer"></iframe>
 </div>

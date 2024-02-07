@@ -3,7 +3,6 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { ChatService } from 'src/app/services/chat.service';
 import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
 
-
 @Component({
   selector: 'app-user-view',
   templateUrl: './user-view.component.html',
@@ -19,8 +18,7 @@ export class UserViewComponent implements OnInit {
     private chatservice: ChatService,
     private router: Router,
     private loader: NgxSpinnerService,
-    private route : ActivatedRoute
-
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit() {
@@ -29,14 +27,18 @@ export class UserViewComponent implements OnInit {
       this.currentuser = res;
     });
 
-    this.chatservice.getChatMessageById(this.currentuser._id).subscribe(res=>{
-      this.userChatRequest = res;
-      this.loader.hide();
-    })
-    this.chatservice.getTickesRequestMesgById(this.currentuser._id).subscribe(res=>{
-      this.userTicketRequest = res;
-      this.loader.hide();
-    })
+    this.chatservice
+      .getChatMessageById(this.currentuser._id)
+      .subscribe((res) => {
+        this.userChatRequest = res;
+        this.loader.hide();
+      });
+    this.chatservice
+      .getTickesRequestMesgById(this.currentuser._id)
+      .subscribe((res) => {
+        this.userTicketRequest = res;
+        this.loader.hide();
+      });
     this.chatservice.getAdminChatMessages().subscribe((res) => {
       this.adminMessages = res;
       this.loader.hide();
@@ -45,21 +47,23 @@ export class UserViewComponent implements OnInit {
   chatRequestApproved(data: any) {
     this.selectedChatUser = data;
     this.chatservice.chatRequests(this.selectedChatUser);
-    this.router.navigate(['../Chat-Box'],{ relativeTo: this.route });
+    this.router.navigate(['../Chat-Box'], { relativeTo: this.route });
   }
   ticketRequestApproved(data: any) {
     this.chatservice.ticketRequests(data);
-    this.router.navigate(['../tickets'],{ relativeTo: this.route })
+    this.router.navigate(['../tickets'], { relativeTo: this.route });
   }
-  updateMessage(message:any){
-    console.log(message , "message")
+  updateMessage(message: any) {
+    console.log(message, 'message');
     const payload = {
-      status : 'SEEN',
-      messageId : message._id , 
-      userId :this.currentuser._id,
-    }
-    message.viewedBy.push(this.currentuser._id)
-    this.chatservice.sendSocketData({key:'updateAdminMessageStatus' , data :payload})
+      status: 'SEEN',
+      messageId: message._id,
+      userId: this.currentuser._id,
+    };
+    message.viewedBy.push(this.currentuser._id);
+    this.chatservice.sendSocketData({
+      key: 'updateAdminMessageStatus',
+      data: payload,
+    });
   }
-
 }

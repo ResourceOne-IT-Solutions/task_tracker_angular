@@ -12,9 +12,9 @@ export class WelComePageComponent {
     private Router: Router,
     private chatservice: ChatService,
   ) {
-    const token = this.chatservice.getToken()
-    if(token){
-      this.Router.navigate(['/dashboard'])
+    const token = this.chatservice.getToken();
+    if (token) {
+      this.Router.navigate(['/dashboard']);
     }
   }
 

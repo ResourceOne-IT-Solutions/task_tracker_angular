@@ -7,7 +7,7 @@ import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-ticket-description',
   templateUrl: './ticket-description.component.html',
-  styleUrls: ['./ticket-description.component.scss']
+  styleUrls: ['./ticket-description.component.scss'],
 })
 export class TicketdescriptionComponent {
   @ViewChild('sendMailModel', { static: false }) sendMailModel: any;
@@ -16,40 +16,47 @@ export class TicketdescriptionComponent {
   CurrentUser: any;
   loadingStaus: boolean = false;
   descriptionContect: any;
-  constructor(private chatservice: ChatService, private route: ActivatedRoute,
-    private modalService: NgbModal, private location: Location) { }
+  constructor(
+    private chatservice: ChatService,
+    private route: ActivatedRoute,
+    private modalService: NgbModal,
+    private location: Location,
+  ) {}
   ngOnInit() {
     this.paramId = this.route.snapshot.paramMap.get('id');
     this.chatservice.get(`/tickets/${this.paramId}`).subscribe((res: any) => {
       this.description = res;
-    })
+    });
     this.chatservice.UserLoginData.subscribe((res) => {
-      this.CurrentUser = res
-    })
+      this.CurrentUser = res;
+    });
     // this.UpdateContent()
   }
   getaddonResource() {
     const desc = this.description.addOnResource;
     if (desc) {
-      return desc.map((val: any) => val.name).join(',')
+      return desc.map((val: any) => val.name).join(',');
     }
   }
   ClientUpdates() {
-    const update = this.description.updates
+    const update = this.description.updates;
     if (update) {
-      return update.map((val: any) => val)
+      return update.map((val: any) => val);
     }
   }
   goback() {
-    this.location.back()
+    this.location.back();
   }
   ConvertToExcel() {
     const updateContent = (updates: any) => {
-      let str = "";
+      let str = '';
       updates.forEach((update: any, i: any) => {
-        const content = `Update ${i + 1}:,\nDate: ${new Date(update.date,)
-          .toLocaleString()},\nDescription: ${update.description},\nComments: ${update.comments
-          },\nStatus: ${update.status},\nUpdated by: ${update.updatedBy.name}`; str += content + "\n\n";
+        const content = `Update ${i + 1}:,\nDate: ${new Date(
+          update.date,
+        ).toLocaleString()},\nDescription: ${update.description},\nComments: ${
+          update.comments
+        },\nStatus: ${update.status},\nUpdated by: ${update.updatedBy.name}`;
+        str += content + '\n\n';
       });
       return str;
     };
@@ -67,28 +74,31 @@ export class TicketdescriptionComponent {
   }
   SendMail() {
     this.openPopup(this.sendMailModel);
-    this.descriptionContect =this.description;
+    this.descriptionContect = this.description;
   }
-  UpdateContent(data:any){
-    let str="";
-    this.description?.updates.forEach((val:any,i:any) =>{
+  UpdateContent(data: any) {
+    let str = '';
+    this.description?.updates.forEach((val: any, i: any) => {
       const content = `Update ${i + 1}:,\nDate:${new Date(val.date).toLocaleString()},\nDescription: ${val.description},\nComments: ${val.comments},\nStatus: ${val.status},\nUpdate by: ${val.updatedBy.name},`;
-      str += content + "\n";
-    })
+      str += content + '\n';
+    });
     return str;
   }
-  TicketsSendMail(dismiss:any) {
+  TicketsSendMail(dismiss: any) {
     this.loadingStaus = true;
     const payload = {
       to: this.CurrentUser.email,
       content: this.description,
       // client: this.chatservice.getFullName(this.ticketDetails.client)
     };
-    this.chatservice.ticketsendmail(payload).subscribe((res) => {
-      this.loadingStaus = false;
-    },(error) =>{
-      console.log(error,'90::::')
-    });
+    this.chatservice.ticketsendmail(payload).subscribe(
+      (res) => {
+        this.loadingStaus = false;
+      },
+      (error) => {
+        console.log(error, '90::::');
+      },
+    );
   }
   openPopup(content: any): void {
     this.modalService.open(content);

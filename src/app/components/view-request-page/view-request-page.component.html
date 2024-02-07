@@ -11,11 +11,14 @@
           <p>
             {{ chatrequest.sender.name }} Is Requisting To Chat With
             {{ chatrequest.opponent.name }}
-            {{chatrequest.time}}
-            {{chatrequest.date}}
+            {{ chatrequest.time }}
+            {{ chatrequest.date }}
           </p>
           <div *ngIf="chatrequest.isPending == true" class="isPending">
-            <button class="btn btn-sm btn-success" (click)="approveUserChatRequest(chatrequest)">
+            <button
+              class="btn btn-sm btn-success"
+              (click)="approveUserChatRequest(chatrequest)"
+            >
               Give Access
             </button>
           </div>
@@ -25,8 +28,13 @@
         </div>
       </li>
       <h3 *ngIf="ChatRequest <= 0">No Request Messages</h3>
-      <ngx-spinner bdColor="rgba(0,0,0,0.32)" size="large" color="#8652d5" type="ball-clip-rotate-multiple"
-        [fullScreen]="false">
+      <ngx-spinner
+        bdColor="rgba(0,0,0,0.32)"
+        size="large"
+        color="#8652d5"
+        type="ball-clip-rotate-multiple"
+        [fullScreen]="false"
+      >
       </ngx-spinner>
     </ol>
   </div>
@@ -38,31 +46,39 @@
           <p>
             {{ ticketrequest.sender.name }} Is Requisting For
             {{ ticketrequest.client.name }}
-            {{ticketrequest.time}}
-            {{ticketrequest.date}}
+            {{ ticketrequest.time }}
+            {{ ticketrequest.date }}
           </p>
           <div *ngIf="ticketrequest.isPending == true" class="isPending">
-
-            <button class="btn btn-sm btn-success" (click)="approveUserTicketRequest(ticketrequest)">
-             Give Access
+            <button
+              class="btn btn-sm btn-success"
+              (click)="approveUserTicketRequest(ticketrequest)"
+            >
+              Give Access
             </button>
-            </div>
-            <div *ngIf="ticketrequest.isPending == false">
-              <h2>Approved</h2>
-            </div>
+          </div>
+          <div *ngIf="ticketrequest.isPending == false">
+            <h2>Approved</h2>
+          </div>
         </div>
       </li>
-      <h3 *ngIf="TicketRequest <= 0" class="text-danger fs-3 m-3">No Request Messages</h3>
-      <ngx-spinner bdColor="rgba(0,0,0,0.32)" size="large" color="#8652d5" type="ball-clip-rotate-multiple"
-        [fullScreen]="false">
+      <h3 *ngIf="TicketRequest <= 0" class="text-danger fs-3 m-3">
+        No Request Messages
+      </h3>
+      <ngx-spinner
+        bdColor="rgba(0,0,0,0.32)"
+        size="large"
+        color="#8652d5"
+        type="ball-clip-rotate-multiple"
+        [fullScreen]="false"
+      >
       </ngx-spinner>
- 
     </ol>
   </div>
   <div class="TicketREquest position-relative px-2">
     <h1>Admin Message</h1>
     <ol>
-      <h3>Total User : {{totalUser}}</h3> 
+      <h3>Total User : {{ totalUser }}</h3>
       <li *ngFor="let messages of adminMessages; let i = index">
         <div class="message">
           <div>
@@ -71,17 +87,21 @@
             <p>Time :{{ messages.time }}</p>
           </div>
           <div>
-           <p> Delivered To : {{messages.deliveredTo.length}}</p> 
-           <p>Seen By : {{messages.viewedBy.length}}</p> 
+            <p>Delivered To : {{ messages.deliveredTo.length }}</p>
+            <p>Seen By : {{ messages.viewedBy.length }}</p>
           </div>
         </div>
       </li>
 
-      <ngx-spinner bdColor="rgba(0,0,0,0.32)" size="large" color="#8652d5" type="ball-clip-rotate-multiple"
-        [fullScreen]="false">
+      <ngx-spinner
+        bdColor="rgba(0,0,0,0.32)"
+        size="large"
+        color="#8652d5"
+        type="ball-clip-rotate-multiple"
+        [fullScreen]="false"
+      >
       </ngx-spinner>
       <h3 *ngIf="adminMessages <= 0">No Request Messages</h3>
-
     </ol>
   </div>
 </div>

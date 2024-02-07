@@ -60,7 +60,7 @@ import { DialogModelComponent } from './reusable/dialog-model/dialog-model.compo
     CreateGroupComponent,
     UserlistComponent,
     TicketdescriptionComponent,
-    DialogModelComponent
+    DialogModelComponent,
   ],
   imports: [
     BrowserModule,
@@ -92,4 +92,4 @@ import { DialogModelComponent } from './reusable/dialog-model/dialog-model.compo
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
