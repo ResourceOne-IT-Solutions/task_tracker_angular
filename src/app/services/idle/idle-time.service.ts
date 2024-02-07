@@ -13,7 +13,6 @@ export class IdleTimeService {
   startIdleMonitoring() {
     this.timer$ = timer(1000, 1000).subscribe(() => {
       if (this.idleTimeoutInSeconds > 0) {
-        console.log(this.idleTimeoutInSeconds)
         this.idleTimeoutInSeconds--;
         if (this.idleTimeoutInSeconds === 0) {
           this.chatservice.UserLoginData.subscribe((res: any) => {
@@ -36,7 +35,6 @@ export class IdleTimeService {
 
   // Stop timer 
   stopIdleIdleMonitoring() {
-    console.log('hello')
     if (this.timer$) {
       this.timer$.unsubscribe()
     }
