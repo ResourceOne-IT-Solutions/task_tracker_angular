@@ -11,7 +11,7 @@ export class ChatService {
   ticketsById = new BehaviorSubject('');
   userticketsById = new BehaviorSubject('');
   ClientDesc = new BehaviorSubject('');
-  ticketRequest = new BehaviorSubject('')
+  ticketRequest = new BehaviorSubject('');
   chatRequest = new BehaviorSubject('');
   TotalUser = new BehaviorSubject('');
   private socket: Socket;
@@ -34,12 +34,12 @@ export class ChatService {
   chatRequests(data: any) {
     this.chatRequest.next(data);
   }
-   // ticketrequest Behavior
-   ticketRequests(data: any) {
+  // ticketrequest Behavior
+  ticketRequests(data: any) {
     this.ticketRequest.next(data);
   }
-  clientdescriptiondata(data:any){
-    this.ClientDesc.next(data)
+  clientdescriptiondata(data: any) {
+    this.ClientDesc.next(data);
   }
   BE_SERVER = 'https://task-tracker-server-2njm.onrender.com';
   BE_LOCAL = 'http://192.168.10.30:1234';
@@ -84,19 +84,18 @@ export class ChatService {
   getChatMessages() {
     return this.get('/message/user-chat-request');
   }
-  getChatMessageById(id:any){
+  getChatMessageById(id: any) {
     return this.get('/message/user-chat-request/' + id);
   }
   getTickesRequest() {
     return this.get('/message/user-ticket-request');
   }
-  getTickesRequestMesgById(id:any) {
+  getTickesRequestMesgById(id: any) {
     return this.get('/message/user-ticket-request/' + id);
   }
   getAdminChatMessages() {
     return this.get('/message/admin-messages');
   }
-
 
   // tickets api calls
 
@@ -162,9 +161,9 @@ export class ChatService {
   sendSocketData(data: any) {
     this.socket.emit(data.key, data.data);
   }
-getDate(date=new Date()){
-  return new Date(date).toISOString()
-}
+  getDate(date = new Date()) {
+    return new Date(date).toISOString();
+  }
   // time
   getFormattedTime() {
     const d = new Date().toLocaleString().split(' ');
@@ -261,9 +260,8 @@ getDate(date=new Date()){
   sendMail(data: any) {
     return this.post('/mail/client-update', data);
   }
-  ticketsendmail(data:any){
-    console.log(data,'257:::::')
-    return this.post('/mail/ticket-update',data)
+  ticketsendmail(data: any) {
+    return this.post('/mail/ticket-update', data);
   }
   // get full Name
   getFullName(data: any) {
@@ -278,9 +276,9 @@ getDate(date=new Date()){
     }
     return 'Invalid Name';
   }
-  groupByDate(data:any , key :any) {
-    return data.reduce((acc: any, status :any) => {
-      const date= status[key]
+  groupByDate(data: any, key: any) {
+    return data.reduce((acc: any, status: any) => {
+      const date = status[key];
       if (acc[date]) {
         acc[date].push(status);
       } else {

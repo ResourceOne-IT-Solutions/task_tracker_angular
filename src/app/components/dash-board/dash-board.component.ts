@@ -23,7 +23,7 @@ import { Chart, ChartType, registerables } from 'node_modules/chart.js';
 })
 export class DashBoardComponent {
   @ViewChild('requestTicketmodal', { static: false }) requestTicketmodal: any;
-  
+
   isAdminStatus = false;
 
   phone: any;
@@ -40,12 +40,7 @@ export class DashBoardComponent {
     'Not Assigned',
     'Improper Requirment',
   ];
-  UserpieChartLabels: string[] = [
-    'Avalible',
-    'Offline',
-    'Break',
-    'On Ticket',
-  ]
+  UserpieChartLabels: string[] = ['Avalible', 'Offline', 'Break', 'On Ticket'];
 
   pieChartColors: string[] = [
     'blue',
@@ -55,12 +50,7 @@ export class DashBoardComponent {
     'red',
     'purple',
   ];
-  UserpieChartColors: string[] = [
-    'green',
-    'orange',
-    'red',
-    'blue'
-  ];
+  UserpieChartColors: string[] = ['green', 'orange', 'red', 'blue'];
   technology = ['React Saga', 'Angular', 'Python', 'Vue Js', 'JQuery'];
   user: any;
   dropdownSettings: any;
@@ -104,10 +94,8 @@ export class DashBoardComponent {
     private router: Router,
     private modalService: NgbModal,
     private fb: FormBuilder,
-    private route:ActivatedRoute
-  ) {
-  
-  }
+    private route: ActivatedRoute,
+  ) {}
   ngOnInit() {
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.adminDetails = res;
@@ -174,37 +162,41 @@ export class DashBoardComponent {
       data: { userId: this.adminDetails._id },
       key: 'newUser',
     });
-    this.chatservice
-      .getSocketData('newUser').subscribe(({ userPayload }) => {
-        this.UserListData = userPayload,
-          this.Avalible = this.UserListData.filter(
-            (val: any) => val.status == 'Available',
-          ).length,
-          (this.Offline = this.UserListData.filter(
-            (val: any) => val.status == 'Offline',
-          ).length),
-          (this.Break = this.UserListData.filter(
-            (val: any) => val.status == 'Break',
-          ).length),
-          (this.OnTicket = this.UserListData.filter(
-            (val: any) => val.status == 'On Ticket',
-          ).length),
-          this.UserpieChart(this.Avalible, this.Offline, this.Break, this.OnTicket)
-      })
-      setInterval(() => {
-        let Estdate = new Date();
-        this.est = Estdate.toLocaleTimeString('en-US', {
-          timeZone: 'America/New_York',
-        });
-        var myDate = new Date();
-        this.pstDate = myDate.toLocaleTimeString('en-US', {
-          timeZone: 'America/Los_Angeles',
-        });
-        var myDate = new Date();
-        this.cstDate = myDate.toLocaleTimeString('en-US', {
-          timeZone: 'America/Chicago',
-        });
-      }, 1000);
+    this.chatservice.getSocketData('newUser').subscribe(({ userPayload }) => {
+      (this.UserListData = userPayload),
+        (this.Avalible = this.UserListData.filter(
+          (val: any) => val.status == 'Available',
+        ).length),
+        (this.Offline = this.UserListData.filter(
+          (val: any) => val.status == 'Offline',
+        ).length),
+        (this.Break = this.UserListData.filter(
+          (val: any) => val.status == 'Break',
+        ).length),
+        (this.OnTicket = this.UserListData.filter(
+          (val: any) => val.status == 'On Ticket',
+        ).length),
+        this.UserpieChart(
+          this.Avalible,
+          this.Offline,
+          this.Break,
+          this.OnTicket,
+        );
+    });
+    setInterval(() => {
+      let Estdate = new Date();
+      this.est = Estdate.toLocaleTimeString('en-US', {
+        timeZone: 'America/New_York',
+      });
+      var myDate = new Date();
+      this.pstDate = myDate.toLocaleTimeString('en-US', {
+        timeZone: 'America/Los_Angeles',
+      });
+      var myDate = new Date();
+      this.cstDate = myDate.toLocaleTimeString('en-US', {
+        timeZone: 'America/Chicago',
+      });
+    }, 1000);
   }
 
   ngAfterViewInit() {
@@ -226,7 +218,6 @@ export class DashBoardComponent {
         ],
       },
     });
-
   }
 
   private destroyPieChart() {
@@ -239,7 +230,7 @@ export class DashBoardComponent {
   }
   /// admin status
 
-  selectChange(data: any) { }
+  selectChange(data: any) {}
 
   // client functions
 
@@ -261,7 +252,6 @@ export class DashBoardComponent {
     dismiss();
     this.router.navigate(['/User-page']);
   }
-
 
   validateNumberLength(control: AbstractControl) {
     if (control.value && control.value.toString().length > 10) {
@@ -334,5 +324,5 @@ export interface Column {
   isButton?: boolean;
   isImage?: boolean;
   isText?: boolean;
-  isLink?:boolean;
+  isLink?: boolean;
 }

@@ -1,3 +1,6 @@
+<div class="Back">
+  <button (click)="goback()" class="btn btn-danger">Go To Back</button>
+</div>
 <div class="User-ViewRequest">
   <div class="User-ChatRequest position-relative">
     <h1>Chat Request</h1>
@@ -26,9 +29,15 @@
           </div>
         </div>
       </li>
-      <ngx-spinner bdColor="rgba(0,0,0,0.32)" size="large" color="#8652d5" type="ball-clip-rotate-multiple"
-      [fullScreen]="false">
-    </ngx-spinner>
+      <h2 *ngIf="userChatRequest?.length <= 0">No Ticket Request Data</h2>
+      <ngx-spinner
+        bdColor="rgba(0,0,0,0.32)"
+        size="large"
+        color="#8652d5"
+        type="ball-clip-rotate-multiple"
+        [fullScreen]="false"
+      >
+      </ngx-spinner>
     </ol>
   </div>
   <div class="User-TicketRequest position-relative">
@@ -58,9 +67,15 @@
           </div>
         </div>
       </li>
-      <ngx-spinner bdColor="rgba(0,0,0,0.32)" size="large" color="#8652d5" type="ball-clip-rotate-multiple"
-      [fullScreen]="false">
-    </ngx-spinner>
+      <h2 *ngIf="userTicketRequest?.length <= 0">No Ticket Request Data</h2>
+      <ngx-spinner
+        bdColor="rgba(0,0,0,0.32)"
+        size="large"
+        color="#8652d5"
+        type="ball-clip-rotate-multiple"
+        [fullScreen]="false"
+      >
+      </ngx-spinner>
     </ol>
   </div>
   <div class="User-Messages position-relative">
@@ -68,19 +83,31 @@
     <ol>
       <li *ngFor="let messages of adminMessages; let i = index">
         <div class="message">
-         <div>
-          <p>Message : {{ messages.content }}</p>
-          <p>Sent By :{{ messages.sender.name }}</p>
-          <p>Time :{{ messages.time }}</p>
-         </div>
-         <div>
-           <button  class="btn btn-primary"  [disabled]="messages.viewedBy.includes(currentuser._id)" (click)="updateMessage(messages)">Seen</button>
-         </div>
+          <div>
+            <p>Message : {{ messages.content }}</p>
+            <p>Sent By :{{ messages.sender.name }}</p>
+            <p>Time :{{ messages.time }}</p>
+          </div>
+          <div>
+            <button
+              class="btn btn-primary"
+              [disabled]="messages.viewedBy.includes(currentuser._id)"
+              (click)="updateMessage(messages)"
+            >
+              Seen
+            </button>
+          </div>
         </div>
       </li>
-      <ngx-spinner bdColor="rgba(0,0,0,0.32)" size="large" color="#8652d5" type="ball-clip-rotate-multiple"
-      [fullScreen]="false">
-    </ngx-spinner>
+      <h2 *ngIf="adminMessages?.length <= 0">No Ticket Request Data</h2>
+      <ngx-spinner
+        bdColor="rgba(0,0,0,0.32)"
+        size="large"
+        color="#8652d5"
+        type="ball-clip-rotate-multiple"
+        [fullScreen]="false"
+      >
+      </ngx-spinner>
     </ol>
   </div>
 </div>

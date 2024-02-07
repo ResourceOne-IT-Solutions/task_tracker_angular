@@ -21,7 +21,7 @@ export class LoginPageComponent {
   ErrorHandling: boolean = true;
   password: any;
   show = true;
-  showpassword:boolean = false
+  showpassword: boolean = false;
   fieldTextType: any = { isTrue: false };
   constructor(
     private route: Router,

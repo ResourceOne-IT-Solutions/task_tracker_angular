@@ -98,11 +98,11 @@
       p {
         text-align: center;
         background: #b9bbdf;
-        width: 96px;
+        width: fit-content;
         margin: auto;
         border-radius: 5px;
         color: #000;
-        padding: 3px 2px;
+        padding: 4px 10px;
       }
 
       .SendUser {
@@ -131,7 +131,6 @@
         width: fit-content;
 
         ::ng-deep {
-
           p {
             background: #514b58;
             color: #fff;
@@ -404,7 +403,6 @@
   .contacts:hover {
     background: #6e00ff;
     color: #fff;
-
   }
 }
 

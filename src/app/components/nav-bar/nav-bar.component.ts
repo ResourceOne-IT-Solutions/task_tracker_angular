@@ -19,17 +19,17 @@ export class NavBarComponent {
   @Input() userDetails: any;
   @Input() Status: any;
   'roomCount': number;
-  'clientForm': FormGroup
+  'clientForm': FormGroup;
   'TicketCreationForm': FormGroup;
-  clientData: any
-  submitted: boolean=false;
+  clientData: any;
+  submitted: boolean = false;
   submitTicketForm: boolean = false;
   constructor(
     private router: Router,
     private chatservice: ChatService,
     private route: ActivatedRoute,
     private modalService: NgbModal,
-    private fb: FormBuilder
+    private fb: FormBuilder,
   ) {
     this.clientForm = this.fb.group({
       name: ['', Validators.required],
@@ -44,55 +44,80 @@ export class NavBarComponent {
       client: ['', Validators.required],
       technologies: ['', Validators.required],
       targetDate: ['', Validators.required],
-      description: ['',Validators.required],
+      description: ['', Validators.required],
     });
   }
   ngOnInit() {
-    this.Status = this.userDetails.status;
-    this.roomCount = Object.keys(this.userDetails.newMessages).length
+    this.roomCount = Object.keys(this.userDetails.newMessages).length;
     this.chatservice.getSocketData('statusUpdate').subscribe((res) => {
-      this.roomCount = Object.keys(this.userDetails.newMessages).length
+      this.roomCount = Object.keys(this.userDetails.newMessages).length;
     });
     this.chatservice.getAllClients().subscribe((res: any) => {
       this.clientData = res;
     });
-    this.chatservice.getSocketData('notifications').subscribe((res:any)=>{
-      if(res.id === this.userDetails._id){
-        if(this.userDetails.newMessages.hasOwnProperty(res.room)){
-          this.userDetails.newMessages[res.room]++
-        }else{
-          this.userDetails.newMessages[res.room] = 1
+    this.chatservice.getSocketData('notifications').subscribe((res: any) => {
+      if (res.id === this.userDetails._id) {
+        if (this.userDetails.newMessages.hasOwnProperty(res.room)) {
+          this.userDetails.newMessages[res.room]++;
+        } else {
+          this.userDetails.newMessages[res.room] = 1;
         }
-        alert(`you got new ${res.type} from ${res.from.name}`)
-        this.roomCount = Object.keys(this.userDetails.newMessages).length
-        this.chatservice.UserLogin(this.userDetails)
+        alert(`you got new ${res.type} from ${res.from.name}`);
+        this.roomCount = Object.keys(this.userDetails.newMessages).length;
+        this.chatservice.UserLogin(this.userDetails);
       }
-    })
+    });
   }
 
-  // client form 
-  get client() { return this.clientForm.controls; }
-  get fname() { return this.client['name'] }
-  get location() { return this.client['location'] }
-  get email() { return this.client['email'] }
-  get mobile() { return this.client['mobile'] }
-  get technologies() { return this.client['technologies'] }
-  get applicationType() { return this.client['applicationType'] }
-  get companyName() { return this.client['companyName'] }
+  // client form
+  get client() {
+    return this.clientForm.controls;
+  }
+  get fname() {
+    return this.client['name'];
+  }
+  get location() {
+    return this.client['location'];
+  }
+  get email() {
+    return this.client['email'];
+  }
+  get mobile() {
+    return this.client['mobile'];
+  }
+  get technologies() {
+    return this.client['technologies'];
+  }
+  get applicationType() {
+    return this.client['applicationType'];
+  }
+  get companyName() {
+    return this.client['companyName'];
+  }
 
   // ticket creation form
-  get ticketform() { return this.TicketCreationForm.controls; }
-  get clientName() { return this.ticketform['client'] }
-  get tickettech() {return this.ticketform['technologies']}
-  get targetDate() {return this.ticketform['targetDate']}
-  get description() {return this.ticketform['description']}
+  get ticketform() {
+    return this.TicketCreationForm.controls;
+  }
+  get clientName() {
+    return this.ticketform['client'];
+  }
+  get tickettech() {
+    return this.ticketform['technologies'];
+  }
+  get targetDate() {
+    return this.ticketform['targetDate'];
+  }
+  get description() {
+    return this.ticketform['description'];
+  }
   logout() {
     this.deleteCookie('token');
 
     const logoutpayload = {
       id: this.userDetails._id,
     };
-    this.chatservice.UserLogin('')
+    this.chatservice.UserLogin('');
     this.chatservice.sendSocketData({ key: 'logout', data: logoutpayload.id });
     this.router.navigate(['/']);
   }
@@ -100,7 +125,7 @@ export class NavBarComponent {
     this.statuschange = data;
     const updatePayload = {
       id: this.userDetails._id,
-      status: this.Status,
+      status: this.userDetails.status,
     };
     this.chatservice.sendSocketData({
       key: 'changeStatus',
@@ -127,7 +152,7 @@ export class NavBarComponent {
     this.router.navigate(['tickets'], { relativeTo: this.route });
   }
   gotDashBoard() {
-    this.router.navigate(['dashboard'])
+    this.router.navigate(['dashboard']);
   }
   private formatDate() {
     const d = new Date();
@@ -139,9 +164,10 @@ export class NavBarComponent {
     return [year, month, day].join('-');
   }
   OpenTicketModel() {
-    this.TicketCreationForm.controls['targetDate'].patchValue(this.formatDate())
+    this.TicketCreationForm.controls['targetDate'].patchValue(
+      this.formatDate(),
+    );
     this.modalService.open(this.ticketModel);
-
   }
   openClientModel() {
     this.openPopup(this.clientModel);
@@ -150,7 +176,7 @@ export class NavBarComponent {
     this.modalService.open(content);
   }
   newClient(dismiss: any) {
-    this.submitted = true
+    this.submitted = true;
     if (this.clientForm.valid) {
       dismiss();
       const data = {
@@ -161,7 +187,10 @@ export class NavBarComponent {
         companyName: this.clientForm.value.companyName,
         technology: this.clientForm.value.technologies,
         applicationType: this.clientForm.value.applicationType,
-        createdBy: { name: this.chatservice.getFullName(this.userDetails), id: this.userDetails._id }
+        createdBy: {
+          name: this.chatservice.getFullName(this.userDetails),
+          id: this.userDetails._id,
+        },
       };
       this.chatservice
         .AddNewClient(data)
@@ -173,7 +202,7 @@ export class NavBarComponent {
     this.clientForm.reset();
   }
   createTicket(dismiss: any) {
-    this.submitTicketForm =true
+    this.submitTicketForm = true;
     if (this.TicketCreationForm.valid) {
       const payload = {
         client: {
@@ -189,21 +218,23 @@ export class NavBarComponent {
         technology: this.TicketCreationForm.value.technologies,
         description: this.TicketCreationForm.value.description,
         targetDate: this.TicketCreationForm.value.targetDate,
-        createdBy: { name: this.chatservice.getFullName(this.userDetails), id: this.userDetails._id }
+        createdBy: {
+          name: this.chatservice.getFullName(this.userDetails),
+          id: this.userDetails._id,
+        },
       };
       this.chatservice
         .createNewTicket(payload)
         .subscribe((res: any) => console.log(res, 'created ticket'));
-        dismiss();
-        this.TicketCreationForm.reset();
+      dismiss();
+      this.TicketCreationForm.reset();
     }
   }
   phoneValidation(evt: any) {
-    console.log(this.mobile?.value)
     const inputChar = String.fromCharCode(evt.charCode);
     if (this.mobile?.value.length > 9 || !/^\d+$/.test(inputChar)) {
-      evt.preventDefault()
-      return
+      evt.preventDefault();
+      return;
     }
   }
 }
