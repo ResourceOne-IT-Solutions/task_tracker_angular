@@ -3,7 +3,6 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { ChatService } from 'src/app/services/chat.service';
 import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
 import { Location } from '@angular/common';
-
 @Component({
   selector: 'app-user-view',
   templateUrl: './user-view.component.html',

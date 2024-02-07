@@ -12,6 +12,10 @@ export class CreateUserComponent {
   genders: any = ['Male', 'Female', 'Not Specified'];
   submitted: boolean = false;
   currentUser: any;
+
+  creteuserError: any;
+  isAccountcreate: boolean = false;
+
   constructor(
     private fb: FormBuilder,
     private chatservice: ChatService,
@@ -105,7 +109,17 @@ export class CreateUserComponent {
           id: this.currentUser._id,
         },
       };
-      this.createUserForm.reset();
+      this.chatservice.AddNewUsers(Data).subscribe(
+        (res) => {
+          this.isAccountcreate = true;
+          this.submitted = false;
+          this.createUserForm.reset();
+        },
+        (error) => {
+          this.creteuserError = error.error.error;
+          console.log(error);
+        },
+      );
     }
   }
 }

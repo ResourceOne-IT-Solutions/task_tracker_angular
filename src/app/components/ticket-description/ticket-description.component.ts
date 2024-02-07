@@ -97,6 +97,7 @@ export class TicketdescriptionComponent {
         this.SuccessMessage = res;
         this.loadingStaus = false;
         dismiss();
+        this.loadingStaus = false;
       },
       (error) => {
         console.log(error, '90::::');

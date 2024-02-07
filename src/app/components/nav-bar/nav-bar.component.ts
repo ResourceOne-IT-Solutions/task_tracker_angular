@@ -48,6 +48,7 @@ export class NavBarComponent {
     });
   }
   ngOnInit() {
+    this.Status = this.userDetails.status;
     this.roomCount = Object.keys(this.userDetails.newMessages).length;
     this.chatservice.getSocketData('statusUpdate').subscribe((res) => {
       this.roomCount = Object.keys(this.userDetails.newMessages).length;
@@ -233,6 +234,8 @@ export class NavBarComponent {
   phoneValidation(evt: any) {
     const inputChar = String.fromCharCode(evt.charCode);
     if (this.mobile?.value.length > 9 || !/^\d+$/.test(inputChar)) {
+    const inputChar = String.fromCharCode(evt.charCode);
+    if (!/^\d+$/.test(inputChar)) {
       evt.preventDefault();
       return;
     }
