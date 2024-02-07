@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { timer } from 'rxjs';
+import { Subscription, timer } from 'rxjs';
 import { ChatService } from '../chat.service';
 
 @Injectable({
@@ -7,14 +7,13 @@ import { ChatService } from '../chat.service';
 })
 export class IdleTimeService {
   private idleTimeoutInSeconds = 15 * 60; // 15 minutes
-  private timer$: any;
-  constructor(private chatservice: ChatService) {}
+  private timer$!: Subscription;
+  constructor(private chatservice: ChatService) { }
   // timer Start
   startIdleMonitoring() {
-    this.timer$ = timer(1000, 1000);
-
-    this.timer$.subscribe(() => {
+    this.timer$ = timer(1000, 1000).subscribe(() => {
       if (this.idleTimeoutInSeconds > 0) {
+        console.log(this.idleTimeoutInSeconds)
         this.idleTimeoutInSeconds--;
         if (this.idleTimeoutInSeconds === 0) {
           this.chatservice.UserLoginData.subscribe((res: any) => {
@@ -29,9 +28,18 @@ export class IdleTimeService {
           });
         }
       }
-    });
+    });;
+    //this.timer$.
     document.addEventListener('mouseover', () => this.resetIdleTimer());
     document.addEventListener('keypress', () => this.resetIdleTimer());
+  }
+
+  // Stop timer 
+  stopIdleIdleMonitoring() {
+    console.log('hello')
+    if (this.timer$) {
+      this.timer$.unsubscribe()
+    }
   }
 
   // Reset the idle timer

@@ -2,7 +2,7 @@
   <h1 class="text-center">Admin Page</h1>
   <div class="d-flex adminMain">
     <div class="d-flex admin-content flex-column">
-      <div class="admin-page">
+      <div class="admin-page" *ngIf="adminDetails">
         <div class="d-flex justify-content-center">
           <img *ngIf="adminDetails.profileImageUrl" class="adminpic" src="{{ adminDetails.profileImageUrl }}" />
           <img *ngIf="!adminDetails.profileImageUrl" class="adminpic"

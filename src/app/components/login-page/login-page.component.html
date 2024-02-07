@@ -1,10 +1,8 @@
 <div class="Main-Conatiner">
   <div class="wrapper">
     <div class="logo">
-      <img
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRrgJnM9FLGc_bijjNnpD5Fxu6wd6QEwjP2g&usqp=CAU"
-        alt=""
-      />
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRrgJnM9FLGc_bijjNnpD5Fxu6wd6QEwjP2g&usqp=CAU"
+        alt="" />
     </div>
     <div class="text-center mt-4 LoginRole">
       <p>
@@ -12,30 +10,26 @@
       </p>
     </div>
     <form class="p-3 mt-3" [formGroup]="loginForm">
-      <div class="form-field d-flex align-items-center">
-        <input
-          type="text"
-          name="userName"
-          id="userName"
-          formControlName="userId"
-          placeholder="UserId"
-        />
+      <div class="form-field d-flex mt-4 align-items-center">
+        <input type="text" name="userName" id="userName" formControlName="userId" placeholder="UserId" />
       </div>
-      <div class="form-field d-flex align-items-center">
-        <input
-          [type]="showpassword === true ? 'text' : 'password'"
-          id="pwd"
-          placeholder="Password"
-          class="form-control"
-          formControlName="password"
-          (keyup.enter)="AdminLogin()"
-        />
+      <div class="text-danger ps-3" *ngIf="submitted && userId.errors">
+        <div *ngIf="userId.errors['required']">
+          User Id is Required
+        </div>
+      </div>
+      <div class="form-field d-flex align-items-center mt-4">
+        <input [type]="showpassword === true ? 'text' : 'password'" id="pwd" placeholder="Password" class="form-control"
+          formControlName="password" (keyup.enter)="AdminLogin()" />
         <span (click)="togglePassword()" *ngIf="showpassword">
-          <i class="fa-regular fa-eye"></i
-        ></span>
+          <i class="fa-regular fa-eye"></i></span>
         <span (click)="togglePassword()" *ngIf="!showpassword">
-          <i class="fa-regular fa-eye-slash"></i
-        ></span>
+          <i class="fa-regular fa-eye-slash"></i></span>
+      </div>
+      <div class="text-danger ps-3" *ngIf="submitted && pwd.errors">
+        <div *ngIf="pwd.errors['required']">
+          Password is Required
+        </div>
       </div>
       <p *ngIf="ErrorMsg" class="text-danger text-center">{{ ErrorMsg }}</p>
       <button class="LoginButton mt-3" type="button" (click)="AdminLogin()">
@@ -43,9 +37,7 @@
       </button>
     </form>
     <div class="Navigate">
-      <a href="javascript:void(0);" (click)="getNavigate()"
-        >click Here To {{ navigateData }}</a
-      >
+      <a href="javascript:void(0);" (click)="getNavigate()">click Here To {{ navigateData }}</a>
     </div>
   </div>
 </div>

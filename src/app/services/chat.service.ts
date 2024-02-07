@@ -2,6 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HostListener, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, timer } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
+import { User } from '../interface/users';
+import { Task } from '../interface/tickets';
 
 @Injectable({
   providedIn: 'root',
@@ -26,8 +28,8 @@ export class ChatService {
     this.userticketsById.next(ticketId);
   }
   //User Behavior
-  UserLoginData = new BehaviorSubject('');
-  UserLogin(data: any) {
+  UserLoginData = new BehaviorSubject<User | undefined>(undefined);
+  UserLogin(data: User) {
     this.UserLoginData.next(data);
   }
   // chat Behavior
@@ -99,7 +101,7 @@ export class ChatService {
 
   // tickets api calls
 
-  getAllTickets() {
+  getAllTickets(): Observable<Task[]> {
     return this.get('/tickets');
   }
   getPendingTickets() {
@@ -227,28 +229,28 @@ export class ChatService {
 
   // api mian calls
 
-  get(url: any) {
+  get(url: any): Observable<any> {
     return this.http.get(this.BE_URL + url, {
       headers: new HttpHeaders({
         Authorization: this.getToken(),
       }),
     });
   }
-  post(url: any, data: any) {
+  post(url: any, data: any): Observable<any> {
     return this.http.post(this.BE_URL + url, data, {
       headers: new HttpHeaders({
         Authorization: this.getToken(),
       }),
     });
   }
-  put(url: any, data: any) {
+  put(url: any, data: any): Observable<any> {
     return this.http.put(this.BE_URL + url, data, {
       headers: new HttpHeaders({
         Authorization: this.getToken(),
       }),
     });
   }
-  delete(url: any) {
+  delete(url: any): Observable<any> {
     return this.http.delete(this.BE_URL + url, {
       headers: new HttpHeaders({
         Authorization: this.getToken(),
