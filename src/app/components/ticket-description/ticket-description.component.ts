@@ -16,6 +16,7 @@ export class TicketdescriptionComponent {
   CurrentUser: any;
   loadingStaus: boolean = false;
   descriptionContect: any;
+  SuccessMessage: any;
   constructor(
     private chatservice: ChatService,
     private route: ActivatedRoute,
@@ -93,6 +94,9 @@ export class TicketdescriptionComponent {
     };
     this.chatservice.ticketsendmail(payload).subscribe(
       (res) => {
+        this.SuccessMessage = res;
+        this.loadingStaus = false;
+        dismiss();
         this.loadingStaus = false;
       },
       (error) => {

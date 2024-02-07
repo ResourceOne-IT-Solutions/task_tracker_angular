@@ -75,6 +75,7 @@ export class DashBoardComponent {
       this.adminDetails = res;
       console.log(JSON.parse(JSON.stringify(res)), "user")
     });
+
     this.chatservice.getSocketData('chatRequest').subscribe((res) => {
       const message = `${res.sender.name} is Requisting to Chat with ${res.opponent.name}`;
       alert(message);

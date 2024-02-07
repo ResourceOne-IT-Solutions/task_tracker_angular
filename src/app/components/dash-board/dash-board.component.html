@@ -8,9 +8,9 @@
           <img *ngIf="!adminDetails.profileImageUrl" class="adminpic"
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU" />
           <div class="mt-5 mb-5">
-            <h1 class="m-0 d-flex gap-3">
-              {{ chatservice.getFullName(adminDetails)
-              }}<span class="online"></span>
+            <h1 class="m-0 d-flex gap-1">
+              {{ chatservice.getFullName(adminDetails)}} <span>({{adminDetails.userId}})</span><span
+                class="online"></span>
             </h1>
             <p>{{ adminDetails.designation }}</p>
           </div>

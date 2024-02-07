@@ -12,8 +12,10 @@ export class CreateUserComponent {
   genders: any = ['Male', 'Female', 'Not Specified'];
   submitted: boolean = false;
   currentUser: any;
+
   creteuserError: any;
   isAccountcreate: boolean = false;
+
   constructor(
     private fb: FormBuilder,
     private chatservice: ChatService,

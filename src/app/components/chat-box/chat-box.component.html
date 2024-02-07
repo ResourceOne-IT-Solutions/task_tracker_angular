@@ -165,8 +165,7 @@
                     }}</span>
                     <span class="message-content">{{ message.content }}</span>
                     <span class="message-Time text-end">{{
-                      message.time
-                    }}</span>
+                      message.time | date: "dd/MM/yyyy hh:mm a"}}</span>
                   </p>
                   <ng-template #fileRender>
                     <app-file-render [message]="message"></app-file-render>

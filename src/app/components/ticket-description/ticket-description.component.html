@@ -16,28 +16,32 @@
     <p><b>Status :</b>{{ description.status }}</p>
     <p><b>Description :</b>{{ description.description }}</p>
     <p><b>Comments :</b>{{ description.comments }}</p>
-    <p><b>ReceivedDate :</b>{{ description.receivedDate }}</p>
-    <b>addOnResource :</b> <span>{{ getaddonResource() }}</span>
-    <ul>
-      <li *ngFor="let updates of description.updates; let i = index">
-        <p class="fw-bold text-decoration-underline">Update {{ i + 1 }}</p>
-        <p><span class="fw-medium">Date: &nbsp;</span> {{ updates.date }}</p>
-        <p>
-          <span class="fw-medium">Description: &nbsp;</span>
-          {{ updates.description }}
-        </p>
-        <p>
-          <span class="fw-medium">Comments: &nbsp;</span> {{ updates.comments }}
-        </p>
-        <p>
-          <span class="fw-medium">Status: &nbsp;</span> {{ updates.status }}
-        </p>
-        <p>
-          <span class="fw-medium">UpdateBy: &nbsp;</span>
-          {{ updates.updatedBy.name }}
-        </p>
-      </li>
-    </ul>
+    <p>
+      <b>ReceivedDate :</b
+      >{{ description.receivedDate | date: "dd/MM/yyyy hh:mm a" }}
+    </p>
+    <p>
+      <b>addOnResource :</b> <span>{{ getaddonResource() }}</span>
+    </p>
+    <div class="m-2" *ngFor="let updates of description.updates; let i = index">
+      <p class="fw-bold text-decoration-underline">Update {{ i + 1 }}</p>
+      <p>
+        <span class="fw-medium">Date: &nbsp;</span>
+        {{ updates.date | date: "dd/MM/yyyy hh:mm a" }}
+      </p>
+      <p>
+        <span class="fw-medium">Description: &nbsp;</span>
+        {{ updates.description }}
+      </p>
+      <p>
+        <span class="fw-medium">Comments: &nbsp;</span> {{ updates.comments }}
+      </p>
+      <p><span class="fw-medium">Status: &nbsp;</span> {{ updates.status }}</p>
+      <p>
+        <span class="fw-medium">UpdateBy: &nbsp;</span>
+        {{ updates.updatedBy.name }}
+      </p>
+    </div>
   </div>
 </div>
 <!-- Send mail -->
@@ -63,5 +67,4 @@
       {{ loadingStaus ? "loading..." : "Send Mail" }}
     </button>
   </div>
-  <div></div>
 </ng-template>

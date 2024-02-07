@@ -100,7 +100,6 @@ export class TicketsComponent {
     });
   }
   gotodescription(data: any) {
-    console.log(data, '103:::::');
     this.route.navigate(['../ticket-description', data._id], {
       relativeTo: this.router,
     });

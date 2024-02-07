@@ -1,15 +1,9 @@
 <div class="Container" *ngIf="currentUser">
   <div class="userinfo">
-    <img
-      *ngIf="currentUser.profileImageUrl"
-      src="{{ currentUser.profileImageUrl }}"
-      alt=""
-    />
-    <img
-      *ngIf="!currentUser.profileImageUrl"
+    <img *ngIf="currentUser.profileImageUrl" src="{{ currentUser.profileImageUrl }}" alt="" />
+    <img *ngIf="!currentUser.profileImageUrl"
       src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU"
-      alt=""
-    />
+      alt="" />
     <p>{{ currentUser.firstName }}</p>
     &nbsp;&nbsp;
     <span>({{ currentUser.userId }} )</span>
@@ -34,46 +28,32 @@
               {{ logintime.date }} :
               <span *ngFor="let time of logintime.loginTime">
                 {{ time.inTime }} - login :{{
-                  time.outTime ? time.outTime : "***"
+                time.outTime ? time.outTime : "***"
                 }}
-                - logout</span
-              >
+                - logout</span>
             </p>
           </div>
         </div>
         <div class="status" *ngIf="breakTimes">
           <h2>Break Time</h2>
           <p *ngFor="let status of breakTimes.status">
-            <span *ngIf="status.type === 'END'"
-              >Start :{{ status.startTime }} - End :{{ status.endTime }}</span
-            >
+            <span *ngIf="status.type === 'END'">Start :{{ status.startTime }} - End :{{ status.endTime }}</span>
           </p>
         </div>
         <div>
-          <button
-            class="btn btn-info"
-            (click)="requestChat()"
-            *ngIf="!isAdminView"
-          >
+          <button class="btn btn-info" (click)="requestChat()" *ngIf="!isAdminView">
             Request Chat with User
           </button>
         </div>
         <div class="requestchat" *ngIf="requestchat">
           <mat-form-field>
-            <mat-select
-              placeholder="Select user"
-              (selectionChange)="selectuser($event.value)"
-            >
+            <mat-select placeholder="Select user" (selectionChange)="selectuser($event.value)">
               <mat-option [value]="user" *ngFor="let user of userList">{{
-                user.firstName
-              }}</mat-option>
+                chatservice.getFullName(user)
+                }}</mat-option>
             </mat-select>
           </mat-form-field>
-          <button
-            *ngIf="requestchat"
-            class="btn btn-warning admin"
-            (click)="sendadmin()"
-          >
+          <button *ngIf="requestchat" class="btn btn-warning admin" (click)="sendadmin()">
             send Admin
           </button>
         </div>
@@ -105,12 +85,8 @@
   </div>
 </div>
 
-<app-table
-  [data]="userTickets"
-  [tableColumns]="ticketColumns"
-  (firstBtnClick)="update($event)"
-  (secondBtnClick)="routeToTickets($event)"
->
+<app-table [data]="userTickets" [tableColumns]="ticketColumns" (firstBtnClick)="update($event)"
+  (secondBtnClick)="routeToTickets($event)">
 </app-table>
 
 <ng-template #updateModel let-d="dismiss">
@@ -125,19 +101,9 @@
             Client Name : {{ clientDetails.client.name }}
           </h3>
           <label for="">Description</label>
-          <input
-            type="text"
-            placeholder="description"
-            class="form-control m-2"
-            formControlName="description"
-          />
+          <input type="text" placeholder="description" class="form-control m-2" formControlName="description" />
           <label for="">Comments</label>
-          <textarea
-            class="comments"
-            cols="65"
-            rows="5"
-            formControlName="comments"
-          ></textarea>
+          <textarea class="comments" cols="65" rows="5" formControlName="comments"></textarea>
           <select class="form-control m-2" formControlName="status">
             <option value="" disabled selected class="hide">
               Select Status

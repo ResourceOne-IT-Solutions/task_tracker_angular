@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { ChatService } from 'src/app/services/chat.service';
 import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-user-view',
   templateUrl: './user-view.component.html',
@@ -19,6 +19,7 @@ export class UserViewComponent implements OnInit {
     private router: Router,
     private loader: NgxSpinnerService,
     private route: ActivatedRoute,
+    private location: Location,
   ) {}
 
   ngOnInit() {
@@ -54,7 +55,6 @@ export class UserViewComponent implements OnInit {
     this.router.navigate(['../tickets'], { relativeTo: this.route });
   }
   updateMessage(message: any) {
-    console.log(message, 'message');
     const payload = {
       status: 'SEEN',
       messageId: message._id,
@@ -65,5 +65,8 @@ export class UserViewComponent implements OnInit {
       key: 'updateAdminMessageStatus',
       data: payload,
     });
+  }
+  goback() {
+    this.location.back();
   }
 }
