@@ -15,7 +15,8 @@
     "prettier"
   ],
   "rules": {
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "@typescript-eslint/prefer-nullish-coalescing": "error"
   },
   "parserOptions": {
     "ecmaVersion": "latest",

@@ -126,7 +126,7 @@ export class NavBarComponent {
     this.statuschange = data;
     const updatePayload = {
       id: this.userDetails._id,
-      status: this.Status,
+      status: this.userDetails.status,
     };
     this.chatservice.sendSocketData({
       key: 'changeStatus',
@@ -232,7 +232,8 @@ export class NavBarComponent {
     }
   }
   phoneValidation(evt: any) {
-    console.log(this.mobile?.value);
+    const inputChar = String.fromCharCode(evt.charCode);
+    if (this.mobile?.value.length > 9 || !/^\d+$/.test(inputChar)) {
     const inputChar = String.fromCharCode(evt.charCode);
     if (!/^\d+$/.test(inputChar)) {
       evt.preventDefault();

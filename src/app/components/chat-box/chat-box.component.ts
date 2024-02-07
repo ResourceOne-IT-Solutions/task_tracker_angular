@@ -103,6 +103,7 @@ export class ChatBoxComponent {
     if (this.currentUser) {
       this.chatservice.getSocketData('roomMessages').subscribe((res) => {
         this.TotalMessages = res;
+        this.scrollToBottom();
       });
     } else {
     }
@@ -203,6 +204,10 @@ export class ChatBoxComponent {
     this.RoomId = group._id;
   }
 
+  scrollToBottom() {
+    this.chatContainer.nativeElement.scrollTop =
+      this.chatContainer.nativeElement.scrollHeight + 10;
+  }
   Contacts() {
     this.chatservice.getAllClients().subscribe((res: any) => {
       this.ClientContacts = res;

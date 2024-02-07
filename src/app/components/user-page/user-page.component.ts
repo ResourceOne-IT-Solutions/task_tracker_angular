@@ -174,7 +174,6 @@ export class UserPageComponent implements OnInit {
     //AllUserList.....
     this.chatservice.getAllUsers().subscribe((res) => {
       this.userList = res;
-      console.log(this.route);
       if (this.paramId) {
         this.currentUser = this.userList.find(
           (val: any) => val._id === this.paramId,
@@ -183,7 +182,6 @@ export class UserPageComponent implements OnInit {
       }
     });
     this.chatservice.getSocketData('adminMessageToAll').subscribe((res) => {
-      console.log(res, 'admin message');
       alert(
         `Send By AdminName: ${res.sender.name} ,  Admin message  : ${res.content}`,
       );
@@ -285,7 +283,6 @@ export class UserPageComponent implements OnInit {
     const loginTime = this.loginTimeGroupedByDate();
     this.breakTimes = statusByBreak ? statusByBreak[0] : undefined;
     this.loginTiming = loginTime ? loginTime : undefined;
-    console.log(user, 'login');
     if (!this.isAdminView) {
       this.ticketColumns.push({
         columnDef: 'TicketRaised',
@@ -338,7 +335,6 @@ export class UserPageComponent implements OnInit {
   private formatDate(date: string): string {
     const today = new Date();
     const statusdate = new Date(date);
-    console.log(today.toLocaleDateString(), date);
     if (today.toLocaleDateString() === statusdate.toLocaleDateString()) {
       return 'Today';
     } else {

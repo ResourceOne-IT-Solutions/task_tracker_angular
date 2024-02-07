@@ -443,7 +443,6 @@ export class UserlistComponent {
       id: this.clientDetails._id,
       data: data,
     };
-    console.log(payload, 'upadte client payload');
     this.chatservice.updateClient(payload).subscribe((res: any) => {
       this.clientData = this.clientData.map((element: any) =>
         element._id === res._id ? res : element,
@@ -471,7 +470,6 @@ export class UserlistComponent {
   }
   //Tickets
   assignTicket(ticket: any) {
-    console.log(ticket, 'ticket');
     const userdata: any = this.MockUsers.filter(
       (val: any) => !val.isAdmin && val._id !== ticket.user.id,
     );
@@ -634,7 +632,6 @@ export class UserlistComponent {
     });
   }
   phoneValidation(evt: any) {
-    console.log(this.phone?.value);
     const inputChar = String.fromCharCode(evt.charCode);
     if (this.phone?.value.length > 9 || !/^\d+$/.test(inputChar)) {
       evt.preventDefault();

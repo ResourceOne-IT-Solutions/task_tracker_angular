@@ -1,3 +1,6 @@
+<div class="Back">
+  <button (click)="goback()" class="btn btn-danger">Go To Back</button>
+</div>
 <div class="User-ViewRequest">
   <div class="User-ChatRequest position-relative">
     <h1>Chat Request</h1>
@@ -26,6 +29,7 @@
           </div>
         </div>
       </li>
+      <h2 *ngIf="userChatRequest?.length <= 0">No Ticket Request Data</h2>
       <ngx-spinner
         bdColor="rgba(0,0,0,0.32)"
         size="large"
@@ -63,6 +67,7 @@
           </div>
         </div>
       </li>
+      <h2 *ngIf="userTicketRequest?.length <= 0">No Ticket Request Data</h2>
       <ngx-spinner
         bdColor="rgba(0,0,0,0.32)"
         size="large"
@@ -94,6 +99,7 @@
           </div>
         </div>
       </li>
+      <h2 *ngIf="adminMessages?.length <= 0">No Ticket Request Data</h2>
       <ngx-spinner
         bdColor="rgba(0,0,0,0.32)"
         size="large"

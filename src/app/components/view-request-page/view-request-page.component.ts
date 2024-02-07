@@ -40,7 +40,6 @@ export class ViewRequestPageComponent {
       .getSocketData('userRequestApproved')
       .subscribe(({ type, result }) => {
         if (type === 'TICKET') {
-          console.log('ticket');
           this.TicketRequest.forEach((tkt: any) => {
             if (tkt._id === result._id) {
               tkt = result;
@@ -48,7 +47,6 @@ export class ViewRequestPageComponent {
           });
         }
         if (type === 'CHAT') {
-          console.log('chat');
           this.ChatRequest.forEach((chat: any) => {
             if (chat._id === result._id) {
               chat = result;

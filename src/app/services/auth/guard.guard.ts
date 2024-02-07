@@ -27,7 +27,6 @@ export class guardGuard implements CanActivate {
           Authorization: token,
         }),
       };
-      console.log(route.routeConfig?.path, 'url');
       if (route.routeConfig && route.routeConfig.path === 'login_page') {
         this.router.navigate(['/dashboard']);
       }
