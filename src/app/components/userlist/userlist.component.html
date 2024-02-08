@@ -255,3 +255,8 @@
   [data]="userTicketsData"
    [tableColumns]="userTickets"
 ></app-table>
+<app-table
+  *ngIf="params == 'helped tickets'"
+  [data]="userTicketsData"
+   [tableColumns]="userTickets"
+></app-table>

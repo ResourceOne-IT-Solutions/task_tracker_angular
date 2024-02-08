@@ -91,6 +91,11 @@ const routes: Routes = [
         canActivate: [guardGuard],
       },
       {
+        path: 'helped-tickets',
+        component: UserlistComponent,
+        canActivate: [guardGuard],
+      },
+      {
         path: 'ticket-description/:id',
         component: TicketdescriptionComponent,
         canActivate: [guardGuard],

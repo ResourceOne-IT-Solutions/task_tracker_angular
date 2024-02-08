@@ -112,6 +112,11 @@ export class UserlistComponent {
         );
       }
     })
+    if(this.params === 'helped tickets' && !this.adminDetails.isAdmin){
+      this.chatservice.get(`/tickets/helped-tickets/${this.adminDetails._id}`).subscribe((res)=>{
+          this.userTicketsData = res
+      })
+    }
   }
     this.chatservice.getPendingTickets().subscribe((res: any) => {
       this.ticketData = res;
