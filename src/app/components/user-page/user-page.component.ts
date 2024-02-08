@@ -147,6 +147,9 @@ export class UserPageComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    this.chatservice.getSocketData('ticketRaiseStatus').subscribe(res=>{
+      alert(res);
+    })
     setInterval(() => {
       let Estdate = new Date();
       this.est = Estdate.toLocaleTimeString('en-US', {
@@ -173,7 +176,9 @@ export class UserPageComponent implements OnInit {
     });
     //AllUserList.....
     this.chatservice.getAllUsers().subscribe((res) => {
-      this.userList = res;
+      this.userList = res.filter((val:any)=>{
+        return !val.isAdmin
+      });
       if (this.paramId) {
         this.currentUser = this.userList.find(
           (val: any) => val._id === this.paramId,
@@ -407,7 +412,6 @@ export class UserPageComponent implements OnInit {
         },
       },
     });
-    alert('request send admin');
   }
 
   updateStatus() {
@@ -433,6 +437,5 @@ export class UserPageComponent implements OnInit {
       key: 'requestTickets',
       data: CilentPayload,
     });
-    alert('Request Sent Successfully............');
   }
 }

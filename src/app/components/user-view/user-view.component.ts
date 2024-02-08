@@ -26,19 +26,48 @@ export class UserViewComponent implements OnInit {
     this.loader.show();
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.currentuser = res;
+      console.log(this.currentuser , '29:::');
     });
 
     this.chatservice
       .getChatMessageById(this.currentuser._id)
       .subscribe((res) => {
         this.userChatRequest = res;
+        console.log(this.userChatRequest , '35::::');
         this.loader.hide();
-      });
+      }); 
     this.chatservice
       .getTickesRequestMesgById(this.currentuser._id)
       .subscribe((res) => {
         this.userTicketRequest = res;
         this.loader.hide();
+      });
+
+      this.chatservice
+      .getSocketData('userRequestApproved')
+      .subscribe(({ type, result }) => {
+        console.log(type , result,'49::::');
+        if(result.sender.id ===this.currentuser._id){
+          if (type === 'TICKET') {
+           const ticket = this.userTicketRequest.map((tkt: any) => {
+              if (tkt._id === result._id) {
+                return result
+              }
+              return tkt
+            });
+            this.userTicketRequest = ticket
+          }
+          if (type === 'CHAT') {
+            const chat = this.userChatRequest.map((chat: any) => {
+              if (chat._id === result._id) {
+                return result;
+              }
+              return chat
+            });
+            this.userChatRequest = chat
+          }          
+        }
+       
       });
     this.chatservice.getAdminChatMessages().subscribe((res) => {
       this.adminMessages = res;

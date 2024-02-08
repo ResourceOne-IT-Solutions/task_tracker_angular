@@ -24,7 +24,7 @@ export class MainDashboardComponent {
   ngOnInit() {
     this.data = localStorage.getItem('currentTaskUser');
     this.chatservice.getSocketData('error').subscribe((res) => {
-      //  alert(res);
+       alert(res);
     });
     this.userData$ = this.chatservice.UserLoginData.pipe(
       map((res: any) => {
