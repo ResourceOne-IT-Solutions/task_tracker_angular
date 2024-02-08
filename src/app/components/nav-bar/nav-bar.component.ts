@@ -16,7 +16,6 @@ export class NavBarComponent {
   adminStatus = ['Offline', 'Break', 'Available', 'On Ticket'];
 
   @Input() 'isAdmin': boolean;
-  statuschange: any;
   @Input() userDetails: any;
   @Input() Status: any;
   'roomCount': number;
@@ -125,10 +124,10 @@ export class NavBarComponent {
     this.router.navigate(['/']);
   }
   changeStatus(data: any) {
-    this.statuschange = data;
+    console.log(data)
     const updatePayload = {
       id: this.userDetails._id,
-      status: this.userDetails.status,
+      status: this.Status,
     };
     this.Status === 'Available' ? this.idle.startIdleMonitoring() : this.idle.stopIdleIdleMonitoring();
     this.chatservice.sendSocketData({
