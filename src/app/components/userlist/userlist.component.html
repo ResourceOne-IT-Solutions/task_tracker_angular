@@ -3,14 +3,8 @@
   {{ params | titlecase }}
 </h1>
 <div class="d-flex justify-content-between align-items-center">
-  <input
-    class="form-control w-50 border border-dark m-2"
-    [(ngModel)]="searchFilter"
-    (keyup)="SearchUsers()"
-    type="text"
-    name="search"
-    placeholder="search"
-  />
+  <input class="form-control w-50 border border-dark m-2" [(ngModel)]="searchFilter" (keyup)="SearchUsers()" type="text"
+    name="search" placeholder="search" />
   <button (click)="goback()" class="btn btn-danger h-25 mr-5">
     Go To Back
   </button>
@@ -24,53 +18,20 @@
       <div class="col-md-12">
         <div class="form-group" [formGroup]="userForm">
           <label class="ms-2">First Name</label>
-          <input
-            type="text"
-            placeholder="First Name"
-            class="form-control m-2"
-            formControlName="fname"
-          />
+          <input type="text" placeholder="First Name" class="form-control m-2" formControlName="fname" />
           <label class="ms-2">Last Name</label>
-          <input
-            type="text"
-            placeholder="Last Name"
-            class="form-control m-2"
-            formControlName="lname"
-          />
+          <input type="text" placeholder="Last Name" class="form-control m-2" formControlName="lname" />
           <label class="ms-2">Email</label>
-          <input
-            type="email"
-            placeholder="Email"
-            class="form-control m-2"
-            formControlName="email"
-          />
+          <input type="email" placeholder="Email" class="form-control m-2" formControlName="email" />
           <label class="ms-2">Phone Number</label>
-          <input
-            type="text"
-            placeholder="Phone Number"
-            class="form-control m-2"
-            formControlName="phone"
-          />
+          <input type="text" placeholder="Phone Number" class="form-control m-2" formControlName="phone" />
           <div *ngIf="addNewUser">
             <label class="ms-2">Join Date</label>
-            <input
-              type="date"
-              placeholder="Join Date"
-              class="form-control m-2"
-              formControlName="joiningDate"
-            />
+            <input type="date" placeholder="Join Date" class="form-control m-2" formControlName="joiningDate" />
             <label class="ms-2">Profile Image</label>
-            <input
-              type="file"
-              class="form-control m-2"
-              formControlName="profileImageUrl"
-            />
+            <input type="file" class="form-control m-2" formControlName="profileImageUrl" />
             <label class="ms-2">Address</label>
-            <textarea
-              formControlName="address"
-              class="form-control m-2"
-              placeholder="Enter Your Address"
-            ></textarea>
+            <textarea formControlName="address" class="form-control m-2" placeholder="Enter Your Address"></textarea>
           </div>
           <label class="ms-2">Date Of Birth</label>
           <input type="date" class="form-control m-2" formControlName="dob" />
@@ -127,11 +88,7 @@
       <div class="col-md-12">
         <div class="form-group" [formGroup]="clientForm">
           <label class="ps-2">Location</label>
-          <input
-            type="text"
-            class="form-control m-2"
-            formControlName="location"
-          />
+          <input type="text" class="form-control m-2" formControlName="location" />
           <label class="ps-2">Zone</label>
           <select class="form-control m-2" formControlName="zone">
             <option value="" disabled selected class="hide">
@@ -142,23 +99,11 @@
             </option>
           </select>
           <label class="ps-2">Phone Number</label>
-          <input
-            type="text"
-            class="form-control m-2"
-            formControlName="mobile"
-          />
+          <input type="text" class="form-control m-2" formControlName="mobile" />
           <label class="ps-2">Technologies</label>
-          <input
-            type="text"
-            class="form-control m-2"
-            formControlName="technologies"
-          />
+          <input type="text" class="form-control m-2" formControlName="technologies" />
           <label class="ps-2">Company Name</label>
-          <input
-            type="text"
-            class="form-control m-2"
-            formControlName="companyName"
-          />
+          <input type="text" class="form-control m-2" formControlName="companyName" />
         </div>
       </div>
     </div>
@@ -167,6 +112,42 @@
     <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
 
     <button class="btn btn-sm btn-primary" (click)="updateClient(d)">
+      Update
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #updateModel let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">{{ modelHeader }}</h4>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group" [formGroup]="updateForm">
+          <h3 class="fw-medium">
+            Client Name : {{ userDetailsdata.client.name }}
+          </h3>
+          <label for="">Description</label>
+          <input type="text" placeholder="description" class="form-control m-2" formControlName="description" />
+          <label for="">Comments</label>
+          <textarea class="comments" cols="65" rows="5" formControlName="comments"></textarea>
+          <select class="form-control m-2" formControlName="status">
+            <option value="" disabled selected class="hide">
+              Select Status
+            </option>
+            <option *ngFor="let status of userstatus" [value]="status">
+              {{ status }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <span *ngIf="updateError" class="text-danger">{{updateError}}</span>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
+    <button class="btn btn-sm btn-primary" (click)="updateUserTicket(d)">
       Update
     </button>
   </div>
@@ -203,12 +184,7 @@
   <div class="modal-header p-2 m-0 text-bg-warning">Update</div>
   <div class="modal-body m-2">
     <h3>{{ chatservice.getFullName(ticketDetails.client) | titlecase }}</h3>
-    <input
-      type="text"
-      class="form-control"
-      [value]="ticketDetails.client.email"
-      disabled
-    />
+    <input type="text" class="form-control" [value]="ticketDetails.client.email" disabled />
     <textarea class="form-control m-2" [rows]="4" [(ngModel)]="description">
     </textarea>
     <div class="successMsg" *ngIf="mailSuccessMsg && mailSuccessMsg.message">
@@ -225,33 +201,15 @@
   </div>
 </ng-template>
 
-<app-table
-  *ngIf="params == 'user list'"
-  [data]="userList"
-  (firstBtnClick)="editUser($event)"
-  (secondBtnClick)="deleteUser($event)"
-  (userDetails)="openUserDetails($event)"
-  [tableColumns]="userColumns"
->
+<app-table *ngIf="params == 'user list'" [data]="userList" (firstBtnClick)="editUser($event)"
+  (secondBtnClick)="deleteUser($event)" (userDetails)="openUserDetails($event)" [tableColumns]="userColumns">
 </app-table>
 
-<app-table
-  *ngIf="params == 'client list'"
-  [data]="clientData"
-  (firstBtnClick)="editClient($event)"
-  (secondBtnClick)="deleteClient($event)"
-  (clientnameClick)="routeToClientTickets($event)"
-  [tableColumns]="clientColumns"
-></app-table>
+<app-table *ngIf="params == 'client list'" [data]="clientData" (firstBtnClick)="editClient($event)"
+  (secondBtnClick)="deleteClient($event)" (clientnameClick)="routeToClientTickets($event)"
+  [tableColumns]="clientColumns"></app-table>
 
-<app-table
-  *ngIf="params == 'today tickets'"
-  [data]="ticketData"
-  (singleButtonClick)="singleButtonClick($event)"
-  [tableColumns]="ticketColumns"
-></app-table>
-<app-table
-  *ngIf="params == 'user tickets'"
-  [data]="userTicketsData"
-   [tableColumns]="userTickets"
-></app-table>
+<app-table *ngIf="params == 'today tickets'" [data]="ticketData" (singleButtonClick)="singleButtonClick($event)"
+  [tableColumns]="ticketColumns"></app-table>
+<app-table *ngIf="params == 'user tickets'" [data]="userTicketsData" [tableColumns]="userTickets"
+  (firstBtnClick)="update($event)" (secondBtnClick)="routeToTickets($event)"></app-table>
