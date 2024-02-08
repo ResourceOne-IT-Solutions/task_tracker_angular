@@ -153,7 +153,7 @@ export class NavBarComponent {
   }
   userTickets() {
     this.chatservice.ticketRequests('');
-    this.router.navigate(['tickets'], { relativeTo: this.route });
+    this.router.navigate(['user-tickets'], { relativeTo: this.route });
   }
   gotDashBoard() {
     this.router.navigate(['dashboard']);

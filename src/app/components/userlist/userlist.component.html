@@ -250,3 +250,8 @@
   (singleButtonClick)="singleButtonClick($event)"
   [tableColumns]="ticketColumns"
 ></app-table>
+<app-table
+  *ngIf="params == 'user tickets'"
+  [data]="userTicketsData"
+   [tableColumns]="userTickets"
+></app-table>
