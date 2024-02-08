@@ -4,7 +4,7 @@
     <img *ngIf="!currentUser.profileImageUrl"
       src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU"
       alt="" />
-    <p>{{ currentUser.firstName }}</p>
+    <p>{{  chatservice.getFullName(currentUser) }}</p>
     &nbsp;&nbsp;
     <span>({{ currentUser.userId }} )</span>
     <span [ngClass]="currentUser.status"></span>&nbsp;
