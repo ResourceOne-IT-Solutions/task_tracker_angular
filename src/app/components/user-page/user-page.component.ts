@@ -20,13 +20,7 @@ export class UserPageComponent implements OnInit {
   Userstatus = true;
   selectedstatus: any;
   date = new Date();
-  @ViewChild('updateModel', { static: false }) updateModel: any;
-  userstatus = ['In Progress', 'Pending', 'Closed', 'Improper Requirment'];
   userTickets: any = [];
-  // selectedIndex:any
-  modelHeader: string = '';
-  userID: any = [];
-  updateForm: FormGroup;
   Closed: any;
   Assigned: any;
   pending: any;
@@ -34,89 +28,9 @@ export class UserPageComponent implements OnInit {
   stepper: any;
   Improper: any;
   helpedTickets: any;
-  ticketColumns: Array<Column> = [
-    {
-      columnDef: 'client',
-      header: 'client Name',
-      cell: (element: any) => `${element['client'].name}`,
-      isText: true,
-    },
-    {
-      columnDef: 'user',
-      header: 'user name',
-      cell: (element: any) => `${element['user'].name || '--'}`,
-      isText: true,
-    },
-    {
-      columnDef: 'technology',
-      header: 'Technology',
-      cell: (element: any) => `${element['technology']}`,
-      isText: true,
-    },
-    {
-      columnDef: 'receivedDate',
-      header: 'received Date',
-      cell: (element: any) =>
-        `${new Date(element['receivedDate']).toLocaleString()}`,
-      isText: true,
-    },
-    {
-      columnDef: 'assignedDate',
-      header: 'Assigned Date',
-      cell: (element: any) =>
-        `${new Date(element['assignedDate']).toLocaleString()}`,
-      isText: true,
-    },
-    {
-      columnDef: 'description',
-      header: 'Description',
-      cell: (element: any) => `${element['description']}`,
-      isText: true,
-    },
-    {
-      columnDef: 'comments',
-      header: 'Comments',
-      cell: (element: any) => `${element['comments']}`,
-      isText: true,
-    },
-    {
-      columnDef: 'closedDate',
-      header: 'Closed Date',
-      cell: (element: any) =>
-        `${new Date(element['closedDate']).toLocaleString()}`,
-      isText: true,
-    },
-    {
-      columnDef: 'targetDate',
-      header: 'Target Date',
-      cell: (element: any) =>
-        `${new Date(element['targetDate']).toLocaleString()}`,
-      isText: true,
-    },
-    {
-      columnDef: 'status',
-      header: 'status',
-      cell: (element: any) => `${element['status']}`,
-      isText: true,
-    },
-  ];
-
-  displayColumns = [
-    'client',
-    'status',
-    'user',
-    'technology',
-    'recivedDate',
-    'TicketRaised',
-    'description',
-    'comments',
-  ];
-  clientDetails: any;
   currentUser: any;
   userList: any;
   SelectedUserdata: any;
-  statuschange: any;
-  resourceAssigned: any;
   statusByDate: any;
   loginTime: any;
   isAdminView: boolean = false;
@@ -140,14 +54,10 @@ export class UserPageComponent implements OnInit {
       history.pushState(null, '', window.location.href);
       // this.stepper.previous();
     });
-    this.updateForm = this.fb.group({
-      description: ['', Validators.required],
-      comments: ['', Validators.required],
-      status: ['', Validators.required],
-    });
+
   }
   ngOnInit(): void {
-    this.chatservice.getSocketData('ticketRaiseStatus').subscribe(res=>{
+    this.chatservice.getSocketData('ticketRaiseStatus').subscribe(res => {
       alert(res);
     })
     setInterval(() => {
@@ -176,7 +86,7 @@ export class UserPageComponent implements OnInit {
     });
     //AllUserList.....
     this.chatservice.getAllUsers().subscribe((res) => {
-      this.userList = res.filter((val:any)=>{
+      this.userList = res.filter((val: any) => {
         return !val.isAdmin
       });
       if (this.paramId) {
@@ -288,15 +198,7 @@ export class UserPageComponent implements OnInit {
     const loginTime = this.loginTimeGroupedByDate();
     this.breakTimes = statusByBreak ? statusByBreak[0] : undefined;
     this.loginTiming = loginTime ? loginTime : undefined;
-    if (!this.isAdminView) {
-      this.ticketColumns.push({
-        columnDef: 'TicketRaised',
-        header: 'Ticket Rise',
-        cell: (element: any) =>
-          element === 'btn1' ? 'Update Ticket' : 'Request ticket',
-        isMultiButton: true,
-      });
-    }
+
   }
   /*
   {
@@ -350,49 +252,7 @@ export class UserPageComponent implements OnInit {
   deleteCookie(name: string) {
     document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC';
   }
-  update(userDetails: any) {
-    this.modelHeader = 'Update Ticket';
-    this.userID = userDetails._id;
-    this.clientDetails = userDetails;
-    this.openPopup(this.updateModel);
-    this.updateForm.patchValue({
-      description: userDetails.description,
-      comments: userDetails.comments,
-      status: userDetails.status,
-    });
-  }
-  openPopup(content: any): void {
-    this.modalService.open(content);
-  }
-  updateUser(dismiss: any) {
-    if (this.updateForm.valid) {
-      const ticketpayload = {
-        id: this.userID,
-        data: {
-          ...this.updateForm.value,
-          updatedBy: {
-            name: this.chatservice.getFullName(this.currentUser),
-            id: this.currentUser._id,
-          },
-        },
-      };
-      this.chatservice.updateTicket(ticketpayload).subscribe((res: any) => {
-        this.userTickets = this.userTickets.map((val: any) => {
-          if (val._id === res._id) {
-            val = res;
-            return res;
-          }
-          return val;
-        });
 
-        this.updateForm.reset();
-      });
-      dismiss();
-    }
-  }
-  cancel(dismiss: any) {
-    dismiss();
-  }
 
   requestChat() {
     this.requestchat = !this.requestchat;
@@ -421,21 +281,5 @@ export class UserPageComponent implements OnInit {
     this.SelectedUserdata = data;
   }
 
-  routeToTickets(data: any) {
-    this.chatservice.getuserTicketById(data);
-    const CilentPayload = {
-      client: {
-        name: data.client.name,
-        id: data.client.id,
-      },
-      sender: {
-        name: this.chatservice.getFullName(this.currentUser),
-        id: this.currentUser._id,
-      },
-    };
-    this.chatservice.sendSocketData({
-      key: 'requestTickets',
-      data: CilentPayload,
-    });
-  }
+
 }

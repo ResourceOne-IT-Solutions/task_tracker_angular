@@ -25,10 +25,14 @@ export class UserlistComponent {
   @ViewChild('clientModel', { static: false }) clientModel: any;
   @ViewChild('sendMailModel', { static: false }) sendMailModel: any;
   @ViewChild('assignTicketModel', { static: false }) assignTicketModel: any;
+  @ViewChild('updateModel', { static: false }) updateModel: any;
+
   userList: any = [];
   modelHeader: string = '';
   'userForm': FormGroup;
   'clientForm': FormGroup;
+  'updateForm': FormGroup;
+  userstatus = ['In Progress', 'Pending', 'Closed', 'Improper Requirment'];
   userDetails: any;
   userModelData: any;
   addNewUser: boolean = false;
@@ -44,9 +48,12 @@ export class UserlistComponent {
   MockUsers: any;
   zones: any = ['EST', 'IST', 'CST', 'PST'];
   clientDetails: any;
+  userDetailsdata: any;
+
   ticketDetails: any;
   description: any;
   assignErr: any;
+  updateError: any;
   assignUser: any;
   adminDetails: any;
   mailSuccessMsg: any;
@@ -54,12 +61,12 @@ export class UserlistComponent {
 
   userColumns: Array<Column> = userColumns
   clientColumns: Array<Column> = clientColumns
-  ticketColumns : Array<Column>= [...ticketColumns , ...adminTicketColumns]
-  userTickets : Array<Column>=[...ticketColumns , ...userTicketColumns]
+  ticketColumns: Array<Column> = [...ticketColumns, ...adminTicketColumns]
+  userTickets: Array<Column> = [...ticketColumns, ...userTicketColumns]
   params: any;
   MockticketData: any;
   MockClientData: any;
-  userTicketsData: any=[];
+  userTicketsData: any = [];
   constructor(
     public chatservice: ChatService,
     private modalService: NgbModal,
@@ -68,7 +75,7 @@ export class UserlistComponent {
     private location: Location,
     private route: ActivatedRoute,
     public dialog: MatDialog,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.params = this.route.snapshot.routeConfig?.path?.split('-').join(' ');
@@ -89,6 +96,11 @@ export class UserlistComponent {
       technologies: ['', Validators.required],
       companyName: ['', Validators.required],
     });
+    this.updateForm = this.fb.group({
+      description: ['', Validators.required],
+      comments: ['', Validators.required],
+      status: ['', Validators.required],
+    });
     this.chatservice.getAllUsers().subscribe((res) => {
       this.userList = res;
       this.MockUsers = this.userList;
@@ -104,6 +116,7 @@ export class UserlistComponent {
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.adminDetails = res;
     });
+
    if(!this.adminDetails.isAdmin){
     this.chatservice.getAllTickets().subscribe((res: any) => {
       if (this.adminDetails) {
@@ -388,6 +401,60 @@ export class UserlistComponent {
         },
       );
     }
+  }
+  // user ticket update form 
+  update(userDetails: any) {
+    this.modelHeader = 'Update Ticket';
+    this.openPopup(this.updateModel);
+    this.updateForm.patchValue({
+      description: userDetails.description,
+      comments: userDetails.comments,
+      status: userDetails.status,
+    });
+    this.userDetailsdata = userDetails;
+  }
+  updateUserTicket(dismiss: any) {
+    const ticketpayload = {
+      id: this.userDetailsdata._id,
+      data: {
+        ...this.updateForm.value,
+        updatedBy: {
+          name: this.chatservice.getFullName(this.adminDetails),
+          id: this.adminDetails._id,
+        },
+      },
+    };
+    this.chatservice.updateTicket(ticketpayload).subscribe((res: any) => {
+      this.userTicketsData = this.userTicketsData.map((val: any) => {
+        if (val._id === res._id) {
+          val = res;
+          return res;
+        }
+        return val;
+      });
+      dismiss();
+    },
+      (err: any) => {
+        this.updateError = err.error.error;
+      }
+    );
+  }
+  routeToTickets(data: any) {
+    this.chatservice.getuserTicketById(data);
+    const CilentPayload = {
+      client: {
+        name: data.client.name,
+        id: data.client.id,
+      },
+      sender: {
+        name: this.chatservice.getFullName(this.adminDetails),
+        id: this.adminDetails._id,
+      },
+    };
+    this.chatservice.sendSocketData({
+      key: 'requestTickets',
+      data: CilentPayload,
+    });
   }
 
   SendMail(dismiss: any) {

@@ -1,5 +1,5 @@
 <nav class="navbar navbar-light justify-content-between p-2" style=" background: #bcbdd3;" *ngIf="userDetails">
-  <a class="navbar-brand Dashboard" (click)="gotDashBoard()">Dashboard</a>
+  <a class="navbar-brand Dashboard" (click)="gotDashBoard()">{{isAdmin ? 'Admin':'User'}} Dashboard</a>
   <div class="mr-sm-2">
     <button class="btn btn-warning m-2">
       <a [routerLink]="['Chat-Box']" class="text-decoration-none">Chat Box</a>
