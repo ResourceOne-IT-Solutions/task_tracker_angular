@@ -116,15 +116,21 @@ export class UserlistComponent {
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.adminDetails = res;
     });
-    if (!this.adminDetails.isAdmin) {
-      this.chatservice.getAllTickets().subscribe((res: any) => {
-        if (this.adminDetails) {
-          this.userTicketsData = res.filter(
-            (item: any) => item.user.id === this.adminDetails._id,
-          );
-        }
+
+   if(!this.adminDetails.isAdmin){
+    this.chatservice.getAllTickets().subscribe((res: any) => {
+      if (this.adminDetails) {
+        this.userTicketsData = res.filter(
+          (item: any) => item.user.id === this.adminDetails._id,
+        );
+      }
+    })
+    if(this.params === 'helped tickets' && !this.adminDetails.isAdmin){
+      this.chatservice.get(`/tickets/helped-tickets/${this.adminDetails._id}`).subscribe((res)=>{
+          this.userTicketsData = res
       })
     }
+  }
     this.chatservice.getPendingTickets().subscribe((res: any) => {
       this.ticketData = res;
       this.MockticketData = this.ticketData;

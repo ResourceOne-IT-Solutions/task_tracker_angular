@@ -207,9 +207,22 @@
 
 <app-table *ngIf="params == 'client list'" [data]="clientData" (firstBtnClick)="editClient($event)"
   (secondBtnClick)="deleteClient($event)" (clientnameClick)="routeToClientTickets($event)"
-  [tableColumns]="clientColumns"></app-table>
+  [tableColumns]="clientColumns">
+</app-table>
 
-<app-table *ngIf="params == 'today tickets'" [data]="ticketData" (singleButtonClick)="singleButtonClick($event)"
-  [tableColumns]="ticketColumns"></app-table>
-<app-table *ngIf="params == 'user tickets'" [data]="userTicketsData" [tableColumns]="userTickets"
-  (firstBtnClick)="update($event)" (secondBtnClick)="routeToTickets($event)"></app-table>
+<app-table
+  *ngIf="params == 'today tickets'"
+  [data]="ticketData"
+  (singleButtonClick)="singleButtonClick($event)"
+  [tableColumns]="ticketColumns"
+></app-table>
+<app-table
+  *ngIf="params == 'user tickets'"
+  [data]="userTicketsData"
+   [tableColumns]="userTickets"
+></app-table>
+<app-table
+  *ngIf="params == 'helped tickets'"
+  [data]="userTicketsData"
+   [tableColumns]="userTickets"
+></app-table>
