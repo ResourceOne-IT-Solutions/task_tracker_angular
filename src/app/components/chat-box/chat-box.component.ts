@@ -103,7 +103,9 @@ export class ChatBoxComponent {
     if (this.currentUser) {
       this.chatservice.getSocketData('roomMessages').subscribe((res) => {
         this.TotalMessages = res;
-        this.scrollToBottom();
+        setTimeout(()=>{
+          this.scrollToBottom();
+        },0)
       });
     } else {
     }
@@ -179,6 +181,9 @@ export class ChatBoxComponent {
       data: { room: roomId, previousRoom: this.RoomId },
     });
     this.RoomId = roomId;
+    setTimeout(() =>{
+      this.scrollToBottom();
+    },0)
   }
   getMembers(data: any) {
     return data.members.map((res: any) => res.name).toString();
@@ -205,8 +210,10 @@ export class ChatBoxComponent {
   }
 
   scrollToBottom() {
-    this.chatContainer.nativeElement.scrollTop =
-      this.chatContainer.nativeElement.scrollHeight + 10;
+    if(this.chatContainer){
+      this.chatContainer.nativeElement.scrollTop =
+        this.chatContainer.nativeElement.scrollHeight + 10;
+    }
   }
   Contacts() {
     this.chatservice.getAllClients().subscribe((res: any) => {
@@ -216,7 +223,6 @@ export class ChatBoxComponent {
   }
   SeclectContact(contacts: any) {
     const { firstName, mobile } = contacts;
-    // this.SelectedContact.push(contacts);
     this.ClientContactModel = false;
     this.displayIcons = false;
     this.reUseableSendMessage(
