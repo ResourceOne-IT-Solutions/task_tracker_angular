@@ -6,9 +6,11 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { TooltipPosition } from '@angular/material/tooltip';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { tap } from 'rxjs';
 import { Column } from 'src/app/components/dash-board/dash-board.component';
@@ -32,8 +34,9 @@ export class TableComponent {
   @Output() userDetails = new EventEmitter();
   @Output() singleButtonClick = new EventEmitter();
   constructor(private loader: NgxSpinnerService) {}
+  positionOptions: TooltipPosition[] = ['after', 'before', 'above', 'below', 'left', 'right'];
+  position = new FormControl(this.positionOptions[0]);
   ngOnInit() {
-    console.log(this.tableColumns, '36:::');
     this.loader.show();
     setTimeout(() => {
       this.loader.hide();

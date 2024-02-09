@@ -38,7 +38,7 @@
             [ngClass]="group._id == UserSelected._id ? 'SelectedUser' : ''"
             *ngFor="let group of groupList"
           >
-            <div class="d-flex align-items-end">
+            <div class="d-flex align-items-end ms-3">
               <img
                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU"
                 class="avatar"
@@ -62,7 +62,7 @@
             [fullScreen]="false"
           >
           </ngx-spinner>
-          <div
+          <div class="SelectedMessage"
             *ngFor="let user of UserListData"
             [ngClass]="user._id == UserSelected._id ? 'SelectedUser' : ''"
           >

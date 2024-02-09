@@ -47,6 +47,10 @@
     .user-card:not(:last-child) {
       border-bottom: 1px solid #f5f0f0;
     }
+    .SelectedMessage:hover{
+      background-color: #dfd8d8;
+      // color: #fff;
+    }
   }
 }
 
@@ -112,7 +116,7 @@
 
         ::ng-deep {
           p {
-            background: #6e00ff;
+            background-color: #6e00ff;
             color: #fff;
             padding: 6px 33px;
             width: fit-content;
@@ -132,7 +136,7 @@
 
         ::ng-deep {
           p {
-            background: #514b58;
+            background-color: #514b58;
             color: #fff;
             padding: 6px 29px;
             width: -moz-fit-content;
@@ -243,11 +247,9 @@
   }
 
   .images {
-    align-items: center;
-    margin: 0 35px 11px;
     border-bottom: 1px solid #efe9e9;
     padding-bottom: 7px;
-    width: 80%;
+    width: 100%;
 
     img {
       //height: 50px;

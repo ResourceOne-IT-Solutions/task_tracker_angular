@@ -243,6 +243,53 @@
                     </div>
                   </div>
                 </div>
+              
+                <div class="col-md-6">
+                  <div class="form-outline">
+                    <label class="form-label" for="employeId">Employe Id</label>
+                    <input
+                      class="form-control"
+                      [ngClass]="
+                        submitted && isAdmin.errors ? 'invalidInput' : ''
+                      "
+                      type="input"
+                      formControlName="employeId"
+                      id="employeId"
+                    />
+                  </div>
+                  <div
+                    class="text-danger ps-1"
+                    *ngIf="submitted && employeId.errors"
+                  >
+                    <div *ngIf="employeId.errors['required']">
+                      employeId is required
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-outline">
+                    <label class="ms-2">Address</label>
+                    <textarea
+                      [ngClass]="
+                        submitted && address.errors ? 'invalidInput' : ''
+                      "
+                      formControlName="address"
+                      class="form-control m-2"
+                      placeholder="Enter Your Address"
+                    ></textarea>
+                  </div>
+                  <div
+                    class="text-danger ps-1 ms-2"
+                    *ngIf="submitted && address.errors"
+                  >
+                    <div *ngIf="address.errors['required']">
+                      Address is required
+                    </div>
+                  </div>
+                </div>
                 <div class="col-md-6">
                   <div class="form-outline">
                     <label for="" class="form-label">isAdmin</label><br />
@@ -273,29 +320,6 @@
                   >
                     <div *ngIf="isAdmin.errors['required']">
                       isAdmin is required
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-outline">
-                    <label class="ms-2">Address</label>
-                    <textarea
-                      [ngClass]="
-                        submitted && address.errors ? 'invalidInput' : ''
-                      "
-                      formControlName="address"
-                      class="form-control m-2"
-                      placeholder="Enter Your Address"
-                    ></textarea>
-                  </div>
-                  <div
-                    class="text-danger ps-1 ms-2"
-                    *ngIf="submitted && address.errors"
-                  >
-                    <div *ngIf="address.errors['required']">
-                      Address is required
                     </div>
                   </div>
                 </div>

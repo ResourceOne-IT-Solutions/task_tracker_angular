@@ -2,7 +2,7 @@
   <button (click)="goback()" class="btn btn-danger back">Go To Back</button>
   <h1>TICKETS BY ID</h1>
   <div class="ClientDetails">
-    <div>
+    <div *ngIf="CurrentUser.isAdmin">
       <button class="btn btn-primary back" (click)="ConvertToExcel()">
         Convert Excel
       </button>

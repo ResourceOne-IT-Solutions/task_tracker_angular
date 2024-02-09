@@ -280,4 +280,5 @@ export interface Column {
   isImage?: boolean;
   isText?: boolean;
   isLink?: boolean;
+  isMouseOver?: boolean;
 }

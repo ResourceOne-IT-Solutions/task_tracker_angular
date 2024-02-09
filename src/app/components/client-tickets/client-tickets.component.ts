@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ChatService } from 'src/app/services/chat.service';
 import { Column } from '../dash-board/dash-board.component';
 import { Chart, registerables } from 'node_modules/chart.js';
+import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 Chart.register(...registerables);
 
 // import { Column } from '../dash-board/dash-board.component';
@@ -20,15 +22,10 @@ export class ClientTicketsComponent implements OnInit {
   Pending: any;
   Improper: any;
   inprogress: any;
-  constructor(private chatservice: ChatService) {}
+  paramId: any;
+  constructor(private chatservice: ChatService,private location:Location,private route:ActivatedRoute) {}
 
   clientColumns: Array<Column> = [
-    {
-      columnDef: 'user',
-      header: 'User Name',
-      cell: (element: any) => `${element['user'].name}`,
-      isText: true,
-    },
     {
       columnDef: 'client',
       header: 'client Name',
@@ -36,16 +33,15 @@ export class ClientTicketsComponent implements OnInit {
       isText: true,
     },
     {
-      columnDef: 'addOnResource',
-      header: 'Held By',
-      cell: (element: any) =>
-        `${element['addOnResource']?.map((res: any) => res.name)?.toString() || '--'}`,
+      columnDef: 'user',
+      header: 'User Name',
+      cell: (element: any) => `${element['user'].name}`,
       isText: true,
     },
     {
-      columnDef: 'description',
-      header: 'Description',
-      cell: (element: any) => `${element['description']}`,
+      columnDef: 'status',
+      header: 'Status',
+      cell: (element: any) => `${element['status']}`,
       isText: true,
     },
     {
@@ -55,19 +51,55 @@ export class ClientTicketsComponent implements OnInit {
       isText: true,
     },
     {
-      columnDef: 'status',
-      header: 'Status',
-      cell: (element: any) => `${element['status']}`,
+      columnDef: 'receivedDate',
+      header: 'Receive Date',
+      cell: (element: any) => `${element['receivedDate']}`,
       isText: true,
     },
+    {
+      columnDef: 'closedDate',
+      header: 'Closed Date',
+      cell: (element: any) => `${element['closedDate']}`,
+      isText: true,
+    },
+    {
+      columnDef: 'targetDate',
+      header: 'Target Date',
+      cell: (element: any) => `${element['targetDate']}`,
+      isText: true,
+    },
+    {
+      columnDef: 'addOnResource',
+      header: 'Helped By',
+      cell: (element: any) =>
+        `${element['addOnResource']?.map((res: any) => res.name)?.toString() || '--'}`,
+      isText: true,
+    },
+    {
+      columnDef: 'comments',
+      header: 'Comments',
+      cell: (element: any) => `${element['comments']}`,
+      isText: true,
+    },
+    {
+      columnDef: 'description',
+      header: 'Description',
+      cell: (element: any) => `${element['description']}`,
+      isText: true,
+    },
+ 
   ];
   ngOnInit(): void {
+    this.paramId = this.route.snapshot.paramMap.get('id');
+    console.log(this.paramId,'69999999::::::::')
+    
     this.chatservice.ticketsById.subscribe((res) => {
       this.clientDataTable = res;
     });
     this.chatservice
       .getClientById(this.clientDataTable._id)
       .subscribe((res: any) => {
+        console.log(res,'844444:::')
         this.clientTicketById = res;
         (this.Closed = this.clientTicketById.filter(
           (val: any) => val.status == 'Closed',
@@ -132,5 +164,8 @@ export class ClientTicketsComponent implements OnInit {
         ],
       },
     });
+  }
+  goback(){
+    this.location.back()
   }
 }
