@@ -11,6 +11,16 @@
 .Dashboard {
   cursor: pointer;
 }
+
 .hide {
   display: none;
+}
+
+.ticketcount {
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  background: #6e00ff;
+  border-radius: 20px;
+  top: 10px;
 }

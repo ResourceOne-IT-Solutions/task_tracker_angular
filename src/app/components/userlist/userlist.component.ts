@@ -73,6 +73,7 @@ export class UserlistComponent {
   MockticketData: any;
   MockClientData: any;
   userTicketsData: any = [];
+  usersticketData: any = [];
   userSubmitted: boolean = false;
   clientSubmitted: boolean = false;
   clientErr: any;
@@ -85,7 +86,7 @@ export class UserlistComponent {
     private location: Location,
     private route: ActivatedRoute,
     public dialog: MatDialog,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.params = this.route.snapshot.routeConfig?.path?.split('-').join(' ');
@@ -444,6 +445,7 @@ export class UserlistComponent {
           return val;
         });
         dismiss();
+        this.updateForm.reset();
       },
       (err: any) => {
         this.updateError = err.error.error;

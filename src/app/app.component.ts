@@ -25,6 +25,10 @@ export class AppComponent implements OnInit {
       const message = `${res.sender.name} is Requisting to Chat with ${res.opponent.name}`;
       alert(message);
     });
+    this.chatservice.getSocketData('ticketsRequest').subscribe((res) => {
+      const message = `${res.sender.name} is Requisting to Ticket with ${res.client.name}`;
+      alert(message);
+    });
     this.chatservice
       .getSocketData('userRequestApproved')
       .subscribe(({ type, result }) => {
