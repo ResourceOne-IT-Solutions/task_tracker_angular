@@ -15,7 +15,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { User } from '../../interface/users'
+import { User } from '../../interface/users';
 import { Chart, ChartType, registerables } from 'node_modules/chart.js';
 import { Task } from 'src/app/interface/tickets';
 @Component({
@@ -69,11 +69,11 @@ export class DashBoardComponent {
     private modalService: NgbModal,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-  ) { }
+  ) {}
   ngOnInit() {
     this.chatservice.UserLoginData.subscribe((res: User | undefined) => {
       this.adminDetails = res;
-      console.log(JSON.parse(JSON.stringify(res)), "user")
+      console.log(JSON.parse(JSON.stringify(res)), 'user');
     });
 
     this.chatservice.getSocketData('chatRequest').subscribe((res) => {
@@ -96,8 +96,8 @@ export class DashBoardComponent {
       );
       const resolvedTickets = this.getTicketStatus('resolved');
       const pendingTickets = this.getTicketStatus('pending');
-      const inprogressTickets = this.getTicketStatus('in progress')
-      const assigned = this.getTicketStatus('assigned')
+      const inprogressTickets = this.getTicketStatus('in progress');
+      const assigned = this.getTicketStatus('assigned');
       const improper = this.getTicketStatus('improper requirment');
       const notAssigned = this.getTicketStatus('not assigned');
       this.pieChart(
@@ -119,17 +119,12 @@ export class DashBoardComponent {
       key: 'newUser',
     });
     this.chatservice.getSocketData('newUser').subscribe(({ userPayload }) => {
-      this.UserListData = userPayload
-      const Avalible = this.getUserByStatus('available')
-      const Offline = this.getUserByStatus('offline')
-      const Break = this.getUserByStatus('break')
-      const OnTicket = this.getUserByStatus('on ticket')
-      this.UserpieChart(
-        Avalible,
-        Offline,
-        Break,
-        OnTicket,
-      );
+      this.UserListData = userPayload;
+      const Avalible = this.getUserByStatus('available');
+      const Offline = this.getUserByStatus('offline');
+      const Break = this.getUserByStatus('break');
+      const OnTicket = this.getUserByStatus('on ticket');
+      this.UserpieChart(Avalible, Offline, Break, OnTicket);
     });
 
     setInterval(() => {
@@ -152,10 +147,14 @@ export class DashBoardComponent {
     this.UserpieChart(0, 0, 0, 0);
   }
   getUserByStatus(status: string) {
-    return this.UserListData.filter((val: User) => val.status.toLowerCase() == status).length
+    return this.UserListData.filter(
+      (val: User) => val.status.toLowerCase() == status,
+    ).length;
   }
   getTicketStatus(status: string) {
-    return this.ticketData.filter((val: Task) => val.status.toLowerCase() === status).length
+    return this.ticketData.filter(
+      (val: Task) => val.status.toLowerCase() === status,
+    ).length;
   }
   UserpieChart(avalible: any, offline: any, breakk: any, Onticket: any) {
     this.destroyPieChart();
@@ -184,7 +183,7 @@ export class DashBoardComponent {
   }
   /// admin status
 
-  selectChange(data: any) { }
+  selectChange(data: any) {}
 
   // client functions
 

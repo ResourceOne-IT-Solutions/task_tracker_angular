@@ -103,9 +103,9 @@ export class ChatBoxComponent {
     if (this.currentUser) {
       this.chatservice.getSocketData('roomMessages').subscribe((res) => {
         this.TotalMessages = res;
-        setTimeout(()=>{
+        setTimeout(() => {
           this.scrollToBottom();
-        },0)
+        }, 0);
       });
     } else {
     }
@@ -167,7 +167,7 @@ export class ChatBoxComponent {
     this.NoUser = false;
     this.ChatBox = true;
     Object.keys(this.currentUser.newMessages).forEach((val: any) => {
-      if (val.includes(this.currentUser._id)) {
+      if (val.includes(user._id)) {
         delete this.currentUser.newMessages[val];
       }
     });
@@ -181,9 +181,9 @@ export class ChatBoxComponent {
       data: { room: roomId, previousRoom: this.RoomId },
     });
     this.RoomId = roomId;
-    setTimeout(() =>{
+    setTimeout(() => {
       this.scrollToBottom();
-    },0)
+    }, 0);
   }
   getMembers(data: any) {
     return data.members.map((res: any) => res.name).toString();
@@ -210,7 +210,7 @@ export class ChatBoxComponent {
   }
 
   scrollToBottom() {
-    if(this.chatContainer){
+    if (this.chatContainer) {
       this.chatContainer.nativeElement.scrollTop =
         this.chatContainer.nativeElement.scrollHeight + 10;
     }
@@ -281,6 +281,8 @@ export class ChatBoxComponent {
     this.location.back();
   }
   PreviousPage() {
+    console.log('hello');
+    this.UserSelected = {};
     this.NoUser = true;
     this.ChatBox = false;
   }

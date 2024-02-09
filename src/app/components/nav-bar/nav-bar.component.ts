@@ -30,7 +30,7 @@ export class NavBarComponent {
     private route: ActivatedRoute,
     private modalService: NgbModal,
     private fb: FormBuilder,
-    private idle: IdleTimeService
+    private idle: IdleTimeService,
   ) {
     this.clientForm = this.fb.group({
       name: ['', Validators.required],
@@ -124,12 +124,14 @@ export class NavBarComponent {
     this.router.navigate(['/']);
   }
   changeStatus(data: any) {
-    console.log(data)
+    console.log(data);
     const updatePayload = {
       id: this.userDetails._id,
       status: this.Status,
     };
-    this.Status === 'Available' ? this.idle.startIdleMonitoring() : this.idle.stopIdleIdleMonitoring();
+    this.Status === 'Available'
+      ? this.idle.startIdleMonitoring()
+      : this.idle.stopIdleIdleMonitoring();
     this.chatservice.sendSocketData({
       key: 'changeStatus',
       data: updatePayload,
@@ -236,11 +238,11 @@ export class NavBarComponent {
   phoneValidation(evt: any) {
     const inputChar = String.fromCharCode(evt.charCode);
     if (this.mobile?.value.length > 9 || !/^\d+$/.test(inputChar)) {
-    const inputChar = String.fromCharCode(evt.charCode);
-    if (!/^\d+$/.test(inputChar)) {
-      evt.preventDefault();
-      return;
+      const inputChar = String.fromCharCode(evt.charCode);
+      if (!/^\d+$/.test(inputChar)) {
+        evt.preventDefault();
+        return;
+      }
     }
   }
-}
 }

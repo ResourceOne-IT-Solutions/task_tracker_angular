@@ -54,12 +54,11 @@ export class UserPageComponent implements OnInit {
       history.pushState(null, '', window.location.href);
       // this.stepper.previous();
     });
-
   }
   ngOnInit(): void {
-    this.chatservice.getSocketData('ticketRaiseStatus').subscribe(res => {
+    this.chatservice.getSocketData('ticketRaiseStatus').subscribe((res) => {
       alert(res);
-    })
+    });
     setInterval(() => {
       let Estdate = new Date();
       this.est = Estdate.toLocaleTimeString('en-US', {
@@ -87,7 +86,7 @@ export class UserPageComponent implements OnInit {
     //AllUserList.....
     this.chatservice.getAllUsers().subscribe((res) => {
       this.userList = res.filter((val: any) => {
-        return !val.isAdmin
+        return !val.isAdmin;
       });
       if (this.paramId) {
         this.currentUser = this.userList.find(
@@ -198,7 +197,6 @@ export class UserPageComponent implements OnInit {
     const loginTime = this.loginTimeGroupedByDate();
     this.breakTimes = statusByBreak ? statusByBreak[0] : undefined;
     this.loginTiming = loginTime ? loginTime : undefined;
-
   }
   /*
   {
@@ -253,7 +251,6 @@ export class UserPageComponent implements OnInit {
     document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC';
   }
 
-
   requestChat() {
     this.requestchat = !this.requestchat;
   }
@@ -280,6 +277,4 @@ export class UserPageComponent implements OnInit {
   selectuser(data: any) {
     this.SelectedUserdata = data;
   }
-
-
 }
