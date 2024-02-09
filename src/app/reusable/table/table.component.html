@@ -1,23 +1,10 @@
 <div class="spinner-div">
-  <ngx-spinner
-    bdColor="rgba(0,0,0,0.32)"
-    size="large"
-    color="#8652d5"
-    type="ball-clip-rotate-multiple"
-    [fullScreen]="false"
-  >
+  <ngx-spinner bdColor="rgba(0,0,0,0.32)" size="large" color="#8652d5" type="ball-clip-rotate-multiple"
+    [fullScreen]="false">
   </ngx-spinner>
   <div class="scrollable-table">
-    <table
-      mat-table
-      [dataSource]="dataSource"
-      class="mat-elevation-z8"
-      *ngIf="dataSource"
-    >
-      <ng-container
-        *ngFor="let disCol of tableColumns; let colIndex = index"
-        matColumnDef="{{ disCol.columnDef }}"
-      >
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="dataSource">
+      <ng-container *ngFor="let disCol of tableColumns; let colIndex = index" matColumnDef="{{ disCol.columnDef }}">
         <th mat-header-cell *matHeaderCellDef>
           <span *ngIf="disCol.columnDef !== 'TicketRaised'">
             {{ disCol.header | titlecase }}
@@ -32,20 +19,17 @@
           <span (click)="clientNameClick(element)" *ngIf="disCol.isText">
             {{ disCol.cell(element) }}
           </span>
+          <div>
+            <span  matTooltip=" click here to client page" aria-label="Displays a tooltip"
+              style="cursor: pointer;" (click)="clientNameClick(element)" *ngIf="disCol.isMouseOver">
+              {{ disCol.cell(element) }}
+            </span>
+          </div>
           <p>
-            <a
-              href="javascript:void(0)"
-              (click)="Description(element)"
-              *ngIf="disCol.isLink"
-              >Client Description</a
-            >
+            <a href="javascript:void(0)" (click)="Description(element)" *ngIf="disCol.isLink">Client Description</a>
           </p>
           <span *ngIf="disCol.isMultiButton">
-            <button
-              mat-raised-button
-              color="primary"
-              (click)="btn1Click(element)"
-            >
+            <button mat-raised-button color="primary" (click)="btn1Click(element)">
               {{ disCol.cell("btn1") }}
             </button>
             <button mat-raised-button color="warn" (click)="btn2Click(element)">
@@ -53,30 +37,16 @@
             </button>
           </span>
           <span *ngIf="disCol.isButton">
-            <button
-              mat-raised-button
-              color="primary"
-              [disabled]="disCol.cell(element) === 'Closed'"
-              (click)="onClick(element, disCol.cell(element))"
-            >
+            <button mat-raised-button color="primary" [disabled]="disCol.cell(element) === 'Closed'"
+              (click)="onClick(element, disCol.cell(element))">
               {{ disCol.cell(element) }}
             </button>
           </span>
-          <p
-            class="d-flex"
-            *ngIf="disCol.isImage"
-            (click)="openUserDetails(element)"
-          >
-            <img
-              *ngIf="disCol.cell(element)"
-              src="{{ disCol.cell(element) }}"
-              class="profileImage"
-            />
-            <img
-              *ngIf="!disCol.cell(element)"
+          <p class="d-flex" *ngIf="disCol.isImage" (click)="openUserDetails(element)">
+            <img *ngIf="disCol.cell(element)" src="{{ disCol.cell(element) }}" class="profileImage" />
+            <img *ngIf="!disCol.cell(element)"
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU"
-              class="profileImage"
-            />
+              class="profileImage" />
             <span [ngClass]="element.isActive ? 'online' : 'offline'"></span>
           </p>
         </td>
@@ -88,13 +58,9 @@
       </tr>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr class="columns" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
-    <mat-paginator
-      *ngIf="dataSource"
-      [hidden]="!dataSource.data.length"
-      [pageSizeOptions]="[5, 10, 25, 100]"
-      [pageSize]="5"
-    ></mat-paginator>
+    <mat-paginator *ngIf="dataSource" [hidden]="!dataSource.data.length" [pageSizeOptions]="[5, 10, 25, 100]"
+      [pageSize]="5"></mat-paginator>
   </div>
 </div>

@@ -8,7 +8,7 @@ import { ChatService } from 'src/app/services/chat.service';
   styleUrls: ['./create-user.component.scss'],
 })
 export class CreateUserComponent {
-  'createUserForm': FormGroup;
+  'createUserForm': FormGroup<any>;
   genders: any = ['Male', 'Female', 'Not Specified'];
   submitted: boolean = false;
   currentUser: any;
@@ -27,6 +27,7 @@ export class CreateUserComponent {
       phone: ['', Validators.required],
       dob: ['', Validators.required],
       password: ['', Validators.required],
+      employeId: ['',Validators.required],
       joiningDate: ['', Validators.required],
       profileImageUrl: ['', Validators.required],
       designation: ['', Validators.required],
@@ -35,7 +36,7 @@ export class CreateUserComponent {
       isAdmin: ['', Validators.required],
     });
   }
-  ngOnInit() {
+  ngOnInit() { 
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.currentUser = res;
     });
@@ -79,7 +80,9 @@ export class CreateUserComponent {
   get password() {
     return this.user['password'];
   }
-
+  get employeId(){
+    return this.user['employeId']
+  }
   phoneValidation(evt: any) {
     const inputChar = String.fromCharCode(evt.charCode);
     if (this.phone?.value.length > 9 || !/^\d+$/.test(inputChar)) {
@@ -87,7 +90,6 @@ export class CreateUserComponent {
       return;
     }
   }
-
   createNewUser() {
     this.submitted = true;
     if (this.createUserForm.valid) {
@@ -97,6 +99,7 @@ export class CreateUserComponent {
         email: this.createUserForm.value.email,
         mobile: this.createUserForm.value.phone,
         password: this.createUserForm.value.password,
+        employeId: this.createUserForm.value.employeId,
         joinedDate: this.createUserForm.value.joiningDate,
         dob: this.createUserForm.value.dob,
         isAdmin: this.createUserForm.value.isAdmin,
