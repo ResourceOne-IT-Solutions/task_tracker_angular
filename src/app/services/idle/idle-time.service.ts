@@ -8,7 +8,7 @@ import { ChatService } from '../chat.service';
 export class IdleTimeService {
   private idleTimeoutInSeconds = 15 * 60; // 15 minutes
   private timer$!: Subscription;
-  constructor(private chatservice: ChatService) { }
+  constructor(private chatservice: ChatService) {}
   // timer Start
   startIdleMonitoring() {
     this.timer$ = timer(1000, 1000).subscribe(() => {
@@ -27,16 +27,16 @@ export class IdleTimeService {
           });
         }
       }
-    });;
+    });
     //this.timer$.
     document.addEventListener('mouseover', () => this.resetIdleTimer());
     document.addEventListener('keypress', () => this.resetIdleTimer());
   }
 
-  // Stop timer 
+  // Stop timer
   stopIdleIdleMonitoring() {
     if (this.timer$) {
-      this.timer$.unsubscribe()
+      this.timer$.unsubscribe();
     }
   }
 

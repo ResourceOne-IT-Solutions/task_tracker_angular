@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-4">
       <div class="user-list-card">
-        <div class="Search-Input">
+        <div class="Search-Input d-flex">
           <button class="border-0 fs-4 bg-white text-dark" (click)="goBack()">
             <i class="fa fa-arrow-left" aria-hidden="true"></i>
           </button>
@@ -165,7 +165,8 @@
                     }}</span>
                     <span class="message-content">{{ message.content }}</span>
                     <span class="message-Time text-end">{{
-                      message.time | date: "dd/MM/yyyy hh:mm a"}}</span>
+                      message.time | date: "dd/MM/yyyy hh:mm a"
+                    }}</span>
                   </p>
                   <ng-template #fileRender>
                     <app-file-render [message]="message"></app-file-render>

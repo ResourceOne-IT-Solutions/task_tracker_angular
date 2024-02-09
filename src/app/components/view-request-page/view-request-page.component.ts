@@ -27,9 +27,8 @@ export class ViewRequestPageComponent {
     private chatservice: ChatService,
     private loader: NgxSpinnerService,
     private location: Location,
-  ) { }
+  ) {}
   ngOnInit() {
-
     this.loader.show();
     this.chatservice.TotalUser.subscribe((res: any) => {
       this.totalUser = res;
@@ -60,7 +59,7 @@ export class ViewRequestPageComponent {
       this.loader.hide();
     });
     this.chatservice.getSocketData('chatRequest').subscribe((res) => {
-      this.ChatRequest.unshift(res)
+      this.ChatRequest.unshift(res);
     });
     this.chatservice.getAdminChatMessages().subscribe((res: any) => {
       this.adminMessages = res;

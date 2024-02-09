@@ -13,7 +13,7 @@ export class LoginPageComponent {
   UserDataa: boolean = false;
   LoginBoolean: boolean = true;
   RoleDetails: any;
-  submitted: boolean = false
+  submitted: boolean = false;
   ErrorMsg: any;
   navigateData: any;
   ErrorHandling: boolean = true;
@@ -26,7 +26,7 @@ export class LoginPageComponent {
     private fb: FormBuilder,
     private chatservice: ChatService,
     private cd: ChangeDetectorRef,
-  ) { }
+  ) {}
   'loginForm': FormGroup;
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -52,7 +52,7 @@ export class LoginPageComponent {
   }
   AdminLogin() {
     this.UserDataa = true;
-    this.submitted = true
+    this.submitted = true;
     const isAdmin = this.RoleDetails === 'Admin';
     if (this.loginForm.valid) {
       this.LoginBoolean = false;
@@ -72,9 +72,15 @@ export class LoginPageComponent {
         );
     }
   }
-  get login() { return this.loginForm.controls };
-  get userId() { return this.login['userId'] };
-  get pwd() { return this.login['password'] }
+  get login() {
+    return this.loginForm.controls;
+  }
+  get userId() {
+    return this.login['userId'];
+  }
+  get pwd() {
+    return this.login['password'];
+  }
   getNavigate() {
     const data = this.chatservice.getRoleData(this.navigateData);
     this.loginForm.reset();

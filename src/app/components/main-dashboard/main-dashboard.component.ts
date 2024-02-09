@@ -20,11 +20,11 @@ export class MainDashboardComponent {
     private chatservice: ChatService,
     private idleSerive: IdleTimeService,
     private route: ActivatedRoute,
-  ) { }
+  ) {}
   ngOnInit() {
     this.data = localStorage.getItem('currentTaskUser');
     this.chatservice.getSocketData('error').subscribe((res) => {
-       alert(res);
+      alert(res);
     });
     this.userData$ = this.chatservice.UserLoginData.pipe(
       map((res: any) => {
