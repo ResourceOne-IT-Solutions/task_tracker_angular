@@ -47,6 +47,10 @@
     .user-card:not(:last-child) {
       border-bottom: 1px solid #f5f0f0;
     }
+    .SelectedMessage:hover {
+      background-color: #dfd8d8;
+      // color: #fff;
+    }
   }
 }
 

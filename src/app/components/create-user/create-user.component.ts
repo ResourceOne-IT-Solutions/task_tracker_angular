@@ -27,6 +27,7 @@ export class CreateUserComponent {
       phone: ['', Validators.required],
       dob: ['', Validators.required],
       password: ['', Validators.required],
+      employeId: ['', Validators.required],
       joiningDate: ['', Validators.required],
       profileImageUrl: ['', Validators.required],
       designation: ['', Validators.required],
@@ -79,7 +80,9 @@ export class CreateUserComponent {
   get password() {
     return this.user['password'];
   }
-
+  get employeId() {
+    return this.user['employeId'];
+  }
   phoneValidation(evt: any) {
     const inputChar = String.fromCharCode(evt.charCode);
     if (this.phone?.value.length > 9 || !/^\d+$/.test(inputChar)) {

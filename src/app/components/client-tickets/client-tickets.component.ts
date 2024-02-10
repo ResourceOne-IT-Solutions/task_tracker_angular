@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ChatService } from 'src/app/services/chat.service';
 import { Column } from '../dash-board/dash-board.component';
 import { Chart, registerables } from 'node_modules/chart.js';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 Chart.register(...registerables);
 
 // import { Column } from '../dash-board/dash-board.component';
@@ -20,7 +22,12 @@ export class ClientTicketsComponent implements OnInit {
   Pending: any;
   Improper: any;
   inprogress: any;
-  constructor(private chatservice: ChatService) {}
+  paramId: any;
+  constructor(
+    private chatservice: ChatService,
+    private location: Location,
+    private route: ActivatedRoute,
+  ) {}
 
   clientColumns: Array<Column> = [
     {
@@ -60,8 +67,42 @@ export class ClientTicketsComponent implements OnInit {
       cell: (element: any) => `${element['status']}`,
       isText: true,
     },
+    {
+      columnDef: 'closedDate',
+      header: 'Closed Date',
+      cell: (element: any) => `${element['closedDate']}`,
+      isText: true,
+    },
+    {
+      columnDef: 'targetDate',
+      header: 'Target Date',
+      cell: (element: any) => `${element['targetDate']}`,
+      isText: true,
+    },
+    {
+      columnDef: 'addOnResource',
+      header: 'Helped By',
+      cell: (element: any) =>
+        `${element['addOnResource']?.map((res: any) => res.name)?.toString() || '--'}`,
+      isText: true,
+    },
+    {
+      columnDef: 'comments',
+      header: 'Comments',
+      cell: (element: any) => `${element['comments']}`,
+      isText: true,
+    },
+    {
+      columnDef: 'description',
+      header: 'Description',
+      cell: (element: any) => `${element['description']}`,
+      isText: true,
+    },
   ];
   ngOnInit(): void {
+    this.paramId = this.route.snapshot.paramMap.get('id');
+    console.log(this.paramId, '69999999::::::::');
+
     this.chatservice.ticketsById.subscribe((res) => {
       this.clientDataTable = res;
     });
@@ -132,5 +173,8 @@ export class ClientTicketsComponent implements OnInit {
         ],
       },
     });
+  }
+  goback() {
+    this.location.back();
   }
 }

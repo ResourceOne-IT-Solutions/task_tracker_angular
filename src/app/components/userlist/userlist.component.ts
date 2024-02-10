@@ -32,12 +32,14 @@ export class UserlistComponent {
   @ViewChild('sendMailModel', { static: false }) sendMailModel: any;
   @ViewChild('assignTicketModel', { static: false }) assignTicketModel: any;
   @ViewChild('updateModel', { static: false }) updateModel: any;
+  @ViewChild('TicketRaisedModal', { static: false }) TicketRaisedModal: any;
 
   userList: any = [];
   modelHeader: string = '';
   'userForm': FormGroup;
   'clientForm': FormGroup;
   'updateForm': FormGroup;
+  'TicketRaisedForm': FormGroup;
   userstatus = ['In Progress', 'Pending', 'Closed', 'Improper Requirment'];
   userDetails: any;
   userModelData: any;
@@ -75,6 +77,8 @@ export class UserlistComponent {
   userTicketsData: any = [];
   usersticketData: any = [];
   userSubmitted: boolean = false;
+  updateSubmitted: boolean = false;
+  raiseSubmitted: boolean = false;
   clientSubmitted: boolean = false;
   clientErr: any;
   userErr: any;
@@ -86,7 +90,7 @@ export class UserlistComponent {
     private location: Location,
     private route: ActivatedRoute,
     public dialog: MatDialog,
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.params = this.route.snapshot.routeConfig?.path?.split('-').join(' ');
@@ -107,6 +111,9 @@ export class UserlistComponent {
       description: ['', Validators.required],
       comments: ['', Validators.required],
       status: ['', Validators.required],
+    });
+    this.TicketRaisedForm = this.fb.group({
+      raise: ['', Validators.required],
     });
     this.chatservice.getAllUsers().subscribe((res) => {
       this.userList = res;
@@ -185,6 +192,25 @@ export class UserlistComponent {
   }
   get companyName() {
     return this.client['companyName'];
+  }
+  // update form
+  get updateModal() {
+    return this.updateForm.controls;
+  }
+  get updatedescription() {
+    return this.updateModal['description'];
+  }
+  get updatecomments() {
+    return this.updateModal['comments'];
+  }
+  get updatestatus() {
+    return this.updateModal['status'];
+  }
+  get ticketraiseModal() {
+    return this.TicketRaisedForm.controls;
+  }
+  get raise() {
+    return this.ticketraiseModal['raise'];
   }
 
   goback() {
@@ -425,32 +451,46 @@ export class UserlistComponent {
     this.userDetailsdata = userDetails;
   }
   updateUserTicket(dismiss: any) {
-    const ticketpayload = {
-      id: this.userDetailsdata._id,
-      data: {
-        ...this.updateForm.value,
-        updatedBy: {
-          name: this.chatservice.getFullName(this.adminDetails),
-          id: this.adminDetails._id,
+    this.updateSubmitted = true;
+    if (this.updateForm.valid) {
+      const ticketpayload = {
+        id: this.userDetailsdata._id,
+        data: {
+          ...this.updateForm.value,
+          updatedBy: {
+            name: this.chatservice.getFullName(this.adminDetails),
+            id: this.adminDetails._id,
+          },
         },
-      },
-    };
-    this.chatservice.updateTicket(ticketpayload).subscribe(
-      (res: any) => {
-        this.userTicketsData = this.userTicketsData.map((val: any) => {
-          if (val._id === res._id) {
-            val = res;
-            return res;
-          }
-          return val;
-        });
-        dismiss();
-        this.updateForm.reset();
-      },
-      (err: any) => {
-        this.updateError = err.error.error;
-      },
-    );
+      };
+      this.chatservice.updateTicket(ticketpayload).subscribe(
+        (res: any) => {
+          this.userTicketsData = this.userTicketsData.map((val: any) => {
+            if (val._id === res._id) {
+              val = res;
+              return res;
+            }
+            return val;
+          });
+          dismiss();
+          this.updateForm.reset();
+        },
+        (err: any) => {
+          this.updateError = err.error.error;
+        },
+      );
+    }
+  }
+  ticketraise(data: any) {
+    this.modelHeader = 'raise Ticket';
+    this.openPopup(this.TicketRaisedModal);
+  }
+  raiseTicket(dismiss: any) {
+    this.raiseSubmitted = !this.raiseSubmitted;
+    if (this.TicketRaisedForm.valid) {
+      dismiss();
+    }
+    this.TicketRaisedForm.reset();
   }
   routeToTickets(data: any) {
     this.chatservice.getuserTicketById(data);

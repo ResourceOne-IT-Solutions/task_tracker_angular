@@ -3,8 +3,14 @@
   {{ params | titlecase }}
 </h1>
 <div class="d-flex justify-content-between align-items-center">
-  <input class="form-control w-50 border border-dark m-2" [(ngModel)]="searchFilter" (keyup)="SearchUsers()" type="text"
-    name="search" placeholder="search" />
+  <input
+    class="form-control w-50 border border-dark m-2"
+    [(ngModel)]="searchFilter"
+    (keyup)="SearchUsers()"
+    type="text"
+    name="search"
+    placeholder="search"
+  />
   <button (click)="goback()" class="btn btn-danger h-25 mr-5">
     Go To Back
   </button>
@@ -157,9 +163,35 @@
             Client Name : {{ userDetailsdata.client.name }}
           </h3>
           <label for="">Description</label>
-          <input type="text" placeholder="description" class="form-control m-2" formControlName="description" />
+          <input
+            type="text"
+            placeholder="description"
+            class="form-control m-2"
+            formControlName="description"
+          />
+          <div
+            class="text-danger mb-2 ps-2"
+            *ngIf="updateSubmitted && updatedescription.errors"
+          >
+            <div *ngIf="updatedescription.errors['required']">
+              Description is Required
+            </div>
+          </div>
           <label for="">Comments</label>
-          <textarea class="comments" cols="65" rows="5" formControlName="comments"></textarea>
+          <textarea
+            class="comments"
+            cols="65"
+            rows="5"
+            formControlName="comments"
+          ></textarea>
+          <div
+            class="text-danger mb-2 ps-2"
+            *ngIf="updateSubmitted && updatecomments.errors"
+          >
+            <div *ngIf="updatecomments.errors['required']">
+              Comments is Required
+            </div>
+          </div>
           <select class="form-control m-2" formControlName="status">
             <option [value]="''" disabled selected class="hide">
               Select Status
@@ -168,6 +200,14 @@
               {{ status }}
             </option>
           </select>
+          <div
+            class="text-danger mb-2 ps-2"
+            *ngIf="updateSubmitted && updatestatus.errors"
+          >
+            <div *ngIf="updatestatus.errors['required']">
+              Status is Required
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -177,6 +217,40 @@
     <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
     <button class="btn btn-sm btn-primary" (click)="updateUserTicket(d)">
       Update
+    </button>
+  </div>
+</ng-template>
+<!-- ticket raise modal -->
+<ng-template #TicketRaisedModal let-d="dismiss">
+  <div class="modal-header p-2 m-0">
+    <h4 class="modal-title p-0 m-0">Raise Ticket</h4>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group" [formGroup]="TicketRaisedForm">
+          <label for="">Comments:</label>
+          <textarea
+            name=""
+            id=""
+            cols="60"
+            rows="3"
+            formControlName="raise"
+          ></textarea>
+          <div
+            class="text-danger mb-2 ps-2"
+            *ngIf="raiseSubmitted && raise.errors"
+          >
+            <div *ngIf="raise.errors['required']">Comments is Required</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
+    <button class="btn btn-sm btn-primary" (click)="raiseTicket(d)">
+      Send
     </button>
   </div>
 </ng-template>
@@ -212,7 +286,12 @@
   <div class="modal-header p-2 m-0 text-bg-warning">Update</div>
   <div class="modal-body m-2">
     <h3>{{ chatservice.getFullName(ticketDetails.client) | titlecase }}</h3>
-    <input type="text" class="form-control" [value]="ticketDetails.client.email" disabled />
+    <input
+      type="text"
+      class="form-control"
+      [value]="ticketDetails.client.email"
+      disabled
+    />
     <textarea class="form-control m-2" [rows]="4" [(ngModel)]="description">
     </textarea>
     <div class="successMsg" *ngIf="mailSuccessMsg && mailSuccessMsg.message">
@@ -229,17 +308,43 @@
   </div>
 </ng-template>
 
-<app-table *ngIf="params == 'user list'" [data]="userList" (firstBtnClick)="editUser($event)"
-  (secondBtnClick)="deleteUser($event)" (userDetails)="openUserDetails($event)" [tableColumns]="userColumns">
+<app-table
+  *ngIf="params == 'user list'"
+  [data]="userList"
+  (firstBtnClick)="editUser($event)"
+  (secondBtnClick)="deleteUser($event)"
+  (userDetails)="openUserDetails($event)"
+  [tableColumns]="userColumns"
+>
 </app-table>
 
-<app-table *ngIf="params == 'client list'" [data]="clientData" (firstBtnClick)="editClient($event)"
-  (secondBtnClick)="deleteClient($event)" (clientnameClick)="routeToClientTickets($event)"
-  [tableColumns]="clientColumns">
+<app-table
+  class="ClientTable"
+  *ngIf="params == 'client list'"
+  [data]="clientData"
+  (firstBtnClick)="editClient($event)"
+  (secondBtnClick)="deleteClient($event)"
+  (clientnameClick)="routeToClientTickets($event)"
+  [tableColumns]="clientColumns"
+>
 </app-table>
 
-<app-table *ngIf="params == 'today tickets'" [data]="ticketData" (singleButtonClick)="singleButtonClick($event)"
-  [tableColumns]="ticketColumns"></app-table>
-<app-table *ngIf="params == 'user tickets'" [data]="userTicketsData" (firstBtnClick)="update($event)"
-  (secondBtnClick)="routeToTickets($event)" [tableColumns]="userTickets"></app-table>
-<app-table *ngIf="params == 'helped tickets'" [data]="userTicketsData" [tableColumns]="userTickets"></app-table>
+<app-table
+  *ngIf="params == 'today tickets'"
+  [data]="ticketData"
+  (singleButtonClick)="singleButtonClick($event)"
+  [tableColumns]="ticketColumns"
+></app-table>
+<app-table
+  *ngIf="params == 'user tickets'"
+  [data]="userTicketsData"
+  (firstBtnClick)="update($event)"
+  (secondBtnClick)="routeToTickets($event)"
+  (thirdBtnClick)="ticketraise($event)"
+  [tableColumns]="userTickets"
+></app-table>
+<app-table
+  *ngIf="params == 'helped tickets'"
+  [data]="userTicketsData"
+  [tableColumns]="userTickets"
+></app-table>

@@ -8,20 +8,48 @@
           placeholder="Group Name"
           class="form-control m-2"
           formControlName="groupName"
+          class="form-control"
         />
+        <p
+          class="text-danger"
+          *ngIf="
+            submitted &&
+            createGroupForm.controls?.['groupName']?.status == 'INVALID'
+          "
+        >
+          Feild Required
+        </p>
         <mat-form-field>
           <mat-label>Select Users</mat-label>
           <mat-select formControlName="userlist" multiple>
             <mat-option *ngFor="let user of data.UserListData" [value]="user">{{
-              user.firstName
+              chartservice.getFullName(user)
             }}</mat-option>
           </mat-select>
         </mat-form-field>
+        <p
+          class="text-danger"
+          *ngIf="
+            submitted &&
+            createGroupForm.controls?.['userlist']?.status == 'INVALID'
+          "
+        >
+          Feild Required
+        </p>
         <div>
           <textarea
             placeholder="description"
             formControlName="description"
           ></textarea>
+          <p
+            class="text-danger"
+            *ngIf="
+              submitted &&
+              createGroupForm.controls?.['description']?.status == 'INVALID'
+            "
+          >
+            Feild Required
+          </p>
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ChatService } from 'src/app/services/chat.service';
 
 @Component({
   selector: 'app-create-group',
@@ -13,6 +14,7 @@ export class CreateGroupComponent {
     public dialogRef: MatDialogRef<CreateGroupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
+    public chartservice: ChatService,
   ) {
     this.createGroupForm = this.fb.group({
       groupName: ['', Validators.required],

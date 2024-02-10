@@ -63,6 +63,7 @@
           >
           </ngx-spinner>
           <div
+            class="SelectedMessage"
             *ngFor="let user of UserListData"
             [ngClass]="user._id == UserSelected._id ? 'SelectedUser' : ''"
           >
