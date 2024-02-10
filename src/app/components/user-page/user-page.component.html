@@ -13,8 +13,8 @@
     <p>{{ chatservice.getFullName(currentUser) }}</p>
     &nbsp;&nbsp;
     <span>({{ currentUser.userId }} )</span>
-    <span [ngClass]="currentUser.status"></span>&nbsp;
-    <span class="OnTicket" *ngIf="currentUser.status == 'On Ticket'"></span>
+    <span  matTooltip="{{currentUser.status}}" aria-label="Displays a tooltip" [ngClass]="currentUser.status"></span>&nbsp;
+    <span matTooltip="OnTicket" class="OnTicket" *ngIf="currentUser.status == 'On Ticket'"></span>
   </div>
   <div class="employeList">
     <div class="main-employeDetails">
@@ -45,7 +45,7 @@
           <h2>Break Time</h2>
           <p *ngFor="let status of breakTimes.status">
             <span *ngIf="status.type === 'END'"
-              >Start :{{ status.startTime }} - End :{{ status.endTime }}</span
+              >Start :{{ status.startTime | date: "dd/MM/yyyy hh:mm a" }} - End :{{ status.endTime | date: "dd/MM/yyyy hh:mm a" }}</span
             >
           </p>
         </div>

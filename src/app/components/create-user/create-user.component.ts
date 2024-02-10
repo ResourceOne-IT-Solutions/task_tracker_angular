@@ -15,11 +15,13 @@ export class CreateUserComponent {
 
   creteuserError: any;
   isAccountcreate: boolean = false;
+  maxDate: any;
 
   constructor(
     private fb: FormBuilder,
     private chatservice: ChatService,
   ) {
+    this.maxDate = new Date();
     this.createUserForm = this.fb.group({
       fname: ['', Validators.required],
       lname: ['', Validators.required],
@@ -27,7 +29,7 @@ export class CreateUserComponent {
       phone: ['', Validators.required],
       dob: ['', Validators.required],
       password: ['', Validators.required],
-      employeId: ['',Validators.required],
+      employeId: ['', Validators.required],
       joiningDate: ['', Validators.required],
       profileImageUrl: ['', Validators.required],
       designation: ['', Validators.required],
@@ -36,10 +38,13 @@ export class CreateUserComponent {
       isAdmin: ['', Validators.required],
     });
   }
-  ngOnInit() { 
+  ngOnInit() {
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.currentUser = res;
     });
+  }
+  getToday(): string {
+    return new Date().toISOString().split('T')[0]
   }
   get user() {
     return this.createUserForm.controls;
@@ -80,7 +85,7 @@ export class CreateUserComponent {
   get password() {
     return this.user['password'];
   }
-  get employeId(){
+  get employeId() {
     return this.user['employeId']
   }
   phoneValidation(evt: any) {

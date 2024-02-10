@@ -11,10 +11,13 @@ import { Socket } from 'socket.io-client';
 import { ChatService } from 'src/app/services/chat.service';
 import { Location } from '@angular/common';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateGroupComponent } from '../create-group/create-group.component';
+import { TooltipPosition } from '@angular/material/tooltip';
+import * as XLSX from 'xlsx';
+import jsPDF from 'jspdf';
 @Component({
   selector: 'app-chat-box',
   templateUrl: './chat-box.component.html',
@@ -23,7 +26,9 @@ import { CreateGroupComponent } from '../create-group/create-group.component';
 export class ChatBoxComponent {
   @ViewChild('groupModel', { static: false }) groupModel: any;
   @ViewChild('chatContainer') chatContainer!: ElementRef;
-
+  //ToolTip.
+  positionOptions: TooltipPosition[] = ['after', 'before', 'above', 'below', 'left', 'right'];
+  position = new FormControl(this.positionOptions[0]);
   groupList: any = [];
   displayIcons: boolean = false;
   messageText: any;
@@ -47,6 +52,7 @@ export class ChatBoxComponent {
   ClientContactDetails: boolean = false;
   today: number = Date.now();
   contact: any;
+  ExportChatModal: boolean = false;
   constructor(
     public chatservice: ChatService,
     private location: Location,
@@ -79,11 +85,11 @@ export class ChatBoxComponent {
         } else {
           this.UserListData = userPayload
             ? this.UserListData.map((user: any) => {
-                user.status = userPayload.find(
-                  (val: any) => val._id === user._id,
-                ).status;
-                return user;
-              })
+              user.status = userPayload.find(
+                (val: any) => val._id === user._id,
+              ).status;
+              return user;
+            })
             : this.UserListData;
         }
         if (this.requestedChat) {
@@ -241,7 +247,6 @@ export class ChatBoxComponent {
     this.reUseableSendMessage(content, type, fileLink);
   }
   reUseableSendMessage(content: any, type: any, fileLink: any) {
-    this.chatservice.sendSocketData({ key: 'sendMessage' });
     const socketPayload = {
       to: this.RoomId,
       content,
@@ -281,7 +286,6 @@ export class ChatBoxComponent {
     this.location.back();
   }
   PreviousPage() {
-    console.log('hello');
     this.UserSelected = {};
     this.NoUser = true;
     this.ChatBox = false;
@@ -318,4 +322,40 @@ export class ChatBoxComponent {
         val.name?.toLowerCase().indexOf(this.SearchFilter?.toLowerCase()) > -1,
     );
   }
+  ExportChat() {
+    const chatHistory = this.TotalMessages.flatMap((messages: any) =>
+      messages.messageByDate.map((message: any) => {
+        return `${message.from.name}: ${message.content} - ${new Date(message
+          .date,).toLocaleDateString()} ${new Date(message.time).toLocaleTimeString()}`;
+      }),);
+    const pdf = new jsPDF();
+    const pageSize = pdf.internal.pageSize;
+    const pageHeight = pageSize.height;
+    const lineHeight = 5; // Adjust as needed 
+    const marginLeft = 10; // Adjust the left margin as needed 
+    let cursorY = 10;
+    chatHistory.forEach((message: any) => {
+      if (cursorY + lineHeight > pageHeight) {
+        pdf.addPage(); // Add a new page 
+        cursorY = 10; // Reset Y position 
+      }
+
+      // Split the message into lines if it's too long 
+      const lines = pdf.splitTextToSize(
+        message,
+        pdf.internal.pageSize.getWidth() - 2 * marginLeft,);
+      // Output each line 
+      lines.forEach((line: string, lineIndex: number) => {
+        if (lineIndex === 0) {
+          pdf.text(line, marginLeft, cursorY);
+        } else {
+          pdf.text(line, marginLeft + 5, cursorY);
+        }
+        cursorY += lineHeight;
+      });
+      cursorY += lineHeight;
+    });
+    const pdfName = `${this.chatservice.getFullName(this.currentUser)}-${this.chatservice.getFullName(this.UserSelected)}-Chat.pdf`;
+    pdf.save(pdfName);
+  };
 }

@@ -3,10 +3,11 @@ import { ChatService } from '../../services/chat.service';
 import { Chart, registerables } from 'node_modules/chart.js';
 import { from } from 'rxjs';
 import { LocationStrategy, formatDate } from '@angular/common';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Column } from '../dash-board/dash-board.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TooltipPosition } from '@angular/material/tooltip';
 
 Chart.register(...registerables);
 @Component({
@@ -40,6 +41,9 @@ export class UserPageComponent implements OnInit {
   'cstDate': string;
   'pstDate': string;
   'est': string;
+  //ToolTip.
+  positionOptions: TooltipPosition[] = ['after', 'before', 'above', 'below', 'left', 'right'];
+  position = new FormControl(this.positionOptions[0]);
   constructor(
     public chatservice: ChatService,
     private router: Router,
