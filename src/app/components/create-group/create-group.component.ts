@@ -10,6 +10,7 @@ import { ChatService } from 'src/app/services/chat.service';
 })
 export class CreateGroupComponent {
   'createGroupForm': FormGroup;
+  submitted: boolean = false;
   constructor(
     public dialogRef: MatDialogRef<CreateGroupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -27,6 +28,7 @@ export class CreateGroupComponent {
     this.dialogRef.close();
   }
   CreateGroup() {
+    this.submitted = true;
     if (this.createGroupForm.valid) {
       this.dialogRef.close(this.createGroupForm.value);
     }

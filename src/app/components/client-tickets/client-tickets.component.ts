@@ -31,28 +31,21 @@ export class ClientTicketsComponent implements OnInit {
 
   clientColumns: Array<Column> = [
     {
-      columnDef: 'user',
-      header: 'User Name',
-      cell: (element: any) => `${element['user'].name}`,
-      isText: true,
-    },
-    {
       columnDef: 'client',
       header: 'client Name',
       cell: (element: any) => `${element['client'].name}`,
       isText: true,
     },
     {
-      columnDef: 'addOnResource',
-      header: 'Held By',
-      cell: (element: any) =>
-        `${element['addOnResource']?.map((res: any) => res.name)?.toString() || '--'}`,
+      columnDef: 'user',
+      header: 'User Name',
+      cell: (element: any) => `${element['user'].name}`,
       isText: true,
     },
     {
-      columnDef: 'description',
-      header: 'Description',
-      cell: (element: any) => `${element['description']}`,
+      columnDef: 'status',
+      header: 'Status',
+      cell: (element: any) => `${element['status']}`,
       isText: true,
     },
     {
@@ -62,9 +55,9 @@ export class ClientTicketsComponent implements OnInit {
       isText: true,
     },
     {
-      columnDef: 'status',
-      header: 'Status',
-      cell: (element: any) => `${element['status']}`,
+      columnDef: 'receivedDate',
+      header: 'Receive Date',
+      cell: (element: any) => `${element['receivedDate']}`,
       isText: true,
     },
     {
@@ -109,6 +102,7 @@ export class ClientTicketsComponent implements OnInit {
     this.chatservice
       .getClientById(this.clientDataTable._id)
       .subscribe((res: any) => {
+        console.log(res,'844444:::')
         this.clientTicketById = res;
         (this.Closed = this.clientTicketById.filter(
           (val: any) => val.status == 'Closed',

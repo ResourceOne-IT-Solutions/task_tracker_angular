@@ -45,7 +45,6 @@ export class TableComponent {
   ];
   position = new FormControl(this.positionOptions[0]);
   ngOnInit() {
-    console.log(this.tableColumns, '36:::');
     this.loader.show();
     setTimeout(() => {
       this.loader.hide();

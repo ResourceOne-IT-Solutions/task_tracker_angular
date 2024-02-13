@@ -3,14 +3,8 @@
   {{ params | titlecase }}
 </h1>
 <div class="d-flex justify-content-between align-items-center">
-  <input
-    class="form-control w-50 border border-dark m-2"
-    [(ngModel)]="searchFilter"
-    (keyup)="SearchUsers()"
-    type="text"
-    name="search"
-    placeholder="search"
-  />
+  <input class="form-control w-50 border border-dark m-2" [(ngModel)]="searchFilter" (keyup)="SearchUsers()" type="text"
+    name="search" placeholder="search" />
   <button (click)="goback()" class="btn btn-danger h-25 mr-5">
     Go To Back
   </button>
@@ -44,10 +38,11 @@
           <div class="text-danger mb-2 ps-2" *ngIf="userSubmitted && phone.errors">
             <div *ngIf="phone.errors['required']">Phone is Required</div>
           </div>
+          <label class="ms-2">Date Of Birth</label>
+          <input type="date" class="form-control m-2" formControlName="dob" />
         </div>
       </div>
     </div>
-    <span *ngIf="userErr">{{ userErr }}</span>
   </div>
   <div class="modal-footer">
     <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
@@ -139,7 +134,6 @@
           </div>
         </div>
       </div>
-      <span *ngIf="clientErr">{{ clientErr }}</span>
     </div>
   </div>
   <div class="modal-footer">
@@ -211,7 +205,7 @@
         </div>
       </div>
     </div>
-    <span *ngIf="updateError" class="text-danger">{{ updateError }}</span>
+    <span *ngIf="updateError" class="text-danger">{{updateError}}</span>
   </div>
   <div class="modal-footer">
     <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
@@ -286,12 +280,7 @@
   <div class="modal-header p-2 m-0 text-bg-warning">Update</div>
   <div class="modal-body m-2">
     <h3>{{ chatservice.getFullName(ticketDetails.client) | titlecase }}</h3>
-    <input
-      type="text"
-      class="form-control"
-      [value]="ticketDetails.client.email"
-      disabled
-    />
+    <input type="text" class="form-control" [value]="ticketDetails.client.email" disabled />
     <textarea class="form-control m-2" [rows]="4" [(ngModel)]="description">
     </textarea>
     <div class="successMsg" *ngIf="mailSuccessMsg && mailSuccessMsg.message">
@@ -308,14 +297,8 @@
   </div>
 </ng-template>
 
-<app-table
-  *ngIf="params == 'user list'"
-  [data]="userList"
-  (firstBtnClick)="editUser($event)"
-  (secondBtnClick)="deleteUser($event)"
-  (userDetails)="openUserDetails($event)"
-  [tableColumns]="userColumns"
->
+<app-table *ngIf="params == 'user list'" [data]="userList" (firstBtnClick)="editUser($event)"
+  (secondBtnClick)="deleteUser($event)" (userDetails)="openUserDetails($event)" [tableColumns]="userColumns">
 </app-table>
 
 <app-table
@@ -346,5 +329,5 @@
 <app-table
   *ngIf="params == 'helped tickets'"
   [data]="userTicketsData"
-  [tableColumns]="userTickets"
+   [tableColumns]="userTickets"
 ></app-table>

@@ -12,12 +12,14 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   AbstractControl,
   FormBuilder,
+  FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
 import { User } from '../../interface/users';
 import { Chart, ChartType, registerables } from 'node_modules/chart.js';
 import { Task } from 'src/app/interface/tickets';
+import { TooltipPosition } from '@angular/material/tooltip';
 @Component({
   selector: 'app-dash-board',
   templateUrl: './dash-board.component.html',
@@ -62,7 +64,9 @@ export class DashBoardComponent {
   cstDate!: string;
   pstDate!: string;
   est!: string;
-
+  //ToolTip.
+  positionOptions: TooltipPosition[] = ['after', 'before', 'above', 'below', 'left', 'right'];
+  position = new FormControl(this.positionOptions[0]);
   constructor(
     public chatservice: ChatService,
     private router: Router,
@@ -73,7 +77,6 @@ export class DashBoardComponent {
   ngOnInit() {
     this.chatservice.UserLoginData.subscribe((res: User | undefined) => {
       this.adminDetails = res;
-      console.log(JSON.parse(JSON.stringify(res)), 'user');
     });
 
     this.chatservice.getSocketData('chatRequest').subscribe((res) => {
@@ -280,4 +283,5 @@ export interface Column {
   isImage?: boolean;
   isText?: boolean;
   isLink?: boolean;
+  isMouseOver?: boolean;
 }

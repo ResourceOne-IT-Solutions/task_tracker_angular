@@ -8,18 +8,20 @@ import { ChatService } from 'src/app/services/chat.service';
   styleUrls: ['./create-user.component.scss'],
 })
 export class CreateUserComponent {
-  'createUserForm': FormGroup;
+  'createUserForm': FormGroup<any>;
   genders: any = ['Male', 'Female', 'Not Specified'];
   submitted: boolean = false;
   currentUser: any;
 
   creteuserError: any;
   isAccountcreate: boolean = false;
+  maxDate: any;
 
   constructor(
     private fb: FormBuilder,
     private chatservice: ChatService,
   ) {
+    this.maxDate = new Date();
     this.createUserForm = this.fb.group({
       fname: ['', Validators.required],
       lname: ['', Validators.required],
@@ -40,6 +42,9 @@ export class CreateUserComponent {
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.currentUser = res;
     });
+  }
+  getToday(): string {
+    return new Date().toISOString().split('T')[0]
   }
   get user() {
     return this.createUserForm.controls;
@@ -90,7 +95,6 @@ export class CreateUserComponent {
       return;
     }
   }
-
   createNewUser() {
     this.submitted = true;
     if (this.createUserForm.valid) {
@@ -100,6 +104,7 @@ export class CreateUserComponent {
         email: this.createUserForm.value.email,
         mobile: this.createUserForm.value.phone,
         password: this.createUserForm.value.password,
+        employeId: this.createUserForm.value.employeId,
         joinedDate: this.createUserForm.value.joiningDate,
         dob: this.createUserForm.value.dob,
         isAdmin: this.createUserForm.value.isAdmin,

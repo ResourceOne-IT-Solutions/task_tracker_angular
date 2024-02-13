@@ -12,13 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogModelComponent } from 'src/app/reusable/dialog-model/dialog-model.component';
-import {
-  adminTicketColumns,
-  clientColumns,
-  ticketColumns,
-  userColumns,
-  userTicketColumns,
-} from './tabledata';
+import { adminTicketColumns, clientColumns, ticketColumns, userColumns, userTicketColumns } from './tabledata';
 
 @Component({
   selector: 'app-userlist',
@@ -67,10 +61,10 @@ export class UserlistComponent {
   mailSuccessMsg: any;
   AssignedUser: any = '';
 
-  userColumns: Array<Column> = userColumns;
-  clientColumns: Array<Column> = clientColumns;
-  ticketColumns: Array<Column> = [...ticketColumns, ...adminTicketColumns];
-  userTickets: Array<Column> = [...ticketColumns, ...userTicketColumns];
+  userColumns: Array<Column> = userColumns
+  clientColumns: Array<Column> = clientColumns
+  ticketColumns: Array<Column> = [...ticketColumns, ...adminTicketColumns]
+  userTickets: Array<Column> = [...ticketColumns, ...userTicketColumns]
   params: any;
   MockticketData: any;
   MockClientData: any;
@@ -90,7 +84,7 @@ export class UserlistComponent {
     private location: Location,
     private route: ActivatedRoute,
     public dialog: MatDialog,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.params = this.route.snapshot.routeConfig?.path?.split('-').join(' ');
@@ -99,6 +93,10 @@ export class UserlistComponent {
       lname: ['', Validators.required],
       email: ['', Validators.required],
       phone: ['', Validators.required],
+      dob: ['', Validators.required],
+      joiningDate: ['', Validators.required],
+      profileImageUrl: ['', Validators.required],
+      address: ['', Validators.required],
     });
     this.clientForm = this.fb.group({
       location: ['', Validators.required],
@@ -131,22 +129,20 @@ export class UserlistComponent {
       this.adminDetails = res;
     });
 
-    if (!this.adminDetails.isAdmin) {
-      this.chatservice.getAllTickets().subscribe((res: any) => {
-        if (this.adminDetails) {
-          this.userTicketsData = res.filter(
-            (item: any) => item.user.id === this.adminDetails._id,
-          );
-        }
-      });
-      if (this.params === 'helped tickets' && !this.adminDetails.isAdmin) {
-        this.chatservice
-          .get(`/tickets/helped-tickets/${this.adminDetails._id}`)
-          .subscribe((res) => {
-            this.userTicketsData = res;
-          });
+   if(!this.adminDetails.isAdmin){
+    this.chatservice.getAllTickets().subscribe((res: any) => {
+      if (this.adminDetails) {
+        this.userTicketsData = res.filter(
+          (item: any) => item.user.id === this.adminDetails._id,
+        );
       }
+    })
+    if(this.params === 'helped tickets' && !this.adminDetails.isAdmin){
+      this.chatservice.get(`/tickets/helped-tickets/${this.adminDetails._id}`).subscribe((res)=>{
+          this.userTicketsData = res
+      })
     }
+  }
     this.chatservice.getPendingTickets().subscribe((res: any) => {
       this.ticketData = res;
       this.MockticketData = this.ticketData;
@@ -172,6 +168,18 @@ export class UserlistComponent {
   }
   get phone() {
     return this.user['phone'];
+  }
+  get dob() {
+    return this.user['dob'];
+  }
+  get joiningDate() {
+    return this.user['joiningDate'];
+  }
+  get profileImageUrl() {
+    return this.user['profileImageUrl'];
+  }
+  get address() {
+    return this.user['address'];
   }
 
   // client form
@@ -241,6 +249,7 @@ export class UserlistComponent {
       lname: userData.lastName,
       email: userData.email,
       phone: userData.mobile,
+      dob: new Date(userData.dob).toISOString().split('T')[0],
     });
     this.userDetails = userData;
   }
@@ -267,31 +276,24 @@ export class UserlistComponent {
     this.clientForm.controls['location'].patchValue('');
   }
   updateUser(dismiss: any): void {
-    this.userSubmitted = true;
-    if (this.userForm.valid) {
-      const Data = {
-        firstName: this.userForm.value.fname,
-        lastName: this.userForm.value.lname,
-        email: this.userForm.value.email,
-        mobile: this.userForm.value.phone,
-      };
-      const payload = {
-        id: this.userDetails._id,
-        data: Data,
-      };
-      this.chatservice.UpdateUsers(payload).subscribe(
-        (res: any) => {
-          this.userList = this.userList.map((element: any) =>
-            element._id === res._id ? res : element,
-          );
-        },
-        (error) => {
-          this.userErr = error.error.error;
-        },
+    const Data = {
+      firstName: this.userForm.value.fname,
+      lastName: this.userForm.value.lname,
+      email: this.userForm.value.email,
+      mobile: this.userForm.value.phone,
+      designation: this.userDetails.designation,
+    };
+    const payload = {
+      id: this.userDetails._id,
+      data: Data,
+    };
+    this.chatservice.UpdateUsers(payload).subscribe((res: any) => {
+      this.userList = this.userList.map((element: any) =>
+        element._id === res._id ? res : element,
       );
-      dismiss();
-      this.userForm.reset();
-    }
+    });
+    dismiss();
+    this.userForm.reset();
   }
   UserPage(dismiss: any) {
     dismiss();
@@ -301,33 +303,25 @@ export class UserlistComponent {
   }
 
   updateClient(dismiss: any) {
-    this.clientSubmitted = true;
-    if (this.clientForm.valid) {
-      dismiss();
-      const data = {
-        mobile: this.clientForm.value.mobile,
-        location: {
-          area: this.clientForm.value.location,
-          zone: this.clientForm.value.zone,
-        },
-        companyName: this.clientForm.value.companyName,
-        technology: this.clientForm.value.technologies,
-      };
-      const payload = {
-        id: this.clientDetails._id,
-        data: data,
-      };
-      this.chatservice.updateClient(payload).subscribe(
-        (res: any) => {
-          this.clientData = this.clientData.map((element: any) =>
-            element._id === res._id ? res : element,
-          );
-        },
-        (error) => {
-          this.clientErr = error.error.error;
-        },
+    dismiss();
+    const data = {
+      mobile: this.clientForm.value.mobile,
+      location: {
+        area: this.clientForm.value.location,
+        zone: this.clientForm.value.zone,
+      },
+      companyName: this.clientForm.value.companyName,
+      technology: this.clientForm.value.technologies,
+    };
+    const payload = {
+      id: this.clientDetails._id,
+      data: data,
+    };
+    this.chatservice.updateClient(payload).subscribe((res: any) => {
+      this.clientData = this.clientData.map((element: any) =>
+        element._id === res._id ? res : element,
       );
-    }
+    });
   }
   editClient(clientDetails: any) {
     this.selectLocation = clientDetails.location.area ? null : undefined;
@@ -345,6 +339,7 @@ export class UserlistComponent {
     });
   }
   routeToClientTickets(data: any) {
+    console.log(data,'3111')
     this.router.navigate(['../client-tickets'], { relativeTo: this.route });
     this.chatservice.getTicketId(data);
   }
@@ -439,7 +434,7 @@ export class UserlistComponent {
       );
     }
   }
-  // user ticket update form
+  // user ticket update form 
   update(userDetails: any) {
     this.modelHeader = 'Update Ticket';
     this.openPopup(this.updateModel);
@@ -583,7 +578,7 @@ export class UserlistComponent {
   }
   phoneValidation(evt: any) {
     const inputChar = String.fromCharCode(evt.charCode);
-    if (!/^\d+$/.test(inputChar)) {
+    if (this.phone?.value.length > 9 || !/^\d+$/.test(inputChar)) {
       evt.preventDefault();
       return;
     }

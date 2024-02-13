@@ -202,6 +202,13 @@ export const clientColumns = [
     columnDef: 'firstName',
     header: 'Client Name',
     cell: (element: any) => `${element['firstName']}`,
+    // isText: true,
+    isMouseOver:true,
+  },
+  {
+    columnDef: 'email',
+    header: 'Email',
+    cell: (element: any) => `${element['email']}`,
     isText: true,
   },
   {
@@ -216,12 +223,7 @@ export const clientColumns = [
     cell: (element: any) => `${element['technology']}`,
     isText: true,
   },
-  {
-    columnDef: 'email',
-    header: 'Email',
-    cell: (element: any) => `${element['email']}`,
-    isText: true,
-  },
+ 
   {
     columnDef: 'location',
     header: 'Location',
