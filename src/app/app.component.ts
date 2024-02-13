@@ -19,7 +19,6 @@ export class AppComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.chatservice.UserLoginData.subscribe((res) => {
-      // console.log(res , '20:::');
       this.currentUser = res;
     });
     this.chatservice.getSocketData('chatRequest').subscribe((res) => {

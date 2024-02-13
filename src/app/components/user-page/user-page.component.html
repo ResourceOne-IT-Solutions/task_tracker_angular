@@ -67,7 +67,6 @@
           >
             Request Chat with User
           </button>
-          <button class="btn btn-info ms-2">My Tickets</button>
         </div>
         <div class="requestchat" *ngIf="requestchat">
           <mat-form-field>
@@ -96,6 +95,19 @@
             <canvas id="piechartdemo"> </canvas>
           </div>
           <p class="tickets">Total Tickets : {{ userTickets.length }}</p>
+        </div>
+        <div>
+          <button class="btn btn-info ms-2">
+            <a [routerLink]="['./user-tickets']" class="text-decoration-none"
+              >Today Tickets</a
+            >
+          </button>
+          <button class="btn btn-info m-2">
+            <!-- Helped Tickets -->
+            <a [routerLink]="['./helped-tickets']" class="text-decoration-none"
+              >Helped Tickets</a
+            >
+          </button>
         </div>
         <div class="timezone d-flex">
           <div class="countryTime">

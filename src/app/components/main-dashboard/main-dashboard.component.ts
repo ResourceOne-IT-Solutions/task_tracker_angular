@@ -6,6 +6,7 @@ import { IdleTimeService } from 'src/app/services/idle/idle-time.service';
 import { ActivatedRoute } from '@angular/router';
 import { DashBoardComponent } from '../dash-board/dash-board.component';
 import { UserPageComponent } from '../user-page/user-page.component';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-main-dashboard',
@@ -20,6 +21,7 @@ export class MainDashboardComponent {
     private chatservice: ChatService,
     private idleSerive: IdleTimeService,
     private route: ActivatedRoute,
+    private store: Store,
   ) {}
   ngOnInit() {
     this.data = localStorage.getItem('currentTaskUser');

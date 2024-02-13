@@ -16,7 +16,6 @@ import { UserViewComponent } from './components/user-view/user-view.component';
 import { adminGuard } from './services/admin/admin.guard';
 import { UserlistComponent } from './components/userlist/userlist.component';
 import { TicketdescriptionComponent } from './components/ticket-description/ticket-description.component';
-// import { ClientdescriptionComponent } from './components/ticket-description/ticket-description';
 
 const routes: Routes = [
   { path: '', component: WelComePageComponent },
@@ -66,8 +65,13 @@ const routes: Routes = [
         canActivate: [guardGuard],
       },
       {
-        path: 'client-tickets',
+        path: 'client-tickets/:id',
         component: ClientTicketsComponent,
+        canActivate: [guardGuard],
+      },
+      {
+        path: 'tickets/client/:id',
+        component: TicketsComponent,
         canActivate: [guardGuard],
       },
       {

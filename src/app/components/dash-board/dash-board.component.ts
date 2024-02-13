@@ -19,6 +19,8 @@ import {
 import { User } from '../../interface/users';
 import { Chart, ChartType, registerables } from 'node_modules/chart.js';
 import { Task } from 'src/app/interface/tickets';
+import { Store } from '@ngrx/store';
+import { loadUserData } from 'src/app/chat-store/table.actions';
 import { TooltipPosition } from '@angular/material/tooltip';
 @Component({
   selector: 'app-dash-board',
@@ -80,6 +82,7 @@ export class DashBoardComponent {
     private modalService: NgbModal,
     private fb: FormBuilder,
     private route: ActivatedRoute,
+    private store: Store,
   ) {}
   ngOnInit() {
     this.chatservice.UserLoginData.subscribe((res: User | undefined) => {
@@ -129,6 +132,7 @@ export class DashBoardComponent {
       key: 'newUser',
     });
     this.chatservice.getSocketData('newUser').subscribe(({ userPayload }) => {
+      this.store.dispatch(loadUserData({ userList: userPayload }));
       this.UserListData = userPayload;
       const Avalible = this.getUserByStatus('available');
       const Offline = this.getUserByStatus('offline');

@@ -6,8 +6,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 Chart.register(...registerables);
 
-// import { Column } from '../dash-board/dash-board.component';
-
 @Component({
   selector: 'app-client-tickets',
   templateUrl: './client-tickets.component.html',
@@ -94,15 +92,12 @@ export class ClientTicketsComponent implements OnInit {
   ];
   ngOnInit(): void {
     this.paramId = this.route.snapshot.paramMap.get('id');
-    console.log(this.paramId, '69999999::::::::');
 
-    this.chatservice.ticketsById.subscribe((res) => {
-      this.clientDataTable = res;
-    });
-    this.chatservice
-      .getClientById(this.clientDataTable._id)
-      .subscribe((res: any) => {
-        console.log(res, '844444:::');
+    if (this.paramId) {
+      this.chatservice.get(`/clients/${this.paramId}`).subscribe((res) => {
+        this.clientDataTable = res;
+      });
+      this.chatservice.getClientById(this.paramId).subscribe((res: any) => {
         this.clientTicketById = res;
         (this.Closed = this.clientTicketById.filter(
           (val: any) => val.status == 'Closed',
@@ -131,6 +126,7 @@ export class ClientTicketsComponent implements OnInit {
           this.inprogress,
         );
       });
+    }
   }
 
   pieChart(

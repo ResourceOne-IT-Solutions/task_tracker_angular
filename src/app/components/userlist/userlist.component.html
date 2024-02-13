@@ -373,7 +373,7 @@
 
 <app-table
   *ngIf="params == 'user list'"
-  [data]="userList"
+  [data]="tableData"
   (firstBtnClick)="editUser($event)"
   (secondBtnClick)="deleteUser($event)"
   (userDetails)="openUserDetails($event)"
@@ -384,7 +384,7 @@
 <app-table
   class="ClientTable"
   *ngIf="params == 'client list'"
-  [data]="clientData"
+  [data]="tableData"
   (firstBtnClick)="editClient($event)"
   (secondBtnClick)="deleteClient($event)"
   (clientnameClick)="routeToClientTickets($event)"
@@ -394,13 +394,13 @@
 
 <app-table
   *ngIf="params == 'today tickets'"
-  [data]="ticketData"
+  [data]="tableData"
   (singleButtonClick)="singleButtonClick($event)"
   [tableColumns]="ticketColumns"
 ></app-table>
 <app-table
   *ngIf="params == 'user tickets'"
-  [data]="userTicketsData"
+  [data]="tableData"
   (firstBtnClick)="update($event)"
   (secondBtnClick)="routeToTickets($event)"
   (thirdBtnClick)="ticketraise($event)"
@@ -408,6 +408,6 @@
 ></app-table>
 <app-table
   *ngIf="params == 'helped tickets'"
-  [data]="userTicketsData"
+  [data]="tableData"
   [tableColumns]="userTickets"
 ></app-table>

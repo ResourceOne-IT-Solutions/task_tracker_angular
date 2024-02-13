@@ -15,10 +15,15 @@ import { DialogModelComponent } from 'src/app/reusable/dialog-model/dialog-model
 import {
   adminTicketColumns,
   clientColumns,
+  description2,
   ticketColumns,
   userColumns,
   userTicketColumns,
 } from './tabledata';
+import { Store, select } from '@ngrx/store';
+import { getTableData, getUserData } from 'src/app/chat-store/table.selector';
+import { distinctUntilChanged } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-userlist',
@@ -34,7 +39,6 @@ export class UserlistComponent {
   @ViewChild('updateModel', { static: false }) updateModel: any;
   @ViewChild('TicketRaisedModal', { static: false }) TicketRaisedModal: any;
 
-  userList: any = [];
   modelHeader: string = '';
   'userForm': FormGroup;
   'clientForm': FormGroup;
@@ -48,8 +52,7 @@ export class UserlistComponent {
   loadingStaus: boolean = false;
   selectLocation: any = null;
   searchFilter: any;
-  clientData: any = [];
-  ticketData: any = [];
+  tableData: any = [];
   todaysTickets: any = [];
   addResourceData: any = [];
   genders: any = ['Male', 'Female', 'Not Specified'];
@@ -66,11 +69,19 @@ export class UserlistComponent {
   adminDetails: any;
   mailSuccessMsg: any;
   AssignedUser: any = '';
-
+  tableData$!: Observable<any>;
   userColumns: Array<Column> = userColumns;
   clientColumns: Array<Column> = clientColumns;
-  ticketColumns: Array<Column> = [...ticketColumns, ...adminTicketColumns];
-  userTickets: Array<Column> = [...ticketColumns, ...userTicketColumns];
+  ticketColumns: Array<Column> = [
+    ...ticketColumns,
+    ...description2,
+    ...adminTicketColumns,
+  ];
+  userTickets: Array<Column> = [
+    ...ticketColumns,
+    ...description2,
+    ...userTicketColumns,
+  ];
   params: any;
   MockticketData: any;
   MockClientData: any;
@@ -90,6 +101,7 @@ export class UserlistComponent {
     private location: Location,
     private route: ActivatedRoute,
     public dialog: MatDialog,
+    private store: Store,
   ) {}
 
   ngOnInit() {
@@ -119,46 +131,14 @@ export class UserlistComponent {
     this.TicketRaisedForm = this.fb.group({
       raise: ['', Validators.required],
     });
-    this.chatservice.getAllUsers().subscribe((res) => {
-      this.userList = res;
-      this.MockUsers = this.userList;
-      this.chatservice.TotalUser.next(this.userList.length);
-    });
-    this.chatservice.getAllClients().subscribe((res: any) => {
-      this.clientData = res;
-      this.MockClientData = this.clientData;
-    });
     this.chatservice.getSocketData('statusUpdate').subscribe((res) => {
       this.adminDetails = res;
     });
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.adminDetails = res;
     });
-
-    if (!this.adminDetails.isAdmin) {
-      this.chatservice.getAllTickets().subscribe((res: any) => {
-        if (this.adminDetails) {
-          this.userTicketsData = res.filter(
-            (item: any) => item.user.id === this.adminDetails._id,
-          );
-        }
-      });
-      if (this.params === 'helped tickets' && !this.adminDetails.isAdmin) {
-        this.chatservice
-          .get(`/tickets/helped-tickets/${this.adminDetails._id}`)
-          .subscribe((res) => {
-            this.userTicketsData = res;
-          });
-      }
-    }
-    this.chatservice.getPendingTickets().subscribe((res: any) => {
-      this.ticketData = res;
-      this.MockticketData = this.ticketData;
-      this.todaysTickets = this.ticketData.filter(
-        (val: any) =>
-          new Date(val.receivedDate).toLocaleDateString() ===
-          new Date().toLocaleDateString(),
-      );
+    this.store.pipe(select(getTableData)).subscribe((res: any) => {
+      this.tableData = res;
     });
   }
   // user form
@@ -233,21 +213,21 @@ export class UserlistComponent {
     this.location.back();
   }
   SearchUsers() {
-    this.userList = this.MockUsers.filter(
-      (val: any) =>
-        val.firstName.toLowerCase().indexOf(this.searchFilter.toLowerCase()) >
-        -1,
-    );
-    this.ticketData = this.MockticketData.filter(
-      (val: any) =>
-        val.client.name.toLowerCase().indexOf(this.searchFilter.toLowerCase()) >
-        -1,
-    );
-    this.clientData = this.MockClientData.filter(
-      (val: any) =>
-        val.firstName.toLowerCase().indexOf(this.searchFilter.toLowerCase()) >
-        -1,
-    );
+    // this.userList = this.MockUsers.filter(
+    //   (val: any) =>
+    //     val.firstName.toLowerCase().indexOf(this.searchFilter.toLowerCase()) >
+    //     -1,
+    // );
+    // this.ticketData = this.MockticketData.filter(
+    //   (val: any) =>
+    //     val.client.name.toLowerCase().indexOf(this.searchFilter.toLowerCase()) >
+    //     -1,
+    // );
+    // this.clientData = this.MockClientData.filter(
+    //   (val: any) =>
+    //     val.firstName.toLowerCase().indexOf(this.searchFilter.toLowerCase()) >
+    //     -1,
+    // );
   }
   editUser(userData: any) {
     this.addNewUser = false;
@@ -296,7 +276,7 @@ export class UserlistComponent {
       data: Data,
     };
     this.chatservice.UpdateUsers(payload).subscribe((res: any) => {
-      this.userList = this.userList.map((element: any) =>
+      this.tableData = this.tableData.map((element: any) =>
         element._id === res._id ? res : element,
       );
     });
@@ -326,7 +306,7 @@ export class UserlistComponent {
       data: data,
     };
     this.chatservice.updateClient(payload).subscribe((res: any) => {
-      this.clientData = this.clientData.map((element: any) =>
+      this.tableData = this.tableData.map((element: any) =>
         element._id === res._id ? res : element,
       );
     });
@@ -347,24 +327,26 @@ export class UserlistComponent {
     });
   }
   routeToClientTickets(data: any) {
-    console.log(data, '3111');
-    this.router.navigate(['../client-tickets'], { relativeTo: this.route });
-    this.chatservice.getTicketId(data);
+    this.router.navigate([`../client-tickets/${data._id}`], {
+      relativeTo: this.route,
+    });
   }
   //Tickets
   assignTicket(ticket: any) {
-    const userdata: any = this.MockUsers.filter(
-      (val: any) => !val.isAdmin && val._id !== ticket.user.id,
-    );
-    this.addResourceData = userdata.filter(
-      (val: any) =>
-        !ticket.addOnResource.map((res: any) => res.id).includes(val._id),
-    );
-    this.assignErr = '';
-    this.ticketDetails = ticket;
-    this.assignUser = ticket.user?.name ? 'Assign Resource' : 'Assign User';
-    this.AssignedUser = '';
-    this.modalService.open(this.assignTicketModel);
+    this.chatservice.getAllUsers().subscribe((userlist) => {
+      const userdata: any = userlist.filter(
+        (val: any) => !val.isAdmin && val._id !== ticket.user.id,
+      );
+      this.addResourceData = userdata.filter(
+        (val: any) =>
+          !ticket.addOnResource.map((res: any) => res.id).includes(val._id),
+      );
+      this.assignErr = '';
+      this.ticketDetails = ticket;
+      this.assignUser = ticket.user?.name ? 'Assign Resource' : 'Assign User';
+      this.AssignedUser = '';
+      this.modalService.open(this.assignTicketModel);
+    });
   }
   singleButtonClick(data: any) {
     if (data.name == 'Send Mail') {
@@ -391,7 +373,7 @@ export class UserlistComponent {
         },
       };
       this.chatservice.updateTicket(payload).subscribe((res: any) => {
-        this.ticketData = this.ticketData.map((element: any) =>
+        this.tableData = this.tableData.map((element: any) =>
           element._id === res._id ? res : element,
         );
         const payload = {
@@ -428,7 +410,7 @@ export class UserlistComponent {
               id: this.adminDetails._id,
             },
           };
-          this.ticketData = this.ticketData.map((element: any) =>
+          this.tableData = this.tableData.map((element: any) =>
             element._id === res._id ? res : element,
           );
           this.chatservice.sendSocketData({ key: 'addResource', data });
@@ -543,7 +525,7 @@ export class UserlistComponent {
           },
         };
         this.chatservice.updateTicket(ticketpayload).subscribe((res: any) => {
-          this.ticketData = this.ticketData.map((element: any) =>
+          this.tableData = this.tableData.map((element: any) =>
             element._id === res._id ? res : element,
           );
         });

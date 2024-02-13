@@ -55,12 +55,6 @@
       <button class="btn btn-info m-2" (click)="user()">
         View Request User
       </button>
-      <button class="btn btn-info m-2">
-        <!-- Helped Tickets -->
-        <a [routerLink]="['./helped-tickets']" class="text-decoration-none"
-          >Helped Tickets</a
-        >
-      </button>
       <button class="btn btn-info m-2" (click)="userTickets()">
         <!-- <a [routerLink]="['tickets']" class="text-decoration-none">Tickets</a> -->
         Tickets
@@ -166,7 +160,11 @@
           <div class="d-flex justify-content-between">
             <div>
               <label class="ps-2">Technology</label>
-              <input type="text" class="form-control m-2" />
+              <input
+                type="text"
+                class="form-control m-2"
+                formControlName="technologies"
+              />
               <div
                 class="text-danger mb-2 ps-2"
                 *ngIf="submitted && technologies.errors"

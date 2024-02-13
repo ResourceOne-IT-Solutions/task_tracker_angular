@@ -125,7 +125,6 @@ export class CreateUserComponent {
         },
         (error) => {
           this.creteuserError = error.error.error;
-          console.log(error);
         },
       );
     }

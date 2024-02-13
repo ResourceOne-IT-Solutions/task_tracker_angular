@@ -30,6 +30,7 @@ export class NavBarComponent {
   userTicketRequestCount: any = [];
   StartTimer: boolean = false;
   BreakStatus: any;
+
   Minutes = 0;
   Seconds = 0;
   ms = 0;
@@ -189,8 +190,7 @@ export class NavBarComponent {
     this.router.navigate(['user-view-request'], { relativeTo: this.route });
   }
   userTickets() {
-    this.chatservice.ticketRequests('');
-    this.router.navigate(['user-tickets'], { relativeTo: this.route });
+    this.router.navigate(['tickets'], { relativeTo: this.route });
   }
   gotDashBoard() {
     this.router.navigate(['dashboard']);

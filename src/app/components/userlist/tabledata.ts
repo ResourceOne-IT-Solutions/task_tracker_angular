@@ -37,12 +37,7 @@ export const ticketColumns: Array<Column> = [
         : '',
     isText: true,
   },
-  {
-    columnDef: 'description',
-    header: 'description',
-    cell: (element: any) => `${element['description']}`,
-    isText: true,
-  },
+
   {
     columnDef: 'comments',
     header: 'comments',
@@ -120,12 +115,7 @@ export const Tickets: Array<Column> = [
         : '',
     isText: true,
   },
-  {
-    columnDef: 'description',
-    header: 'description',
-    cell: (element: any) => `${element['description']}`,
-    isText: true,
-  },
+
   {
     columnDef: 'comments',
     header: 'comments',
@@ -166,6 +156,23 @@ export const Tickets: Array<Column> = [
   },
 ];
 
+export const description = [
+  {
+    columnDef: 'description',
+    header: 'Description',
+    cell: (element: any) => `${element['description']}`,
+    isText: true,
+    isLink: true,
+  },
+];
+export const description2 = [
+  {
+    columnDef: 'description',
+    header: 'description',
+    cell: (element: any) => `${element['description']}`,
+    isText: true,
+  },
+];
 export const userTicketColumns = [
   {
     columnDef: 'TicketRaised',
