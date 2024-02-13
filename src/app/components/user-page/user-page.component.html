@@ -1,14 +1,29 @@
 <div class="Container" *ngIf="currentUser">
   <div class="userinfo">
-    <img *ngIf="currentUser.profileImageUrl" src="{{ currentUser.profileImageUrl }}" alt="" />
-    <img *ngIf="!currentUser.profileImageUrl"
+    <img
+      *ngIf="currentUser.profileImageUrl"
+      src="{{ currentUser.profileImageUrl }}"
+      alt=""
+    />
+    <img
+      *ngIf="!currentUser.profileImageUrl"
       src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU"
-      alt="" />
+      alt=""
+    />
     <p>{{ chatservice.getFullName(currentUser) }}</p>
     &nbsp;&nbsp;
     <span>({{ currentUser.userId }} )</span>
-    <span  matTooltip="{{currentUser.status}}" aria-label="Displays a tooltip" [ngClass]="currentUser.status"></span>&nbsp;
-    <span matTooltip="OnTicket" class="OnTicket" *ngIf="currentUser.status == 'On Ticket'"></span>
+    <span
+      matTooltip="{{ currentUser.status }}"
+      aria-label="Displays a tooltip"
+      [ngClass]="currentUser.status"
+    ></span
+    >&nbsp;
+    <span
+      matTooltip="OnTicket"
+      class="OnTicket"
+      *ngIf="currentUser.status == 'On Ticket'"
+    ></span>
   </div>
   <div class="employeList">
     <div class="main-employeDetails">
@@ -28,9 +43,10 @@
               {{ logintime.date }} :
               <span *ngFor="let time of logintime.loginTime">
                 {{ time.inTime }} - login :{{
-                time.outTime ? time.outTime : "***"
+                  time.outTime ? time.outTime : "***"
                 }}
-                - logout</span>
+                - logout</span
+              >
             </p>
           </div>
         </div>
@@ -38,29 +54,39 @@
           <h2>Break Time</h2>
           <p *ngFor="let status of breakTimes.status">
             <span *ngIf="status.type === 'END'"
-              >Start :{{ status.startTime | date: "dd/MM/yyyy hh:mm a" }} - End :{{ status.endTime | date: "dd/MM/yyyy hh:mm a" }}</span
+              >Start :{{ status.startTime | date: "dd/MM/yyyy hh:mm a" }} - End
+              :{{ status.endTime | date: "dd/MM/yyyy hh:mm a" }}</span
             >
           </p>
         </div>
         <div class="d-flex">
-          <button class="btn btn-info" (click)="requestChat()" *ngIf="!isAdminView">
+          <button
+            class="btn btn-info"
+            (click)="requestChat()"
+            *ngIf="!isAdminView"
+          >
             Request Chat with User
           </button>
-          <button class="btn btn-info ms-2">My Tickets</button>
         </div>
         <div class="requestchat" *ngIf="requestchat">
           <mat-form-field>
-            <mat-select placeholder="Select user" (selectionChange)="selectuser($event.value)">
+            <mat-select
+              placeholder="Select user"
+              (selectionChange)="selectuser($event.value)"
+            >
               <mat-option [value]="user" *ngFor="let user of userList">{{
                 chatservice.getFullName(user)
-                }}</mat-option>
+              }}</mat-option>
             </mat-select>
           </mat-form-field>
-          <button *ngIf="requestchat" class="btn btn-warning admin" (click)="sendadmin()">
+          <button
+            *ngIf="requestchat"
+            class="btn btn-warning admin"
+            (click)="sendadmin()"
+          >
             send Admin
           </button>
         </div>
-
       </div>
       <div class="d-flex flex-column justify-content-around">
         <div>
@@ -69,6 +95,19 @@
             <canvas id="piechartdemo"> </canvas>
           </div>
           <p class="tickets">Total Tickets : {{ userTickets.length }}</p>
+        </div>
+        <div>
+          <button class="btn btn-info ms-2">
+            <a [routerLink]="['./user-tickets']" class="text-decoration-none"
+              >Today Tickets</a
+            >
+          </button>
+          <button class="btn btn-info m-2">
+            <!-- Helped Tickets -->
+            <a [routerLink]="['./helped-tickets']" class="text-decoration-none"
+              >Helped Tickets</a
+            >
+          </button>
         </div>
         <div class="timezone d-flex">
           <div class="countryTime">

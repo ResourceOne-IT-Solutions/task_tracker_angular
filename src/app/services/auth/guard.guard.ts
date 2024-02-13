@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  ActivatedRoute,
   ActivatedRouteSnapshot,
   CanActivate,
   CanActivateFn,
@@ -10,16 +11,21 @@ import { ChatService } from '../chat.service';
 import { HttpHeaders } from '@angular/common/http';
 import { DashBoardComponent } from 'src/app/components/dash-board/dash-board.component';
 import { UserPageComponent } from 'src/app/components/user-page/user-page.component';
+import { Store } from '@ngrx/store';
+import { loadTable } from 'src/app/chat-store/table.actions';
 
 @Injectable()
 export class guardGuard implements CanActivate {
   constructor(
     private router: Router,
     private chatservice: ChatService,
+    private store: Store,
+    private activateRoute: ActivatedRoute,
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     //forget about: how to get the authority of user (I have kept it in shared service)
+
     const token = this.chatservice.getToken();
     if (token) {
       let httpOptions = {
@@ -32,7 +38,11 @@ export class guardGuard implements CanActivate {
       }
       return this.chatservice.getLoginSetup(httpOptions).pipe(
         map((res: any) => {
+          const url = route.routeConfig?.path?.split('-').join(' ');
           this.chatservice.UserLogin(res);
+          if (url && res) {
+            this.store.dispatch(loadTable({ params: url, userId: res._id }));
+          }
           return true;
         }),
       );

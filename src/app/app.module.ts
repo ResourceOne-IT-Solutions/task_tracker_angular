@@ -39,6 +39,10 @@ import { adminGuard } from './services/admin/admin.guard';
 import { UserlistComponent } from './components/userlist/userlist.component';
 import { TicketdescriptionComponent } from './components/ticket-description/ticket-description.component';
 import { DialogModelComponent } from './reusable/dialog-model/dialog-model.component';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { ticketsRuducer } from './chat-store/table.reducer';
+import { TicketsEffect } from './chat-store/table.effect';
 
 @NgModule({
   declarations: [
@@ -83,6 +87,8 @@ import { DialogModelComponent } from './reusable/dialog-model/dialog-model.compo
     MatGridListModule,
     MatSelectModule,
     NgxSpinnerModule,
+    StoreModule.forRoot({ tickets: ticketsRuducer }),
+    EffectsModule.forRoot([TicketsEffect]),
   ],
 
   providers: [

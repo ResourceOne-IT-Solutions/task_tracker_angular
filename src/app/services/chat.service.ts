@@ -10,19 +10,13 @@ import { Task } from '../interface/tickets';
 })
 export class ChatService {
   RoleData = new BehaviorSubject('');
-  ticketsById = new BehaviorSubject('');
   userticketsById = new BehaviorSubject('');
-  ClientDesc = new BehaviorSubject('');
-  ticketRequest = new BehaviorSubject('');
   chatRequest = new BehaviorSubject('');
   TotalUser = new BehaviorSubject('');
   private socket: Socket;
 
   getRoleData(role: any) {
     this.RoleData.next(role);
-  }
-  getTicketId(clientid: any) {
-    this.ticketsById.next(clientid);
   }
   getuserTicketById(ticketId: any) {
     this.userticketsById.next(ticketId);
@@ -36,17 +30,11 @@ export class ChatService {
   chatRequests(data: any) {
     this.chatRequest.next(data);
   }
-  // ticketrequest Behavior
-  ticketRequests(data: any) {
-    this.ticketRequest.next(data);
-  }
-  clientdescriptiondata(data: any) {
-    this.ClientDesc.next(data);
-  }
+
   BE_SERVER = 'https://task-tracker-server-2njm.onrender.com';
   BE_LOCAL = 'http://192.168.10.30:1234';
   BE_LOCAL2 = 'http://192.168.29.109:1234';
-  BE_URL = this.BE_SERVER;
+  BE_URL = this.BE_LOCAL;
   constructor(private http: HttpClient) {
     this.socket = io(this.BE_URL, {
       transports: ['websocket', 'polling', 'flashsocket'],

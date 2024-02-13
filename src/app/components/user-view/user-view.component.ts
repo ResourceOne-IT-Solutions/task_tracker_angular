@@ -26,14 +26,12 @@ export class UserViewComponent implements OnInit {
     this.loader.show();
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.currentuser = res;
-      console.log(this.currentuser, '29:::');
     });
 
     this.chatservice
       .getChatMessageById(this.currentuser._id)
       .subscribe((res) => {
         this.userChatRequest = res;
-        console.log(this.userChatRequest, '35::::');
         this.loader.hide();
       });
     this.chatservice
@@ -46,7 +44,6 @@ export class UserViewComponent implements OnInit {
     this.chatservice
       .getSocketData('userRequestApproved')
       .subscribe(({ type, result }) => {
-        console.log(type, result, '49::::');
         if (result.sender.id === this.currentuser._id) {
           if (type === 'TICKET') {
             const ticket = this.userTicketRequest.map((tkt: any) => {
@@ -79,8 +76,9 @@ export class UserViewComponent implements OnInit {
     this.router.navigate(['../Chat-Box'], { relativeTo: this.route });
   }
   ticketRequestApproved(data: any) {
-    this.chatservice.ticketRequests(data);
-    this.router.navigate(['../tickets'], { relativeTo: this.route });
+    this.router.navigate([`../tickets/client/${data.client.id}`], {
+      relativeTo: this.route,
+    });
   }
   updateMessage(message: any) {
     const payload = {
