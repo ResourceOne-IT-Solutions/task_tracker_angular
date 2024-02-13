@@ -19,8 +19,8 @@ export class ChatService {
   RequestCount = new BehaviorSubject('');
 
   private socket: Socket;
-  chatRequestCount(data:any){
-    this.RequestCount.next(data)
+  chatRequestCount(data: any) {
+    this.RequestCount.next(data);
   }
   getRoleData(role: any) {
     this.RoleData.next(role);

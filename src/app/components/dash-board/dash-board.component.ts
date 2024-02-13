@@ -65,7 +65,14 @@ export class DashBoardComponent {
   pstDate!: string;
   est!: string;
   //ToolTip.
-  positionOptions: TooltipPosition[] = ['after', 'before', 'above', 'below', 'left', 'right'];
+  positionOptions: TooltipPosition[] = [
+    'after',
+    'before',
+    'above',
+    'below',
+    'left',
+    'right',
+  ];
   position = new FormControl(this.positionOptions[0]);
   constructor(
     public chatservice: ChatService,

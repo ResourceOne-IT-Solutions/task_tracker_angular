@@ -203,7 +203,7 @@ export const clientColumns = [
     header: 'Client Name',
     cell: (element: any) => `${element['firstName']}`,
     // isText: true,
-    isMouseOver:true,
+    isMouseOver: true,
   },
   {
     columnDef: 'email',
@@ -223,7 +223,7 @@ export const clientColumns = [
     cell: (element: any) => `${element['technology']}`,
     isText: true,
   },
- 
+
   {
     columnDef: 'location',
     header: 'Location',

@@ -14,7 +14,7 @@ export class NavBarComponent {
   @ViewChild('clientModel', { static: false }) clientModel: any;
   @ViewChild('ticketModel', { static: false }) ticketModel: any;
   adminStatus = ['Offline', 'Break', 'Available', 'On Ticket', 'Sleep'];
-  Breaks = ['BreakFast', 'Lunch Break']
+  Breaks = ['BreakFast', 'Lunch Break'];
 
   @Input() 'isAdmin': boolean;
   @Input() userDetails: any;
@@ -158,7 +158,10 @@ export class NavBarComponent {
     });
   }
   changeBreakeStatus(data: any) {
-    if (this.BreakStatus === 'BreakFast' || this.BreakStatus === 'Lunch Break') {
+    if (
+      this.BreakStatus === 'BreakFast' ||
+      this.BreakStatus === 'Lunch Break'
+    ) {
       this.StartTimer = true;
       this.textColor = false;
       this.LunchBreak = false;
@@ -166,7 +169,7 @@ export class NavBarComponent {
       this.Minutes = 0;
       this.clickHandler();
     } else {
-      clearInterval(this.timerId)
+      clearInterval(this.timerId);
       this.StartTimer = false;
     }
   }
@@ -283,13 +286,13 @@ export class NavBarComponent {
       this.Seconds++;
       if (this.Seconds >= 60) {
         this.Minutes++;
-        this.Seconds = 0
+        this.Seconds = 0;
       }
       if (this.Minutes >= 1) {
         this.textColor = true;
       }
       if (this.Minutes >= 2) {
-        this.LunchBreak = true
+        this.LunchBreak = true;
       }
     }, 1000);
   }

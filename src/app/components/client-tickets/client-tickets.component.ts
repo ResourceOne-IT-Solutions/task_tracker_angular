@@ -102,7 +102,7 @@ export class ClientTicketsComponent implements OnInit {
     this.chatservice
       .getClientById(this.clientDataTable._id)
       .subscribe((res: any) => {
-        console.log(res,'844444:::')
+        console.log(res, '844444:::');
         this.clientTicketById = res;
         (this.Closed = this.clientTicketById.filter(
           (val: any) => val.status == 'Closed',

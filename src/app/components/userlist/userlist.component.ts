@@ -12,7 +12,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogModelComponent } from 'src/app/reusable/dialog-model/dialog-model.component';
-import { adminTicketColumns, clientColumns, ticketColumns, userColumns, userTicketColumns } from './tabledata';
+import {
+  adminTicketColumns,
+  clientColumns,
+  ticketColumns,
+  userColumns,
+  userTicketColumns,
+} from './tabledata';
 
 @Component({
   selector: 'app-userlist',
@@ -61,10 +67,10 @@ export class UserlistComponent {
   mailSuccessMsg: any;
   AssignedUser: any = '';
 
-  userColumns: Array<Column> = userColumns
-  clientColumns: Array<Column> = clientColumns
-  ticketColumns: Array<Column> = [...ticketColumns, ...adminTicketColumns]
-  userTickets: Array<Column> = [...ticketColumns, ...userTicketColumns]
+  userColumns: Array<Column> = userColumns;
+  clientColumns: Array<Column> = clientColumns;
+  ticketColumns: Array<Column> = [...ticketColumns, ...adminTicketColumns];
+  userTickets: Array<Column> = [...ticketColumns, ...userTicketColumns];
   params: any;
   MockticketData: any;
   MockClientData: any;
@@ -84,7 +90,7 @@ export class UserlistComponent {
     private location: Location,
     private route: ActivatedRoute,
     public dialog: MatDialog,
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.params = this.route.snapshot.routeConfig?.path?.split('-').join(' ');
@@ -129,20 +135,22 @@ export class UserlistComponent {
       this.adminDetails = res;
     });
 
-   if(!this.adminDetails.isAdmin){
-    this.chatservice.getAllTickets().subscribe((res: any) => {
-      if (this.adminDetails) {
-        this.userTicketsData = res.filter(
-          (item: any) => item.user.id === this.adminDetails._id,
-        );
+    if (!this.adminDetails.isAdmin) {
+      this.chatservice.getAllTickets().subscribe((res: any) => {
+        if (this.adminDetails) {
+          this.userTicketsData = res.filter(
+            (item: any) => item.user.id === this.adminDetails._id,
+          );
+        }
+      });
+      if (this.params === 'helped tickets' && !this.adminDetails.isAdmin) {
+        this.chatservice
+          .get(`/tickets/helped-tickets/${this.adminDetails._id}`)
+          .subscribe((res) => {
+            this.userTicketsData = res;
+          });
       }
-    })
-    if(this.params === 'helped tickets' && !this.adminDetails.isAdmin){
-      this.chatservice.get(`/tickets/helped-tickets/${this.adminDetails._id}`).subscribe((res)=>{
-          this.userTicketsData = res
-      })
     }
-  }
     this.chatservice.getPendingTickets().subscribe((res: any) => {
       this.ticketData = res;
       this.MockticketData = this.ticketData;
@@ -339,7 +347,7 @@ export class UserlistComponent {
     });
   }
   routeToClientTickets(data: any) {
-    console.log(data,'3111')
+    console.log(data, '3111');
     this.router.navigate(['../client-tickets'], { relativeTo: this.route });
     this.chatservice.getTicketId(data);
   }
@@ -434,7 +442,7 @@ export class UserlistComponent {
       );
     }
   }
-  // user ticket update form 
+  // user ticket update form
   update(userDetails: any) {
     this.modelHeader = 'Update Ticket';
     this.openPopup(this.updateModel);
