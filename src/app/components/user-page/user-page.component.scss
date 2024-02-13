@@ -4,11 +4,13 @@
   margin-right: 23px;
   justify-content: flex-end;
 }
+
 .drop {
   display: flex;
   justify-content: flex-end;
   margin: 14px 10px;
 }
+
 .Container {
   width: 80%;
   margin: 10px auto;
@@ -22,6 +24,7 @@
     align-items: center;
     text-align: center;
     margin: 10px auto;
+
     .Offline {
       cursor: pointer;
       height: 14px;
@@ -29,6 +32,7 @@
       background: red;
       border-radius: 50%;
     }
+
     .Break {
       cursor: pointer;
       height: 14px;
@@ -36,6 +40,7 @@
       background: orange;
       border-radius: 50%;
     }
+
     .Available {
       cursor: pointer;
       height: 14px;
@@ -43,6 +48,7 @@
       background: green;
       border-radius: 50%;
     }
+
     .OnTicket {
       cursor: pointer;
       height: 14px;
@@ -50,6 +56,15 @@
       background: blue;
       border-radius: 50%;
     }
+
+    .Sleep {
+      cursor: pointer;
+      height: 14px;
+      width: 15px;
+      background: rgb(128, 128, 129);
+      border-radius: 50%;
+    }
+
     img {
       width: 77px;
       height: 69px;
@@ -77,19 +92,23 @@
     display: flex;
     justify-content: space-around;
     margin-top: 22px;
+
     .userslabel {
       font-weight: 500;
       text-decoration: underline;
     }
+
     .requestchat {
       width: 194px;
       margin-top: 3px;
       height: 100px;
       color: red;
     }
+
     .pieChart {
       width: 280px;
     }
+
     .tickets {
       text-align: center;
       font-size: 16px;
@@ -97,6 +116,7 @@
     }
   }
 }
+
 .timezone {
   align-items: center;
   display: flex;
@@ -108,9 +128,11 @@
     width: 91px;
     // border: 1px solid;
     padding: 10px;
+
     span {
       font-weight: bold;
     }
+
     height: 81px;
     border-radius: 50%;
     box-shadow:
@@ -120,6 +142,7 @@
     p {
       margin: 9px;
       font-weight: 550;
+
       span {
         display: block;
       }

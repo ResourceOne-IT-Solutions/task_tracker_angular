@@ -23,17 +23,38 @@
             {{ update }}
           </option>
         </select>
+        <select
+          (change)="changeBreakeStatus($event)"
+          *ngIf="Status === 'Break'"
+          [(ngModel)]="BreakStatus"
+        >
+          <option
+            selected
+            class="ms-3"
+            [value]="break"
+            *ngFor="let break of Breaks"
+          >
+            {{ break }}
+          </option>
+        </select>
       </button>
-      <span
-        *ngIf="StartTimer"
-        class="Breaketimer"
-        [ngClass]="textColor ? 'TimeSkip' : ''"
-        >{{ format(Minutes) }}:{{ format(Seconds) }}
+      <span *ngIf="StartTimer">
+        <span
+          *ngIf="BreakStatus === 'BreakFast'"
+          class="Breaketimer"
+          [ngClass]="textColor ? 'TimeSkip' : ''"
+          >{{ format(Minutes) }}:{{ format(Seconds) }}
+        </span>
+        <span
+          *ngIf="BreakStatus === 'Lunch Break'"
+          class="Breaketimer"
+          [ngClass]="LunchBreak ? 'BreakeTime' : ''"
+          >{{ format(Minutes) }}:{{ format(Seconds) }}
+        </span>
       </span>
       <button class="btn btn-info m-2" (click)="user()">
         View Request User
       </button>
-
       <button class="btn btn-info m-2" (click)="userTickets()">
         <!-- <a [routerLink]="['tickets']" class="text-decoration-none">Tickets</a> -->
         Tickets
@@ -56,6 +77,9 @@
   </button>
   <button class="btn btn-info m-2" (click)="ViewTicket()">Tickets</button>
   <button class="btn btn-info m-2" (click)="ViewRequest()">View Request</button>
+  <span style="border: 1px solid red">{{
+    [chatservice.RequestCount].length
+  }}</span>
 </ng-template>
 
 <ng-template #clientModel let-d="dismiss">

@@ -92,6 +92,7 @@ export class ClientTicketsComponent implements OnInit {
   ];
   ngOnInit(): void {
     this.paramId = this.route.snapshot.paramMap.get('id');
+
     if (this.paramId) {
       this.chatservice.get(`/clients/${this.paramId}`).subscribe((res) => {
         this.clientDataTable = res;

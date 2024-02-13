@@ -13,8 +13,12 @@ export class ChatService {
   userticketsById = new BehaviorSubject('');
   chatRequest = new BehaviorSubject('');
   TotalUser = new BehaviorSubject('');
-  private socket: Socket;
+  RequestCount = new BehaviorSubject('');
 
+  private socket: Socket;
+  chatRequestCount(data: any) {
+    this.RequestCount.next(data);
+  }
   getRoleData(role: any) {
     this.RoleData.next(role);
   }
@@ -61,7 +65,7 @@ export class ChatService {
     return this.get('/clients');
   }
   getClientById(clientid: any) {
-    return this.get('/clients/tickets/' + clientid);
+    return this.get('/tickets/client/' + clientid);
   }
   AddNewClient(data: any) {
     return this.post('/clients/create', data);

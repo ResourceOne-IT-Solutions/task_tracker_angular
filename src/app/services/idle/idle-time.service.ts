@@ -18,7 +18,7 @@ export class IdleTimeService {
           this.chatservice.UserLoginData.subscribe((res: any) => {
             const updatePayload = {
               id: res._id,
-              status: 'Break',
+              status: 'Sleep',
             };
             this.chatservice.sendSocketData({
               key: 'changeStatus',
