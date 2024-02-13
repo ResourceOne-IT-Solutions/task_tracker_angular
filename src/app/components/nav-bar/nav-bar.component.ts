@@ -13,7 +13,8 @@ import { IdleTimeService } from 'src/app/services/idle/idle-time.service';
 export class NavBarComponent {
   @ViewChild('clientModel', { static: false }) clientModel: any;
   @ViewChild('ticketModel', { static: false }) ticketModel: any;
-  adminStatus = ['Offline', 'Break', 'Available', 'On Ticket'];
+  adminStatus = ['Offline', 'Break', 'Available', 'On Ticket', 'Sleep'];
+  Breaks = ['BreakFast', 'Lunch Break']
 
   @Input() 'isAdmin': boolean;
   @Input() userDetails: any;
@@ -27,16 +28,17 @@ export class NavBarComponent {
   userTicketsCount: any = [];
   userChatRequestCount: any = [];
   userTicketRequestCount: any = [];
-  isRunning = false;
-  StartTimer:boolean=false;
+  StartTimer: boolean = false;
+  BreakStatus: any;
   Minutes = 0;
   Seconds = 0;
   ms = 0;
-  timerId:any=Number;
-  textColor: boolean=false;
+  timerId: any = Number;
+  textColor: boolean = false;
+  LunchBreak: boolean = false;
   constructor(
     private router: Router,
-    private chatservice: ChatService,
+    public chatservice: ChatService,
     private route: ActivatedRoute,
     private modalService: NgbModal,
     private fb: FormBuilder,
@@ -141,13 +143,7 @@ export class NavBarComponent {
     this.router.navigate(['/']);
   }
   changeStatus(data: any) {
-    if(this.Status === 'Break'){
-      this.StartTimer=true
-      this.clickHandler();
-    }else{
-      // clearInterval(this.timerId)
-      this.StartTimer =false;
-    }
+    this.StartTimer = false;
     const updatePayload = {
       id: this.userDetails._id,
       status: this.Status,
@@ -160,6 +156,19 @@ export class NavBarComponent {
       key: 'changeStatus',
       data: updatePayload,
     });
+  }
+  changeBreakeStatus(data: any) {
+    if (this.BreakStatus === 'BreakFast' || this.BreakStatus === 'Lunch Break') {
+      this.StartTimer = true;
+      this.textColor = false;
+      this.LunchBreak = false;
+      this.Seconds = 0;
+      this.Minutes = 0;
+      this.clickHandler();
+    } else {
+      clearInterval(this.timerId)
+      this.StartTimer = false;
+    }
   }
   deleteCookie(name: string) {
     document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC';
@@ -270,25 +279,19 @@ export class NavBarComponent {
     }
   }
   clickHandler() {
-    if (!this.isRunning) {
-      this.timerId = setInterval(() => {
-        this.ms++;
-        if (this.ms >= 100) {
-          this.Seconds++;
-          this.ms = 0;
-        }
-        if (this.Seconds >= 60) {
-          this.Minutes++;
-          this.Seconds = 0
-        }
-        if(this.Minutes >=1){
-          this.textColor=true
-        }
-      }, 10);
-    } else {
-      clearInterval(this.timerId);
-    }
-    this.isRunning = !this.isRunning;
+    this.timerId = setInterval(() => {
+      this.Seconds++;
+      if (this.Seconds >= 60) {
+        this.Minutes++;
+        this.Seconds = 0
+      }
+      if (this.Minutes >= 1) {
+        this.textColor = true;
+      }
+      if (this.Minutes >= 2) {
+        this.LunchBreak = true
+      }
+    }, 1000);
   }
   format(num: number) {
     return (num + '').length === 1 ? '0' + num : num + '';

@@ -8,7 +8,7 @@ import { ChatService } from '../chat.service';
 export class IdleTimeService {
   private idleTimeoutInSeconds = 15 * 60; // 15 minutes
   private timer$!: Subscription;
-  constructor(private chatservice: ChatService) {}
+  constructor(private chatservice: ChatService) { }
   // timer Start
   startIdleMonitoring() {
     this.timer$ = timer(1000, 1000).subscribe(() => {
@@ -18,7 +18,7 @@ export class IdleTimeService {
           this.chatservice.UserLoginData.subscribe((res: any) => {
             const updatePayload = {
               id: res._id,
-              status: 'Break',
+              status: 'Sleep',
             };
             this.chatservice.sendSocketData({
               key: 'changeStatus',
