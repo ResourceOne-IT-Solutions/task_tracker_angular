@@ -28,13 +28,21 @@ export class TableComponent {
   @ViewChild(MatSort) 'sort': MatSort;
   @Output() firstBtnClick = new EventEmitter();
   @Output() secondBtnClick = new EventEmitter();
+  @Output() thirdBtnClick = new EventEmitter();
   @Output() clientnameClick = new EventEmitter();
   @Output() descriptionClick = new EventEmitter();
   @Input() tableData: any[] = [];
   @Output() userDetails = new EventEmitter();
   @Output() singleButtonClick = new EventEmitter();
   constructor(private loader: NgxSpinnerService) {}
-  positionOptions: TooltipPosition[] = ['after', 'before', 'above', 'below', 'left', 'right'];
+  positionOptions: TooltipPosition[] = [
+    'after',
+    'before',
+    'above',
+    'below',
+    'left',
+    'right',
+  ];
   position = new FormControl(this.positionOptions[0]);
   ngOnInit() {
     this.loader.show();
@@ -58,6 +66,9 @@ export class TableComponent {
   }
   btn2Click(data: any) {
     this.secondBtnClick.emit(data);
+  }
+  btn3Click(data: any) {
+    this.thirdBtnClick.emit(data);
   }
   clientNameClick(data: any) {
     this.clientnameClick.emit(data);

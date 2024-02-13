@@ -15,7 +15,7 @@ export class CreateGroupComponent {
     public dialogRef: MatDialogRef<CreateGroupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
-    public chartservice:ChatService
+    public chartservice: ChatService,
   ) {
     this.createGroupForm = this.fb.group({
       groupName: ['', Validators.required],

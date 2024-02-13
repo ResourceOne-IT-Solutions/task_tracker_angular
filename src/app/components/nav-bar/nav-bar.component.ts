@@ -24,6 +24,9 @@ export class NavBarComponent {
   clientData: any;
   submitted: boolean = false;
   submitTicketForm: boolean = false;
+  userTicketsCount: any = [];
+  userChatRequestCount: any = [];
+  userTicketRequestCount: any = [];
   isRunning = false;
   StartTimer:boolean=false;
   Minutes = 0;
@@ -56,6 +59,14 @@ export class NavBarComponent {
     });
   }
   ngOnInit() {
+    this.chatservice
+      .getSocketData('userRequestApproved')
+      .subscribe(({ type, result }) => {
+        if (type === 'TICKET') {
+          this.userTicketRequestCount.push(result);
+        }
+      });
+
     this.Status = this.userDetails.status;
     this.roomCount = Object.keys(this.userDetails.newMessages).length;
     this.chatservice.getSocketData('statusUpdate').subscribe((res) => {

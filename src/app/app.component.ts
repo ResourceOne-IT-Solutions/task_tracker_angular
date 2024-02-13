@@ -11,6 +11,7 @@ import { Observable, map } from 'rxjs';
 })
 export class AppComponent implements OnInit {
   currentUser: any;
+
   constructor(
     private route: Router,
     private chatservice: ChatService,
@@ -24,6 +25,12 @@ export class AppComponent implements OnInit {
     this.chatservice.getSocketData('chatRequest').subscribe((res) => {
       const message = `${res.sender.name} is Requisting to Chat with ${res.opponent.name}`;
       alert(message);
+    });
+    this.chatservice.getSocketData('ticketsRequest').subscribe((res) => {
+      if (this.currentUser.isAdmin) {
+        const message = `${res.sender.name} is Requisting to Ticket with ${res.client.name}`;
+        alert(message);
+      }
     });
     this.chatservice
       .getSocketData('userRequestApproved')

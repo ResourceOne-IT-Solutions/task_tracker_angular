@@ -86,7 +86,7 @@ export class CreateUserComponent {
     return this.user['password'];
   }
   get employeId() {
-    return this.user['employeId']
+    return this.user['employeId'];
   }
   phoneValidation(evt: any) {
     const inputChar = String.fromCharCode(evt.charCode);

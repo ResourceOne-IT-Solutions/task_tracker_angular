@@ -10,7 +10,11 @@
             {{ disCol.header | titlecase }}
           </span>
           <span *ngIf="disCol.columnDef == 'TicketRaised'">
-            <button mat-raised-button color="accent">
+            <button
+              (click)="btn3Click(disCol.columnDef)"
+              mat-raised-button
+              color="accent"
+            >
               {{ disCol.header }}
             </button>
           </span>
@@ -20,8 +24,13 @@
             {{ disCol.cell(element) }}
           </span>
           <div>
-            <span  matTooltip=" click here to client page" aria-label="Displays a tooltip"
-              style="cursor: pointer;" (click)="clientNameClick(element)" *ngIf="disCol.isMouseOver">
+            <span
+              matTooltip=" click here to client page"
+              aria-label="Displays a tooltip"
+              style="cursor: pointer"
+              (click)="clientNameClick(element)"
+              *ngIf="disCol.isMouseOver"
+            >
               {{ disCol.cell(element) }}
             </span>
           </div>
@@ -58,7 +67,11 @@
       </tr>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 
-      <tr class="columns" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr
+        class="columns"
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+      ></tr>
     </table>
     <mat-paginator *ngIf="dataSource" [hidden]="!dataSource.data.length" [pageSizeOptions]="[5, 10, 25, 100]"
       [pageSize]="5"></mat-paginator>

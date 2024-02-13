@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ChatService } from 'src/app/services/chat.service';
 import { Column } from '../dash-board/dash-board.component';
 import { Chart, registerables } from 'node_modules/chart.js';
-import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 Chart.register(...registerables);
 
 // import { Column } from '../dash-board/dash-board.component';
@@ -23,7 +23,11 @@ export class ClientTicketsComponent implements OnInit {
   Improper: any;
   inprogress: any;
   paramId: any;
-  constructor(private chatservice: ChatService,private location:Location,private route:ActivatedRoute) {}
+  constructor(
+    private chatservice: ChatService,
+    private location: Location,
+    private route: ActivatedRoute,
+  ) {}
 
   clientColumns: Array<Column> = [
     {
@@ -87,12 +91,11 @@ export class ClientTicketsComponent implements OnInit {
       cell: (element: any) => `${element['description']}`,
       isText: true,
     },
- 
   ];
   ngOnInit(): void {
     this.paramId = this.route.snapshot.paramMap.get('id');
-    console.log(this.paramId,'69999999::::::::')
-    
+    console.log(this.paramId, '69999999::::::::');
+
     this.chatservice.ticketsById.subscribe((res) => {
       this.clientDataTable = res;
     });
@@ -165,7 +168,7 @@ export class ClientTicketsComponent implements OnInit {
       },
     });
   }
-  goback(){
-    this.location.back()
+  goback() {
+    this.location.back();
   }
 }

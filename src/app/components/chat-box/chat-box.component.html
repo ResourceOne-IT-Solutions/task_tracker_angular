@@ -36,8 +36,11 @@
           <ngx-spinner bdColor="rgba(0,0,0,0.32)" size="large" color="#8652d5" type="ball-clip-rotate-multiple"
             [fullScreen]="false">
           </ngx-spinner>
-          <div class="SelectedMessage" *ngFor="let user of UserListData"
-            [ngClass]="user._id == UserSelected._id ? 'SelectedUser' : ''">
+          <div
+            class="SelectedMessage"
+            *ngFor="let user of UserListData"
+            [ngClass]="user._id == UserSelected._id ? 'SelectedUser' : ''"
+          >
             <div class="user-card" (click)="SelectUser(user)">
               <div class="d-flex justify-content-between w-100">
                 <div class="d-flex">

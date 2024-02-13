@@ -83,6 +83,89 @@ export const ticketColumns: Array<Column> = [
   },
 ];
 
+export const Tickets: Array<Column> = [
+  {
+    columnDef: 'client',
+    header: 'client name',
+    cell: (element: any) => `${element['client'].name}`,
+    isText: true,
+  },
+  {
+    columnDef: 'user',
+    header: 'user name',
+    cell: (element: any) => `${element['user'].name || '--'}`,
+    isText: true,
+  },
+  {
+    columnDef: 'technology',
+    header: 'Technology',
+    cell: (element: any) => `${element['technology']}`,
+    isText: true,
+  },
+  {
+    columnDef: 'receivedDate',
+    header: 'received Date',
+    cell: (element: any) =>
+      element['receivedDate']
+        ? `${new Date(element['receivedDate']).toLocaleString()}`
+        : '',
+    isText: true,
+  },
+  {
+    columnDef: 'assignedDate',
+    header: 'assigned Date',
+    cell: (element: any) =>
+      element['assignedDate']
+        ? `${new Date(element['assignedDate']).toLocaleString()}`
+        : '',
+    isText: true,
+  },
+  {
+    columnDef: 'description',
+    header: 'description',
+    cell: (element: any) => `${element['description']}`,
+    isText: true,
+  },
+  {
+    columnDef: 'comments',
+    header: 'comments',
+    cell: (element: any) => `${element['comments']}`,
+    isText: true,
+  },
+  {
+    columnDef: 'closedDate',
+    header: 'closed date',
+    cell: (element: any) =>
+      element['closedDate']
+        ? `${new Date(element['closedDate']).toLocaleString()}`
+        : '--',
+    isText: true,
+  },
+  {
+    columnDef: 'targetDate',
+    header: 'Target Date',
+    cell: (element: any) =>
+      element['targetDate']
+        ? `${new Date(element['targetDate']).toLocaleString()}`
+        : '',
+    isText: true,
+  },
+
+  {
+    columnDef: 'status',
+    header: 'status',
+    cell: (element: any) => `${element['status']}`,
+    isText: true,
+  },
+  {
+    columnDef: 'addOnResource',
+    header: 'Helped By',
+    cell: (element: any) =>
+      `${element['addOnResource']?.map((res: any) => res.name)?.toString() || '--'}`,
+    isText: true,
+  },
+];
+
 export const userTicketColumns = [
   {
     columnDef: 'TicketRaised',

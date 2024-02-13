@@ -11,16 +11,28 @@
 .Dashboard {
   cursor: pointer;
 }
+
 .hide {
   display: none;
 }
-.Breaketimer{
-    box-shadow: 0 0 5px 0;
-    background: #fff;
-    border-radius: 3px;
-    padding: 6px;
+
+.ticketcount {
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  background: #6e00ff;
+  border-radius: 20px;
+  top: 10px;
 }
-.TimeSkip{
-  background:green;
-  color:red;
+
+.Breaketimer {
+  box-shadow: 0 0 5px 0;
+  background: #fff;
+  border-radius: 3px;
+  padding: 6px;
+}
+
+.TimeSkip {
+  background: green;
+  color: red;
 }
