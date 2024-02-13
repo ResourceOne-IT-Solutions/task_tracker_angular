@@ -24,6 +24,13 @@ export class NavBarComponent {
   clientData: any;
   submitted: boolean = false;
   submitTicketForm: boolean = false;
+  isRunning = false;
+  StartTimer:boolean=false;
+  Minutes = 0;
+  Seconds = 0;
+  ms = 0;
+  timerId:any=Number;
+  textColor: boolean=false;
   constructor(
     private router: Router,
     private chatservice: ChatService,
@@ -119,16 +126,22 @@ export class NavBarComponent {
     const logoutpayload = {
       id: this.userDetails._id,
     };
-    // this.chatservice.UserLogin();
     this.chatservice.sendSocketData({ key: 'logout', data: logoutpayload.id });
     this.router.navigate(['/']);
   }
   changeStatus(data: any) {
-    console.log(data);
+    if(this.Status === 'Break'){
+      this.StartTimer=true
+      this.clickHandler();
+    }else{
+      // clearInterval(this.timerId)
+      this.StartTimer =false;
+    }
     const updatePayload = {
       id: this.userDetails._id,
       status: this.Status,
     };
+
     this.Status === 'Available'
       ? this.idle.startIdleMonitoring()
       : this.idle.stopIdleIdleMonitoring();
@@ -244,5 +257,29 @@ export class NavBarComponent {
         return;
       }
     }
+  }
+  clickHandler() {
+    if (!this.isRunning) {
+      this.timerId = setInterval(() => {
+        this.ms++;
+        if (this.ms >= 100) {
+          this.Seconds++;
+          this.ms = 0;
+        }
+        if (this.Seconds >= 60) {
+          this.Minutes++;
+          this.Seconds = 0
+        }
+        if(this.Minutes >=1){
+          this.textColor=true
+        }
+      }, 10);
+    } else {
+      clearInterval(this.timerId);
+    }
+    this.isRunning = !this.isRunning;
+  }
+  format(num: number) {
+    return (num + '').length === 1 ? '0' + num : num + '';
   }
 }
