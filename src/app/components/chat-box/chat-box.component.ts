@@ -11,7 +11,12 @@ import { Socket } from 'socket.io-client';
 import { ChatService } from 'src/app/services/chat.service';
 import { Location } from '@angular/common';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateGroupComponent } from '../create-group/create-group.component';
@@ -27,7 +32,14 @@ export class ChatBoxComponent {
   @ViewChild('groupModel', { static: false }) groupModel: any;
   @ViewChild('chatContainer') chatContainer!: ElementRef;
   //ToolTip.
-  positionOptions: TooltipPosition[] = ['after', 'before', 'above', 'below', 'left', 'right'];
+  positionOptions: TooltipPosition[] = [
+    'after',
+    'before',
+    'above',
+    'below',
+    'left',
+    'right',
+  ];
   position = new FormControl(this.positionOptions[0]);
   groupList: any = [];
   displayIcons: boolean = false;
@@ -85,11 +97,11 @@ export class ChatBoxComponent {
         } else {
           this.UserListData = userPayload
             ? this.UserListData.map((user: any) => {
-              user.status = userPayload.find(
-                (val: any) => val._id === user._id,
-              ).status;
-              return user;
-            })
+                user.status = userPayload.find(
+                  (val: any) => val._id === user._id,
+                ).status;
+                return user;
+              })
             : this.UserListData;
         }
         if (this.requestedChat) {
@@ -325,26 +337,29 @@ export class ChatBoxComponent {
   ExportChat() {
     const chatHistory = this.TotalMessages.flatMap((messages: any) =>
       messages.messageByDate.map((message: any) => {
-        return `${message.from.name}: ${message.content} - ${new Date(message
-          .date,).toLocaleDateString()} ${new Date(message.time).toLocaleTimeString()}`;
-      }),);
+        return `${message.from.name}: ${message.content} - ${new Date(
+          message.date,
+        ).toLocaleDateString()} ${new Date(message.time).toLocaleTimeString()}`;
+      }),
+    );
     const pdf = new jsPDF();
     const pageSize = pdf.internal.pageSize;
     const pageHeight = pageSize.height;
-    const lineHeight = 5; // Adjust as needed 
-    const marginLeft = 10; // Adjust the left margin as needed 
+    const lineHeight = 5; // Adjust as needed
+    const marginLeft = 10; // Adjust the left margin as needed
     let cursorY = 10;
     chatHistory.forEach((message: any) => {
       if (cursorY + lineHeight > pageHeight) {
-        pdf.addPage(); // Add a new page 
-        cursorY = 10; // Reset Y position 
+        pdf.addPage(); // Add a new page
+        cursorY = 10; // Reset Y position
       }
 
-      // Split the message into lines if it's too long 
+      // Split the message into lines if it's too long
       const lines = pdf.splitTextToSize(
         message,
-        pdf.internal.pageSize.getWidth() - 2 * marginLeft,);
-      // Output each line 
+        pdf.internal.pageSize.getWidth() - 2 * marginLeft,
+      );
+      // Output each line
       lines.forEach((line: string, lineIndex: number) => {
         if (lineIndex === 0) {
           pdf.text(line, marginLeft, cursorY);
@@ -357,5 +372,5 @@ export class ChatBoxComponent {
     });
     const pdfName = `${this.chatservice.getFullName(this.currentUser)}-${this.chatservice.getFullName(this.UserSelected)}-Chat.pdf`;
     pdf.save(pdfName);
-  };
+  }
 }

@@ -4,6 +4,10 @@ import { Column } from '../dash-board/dash-board.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as XLSX from 'xlsx';
 import { ActivatedRoute, Router } from '@angular/router';
+import { description, ticketColumns } from '../userlist/tabledata';
+import { Store } from '@ngrx/store';
+import { loadTickets } from 'src/app/chat-store/table.actions';
+import { getTicketsData } from 'src/app/chat-store/table.selector';
 
 @Component({
   selector: 'app-tickets',
@@ -16,53 +20,7 @@ export class TicketsComponent {
   searchText: string = '';
   selectedStatus: string = '';
   ticketsData: any = [];
-  ticketColumns: Array<Column> = [
-    {
-      columnDef: 'client',
-      header: 'client name',
-      cell: (element: any) => `${element['client'].name}`,
-      isText: true,
-    },
-    {
-      columnDef: 'status',
-      header: 'status',
-      cell: (element: any) => `${element['status']}`,
-      isText: true,
-    },
-    {
-      columnDef: 'user',
-      header: 'user name',
-      cell: (element: any) => `${element['user'].name || '--'}`,
-      isText: true,
-    },
-    {
-      columnDef: 'technology',
-      header: 'Technology',
-      cell: (element: any) => `${element['technology']}`,
-      isText: true,
-    },
-    {
-      columnDef: 'receivedDate',
-      header: 'receivedDate',
-      cell: (element: any) =>
-        `${new Date(element['receivedDate']).toLocaleString()}`,
-      isText: true,
-    },
-    {
-      columnDef: 'addOnResource',
-      header: 'Helped By',
-      cell: (element: any) =>
-        `${element['addOnResource']?.map((res: any) => res.name)?.toString() || '--'}`,
-      isText: true,
-    },
-    {
-      columnDef: 'description',
-      header: 'Description',
-      cell: (element: any) => `${element['description']}`,
-      isText: true,
-      isLink: true,
-    },
-  ];
+  ticketColumns: Array<Column> = [...ticketColumns, ...description];
   dateData: any = ['today', 'month', '3months', 'year'];
   mockTicketsData: any = [];
   seletedDate: string = '';
@@ -73,37 +31,35 @@ export class TicketsComponent {
   description: any;
   ticketDetails: any;
   isFilterDate: boolean = false;
+  paramId: string = '';
   constructor(
     private chatservice: ChatService,
     private modalService: NgbModal,
     private route: Router,
     private router: ActivatedRoute,
+    private store: Store,
   ) {}
   ngOnInit() {
-    this.chatservice.ticketRequest.subscribe((res: any) => {
-      this.selectedTicket = res;
-      if (this.selectedTicket) {
-        this.chatservice
-          .getClientById(this.selectedTicket.client?.id)
-          .subscribe((res: any) => {
-            this.ticketsData = res;
-          });
-      } else {
-        this.chatservice.getAllTickets().subscribe((res: any) => {
-          this.mockTicketsData = res;
-          this.ticketsData = res;
-          this.statusData = [
-            ...new Set(this.ticketsData.map((val: any) => val.status)),
-          ];
-        });
-      }
+    this.paramId = this.router.snapshot.paramMap.get('id') || '';
+    this.chatservice.UserLoginData.subscribe((res: any) => {
+      this.store.dispatch(
+        loadTickets({ params: this.paramId, userDetails: res }),
+      );
+    });
+    this.store.select(getTicketsData).subscribe((res: any) => {
+      this.ticketsData = res;
     });
   }
   gotodescription(data: any) {
-    this.route.navigate(['../ticket-description', data._id], {
-      relativeTo: this.router,
-    });
-    this.chatservice.clientdescriptiondata(data);
+    if (this.paramId) {
+      this.route.navigate(['../../../ticket-description', data._id], {
+        relativeTo: this.router,
+      });
+    } else {
+      this.route.navigate(['../ticket-description', data._id], {
+        relativeTo: this.router,
+      });
+    }
   }
   searchFilter() {
     if (!this.isFilterDate && this.isStatusSeleted) {

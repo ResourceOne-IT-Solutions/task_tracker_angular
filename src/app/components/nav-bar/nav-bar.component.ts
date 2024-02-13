@@ -28,12 +28,12 @@ export class NavBarComponent {
   userChatRequestCount: any = [];
   userTicketRequestCount: any = [];
   isRunning = false;
-  StartTimer:boolean=false;
+  StartTimer: boolean = false;
   Minutes = 0;
   Seconds = 0;
   ms = 0;
-  timerId:any=Number;
-  textColor: boolean=false;
+  timerId: any = Number;
+  textColor: boolean = false;
   constructor(
     private router: Router,
     private chatservice: ChatService,
@@ -141,12 +141,12 @@ export class NavBarComponent {
     this.router.navigate(['/']);
   }
   changeStatus(data: any) {
-    if(this.Status === 'Break'){
-      this.StartTimer=true
+    if (this.Status === 'Break') {
+      this.StartTimer = true;
       this.clickHandler();
-    }else{
+    } else {
       // clearInterval(this.timerId)
-      this.StartTimer =false;
+      this.StartTimer = false;
     }
     const updatePayload = {
       id: this.userDetails._id,
@@ -177,8 +177,7 @@ export class NavBarComponent {
     this.router.navigate(['user-view-request'], { relativeTo: this.route });
   }
   userTickets() {
-    this.chatservice.ticketRequests('');
-    this.router.navigate(['user-tickets'], { relativeTo: this.route });
+    this.router.navigate(['tickets'], { relativeTo: this.route });
   }
   gotDashBoard() {
     this.router.navigate(['dashboard']);
@@ -279,10 +278,10 @@ export class NavBarComponent {
         }
         if (this.Seconds >= 60) {
           this.Minutes++;
-          this.Seconds = 0
+          this.Seconds = 0;
         }
-        if(this.Minutes >=1){
-          this.textColor=true
+        if (this.Minutes >= 1) {
+          this.textColor = true;
         }
       }, 10);
     } else {

@@ -44,7 +44,7 @@ export class CreateUserComponent {
     });
   }
   getToday(): string {
-    return new Date().toISOString().split('T')[0]
+    return new Date().toISOString().split('T')[0];
   }
   get user() {
     return this.createUserForm.controls;
@@ -125,7 +125,6 @@ export class CreateUserComponent {
         },
         (error) => {
           this.creteuserError = error.error.error;
-          console.log(error);
         },
       );
     }

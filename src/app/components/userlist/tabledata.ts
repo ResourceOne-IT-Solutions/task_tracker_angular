@@ -37,12 +37,7 @@ export const ticketColumns: Array<Column> = [
         : '',
     isText: true,
   },
-  {
-    columnDef: 'description',
-    header: 'description',
-    cell: (element: any) => `${element['description']}`,
-    isText: true,
-  },
+
   {
     columnDef: 'comments',
     header: 'comments',
@@ -120,12 +115,7 @@ export const Tickets: Array<Column> = [
         : '',
     isText: true,
   },
-  {
-    columnDef: 'description',
-    header: 'description',
-    cell: (element: any) => `${element['description']}`,
-    isText: true,
-  },
+
   {
     columnDef: 'comments',
     header: 'comments',
@@ -166,6 +156,23 @@ export const Tickets: Array<Column> = [
   },
 ];
 
+export const description = [
+  {
+    columnDef: 'description',
+    header: 'Description',
+    cell: (element: any) => `${element['description']}`,
+    isText: true,
+    isLink: true,
+  },
+];
+export const description2 = [
+  {
+    columnDef: 'description',
+    header: 'description',
+    cell: (element: any) => `${element['description']}`,
+    isText: true,
+  },
+];
 export const userTicketColumns = [
   {
     columnDef: 'TicketRaised',
@@ -203,7 +210,7 @@ export const clientColumns = [
     header: 'Client Name',
     cell: (element: any) => `${element['firstName']}`,
     // isText: true,
-    isMouseOver:true,
+    isMouseOver: true,
   },
   {
     columnDef: 'email',
@@ -223,7 +230,7 @@ export const clientColumns = [
     cell: (element: any) => `${element['technology']}`,
     isText: true,
   },
- 
+
   {
     columnDef: 'location',
     header: 'Location',
