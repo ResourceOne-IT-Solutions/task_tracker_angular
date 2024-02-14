@@ -7,7 +7,7 @@ import {
   loadTickets,
   loadTicketsSuccess,
 } from './table.actions';
-import { map, mergeMap, of } from 'rxjs';
+import { combineLatest, filter, map, mergeMap, of, withLatestFrom } from 'rxjs';
 
 @Injectable()
 export class TicketsEffect {
@@ -25,23 +25,41 @@ export class TicketsEffect {
     ),
   );
 
+  // loadTickets$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(loadTickets),
+  //     mergeMap(({ params }) => {
+  // return this.getTickes(params).pipe(
+  //   map((ticketsData: any) => {
+  //     return loadTicketsSuccess({ ticketsData });
+  //   }),
+  // );
+  //     }),
+  //   ),
+  // );
+
   loadTickets$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadTickets),
-      mergeMap(({ params, userDetails }) => {
+      withLatestFrom(this.chatservice.UserLoginData),
+      mergeMap(([{ params }, userDetails]) => {
+        console.log(params, userDetails, 'tickets effect');
         return this.getTickes(params, userDetails).pipe(
           map((ticketsData: any) => {
+            console.log('api data', ticketsData);
             return loadTicketsSuccess({ ticketsData });
           }),
         );
       }),
     ),
   );
-  private getTickes(params: string, userDetails: any) {
+
+  private getTickes(params: any, userDetails: any) {
+    console.log(params, userDetails, 'get tickets');
     if (!userDetails.isAdmin && !params) {
       return this.chatservice.get(`/tickets/user/${userDetails._id}`);
-    }
-    if (params) {
+    } else if (params) {
+      console.log('helloo');
       return this.chatservice.get(`/tickets/client/${params}`);
     } else {
       return this.chatservice.get(`/tickets`);

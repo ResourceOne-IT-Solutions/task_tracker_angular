@@ -10,11 +10,9 @@ import { Task } from '../interface/tickets';
 })
 export class ChatService {
   RoleData = new BehaviorSubject('');
-  userticketsById = new BehaviorSubject('');
   chatRequest = new BehaviorSubject('');
   TotalUser = new BehaviorSubject('');
   RequestCount = new BehaviorSubject([]);
-
   private socket: Socket;
   chatRequestCount(data: any) {
     if (data) {
@@ -28,9 +26,7 @@ export class ChatService {
   getRoleData(role: any) {
     this.RoleData.next(role);
   }
-  getuserTicketById(ticketId: any) {
-    this.userticketsById.next(ticketId);
-  }
+
   //User Behavior
   UserLoginData = new BehaviorSubject<User | undefined>(undefined);
   UserLogin(data: User) {
@@ -297,5 +293,13 @@ export class ChatService {
       }
       return acc;
     }, {});
+  }
+  getUserByStatus(data: any, status: string) {
+    return data.filter((val: User) => val.status.toLowerCase() == status)
+      .length;
+  }
+  getTicketStatus(data: any, status: any) {
+    return data.filter((val: Task) => val.status.toLowerCase() === status)
+      .length;
   }
 }

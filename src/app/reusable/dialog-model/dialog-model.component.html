@@ -3,10 +3,14 @@
   <p>{{ data.message }}</p>
 </div>
 <div class="actions" mat-dialog-actions>
-  <button class="btn btn-sm btn-primary" (click)="acceptClick()">
+  <button
+    class="btn btn-sm btn-primary"
+    *ngIf="data.btn1"
+    (click)="acceptClick()"
+  >
     {{ data.btn1 }}
   </button>
-  <button class="btn btn-sm btn-danger" (click)="onNoClick()">
+  <button class="btn btn-sm btn-danger" *ngIf="data.btn2" (click)="onNoClick()">
     {{ data.btn2 }}
   </button>
 </div>

@@ -2,9 +2,9 @@
   <div class="userinfo">
     <img
       *ngIf="currentUser.profileImageUrl"
-      src="/profile-images/{{ currentUser.profileImageUrl }}"
-      alt=""
+      src="{{ url }}/profile-images/{{ currentUser.profileImageUrl }}"
       crossorigin="anonymous"
+      alt=""
     />
     <img
       *ngIf="!currentUser.profileImageUrl"

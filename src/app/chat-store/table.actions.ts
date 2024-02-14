@@ -16,7 +16,7 @@ export const loadUserData = createAction(
 );
 export const loadTickets = createAction(
   'load tickets api  [Tickets Component]',
-  props<{ params: any; userDetails: any }>(),
+  props<{ params: any }>(),
 );
 export const loadTicketsSuccess = createAction(
   'load tickets api success [Tickets Component]',

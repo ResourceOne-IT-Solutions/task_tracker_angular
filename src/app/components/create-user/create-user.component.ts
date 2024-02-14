@@ -16,6 +16,7 @@ export class CreateUserComponent {
   creteuserError: any;
   isAccountcreate: boolean = false;
   maxDate: any;
+  profileImage: any;
 
   constructor(
     private fb: FormBuilder,
@@ -29,7 +30,7 @@ export class CreateUserComponent {
       phone: ['', Validators.required],
       dob: ['', Validators.required],
       password: ['', Validators.required],
-      employeId: ['', Validators.required],
+      empId: ['', Validators.required],
       joiningDate: ['', Validators.required],
       profileImageUrl: ['', Validators.required],
       designation: ['', Validators.required],
@@ -86,7 +87,7 @@ export class CreateUserComponent {
     return this.user['password'];
   }
   get employeId() {
-    return this.user['employeId'];
+    return this.user['empId'];
   }
   phoneValidation(evt: any) {
     const inputChar = String.fromCharCode(evt.charCode);
@@ -95,7 +96,12 @@ export class CreateUserComponent {
       return;
     }
   }
+  selecteImage(evt: any) {
+    this.profileImage = evt.target.files[0];
+  }
   createNewUser() {
+    const formData = new FormData();
+
     this.submitted = true;
     if (this.createUserForm.valid) {
       const Data = {
@@ -111,14 +117,18 @@ export class CreateUserComponent {
         gender: this.createUserForm.value.gender,
         designation: this.createUserForm.value.designation,
         address: this.createUserForm.value.address,
-        profileImageUrl: this.createUserForm.value.profileImageUrl,
+        empId: this.createUserForm.value.empId,
         createdBy: {
           name: this.chatservice.getFullName(this.currentUser),
           id: this.currentUser._id,
         },
       };
-      this.chatservice.AddNewUsers(Data).subscribe(
+      formData.append('file', this.profileImage);
+      formData.append('user', JSON.stringify(Data));
+      console.log(formData, '123:::', Data, this.profileImage);
+      this.chatservice.AddNewUsers(formData).subscribe(
         (res) => {
+          console.log(res, '123');
           this.isAccountcreate = true;
           this.submitted = false;
           this.createUserForm.reset();

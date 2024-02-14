@@ -37,9 +37,6 @@ export class ViewRequestPageComponent {
     });
     this.chatservice.chatRequestCount('');
     this.loader.show();
-    this.chatservice.TotalUser.subscribe((res: any) => {
-      this.totalUser = res;
-    });
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.currentuser = res;
     });

@@ -4,6 +4,9 @@ import { Column } from '../dash-board/dash-board.component';
 import { Chart, registerables } from 'node_modules/chart.js';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { getTicketsData } from 'src/app/chat-store/table.selector';
+import { Tickets, description } from '../userlist/tabledata';
 Chart.register(...registerables);
 
 @Component({
@@ -12,8 +15,8 @@ Chart.register(...registerables);
   styleUrls: ['./client-tickets.component.scss'],
 })
 export class ClientTicketsComponent implements OnInit {
-  clientDataTable: any;
-  clientTicketById: any[] = [];
+  clientDataTable: any = {};
+  clientTicketById: any = [];
   Closed: any;
   NotAssigned: any;
   Assigned: any;
@@ -21,75 +24,14 @@ export class ClientTicketsComponent implements OnInit {
   Improper: any;
   inprogress: any;
   paramId: any;
+  clientChart: any;
   constructor(
     private chatservice: ChatService,
     private location: Location,
     private route: ActivatedRoute,
+    private store: Store,
   ) {}
 
-  clientColumns: Array<Column> = [
-    {
-      columnDef: 'client',
-      header: 'client Name',
-      cell: (element: any) => `${element['client'].name}`,
-      isText: true,
-    },
-    {
-      columnDef: 'user',
-      header: 'User Name',
-      cell: (element: any) => `${element['user'].name}`,
-      isText: true,
-    },
-    {
-      columnDef: 'status',
-      header: 'Status',
-      cell: (element: any) => `${element['status']}`,
-      isText: true,
-    },
-    {
-      columnDef: 'technology',
-      header: 'Technology',
-      cell: (element: any) => `${element['technology']}`,
-      isText: true,
-    },
-    {
-      columnDef: 'receivedDate',
-      header: 'Receive Date',
-      cell: (element: any) => `${element['receivedDate']}`,
-      isText: true,
-    },
-    {
-      columnDef: 'closedDate',
-      header: 'Closed Date',
-      cell: (element: any) => `${element['closedDate']}`,
-      isText: true,
-    },
-    {
-      columnDef: 'targetDate',
-      header: 'Target Date',
-      cell: (element: any) => `${element['targetDate']}`,
-      isText: true,
-    },
-    {
-      columnDef: 'addOnResource',
-      header: 'Helped By',
-      cell: (element: any) =>
-        `${element['addOnResource']?.map((res: any) => res.name)?.toString() || '--'}`,
-      isText: true,
-    },
-    {
-      columnDef: 'comments',
-      header: 'Comments',
-      cell: (element: any) => `${element['comments']}`,
-      isText: true,
-    },
-    {
-      columnDef: 'description',
-      header: 'Description',
-      cell: (element: any) => `${element['description']}`,
-      isText: true,
-    },
-  ];
   ngOnInit(): void {
     this.paramId = this.route.snapshot.paramMap.get('id');
 
@@ -97,34 +39,42 @@ export class ClientTicketsComponent implements OnInit {
       this.chatservice.get(`/clients/${this.paramId}`).subscribe((res) => {
         this.clientDataTable = res;
       });
-      this.chatservice.getClientById(this.paramId).subscribe((res: any) => {
+      this.store.select(getTicketsData).subscribe((res: any) => {
         this.clientTicketById = res;
-        (this.Closed = this.clientTicketById.filter(
-          (val: any) => val.status == 'Closed',
-        ).length),
-          (this.NotAssigned = this.clientTicketById.filter(
-            (val: any) => val.status == 'Not Assigned',
-          ).length),
-          (this.Assigned = this.clientTicketById.filter(
-            (val: any) => val.status == 'Assigned',
-          ).length),
-          (this.Pending = this.clientTicketById.filter(
-            (val: any) => val.status == 'Pending',
-          ).length),
-          (this.Improper = this.clientTicketById.filter(
-            (val: any) => val.status == 'Improper Requirment',
-          ).length),
-          (this.inprogress = this.clientTicketById.filter(
-            (val: any) => val.status == 'In Progress',
-          ).length);
-        this.pieChart(
-          this.Closed,
-          this.NotAssigned,
-          this.Assigned,
-          this.Pending,
-          this.Improper,
-          this.inprogress,
-        );
+        if (this.clientTicketById) {
+          const resolvedTickets = this.chatservice.getTicketStatus(
+            this.clientTicketById,
+            'resolved',
+          );
+          const pendingTickets = this.chatservice.getTicketStatus(
+            this.clientTicketById,
+            'pending',
+          );
+          const inprogressTickets = this.chatservice.getTicketStatus(
+            this.clientTicketById,
+            'in progress',
+          );
+          const assigned = this.chatservice.getTicketStatus(
+            this.clientTicketById,
+            'assigned',
+          );
+          const improper = this.chatservice.getTicketStatus(
+            this.clientTicketById,
+            'improper requirment',
+          );
+          const notAssigned = this.chatservice.getTicketStatus(
+            this.clientTicketById,
+            'not assigned',
+          );
+          this.pieChart(
+            resolvedTickets,
+            notAssigned,
+            assigned,
+            pendingTickets,
+            improper,
+            inprogressTickets,
+          );
+        }
       });
     }
   }
@@ -137,16 +87,19 @@ export class ClientTicketsComponent implements OnInit {
     improper: any,
     inprogress: any,
   ) {
-    new Chart('piechart', {
+    if (this.clientChart) {
+      this.clientChart.destroy();
+    }
+    this.clientChart = new Chart('piechart', {
       type: 'pie',
       data: {
         labels: [
-          'Closed',
+          'Resoved',
           'NotAssigned',
           'Assigned',
           'Pending',
           'Improper',
-          'InProrss',
+          'InProgress',
         ],
         datasets: [
           {
