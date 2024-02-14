@@ -473,6 +473,17 @@ export class UserlistComponent {
   raiseTicket(dismiss: any) {
     this.raiseSubmitted = !this.raiseSubmitted;
     if (this.TicketRaisedForm.valid) {
+      const raisePayload = {
+        sender: {
+          name: this.chatservice.getFullName(this.adminDetails),
+          id: this.adminDetails._id,
+        },
+        content: this.TicketRaisedForm.value.raise,
+      };
+      this.chatservice.sendSocketData({
+        key: 'raiseTicket',
+        data: raisePayload,
+      });
       dismiss();
     }
     this.TicketRaisedForm.reset();
