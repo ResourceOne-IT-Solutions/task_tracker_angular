@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
     });
     this.chatservice.getSocketData('chatRequest').subscribe((res) => {
       if (this.currentUser.isAdmin) {
-        this.chatservice.chatRequestCount(res);
+        this.chatservice.chatRequestCount(res._id);
         const message = `${res.sender.name} is Requisting to Chat with ${res.opponent.name}`;
         alert(message);
       }

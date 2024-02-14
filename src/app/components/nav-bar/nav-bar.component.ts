@@ -37,6 +37,7 @@ export class NavBarComponent {
   timerId: any = Number;
   textColor: boolean = false;
   LunchBreak: boolean = false;
+  requestCount: any = [];
   constructor(
     private router: Router,
     public chatservice: ChatService,
@@ -62,6 +63,9 @@ export class NavBarComponent {
     });
   }
   ngOnInit() {
+    this.chatservice.RequestCount.subscribe((res) => {
+      this.requestCount.push(res);
+    });
     this.chatservice
       .getSocketData('userRequestApproved')
       .subscribe(({ type, result }) => {
@@ -181,6 +185,7 @@ export class NavBarComponent {
     this.router.navigate(['Chat-Box'], { relativeTo: this.route });
   }
   ViewRequest() {
+    this.requestCount.length = 0;
     this.router.navigate(['view-requestPage'], { relativeTo: this.route });
   }
   ViewTicket() {
