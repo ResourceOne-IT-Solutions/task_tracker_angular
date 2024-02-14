@@ -185,6 +185,7 @@
                       type="file"
                       class="form-control"
                       id="profileImageUrl"
+                      (change)="selecteImage($event)"
                       formControlName="profileImageUrl"
                     />
                   </div>
@@ -248,15 +249,15 @@
 
                 <div class="col-md-6">
                   <div class="form-outline">
-                    <label class="form-label" for="employeId">Employe Id</label>
+                    <label class="form-label" for="empId">Employe Id</label>
                     <input
                       class="form-control"
                       [ngClass]="
                         submitted && isAdmin.errors ? 'invalidInput' : ''
                       "
                       type="input"
-                      formControlName="employeId"
-                      id="employeId"
+                      formControlName="empId"
+                      id="empId"
                     />
                   </div>
                   <div

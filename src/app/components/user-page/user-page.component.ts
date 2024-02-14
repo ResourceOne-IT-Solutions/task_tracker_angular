@@ -13,8 +13,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Column } from '../dash-board/dash-board.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TooltipPosition } from '@angular/material/tooltip';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-Chart.register(...registerables);
 @Component({
   selector: 'app-user-page',
   templateUrl: './user-page.component.html',
@@ -56,6 +56,7 @@ export class UserPageComponent implements OnInit {
     'right',
   ];
   position = new FormControl(this.positionOptions[0]);
+  url: any;
   constructor(
     public chatservice: ChatService,
     private router: Router,
@@ -63,6 +64,7 @@ export class UserPageComponent implements OnInit {
     private fb: FormBuilder,
     private modalService: NgbModal,
     private location: LocationStrategy,
+    private http: HttpClient
   ) {
     history.pushState(null, '', window.location.href);
     // check if back or forward button is pressed.
@@ -72,6 +74,7 @@ export class UserPageComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    this.url = this.chatservice.BE_URL
     this.chatservice.getSocketData('ticketRaiseStatus').subscribe((res) => {
       alert(res);
     });
@@ -152,48 +155,36 @@ export class UserPageComponent implements OnInit {
         this.userTickets = res.filter(
           (item: any) => item.user.id === this.currentUser._id,
         );
+        const resolvedTickets = this.chatservice.getTicketStatus(this.userTickets, 'resolved');
+        const pendingTickets = this.chatservice.getTicketStatus(this.userTickets, 'pending');
+        const inprogressTickets = this.chatservice.getTicketStatus(this.userTickets, 'in progress');
+        const improper = this.chatservice.getTicketStatus(this.userTickets, 'improper requirment');
+        const Closed = this.chatservice.getTicketStatus(this.userTickets, 'closed');
+        const helpedTickets = this.chatservice.getTicketStatus(this.userTickets, 'closed');
 
-        (this.Closed = this.userTickets.filter(
-          (val: any) => val.status == 'Closed',
-        ).length),
-          (this.Assigned = this.userTickets.filter(
-            (val: any) => val.status == 'Assigned',
-          ).length),
-          (this.pending = this.userTickets.filter(
-            (val: any) => val.status == 'Pending',
-          ).length),
-          (this.Improper = this.userTickets.filter(
-            (val: any) => val.status == 'Improper Requirment',
-          ).length),
-          (this.helpedTickets = this.currentUser.helpedTickets),
-          (this.inprogress = this.userTickets.filter(
-            (val: any) => val.status == 'In Progress',
-          ).length);
         this.pieChart(
-          this.Closed,
-          this.Assigned,
-          this.pending,
-          this.inprogress,
-          this.helpedTickets,
-          this.Improper,
+          resolvedTickets,
+          pendingTickets.
+          inprogressTickets,
+          improper,
+          Closed,
+          helpedTickets
         );
       }
     });
   }
   pieChart(
     resolved: any,
-    assigned: any,
     pending: any,
     inprogress: any,
-    helped: any,
     Improper: any,
+    helped: any
   ) {
     new Chart('piechartdemo', {
       type: 'pie',
       data: {
         labels: [
-          'Closed',
-          'Assigned',
+          'Resolved',
           'Pending',
           'InProgress',
           'HelpedTickets',
@@ -202,7 +193,7 @@ export class UserPageComponent implements OnInit {
         datasets: [
           {
             label: this.chatservice.getFullName(this.currentUser),
-            data: [resolved, assigned, pending, inprogress, helped, Improper],
+            data: [resolved, pending, inprogress, helped, Improper],
           },
         ],
       },
@@ -214,13 +205,6 @@ export class UserPageComponent implements OnInit {
     this.breakTimes = statusByBreak ? statusByBreak[0] : undefined;
     this.loginTiming = loginTime ? loginTime : undefined;
   }
-  /*
-  {
-    "inTime": "2024-02-02T01:31:23.421Z",
-    "date": "2024-02-02T01:31:23.421Z",
-    "_id": "65bc45eb7517dbc3c35eda0e"
-}
-  */
   loginTimeGroupedByDate() {
     const groupByTime = this.chatservice.groupByDate(
       this.currentUser.loginTimings,

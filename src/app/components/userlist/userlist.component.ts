@@ -478,7 +478,6 @@ export class UserlistComponent {
     this.TicketRaisedForm.reset();
   }
   routeToTickets(data: any) {
-    this.chatservice.getuserTicketById(data);
     const CilentPayload = {
       client: {
         name: data.client.name,

@@ -1,7 +1,7 @@
 <button (click)="goback()" class="btn btn-danger back">
   <i class="fa fa-arrow-left" aria-hidden="true"></i> back
 </button>
-<div class="client-details">
+<div class="client-details" *ngIf="clientDataTable">
   <div>
     <p>Client Details</p>
     <p>CompanyName: {{ clientDataTable.companyName }}</p>
