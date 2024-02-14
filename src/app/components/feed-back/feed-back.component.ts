@@ -52,7 +52,7 @@ export class FeedBackComponent {
     formData.append('files', this.selectedFile);
     formData.append('data', JSON.stringify(payload));
     if (this.feedBackForm.valid) {
-      this.chatservice.getFeedback(formData).subscribe();
+      this.chatservice.sendFeedBack(formData).subscribe();
     }
   }
 }

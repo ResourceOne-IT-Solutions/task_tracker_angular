@@ -131,8 +131,11 @@ export class ChatService {
   getFile(data: any) {
     return this.get(`/file/${data}`);
   }
-  getFeedback(data: any) {
-    return this.post('/feedback', data);
+  sendFeedBack(data: any) {
+    return this.post('/users/feedback', data);
+  }
+  getFeedBack() {
+    return this.get('/users/feedback');
   }
 
   // Cookie.....
