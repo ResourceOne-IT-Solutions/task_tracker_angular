@@ -12,6 +12,7 @@ import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
 })
 export class ViewRequestPageComponent {
   type = true;
+  requestCount: any = [];
   time: any;
   date: any;
   isChatRequest = true;
@@ -29,6 +30,12 @@ export class ViewRequestPageComponent {
     private location: Location,
   ) {}
   ngOnInit() {
+    this.chatservice.RequestCount.subscribe((res) => {
+      if (res.length) {
+        this.requestCount = res;
+      }
+    });
+    this.chatservice.chatRequestCount('');
     this.loader.show();
     this.chatservice.TotalUser.subscribe((res: any) => {
       this.totalUser = res;

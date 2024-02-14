@@ -13,11 +13,17 @@ export class ChatService {
   userticketsById = new BehaviorSubject('');
   chatRequest = new BehaviorSubject('');
   TotalUser = new BehaviorSubject('');
-  RequestCount = new BehaviorSubject('');
+  RequestCount = new BehaviorSubject([]);
 
   private socket: Socket;
   chatRequestCount(data: any) {
-    this.RequestCount.next(data);
+    if (data) {
+      const currentdata = this.RequestCount.value;
+      const value: any = [...currentdata, data];
+      this.RequestCount.next(value);
+    } else {
+      this.RequestCount.next([]);
+    }
   }
   getRoleData(role: any) {
     this.RoleData.next(role);
@@ -119,6 +125,11 @@ export class ChatService {
   }
   getLoginSetup(data: any) {
     return this.get('/get-user');
+  }
+
+  // forgot password
+  updatePassword(data: any) {
+    return this.post('/update-password', data);
   }
 
   getToken() {

@@ -21,6 +21,18 @@ export class AppComponent implements OnInit {
     this.chatservice.UserLoginData.subscribe((res) => {
       this.currentUser = res;
     });
+    this.chatservice.getSocketData('userRaisedTicket').subscribe((res) => {
+      if (this.currentUser.isAdmin) {
+        const message = `${res.sender.name} raised ticket`;
+        alert(message);
+      }
+    });
+    this.chatservice
+      .getSocketData('ticketRaiseStatus')
+      .subscribe((res: any) => {
+        alert(res);
+      });
+
     this.chatservice.getSocketData('chatRequest').subscribe((res) => {
       if (this.currentUser.isAdmin) {
         this.chatservice.chatRequestCount(res._id);
