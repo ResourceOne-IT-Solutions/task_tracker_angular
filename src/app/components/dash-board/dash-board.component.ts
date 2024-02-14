@@ -89,17 +89,17 @@ export class DashBoardComponent {
       this.adminDetails = res;
     });
 
-    this.chatservice.getSocketData('chatRequest').subscribe((res) => {
-      const message = `${res.sender.name} is Requisting to Chat with ${res.opponent.name}`;
-      alert(message);
-    });
+    // this.chatservice.getSocketData('chatRequest').subscribe((res) => {
+    //   const message = `${res.sender.name} is Requisting to Chat with ${res.opponent.name}`;
+    //   alert(message);
+    // });
     this.chatservice.getSocketData('statusUpdate').subscribe((res: User) => {
       this.adminDetails = res;
     });
-    this.chatservice.getSocketData('ticketsRequest').subscribe((res) => {
-      const message = `${res.sender.name} is Requisting for ${res.client.name} Tickets`;
-      alert(message);
-    });
+    // this.chatservice.getSocketData('ticketsRequest').subscribe((res) => {
+    //   const message = `${res.sender.name} is Requisting for ${res.client.name} Tickets`;
+    //   alert(message);
+    // });
     this.chatservice.getAllTickets().subscribe((res: Task[]) => {
       this.ticketData = res;
       this.todaysTickets = this.ticketData.filter(

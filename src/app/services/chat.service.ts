@@ -11,11 +11,17 @@ import { Task } from '../interface/tickets';
 export class ChatService {
   RoleData = new BehaviorSubject('');
   chatRequest = new BehaviorSubject('');
-  RequestCount = new BehaviorSubject('');
-
+  TotalUser = new BehaviorSubject('');
+  RequestCount = new BehaviorSubject([]);
   private socket: Socket;
   chatRequestCount(data: any) {
-    this.RequestCount.next(data);
+    if (data) {
+      const currentdata = this.RequestCount.value;
+      const value: any = [...currentdata, data];
+      this.RequestCount.next(value);
+    } else {
+      this.RequestCount.next([]);
+    }
   }
   getRoleData(role: any) {
     this.RoleData.next(role);
@@ -117,6 +123,11 @@ export class ChatService {
     return this.get('/get-user');
   }
 
+  // forgot password
+  updatePassword(data: any) {
+    return this.post('/update-password', data);
+  }
+
   getToken() {
     return this.getCookie('token') || '';
   }
@@ -126,6 +137,12 @@ export class ChatService {
   }
   getFile(data: any) {
     return this.get(`/file/${data}`);
+  }
+  sendFeedBack(data: any) {
+    return this.post('/users/feedback', data);
+  }
+  getFeedBack() {
+    return this.get('/users/feedback');
   }
 
   // Cookie.....

@@ -43,6 +43,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { ticketsRuducer } from './chat-store/table.reducer';
 import { TicketsEffect } from './chat-store/table.effect';
+import { FeedBackComponent } from './components/feed-back/feed-back.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { TicketsEffect } from './chat-store/table.effect';
     UserlistComponent,
     TicketdescriptionComponent,
     DialogModelComponent,
+    FeedBackComponent,
   ],
   imports: [
     BrowserModule,
