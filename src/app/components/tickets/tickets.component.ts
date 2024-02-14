@@ -41,9 +41,7 @@ export class TicketsComponent {
   ) {}
   ngOnInit() {
     this.paramId = this.router.snapshot.paramMap.get('id') || '';
-      this.store.dispatch(
-        loadTickets({ params: this.paramId }),
-      );
+    this.store.dispatch(loadTickets({ params: this.paramId }));
     this.store.select(getTicketsData).subscribe((res: any) => {
       this.ticketsData = res;
     });

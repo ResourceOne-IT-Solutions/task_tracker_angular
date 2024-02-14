@@ -64,7 +64,7 @@ export class UserPageComponent implements OnInit {
     private fb: FormBuilder,
     private modalService: NgbModal,
     private location: LocationStrategy,
-    private http: HttpClient
+    private http: HttpClient,
   ) {
     history.pushState(null, '', window.location.href);
     // check if back or forward button is pressed.
@@ -74,7 +74,7 @@ export class UserPageComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    this.url = this.chatservice.BE_URL
+    this.url = this.chatservice.BE_URL;
     this.chatservice.getSocketData('ticketRaiseStatus').subscribe((res) => {
       alert(res);
     });
@@ -155,20 +155,37 @@ export class UserPageComponent implements OnInit {
         this.userTickets = res.filter(
           (item: any) => item.user.id === this.currentUser._id,
         );
-        const resolvedTickets = this.chatservice.getTicketStatus(this.userTickets, 'resolved');
-        const pendingTickets = this.chatservice.getTicketStatus(this.userTickets, 'pending');
-        const inprogressTickets = this.chatservice.getTicketStatus(this.userTickets, 'in progress');
-        const improper = this.chatservice.getTicketStatus(this.userTickets, 'improper requirment');
-        const Closed = this.chatservice.getTicketStatus(this.userTickets, 'closed');
-        const helpedTickets = this.chatservice.getTicketStatus(this.userTickets, 'closed');
+        const resolvedTickets = this.chatservice.getTicketStatus(
+          this.userTickets,
+          'resolved',
+        );
+        const pendingTickets = this.chatservice.getTicketStatus(
+          this.userTickets,
+          'pending',
+        );
+        const inprogressTickets = this.chatservice.getTicketStatus(
+          this.userTickets,
+          'in progress',
+        );
+        const improper = this.chatservice.getTicketStatus(
+          this.userTickets,
+          'improper requirment',
+        );
+        const Closed = this.chatservice.getTicketStatus(
+          this.userTickets,
+          'closed',
+        );
+        const helpedTickets = this.chatservice.getTicketStatus(
+          this.userTickets,
+          'closed',
+        );
 
         this.pieChart(
           resolvedTickets,
-          pendingTickets.
-          inprogressTickets,
+          pendingTickets.inprogressTickets,
           improper,
           Closed,
-          helpedTickets
+          helpedTickets,
         );
       }
     });
@@ -178,7 +195,7 @@ export class UserPageComponent implements OnInit {
     pending: any,
     inprogress: any,
     Improper: any,
-    helped: any
+    helped: any,
   ) {
     new Chart('piechartdemo', {
       type: 'pie',

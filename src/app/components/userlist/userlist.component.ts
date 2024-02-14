@@ -83,7 +83,7 @@ export class UserlistComponent {
     ...description2,
     ...userTicketColumns,
   ];
-  helpedTickets : Array<Column> =[...ticketColumns, ...description]
+  helpedTickets: Array<Column> = [...ticketColumns, ...description];
   params: any;
   MockticketData: any;
   MockClientData: any;

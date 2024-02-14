@@ -107,12 +107,30 @@ export class DashBoardComponent {
           new Date(val.receivedDate).toLocaleDateString() ===
           new Date().toLocaleDateString(),
       );
-      const resolvedTickets = this.chatservice.getTicketStatus(this.ticketData,'resolved');
-      const pendingTickets = this.chatservice.getTicketStatus(this.ticketData,'pending');
-      const inprogressTickets = this.chatservice.getTicketStatus(this.ticketData,'in progress');
-      const assigned = this.chatservice.getTicketStatus(this.ticketData,'assigned');
-      const improper = this.chatservice.getTicketStatus(this.ticketData,'improper requirment');
-      const notAssigned = this.chatservice.getTicketStatus(this.ticketData,'not assigned');
+      const resolvedTickets = this.chatservice.getTicketStatus(
+        this.ticketData,
+        'resolved',
+      );
+      const pendingTickets = this.chatservice.getTicketStatus(
+        this.ticketData,
+        'pending',
+      );
+      const inprogressTickets = this.chatservice.getTicketStatus(
+        this.ticketData,
+        'in progress',
+      );
+      const assigned = this.chatservice.getTicketStatus(
+        this.ticketData,
+        'assigned',
+      );
+      const improper = this.chatservice.getTicketStatus(
+        this.ticketData,
+        'improper requirment',
+      );
+      const notAssigned = this.chatservice.getTicketStatus(
+        this.ticketData,
+        'not assigned',
+      );
       this.pieChart(
         resolvedTickets,
         assigned,
@@ -134,10 +152,22 @@ export class DashBoardComponent {
     this.chatservice.getSocketData('newUser').subscribe(({ userPayload }) => {
       this.store.dispatch(loadUserData({ userList: userPayload }));
       this.UserListData = userPayload;
-      const Avalible = this.chatservice.getUserByStatus(this.UserListData,'available');
-      const Offline = this.chatservice.getUserByStatus(this.UserListData,'offline');
-      const Break = this.chatservice.getUserByStatus(this.UserListData,'break');
-      const OnTicket = this.chatservice.getUserByStatus(this.UserListData,'on ticket');
+      const Avalible = this.chatservice.getUserByStatus(
+        this.UserListData,
+        'available',
+      );
+      const Offline = this.chatservice.getUserByStatus(
+        this.UserListData,
+        'offline',
+      );
+      const Break = this.chatservice.getUserByStatus(
+        this.UserListData,
+        'break',
+      );
+      const OnTicket = this.chatservice.getUserByStatus(
+        this.UserListData,
+        'on ticket',
+      );
       this.UserpieChart(Avalible, Offline, Break, OnTicket);
     });
 

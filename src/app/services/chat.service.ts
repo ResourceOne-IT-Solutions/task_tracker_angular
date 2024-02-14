@@ -277,14 +277,12 @@ export class ChatService {
       return acc;
     }, {});
   }
-  getUserByStatus(data: any, status:string) {
-    return data.filter(
-      (val: User) => val.status.toLowerCase() == status,
-    ).length;
+  getUserByStatus(data: any, status: string) {
+    return data.filter((val: User) => val.status.toLowerCase() == status)
+      .length;
   }
   getTicketStatus(data: any, status: any) {
-    return data.filter(
-      (val: Task) => val.status.toLowerCase() === status,
-    ).length;
+    return data.filter((val: Task) => val.status.toLowerCase() === status)
+      .length;
   }
 }

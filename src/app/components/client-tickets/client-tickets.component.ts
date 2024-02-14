@@ -24,13 +24,13 @@ export class ClientTicketsComponent implements OnInit {
   Improper: any;
   inprogress: any;
   paramId: any;
-  clientChart: any
+  clientChart: any;
   constructor(
     private chatservice: ChatService,
     private location: Location,
     private route: ActivatedRoute,
-    private store: Store
-  ) { }
+    private store: Store,
+  ) {}
 
   ngOnInit(): void {
     this.paramId = this.route.snapshot.paramMap.get('id');
@@ -42,12 +42,30 @@ export class ClientTicketsComponent implements OnInit {
       this.store.select(getTicketsData).subscribe((res: any) => {
         this.clientTicketById = res;
         if (this.clientTicketById) {
-          const resolvedTickets = this.chatservice.getTicketStatus(this.clientTicketById, 'resolved');
-          const pendingTickets = this.chatservice.getTicketStatus(this.clientTicketById, 'pending');
-          const inprogressTickets = this.chatservice.getTicketStatus(this.clientTicketById, 'in progress');
-          const assigned = this.chatservice.getTicketStatus(this.clientTicketById, 'assigned');
-          const improper = this.chatservice.getTicketStatus(this.clientTicketById, 'improper requirment');
-          const notAssigned = this.chatservice.getTicketStatus(this.clientTicketById, 'not assigned');
+          const resolvedTickets = this.chatservice.getTicketStatus(
+            this.clientTicketById,
+            'resolved',
+          );
+          const pendingTickets = this.chatservice.getTicketStatus(
+            this.clientTicketById,
+            'pending',
+          );
+          const inprogressTickets = this.chatservice.getTicketStatus(
+            this.clientTicketById,
+            'in progress',
+          );
+          const assigned = this.chatservice.getTicketStatus(
+            this.clientTicketById,
+            'assigned',
+          );
+          const improper = this.chatservice.getTicketStatus(
+            this.clientTicketById,
+            'improper requirment',
+          );
+          const notAssigned = this.chatservice.getTicketStatus(
+            this.clientTicketById,
+            'not assigned',
+          );
           this.pieChart(
             resolvedTickets,
             notAssigned,
@@ -57,7 +75,7 @@ export class ClientTicketsComponent implements OnInit {
             inprogressTickets,
           );
         }
-      })
+      });
     }
   }
 
@@ -70,7 +88,7 @@ export class ClientTicketsComponent implements OnInit {
     inprogress: any,
   ) {
     if (this.clientChart) {
-      this.clientChart.destroy()
+      this.clientChart.destroy();
     }
     this.clientChart = new Chart('piechart', {
       type: 'pie',
