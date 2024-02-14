@@ -16,6 +16,7 @@ import { UserViewComponent } from './components/user-view/user-view.component';
 import { adminGuard } from './services/admin/admin.guard';
 import { UserlistComponent } from './components/userlist/userlist.component';
 import { TicketdescriptionComponent } from './components/ticket-description/ticket-description.component';
+import { FeedBackComponent } from './components/feed-back/feed-back.component';
 
 const routes: Routes = [
   { path: '', component: WelComePageComponent },
@@ -102,6 +103,16 @@ const routes: Routes = [
       {
         path: 'ticket-description/:id',
         component: TicketdescriptionComponent,
+        canActivate: [guardGuard],
+      },
+      {
+        path: 'feed-back',
+        component: FeedBackComponent,
+        canActivate: [guardGuard],
+      },
+      {
+        path: 'feed-back-list',
+        component: FeedBackComponent,
         canActivate: [guardGuard],
       },
     ],
