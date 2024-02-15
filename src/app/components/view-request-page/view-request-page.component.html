@@ -10,6 +10,7 @@
         *ngFor="let chatrequest of ChatRequest; let i = index"
         [ngClass]="requestCount.includes(chatrequest._id) ? 'bg-info' : ''"
       >
+        {{ requestCount.includes(chatrequest._id) }}
         <div>
           <p>
             {{ chatrequest.sender.name }} Is Requisting To Chat With
@@ -46,7 +47,7 @@
     <ol>
       <li
         *ngFor="let ticketrequest of TicketRequest; let i = index"
-        [ngClass]="selectedTicket.includes(ticketrequest._id) ? 'bg-info' : ''"
+        [ngClass]="requestCount.includes(ticketrequest._id) ? 'bg-info' : ''"
       >
         <div>
           <p>

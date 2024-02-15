@@ -22,3 +22,10 @@ export const loadTicketsSuccess = createAction(
   'load tickets api success [Tickets Component]',
   props<{ ticketsData: any }>(),
 );
+export const chatRequests = createAction(
+  'chat request increament [ChatBox Component]',
+  props<{ chatRequest: any }>(),
+);
+export const EmptyChatRequests = createAction(
+  'chat request decreament [ChatBox Component]',
+);

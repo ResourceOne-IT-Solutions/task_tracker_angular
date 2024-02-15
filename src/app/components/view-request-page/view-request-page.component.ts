@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { ChatService } from 'src/app/services/chat.service';
 import { Location } from '@angular/common';
 import { Column } from '../dash-board/dash-board.component';
 // import { NgxSpinnerService } from 'ngx-spinner';
 import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
+import { Store } from '@ngrx/store';
+import { EmptyChatRequests } from 'src/app/chat-store/table.actions';
+import { getChatRequests } from 'src/app/chat-store/table.selector';
 
 @Component({
   selector: 'app-view-request-page',
@@ -30,17 +33,19 @@ export class ViewRequestPageComponent {
     private chatservice: ChatService,
     private loader: NgxSpinnerService,
     private location: Location,
+    private store: Store,
+    private cdr: ChangeDetectorRef,
   ) {}
   ngOnInit() {
     this.chatservice.getRaiseTicketMessages().subscribe((res) => {
       this.raiseTicketMessages = res;
     });
-    this.chatservice.RequestCount.subscribe((res) => {
-      if (res.length) {
-        this.requestCount = res;
+    this.store.select(getChatRequests).subscribe((res: any) => {
+      if (res && res.length) {
+        this.requestCount = [...res];
       }
     });
-    this.chatservice.chatRequestCount('');
+    this.store.dispatch(EmptyChatRequests());
     this.loader.show();
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.currentuser = res;
@@ -68,6 +73,7 @@ export class ViewRequestPageComponent {
       this.loader.hide();
     });
     this.chatservice.getSocketData('chatRequest').subscribe((res) => {
+      this.requestCount.push(res._id);
       this.ChatRequest.unshift(res);
     });
     this.chatservice.getAdminChatMessages().subscribe((res: any) => {
@@ -79,9 +85,7 @@ export class ViewRequestPageComponent {
       this.loader.hide();
     });
     this.chatservice.getSocketData('ticketsRequest').subscribe((res) => {
-      if (res.length) {
-        this.selectedTicket = res;
-      }
+      this.requestCount.push(res._id);
       this.TicketRequest.unshift(res);
     });
     this.time = this.chatservice.getFormattedTime();

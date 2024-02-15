@@ -12,17 +12,8 @@ export class ChatService {
   RoleData = new BehaviorSubject('');
   chatRequest = new BehaviorSubject('');
   TotalUser = new BehaviorSubject('');
-  RequestCount = new BehaviorSubject([]);
   private socket: Socket;
-  chatRequestCount(data: any) {
-    if (data) {
-      const currentdata = this.RequestCount.value;
-      const value: any = [...currentdata, data];
-      this.RequestCount.next(value);
-    } else {
-      this.RequestCount.next([]);
-    }
-  }
+
   getRoleData(role: any) {
     this.RoleData.next(role);
   }
@@ -40,7 +31,7 @@ export class ChatService {
   BE_SERVER = 'https://task-tracker-server-2njm.onrender.com';
   BE_LOCAL = 'http://192.168.10.30:1234';
   BE_LOCAL2 = 'http://192.168.29.109:1234';
-  BE_URL = this.BE_SERVER;
+  BE_URL = this.BE_LOCAL;
   constructor(private http: HttpClient) {
     this.socket = io(this.BE_URL, {
       transports: ['websocket', 'polling', 'flashsocket'],

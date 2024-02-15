@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Store } from '@ngrx/store';
+import { getChatRequests } from 'src/app/chat-store/table.selector';
 import { DialogInfoComponent } from 'src/app/reusable/dialog-info/dialog-info.component';
 import { ChatService } from 'src/app/services/chat.service';
 import { IdleTimeService } from 'src/app/services/idle/idle-time.service';
@@ -48,6 +50,7 @@ export class NavBarComponent {
     private fb: FormBuilder,
     private idle: IdleTimeService,
     private dialog: MatDialog,
+    private store: Store,
   ) {
     this.clientForm = this.fb.group({
       name: ['', Validators.required],
@@ -66,8 +69,8 @@ export class NavBarComponent {
     });
   }
   ngOnInit() {
-    this.chatservice.RequestCount.subscribe((res) => {
-      this.requestCount = res;
+    this.store.select(getChatRequests).subscribe((res: any) => {
+      this.requestCount = [...res];
     });
     this.chatservice
       .getSocketData('userRequestApproved')
@@ -196,7 +199,6 @@ export class NavBarComponent {
     this.router.navigate(['Chat-Box'], { relativeTo: this.route });
   }
   ViewRequest() {
-    this.requestCount.length = 0;
     this.router.navigate(['view-requestPage'], { relativeTo: this.route });
   }
   ViewTicket() {

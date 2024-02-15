@@ -7,6 +7,8 @@ import { DialogConfig } from '@angular/cdk/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogModelComponent } from './reusable/dialog-model/dialog-model.component';
 import { DialogInfoComponent } from './reusable/dialog-info/dialog-info.component';
+import { Store } from '@ngrx/store';
+import { chatRequests } from './chat-store/table.actions';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +23,7 @@ export class AppComponent implements OnInit {
     private chatservice: ChatService,
     private idleservice: IdleTimeService,
     private dialog: MatDialog,
+    private store: Store,
   ) {}
   ngOnInit(): void {
     this.chatservice.UserLoginData.subscribe((res) => {
@@ -54,7 +57,8 @@ export class AppComponent implements OnInit {
 
     this.chatservice.getSocketData('chatRequest').subscribe((res) => {
       if (this.currentUser.isAdmin) {
-        this.chatservice.chatRequestCount(res._id);
+        console.log('request');
+        this.store.dispatch(chatRequests({ chatRequest: res._id }));
         const message = `${res.sender.name} is Requisting to Chat with ${res.opponent.name}`;
         this.dialog.open(DialogInfoComponent, {
           data: {
@@ -67,6 +71,7 @@ export class AppComponent implements OnInit {
       }
     });
     this.chatservice.getSocketData('ticketsRequest').subscribe((res) => {
+      this.store.dispatch(chatRequests({ chatRequest: res._id }));
       if (this.currentUser.isAdmin) {
         const message = `${res.sender.name} is Requisting to Ticket with ${res.client.name}`;
         this.dialog.open(DialogInfoComponent, {

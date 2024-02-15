@@ -3,19 +3,24 @@
   right: 25px;
   bottom: 25px;
   background-color: white;
+  width: auto; /* Adjust width as needed */
+  max-width: 380px; /* Limit the maximum width */
+}
 
-  .info-title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .actions {
-    justify-content: end;
-  }
-  > .content {
-    padding-bottom: 0;
-    max-width: 380px;
-    text-align: center;
-    width: 100%;
-  }
+.info-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px;
+}
+
+.content {
+  padding: 8px;
+  text-align: center;
 }
