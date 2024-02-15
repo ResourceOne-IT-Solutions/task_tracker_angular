@@ -1,0 +1,20 @@
+<div *ngIf="data" class="info" [ngClass]="data.class">
+  <div mat-dialog-title class="info-title">
+    <span>
+      {{ data.title }}
+    </span>
+    <mat-icon mat-dialog-close="true" class="color-danger">clear</mat-icon>
+  </div>
+  <div class="content" mat-dialog-content>
+    <p>{{ data.message }}</p>
+  </div>
+  <div class="actions" mat-dialog-actions>
+    <button
+      class="btn btn-sm btn-danger"
+      mat-dialog-close="true"
+      *ngIf="data.btn1"
+    >
+      {{ data.btn1 }}
+    </button>
+  </div>
+</div>

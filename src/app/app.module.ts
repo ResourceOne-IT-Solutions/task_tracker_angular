@@ -44,6 +44,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { ticketsRuducer } from './chat-store/table.reducer';
 import { TicketsEffect } from './chat-store/table.effect';
 import { FeedBackComponent } from './components/feed-back/feed-back.component';
+import { DialogInfoComponent } from './reusable/dialog-info/dialog-info.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { FeedBackComponent } from './components/feed-back/feed-back.component';
     TicketdescriptionComponent,
     DialogModelComponent,
     FeedBackComponent,
+    DialogInfoComponent,
   ],
   imports: [
     BrowserModule,
@@ -85,6 +87,7 @@ import { FeedBackComponent } from './components/feed-back/feed-back.component';
     MatIconModule,
     MatCardModule,
     MatDialogModule,
+
     NgbModule,
     MatGridListModule,
     MatSelectModule,

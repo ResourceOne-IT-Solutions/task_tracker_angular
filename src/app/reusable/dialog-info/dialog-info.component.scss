@@ -1,0 +1,21 @@
+.info {
+  position: fixed;
+  right: 25px;
+  bottom: 25px;
+  background-color: white;
+
+  .info-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .actions {
+    justify-content: end;
+  }
+  > .content {
+    padding-bottom: 0;
+    max-width: 380px;
+    text-align: center;
+    width: 100%;
+  }
+}

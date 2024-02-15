@@ -7,6 +7,8 @@ import { ActivatedRoute } from '@angular/router';
 import { DashBoardComponent } from '../dash-board/dash-board.component';
 import { UserPageComponent } from '../user-page/user-page.component';
 import { Store } from '@ngrx/store';
+import { DialogInfoComponent } from 'src/app/reusable/dialog-info/dialog-info.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-main-dashboard',
@@ -22,11 +24,19 @@ export class MainDashboardComponent {
     private idleSerive: IdleTimeService,
     private route: ActivatedRoute,
     private store: Store,
+    private dialog: MatDialog,
   ) {}
   ngOnInit() {
     this.data = localStorage.getItem('currentTaskUser');
     this.chatservice.getSocketData('error').subscribe((res) => {
-      alert(res);
+      this.dialog.open(DialogInfoComponent, {
+        data: {
+          title: 'Socket Error',
+          class: 'error',
+          message: res,
+          btn1: 'Close',
+        },
+      });
     });
     this.userData$ = this.chatservice.UserLoginData.pipe(
       map((res: any) => {
@@ -39,9 +49,15 @@ export class MainDashboardComponent {
     );
     this.chatservice.getSocketData('adminMessageToAll').subscribe((res) => {
       if (!this.isAdmin) {
-        alert(
-          `Send By AdminName: ${res.sender.name} ,    Admin message  : ${res.content}`,
-        );
+        const message = `Send By AdminName: ${res.sender.name} ,    Admin message  : ${res.content}`;
+        this.dialog.open(DialogInfoComponent, {
+          data: {
+            title: 'Admin Message',
+            class: 'info',
+            message: message,
+            btn1: 'Close',
+          },
+        });
       }
     });
   }
