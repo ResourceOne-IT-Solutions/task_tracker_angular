@@ -31,6 +31,7 @@ export class TableComponent {
   @Output() thirdBtnClick = new EventEmitter();
   @Output() clientnameClick = new EventEmitter();
   @Output() descriptionClick = new EventEmitter();
+  @Output() detailsClick = new EventEmitter();
   @Input() tableData: any[] = [];
   @Output() userDetails = new EventEmitter();
   @Output() singleButtonClick = new EventEmitter();
@@ -75,6 +76,9 @@ export class TableComponent {
   }
   Description(data: any) {
     this.descriptionClick.emit(data);
+  }
+  Details(data: any) {
+    this.detailsClick.emit(data);
   }
   openUserDetails(userDetails: any) {
     this.userDetails.emit(userDetails);

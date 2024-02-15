@@ -69,18 +69,46 @@
 </div>
 <!-- <div *ngIf="path === 'feed-back-list'"> -->
 <app-table
-  *ngIf="params == 'feed-back-list'"
+  *ngIf="params == 'feed-back-list' && !FullDetails"
   [data]="feedBackData"
   [tableColumns]="feedbackcolumns"
+  (detailsClick)="GotoFullDetails($event)"
 ></app-table>
-<!-- <p class="text-center fs-2 m-4 fw-lighter">Hey Hi All Thanks you for Visiting..</p>
+
+<div *ngIf="FullDetails">
+  <ngx-spinner
+    bdColor="rgba(0,0,0,0.32)"
+    size="large"
+    color="#8652d5"
+    type="ball-clip-rotate-multiple"
+    [fullScreen]="false"
+  >
+  </ngx-spinner>
+  <div class="d-flex align-items-center">
+    <button class="btn btn-danger m-lg-2" (click)="gotoback()">Back</button>
+    <p class="text-center fs-2 fw-lighter w-100 m-3">
+      Hey Hi {{ SelectedfeedBackData?.sender?.name }} Thanks you for Visiting..
+    </p>
+  </div>
   <div class="feedBack-container d-flex flex-wrap justify-content-center gap-4">
-    <div *ngFor="let feedBacks of feedBackData" class="feedbackData">
-      <p><img src="{{feedBacks.files}}" alt="NoImage"></p>
-      <p><span class="fw-medium">Name: </span> {{feedBacks.sender.name}}</p>
-      <p><span class="fw-medium">Content: </span>{{feedBacks.content}}</p>
-      <p><span class="fw-medium">Time:</span> {{feedBacks.time | date: "dd/MM/yyyy hh:mm a"}}</p>
-      <p><span class="fw-medium">IssueType: </span>{{feedBacks.type}}</p>
+    <div class="feedbackData">
+      <p><img src="{{ SelectedfeedBackData.files }}" alt="NoImage" /></p>
+      <p>
+        <span class="fw-medium">Name: </span>
+        {{ SelectedfeedBackData.sender.name }}
+      </p>
+      <p>
+        <span class="fw-medium">Content: </span
+        >{{ SelectedfeedBackData.content }}
+      </p>
+      <p>
+        <span class="fw-medium">Time:</span>
+        {{ SelectedfeedBackData.time | date: "dd/MM/yyyy hh:mm a" }}
+      </p>
+      <p>
+        <span class="fw-medium">IssueType: </span
+        >{{ SelectedfeedBackData.type }}
+      </p>
     </div>
-  </div> -->
-<!-- </div> -->
+  </div>
+</div>

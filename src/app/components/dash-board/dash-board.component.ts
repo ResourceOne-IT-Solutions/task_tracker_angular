@@ -316,4 +316,6 @@ export interface Column {
   isText?: boolean;
   isLink?: boolean;
   isMouseOver?: boolean;
+  isDetails?: boolean;
+  isfeedBackImg?: boolean;
 }
