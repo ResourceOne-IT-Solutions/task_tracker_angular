@@ -1,4 +1,4 @@
-<div class="feedback-Container" *ngIf="path === 'feed-back'">
+<div class="feedback-Container" *ngIf="params === 'feed-back'">
   <h3 class="fs-3">Hey {{ currentUser.firstName }} Have a great day!</h3>
   <div class="sub-Container">
     <p><span class="fw-medium"> Name:</span> {{ currentUser.firstName }}</p>
@@ -67,6 +67,20 @@
     </button>
   </div>
 </div>
-<div *ngIf="path === 'feed-back-list'">
-  <h1>Hello This Feed Back list</h1>
-</div>
+<!-- <div *ngIf="path === 'feed-back-list'"> -->
+<app-table
+  *ngIf="params == 'feed-back-list'"
+  [data]="feedBackData"
+  [tableColumns]="feedbackcolumns"
+></app-table>
+<!-- <p class="text-center fs-2 m-4 fw-lighter">Hey Hi All Thanks you for Visiting..</p>
+  <div class="feedBack-container d-flex flex-wrap justify-content-center gap-4">
+    <div *ngFor="let feedBacks of feedBackData" class="feedbackData">
+      <p><img src="{{feedBacks.files}}" alt="NoImage"></p>
+      <p><span class="fw-medium">Name: </span> {{feedBacks.sender.name}}</p>
+      <p><span class="fw-medium">Content: </span>{{feedBacks.content}}</p>
+      <p><span class="fw-medium">Time:</span> {{feedBacks.time | date: "dd/MM/yyyy hh:mm a"}}</p>
+      <p><span class="fw-medium">IssueType: </span>{{feedBacks.type}}</p>
+    </div>
+  </div> -->
+<!-- </div> -->
