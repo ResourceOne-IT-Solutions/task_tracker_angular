@@ -1,6 +1,7 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
+import { UserState } from './table.reducer';
 
-const featureState = createFeatureSelector<any>('tickets');
+const featureState = createFeatureSelector<UserState>('tickets');
 export const getTableData = createSelector(
   featureState,
   (state) => state.tableData,
@@ -13,4 +14,9 @@ export const getUserData = createSelector(
 export const getTicketsData = createSelector(
   featureState,
   (state) => state.ticketsData,
+);
+
+export const getChatRequests = createSelector(
+  featureState,
+  (state) => state.chatRequestData,
 );

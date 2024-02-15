@@ -12,17 +12,8 @@ export class ChatService {
   RoleData = new BehaviorSubject('');
   chatRequest = new BehaviorSubject('');
   TotalUser = new BehaviorSubject('');
-  RequestCount = new BehaviorSubject([]);
   private socket: Socket;
-  chatRequestCount(data: any) {
-    if (data) {
-      const currentdata = this.RequestCount.value;
-      const value: any = [...currentdata, data];
-      this.RequestCount.next(value);
-    } else {
-      this.RequestCount.next([]);
-    }
-  }
+
   getRoleData(role: any) {
     this.RoleData.next(role);
   }

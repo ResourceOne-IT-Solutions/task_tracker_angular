@@ -1,5 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import {
+  EmptyChatRequests,
+  chatRequests,
   loadTable,
   loadTableSuccess,
   loadTicketsSuccess,
@@ -13,12 +15,14 @@ export interface UserState {
   tableData: Task[];
   userList: User[];
   ticketsData: Task[];
+  chatRequestData: any[];
 }
 
 export const initialState: UserState = {
   tableData: [],
   userList: [],
   ticketsData: [],
+  chatRequestData: [],
 };
 
 export const ticketsRuducer = createReducer(
@@ -38,5 +42,13 @@ export const ticketsRuducer = createReducer(
   on(loadTicketsSuccess, (state, { ticketsData }) => ({
     ...state,
     ticketsData,
+  })),
+  on(chatRequests, (state, { chatRequest }) => ({
+    ...state,
+    chatRequestData: [...state.chatRequestData, chatRequest],
+  })),
+  on(EmptyChatRequests, (state) => ({
+    ...state,
+    chatRequestData: [],
   })),
 );
