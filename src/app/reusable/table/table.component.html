@@ -55,6 +55,14 @@
               >Client Description</a
             >
           </p>
+          <p>
+            <a
+              href="javascript:void(0)"
+              (click)="Details(element)"
+              *ngIf="disCol.isDetails"
+              >Click Details</a
+            >
+          </p>
           <span *ngIf="disCol.isMultiButton">
             <button
               mat-raised-button
@@ -77,6 +85,13 @@
               {{ disCol.cell(element) }}
             </button>
           </span>
+          <p *ngIf="disCol.isfeedBackImg">
+            <img
+              *ngIf="disCol.cell(element)"
+              src="{{ disCol.cell(element) }}"
+              class="feed-back"
+            />
+          </p>
           <p
             class="d-flex"
             *ngIf="disCol.isImage"

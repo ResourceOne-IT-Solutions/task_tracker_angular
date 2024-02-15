@@ -1,6 +1,8 @@
+import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ChatService } from 'src/app/services/chat.service';
 
 @Component({
@@ -13,6 +15,7 @@ export class FeedBackComponent {
   IssueType = ['Bug', 'Feature', 'Update'];
   'feedBackForm': FormGroup;
   submitted: boolean = false;
+  FullDetails: boolean = false;
   selectedFile: any;
   params: any;
   feedBackData: any;
@@ -32,7 +35,7 @@ export class FeedBackComponent {
     {
       columnDef: 'content',
       header: 'Content',
-      cell: (element: any) => `${element['content']}`,
+      cell: (element: any) => `${element['content'].substring(0, 6) + '..'}`,
       isText: true,
     },
     {
@@ -45,14 +48,24 @@ export class FeedBackComponent {
     {
       columnDef: 'file',
       header: 'Images',
-      cell: (element: any) => `${element['file'] ? element['file'] : 'N/A'}`,
-      isText: true,
+      cell: (element: any) =>
+        `${element['files'].map((val: any) => 'data:image/jpeg;base64,' + val.buffer)}`,
+      isfeedBackImg: true,
+    },
+    {
+      columnDef: 'Details',
+      header: 'Details',
+      cell: (element: any) => {},
+      isDetails: true,
     },
   ];
+  SelectedfeedBackData: any;
   constructor(
     public chatservice: ChatService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
+    private location: Location,
+    private loader: NgxSpinnerService,
   ) {
     this.feedBackForm = this.fb.group({
       content: ['', Validators.required],
@@ -61,19 +74,26 @@ export class FeedBackComponent {
     });
   }
   ngOnInit() {
+    this.loader.show();
     this.params = this.route.snapshot.routeConfig?.path;
     this.chatservice.UserLoginData.subscribe((res) => {
       this.currentUser = res;
     });
     this.chatservice.getFeedBack().subscribe((res: any) => {
       this.feedBackData = res;
-      console.log(res, '35:::::');
     });
+  }
+  GotoFullDetails(data: any) {
+    this.SelectedfeedBackData = data;
+    this.FullDetails = !this.FullDetails;
   }
   SelectedImage(evt: any) {
     this.selectedFile = evt.target.files[0];
     const formData = new FormData();
     formData.append('file', this.selectedFile);
+  }
+  gotoback() {
+    this.location.back();
   }
   SubmitFeedBack() {
     this.submitted = true;
