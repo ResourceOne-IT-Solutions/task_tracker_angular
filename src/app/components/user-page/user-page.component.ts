@@ -14,6 +14,8 @@ import { Column } from '../dash-board/dash-board.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TooltipPosition } from '@angular/material/tooltip';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { DialogInfoComponent } from 'src/app/reusable/dialog-info/dialog-info.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-user-page',
@@ -65,6 +67,7 @@ export class UserPageComponent implements OnInit {
     private modalService: NgbModal,
     private location: LocationStrategy,
     private http: HttpClient,
+    private dialog: MatDialog,
   ) {
     history.pushState(null, '', window.location.href);
     // check if back or forward button is pressed.
@@ -76,7 +79,14 @@ export class UserPageComponent implements OnInit {
   ngOnInit(): void {
     this.url = this.chatservice.BE_URL;
     this.chatservice.getSocketData('ticketRaiseStatus').subscribe((res) => {
-      alert(res);
+      this.dialog.open(DialogInfoComponent, {
+        data: {
+          title: 'Ticket Raise Status',
+          class: 'info',
+          message: res,
+          btn1: 'Close',
+        },
+      });
     });
     setInterval(() => {
       let Estdate = new Date();
@@ -115,9 +125,16 @@ export class UserPageComponent implements OnInit {
       }
     });
     this.chatservice.getSocketData('adminMessageToAll').subscribe((res) => {
-      alert(
-        `Send By AdminName: ${res.sender.name} ,  Admin message  : ${res.content}`,
-      );
+      const message = `Send By AdminName: ${res.sender.name} ,  Admin message  : ${res.content}`;
+
+      this.dialog.open(DialogInfoComponent, {
+        data: {
+          title: 'Admin Message',
+          class: 'info',
+          message: message,
+          btn1: 'Close',
+        },
+      });
       const payload = {
         status: 'DELIVERY',
         messageId: res._id,
@@ -134,19 +151,40 @@ export class UserPageComponent implements OnInit {
     });
 
     this.chatservice.getTicketSocketData('ticketAssigned').subscribe((data) => {
-      alert(`${data.sender.name} assigned you a ticket`);
+      const message = `${data.sender.name} assigned you a ticket`;
+      this.dialog.open(DialogInfoComponent, {
+        data: {
+          title: 'Admin Message',
+          class: 'info',
+          message: message,
+          btn1: 'Close',
+        },
+      });
     });
     this.chatservice
       .getSocketData('resourceAssigned')
       .subscribe(({ resource, sender, ticket, user }) => {
         if (this.currentUser._id === resource.id) {
-          alert(
-            `${user.name} is  needs ur help for the ${ticket.name} ticket, ${sender.name} assigned you as a resource`,
-          );
+          const message = `${user.name} is  needs ur help for the ${ticket.name} ticket, ${sender.name} assigned you as a resource`;
+          this.dialog.open(DialogInfoComponent, {
+            data: {
+              title: 'Admin Message',
+              class: 'info',
+              message: message,
+              btn1: 'Close',
+            },
+          });
         } else if (this.currentUser._id === user.id) {
-          alert(
-            `${sender.name} assigned  ${resource.name} as a resource for your ${ticket.name} ticket`,
-          );
+          const message = `${sender.name} assigned  ${resource.name} as a resource for your ${ticket.name} ticket`;
+
+          this.dialog.open(DialogInfoComponent, {
+            data: {
+              title: 'Admin Message',
+              class: 'info',
+              message: message,
+              btn1: 'Close',
+            },
+          });
         }
       });
 

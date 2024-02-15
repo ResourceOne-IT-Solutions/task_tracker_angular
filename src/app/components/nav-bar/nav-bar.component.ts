@@ -1,7 +1,9 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DialogInfoComponent } from 'src/app/reusable/dialog-info/dialog-info.component';
 import { ChatService } from 'src/app/services/chat.service';
 import { IdleTimeService } from 'src/app/services/idle/idle-time.service';
 
@@ -45,6 +47,7 @@ export class NavBarComponent {
     private modalService: NgbModal,
     private fb: FormBuilder,
     private idle: IdleTimeService,
+    private dialog: MatDialog,
   ) {
     this.clientForm = this.fb.group({
       name: ['', Validators.required],
@@ -89,7 +92,15 @@ export class NavBarComponent {
         } else {
           this.userDetails.newMessages[res.room] = 1;
         }
-        alert(`you got new ${res.type} from ${res.from.name}`);
+        const message = `you got new ${res.type} from ${res.from.name}`;
+        this.dialog.open(DialogInfoComponent, {
+          data: {
+            title: 'Admin Message',
+            class: 'info',
+            message: message,
+            btn1: 'Close',
+          },
+        });
         this.roomCount = Object.keys(this.userDetails.newMessages).length;
         this.chatservice.UserLogin(this.userDetails);
       }
