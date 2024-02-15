@@ -92,6 +92,9 @@ export class ChatService {
   getAdminChatMessages() {
     return this.get('/message/admin-messages');
   }
+  getRaiseTicketMessages() {
+    return this.get('/message/ticket-raise-messages');
+  }
 
   // tickets api calls
 
@@ -204,7 +207,7 @@ export class ChatService {
       room: string;
       phone: string;
     }>((observer) => {
-      this.socket.on(eventName, (data: any) => {
+      this.socket.off(eventName).on(eventName, (data: any) => {
         observer.next(data);
       });
 

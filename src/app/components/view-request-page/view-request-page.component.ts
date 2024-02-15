@@ -13,6 +13,7 @@ import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
 export class ViewRequestPageComponent {
   type = true;
   requestCount: any = [];
+  selectedTicket: any = [];
   time: any;
   date: any;
   isChatRequest = true;
@@ -23,6 +24,7 @@ export class ViewRequestPageComponent {
   chatDetails: any;
   currentuser: any;
   adminMessages: any;
+  raiseTicketMessages: any;
   totalUser: any;
   constructor(
     private chatservice: ChatService,
@@ -30,6 +32,9 @@ export class ViewRequestPageComponent {
     private location: Location,
   ) {}
   ngOnInit() {
+    this.chatservice.getRaiseTicketMessages().subscribe((res) => {
+      this.raiseTicketMessages = res;
+    });
     this.chatservice.RequestCount.subscribe((res) => {
       if (res.length) {
         this.requestCount = res;
@@ -74,6 +79,9 @@ export class ViewRequestPageComponent {
       this.loader.hide();
     });
     this.chatservice.getSocketData('ticketsRequest').subscribe((res) => {
+      if (res.length) {
+        this.selectedTicket = res;
+      }
       this.TicketRequest.unshift(res);
     });
     this.time = this.chatservice.getFormattedTime();

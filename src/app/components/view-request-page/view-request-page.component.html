@@ -44,7 +44,10 @@
   <div class="TicketREquest position-relative">
     <h1>Ticket Request</h1>
     <ol>
-      <li *ngFor="let ticketrequest of TicketRequest; let i = index">
+      <li
+        *ngFor="let ticketrequest of TicketRequest; let i = index"
+        [ngClass]="selectedTicket.includes(ticketrequest._id) ? 'bg-info' : ''"
+      >
         <div>
           <p>
             {{ ticketrequest.sender.name }} Is Requisting For
@@ -93,6 +96,33 @@
             <p>Delivered To : {{ messages.deliveredTo.length }}</p>
             <p>Seen By : {{ messages.viewedBy.length }}</p>
           </div>
+        </div>
+      </li>
+
+      <ngx-spinner
+        bdColor="rgba(0,0,0,0.32)"
+        size="large"
+        color="#8652d5"
+        type="ball-clip-rotate-multiple"
+        [fullScreen]="false"
+      >
+      </ngx-spinner>
+      <h3 *ngIf="adminMessages <= 0">No Request Messages</h3>
+    </ol>
+  </div>
+  <div class="TicketREquest position-relative px-2">
+    <h1>TicketRaise Messages</h1>
+    <ol>
+      <li *ngFor="let messages of raiseTicketMessages; let i = index">
+        <div class="message">
+          <div>
+            <p>Message : {{ messages.content }}</p>
+            <p>Sent By :{{ messages.sender.name }}</p>
+            <p>Time :{{ messages.time }}</p>
+          </div>
+        </div>
+        <div *ngIf="messages.isPending == true" class="isPending">
+          <button class="btn btn-sm btn-success">Approved</button>
         </div>
       </li>
 
