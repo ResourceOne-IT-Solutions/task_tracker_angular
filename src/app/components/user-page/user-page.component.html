@@ -62,34 +62,6 @@
             >
           </p>
         </div>
-        <div class="d-flex">
-          <button
-            class="btn btn-info"
-            (click)="requestChat()"
-            *ngIf="!isAdminView"
-          >
-            Request Chat with User
-          </button>
-        </div>
-        <div class="requestchat" *ngIf="requestchat">
-          <mat-form-field>
-            <mat-select
-              placeholder="Select user"
-              (selectionChange)="selectuser($event.value)"
-            >
-              <mat-option [value]="user" *ngFor="let user of userList">{{
-                chatservice.getFullName(user)
-              }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <button
-            *ngIf="requestchat"
-            class="btn btn-warning admin"
-            (click)="sendadmin()"
-          >
-            send Admin
-          </button>
-        </div>
       </div>
       <div class="d-flex flex-column justify-content-around">
         <div>
@@ -100,6 +72,13 @@
           <p class="tickets">Total Tickets : {{ userTickets.length }}</p>
         </div>
         <div>
+          <button
+            class="btn btn-info"
+            (click)="requestChat()"
+            *ngIf="!isAdminView"
+          >
+            Request Chat with User
+          </button>
           <button class="btn btn-info ms-2">
             <a [routerLink]="['./user-tickets']" class="text-decoration-none"
               >Today Tickets</a
@@ -111,6 +90,25 @@
               >Helped Tickets</a
             >
           </button>
+          <div class="requestchat" *ngIf="requestchat">
+            <mat-form-field>
+              <mat-select
+                placeholder="Select user"
+                (selectionChange)="selectuser($event.value)"
+              >
+                <mat-option [value]="user" *ngFor="let user of userList">{{
+                  chatservice.getFullName(user)
+                }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button
+              *ngIf="requestchat"
+              class="btn btn-warning admin"
+              (click)="sendadmin()"
+            >
+              send Admin
+            </button>
+          </div>
         </div>
         <div class="timezone d-flex">
           <div class="countryTime">

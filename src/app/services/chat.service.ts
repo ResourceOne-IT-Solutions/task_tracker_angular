@@ -17,6 +17,7 @@ export class ChatService {
   chatRequestCount(data: any) {
     if (data) {
       const currentdata = this.RequestCount.value;
+      console.log(currentdata, '20::::');
       const value: any = [...currentdata, data];
       this.RequestCount.next(value);
     } else {
