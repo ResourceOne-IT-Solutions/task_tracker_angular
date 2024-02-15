@@ -64,7 +64,7 @@ export class NavBarComponent {
   }
   ngOnInit() {
     this.chatservice.RequestCount.subscribe((res) => {
-      this.requestCount.push(res);
+      this.requestCount = res;
     });
     this.chatservice
       .getSocketData('userRequestApproved')

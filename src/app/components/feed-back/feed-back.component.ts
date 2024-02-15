@@ -14,7 +14,41 @@ export class FeedBackComponent {
   'feedBackForm': FormGroup;
   submitted: boolean = false;
   selectedFile: any;
-  path: any;
+  params: any;
+  feedBackData: any;
+  feedbackcolumns = [
+    {
+      columnDef: 'name',
+      header: 'Name',
+      cell: (element: any) => `${this.chatservice.getFullName(element.sender)}`,
+      isText: true,
+    },
+    {
+      columnDef: 'type',
+      header: 'Issue Type',
+      cell: (element: any) => `${element['type']}`,
+      isText: true,
+    },
+    {
+      columnDef: 'content',
+      header: 'Content',
+      cell: (element: any) => `${element['content']}`,
+      isText: true,
+    },
+    {
+      columnDef: 'time',
+      header: 'Update Time',
+      cell: (element: any) =>
+        `${new Date(element['time']).toLocaleDateString() + ' -- ' + new Date(element['time']).toLocaleTimeString()}`,
+      isText: true,
+    },
+    {
+      columnDef: 'file',
+      header: 'Images',
+      cell: (element: any) => `${element['file'] ? element['file'] : 'N/A'}`,
+      isText: true,
+    },
+  ];
   constructor(
     public chatservice: ChatService,
     private fb: FormBuilder,
@@ -27,9 +61,13 @@ export class FeedBackComponent {
     });
   }
   ngOnInit() {
-    this.path = this.route.snapshot.routeConfig?.path;
+    this.params = this.route.snapshot.routeConfig?.path;
     this.chatservice.UserLoginData.subscribe((res) => {
       this.currentUser = res;
+    });
+    this.chatservice.getFeedBack().subscribe((res: any) => {
+      this.feedBackData = res;
+      console.log(res, '35:::::');
     });
   }
   SelectedImage(evt: any) {
