@@ -67,19 +67,43 @@
             *ngFor="let label of pieChartLabels; let i = index"
           >
             <span [style.color]="pieChartColors[i]">&#9632;</span>
-            {{ label }}: {{ pieChartData[i] }}
+            {{ label }}: {{ TotalTicketsPiechart[i] }}
           </div>
         </div>
-        <canvas id="pieChartTicket"> </canvas>
+        <app-pie-chart
+          *ngIf="TotalTicketsPiechart"
+          [pieChartId]="'totalTicketschart'"
+          [PieChartData]="TotalTicketsPiechart"
+        ></app-pie-chart>
         <p>Total Tickets : {{ ticketData.length }}</p>
       </div>
     </div>
   </div>
   <div class="d-flex justify-content-around">
-    <div class="piechartRange">
+    <div class="pieChart">
+      <h2>Users Status</h2>
+      <div class="chart-legend">
+        <div
+          class="grid-item"
+          *ngFor="let label of UserpieChartLabels; let i = index"
+        >
+          <span [style.color]="pieChartColors[i]">&#9632;</span>
+          {{ label }}: {{ UserListchart[i] }}
+        </div>
+      </div>
+      <app-pie-chart
+        *ngIf="UserListchart"
+        [pieChartId]="'Userpiechart'"
+        [PieChartData]="UserListchart"
+      ></app-pie-chart>
+      <p>Total Users : {{ UserListData.length }}</p>
+    </div>
+
+    <!-- <div class="piechartRange">
       <h3 class="fw-bold">Users status</h3>
       <canvas id="Userpiechart"></canvas>
-    </div>
+      <app-pie-chart *ngIf="UserListchart" [pieChartId]="'Userpiechart'" [PieChartData]="UserListchart"></app-pie-chart>
+    </div> -->
     <div>
       <div>
         <button class="btn btn-primary m-2 sample" [routerLink]="['user-list']">

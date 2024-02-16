@@ -25,6 +25,7 @@ import { Store, select } from '@ngrx/store';
 import { getTableData, getUserData } from 'src/app/chat-store/table.selector';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { Chart } from 'chart.js';
 
 @Component({
   selector: 'app-userlist',
@@ -49,12 +50,10 @@ export class UserlistComponent {
   userDetails: any;
   userModelData: any;
   addNewUser: boolean = false;
-  displayClient: boolean = true;
   loadingStaus: boolean = false;
   selectLocation: any = null;
   searchFilter: any;
   tableData: any = [];
-  todaysTickets: any = [];
   addResourceData: any = [];
   genders: any = ['Male', 'Female', 'Not Specified'];
   MockUsers: any;
@@ -84,6 +83,23 @@ export class UserlistComponent {
     ...userTicketColumns,
   ];
   helpedTickets: Array<Column> = [...ticketColumns, ...description];
+  pieChartLabels: string[] = [
+    'Closed',
+    'Assigned',
+    'Pending',
+    'In Progress',
+    'Not Assigned',
+    'Improper Requirment',
+  ];
+  pieChartColors: string[] = [
+    'blue',
+    'green',
+    'red',
+    'gray',
+    'yellow',
+    'purple',
+  ];
+  ChartData: any = [];
   params: any;
   MockticketData: any;
   MockClientData: any;
@@ -141,6 +157,44 @@ export class UserlistComponent {
     });
     this.store.pipe(select(getTableData)).subscribe((res: any) => {
       this.tableData = res;
+      // if(this.tableData.length){
+      const resolvedTickets = this.chatservice.getTicketStatus(
+        this.tableData,
+        'resolved',
+      );
+      const pendingTickets = this.chatservice.getTicketStatus(
+        this.tableData,
+        'pending',
+      );
+      const inprogressTickets = this.chatservice.getTicketStatus(
+        this.tableData,
+        'in progress',
+      );
+      const assigned = this.chatservice.getTicketStatus(
+        this.tableData,
+        'assigned',
+      );
+      const improper = this.chatservice.getTicketStatus(
+        this.tableData,
+        'improper requirment',
+      );
+      const notAssigned = this.chatservice.getTicketStatus(
+        this.tableData,
+        'not assigned',
+      );
+      const data = [
+        resolvedTickets,
+        assigned,
+        pendingTickets,
+        inprogressTickets,
+        notAssigned,
+        improper,
+      ];
+      this.ChartData = {
+        colors: this.pieChartColors,
+        labels: this.pieChartLabels,
+        data: data,
+      };
     });
   }
   // user form

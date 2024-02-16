@@ -25,6 +25,23 @@ export class ClientTicketsComponent implements OnInit {
   inprogress: any;
   paramId: any;
   clientChart: any;
+  ClientPieChart: any = [];
+  pieChartColors: string[] = [
+    'blue',
+    'gray',
+    'yellow',
+    'green',
+    'red',
+    'purple',
+  ];
+  pieChartLabels: string[] = [
+    'Resoved',
+    'NotAssigned',
+    'Assigned',
+    'Pending',
+    'Improper',
+    'InProgress',
+  ];
   constructor(
     private chatservice: ChatService,
     private location: Location,
@@ -66,56 +83,22 @@ export class ClientTicketsComponent implements OnInit {
             this.clientTicketById,
             'not assigned',
           );
-          this.pieChart(
+          const data = [
             resolvedTickets,
             notAssigned,
             assigned,
             pendingTickets,
             improper,
             inprogressTickets,
-          );
+          ];
+          this.ClientPieChart = {
+            colors: this.pieChartColors,
+            labels: this.pieChartLabels,
+            data: data,
+          };
         }
       });
     }
-  }
-
-  pieChart(
-    resolved: any,
-    notassigned: any,
-    assigned: any,
-    pending: any,
-    improper: any,
-    inprogress: any,
-  ) {
-    if (this.clientChart) {
-      this.clientChart.destroy();
-    }
-    this.clientChart = new Chart('piechart', {
-      type: 'pie',
-      data: {
-        labels: [
-          'Resoved',
-          'NotAssigned',
-          'Assigned',
-          'Pending',
-          'Improper',
-          'InProgress',
-        ],
-        datasets: [
-          {
-            label: this.clientDataTable.firstName,
-            data: [
-              resolved,
-              notassigned,
-              assigned,
-              pending,
-              improper,
-              inprogress,
-            ],
-          },
-        ],
-      },
-    });
   }
   goback() {
     this.location.back();
