@@ -17,7 +17,6 @@ export class TicketsEffect {
       mergeMap(({ params, userId }) => {
         return this.getTableData(params, userId).pipe(
           map((tableData: any) => {
-            console.log(params, userId, tableData, 'data');
             return loadTableSuccess({ tableData });
           }),
         );
@@ -43,10 +42,8 @@ export class TicketsEffect {
       ofType(loadTickets),
       withLatestFrom(this.chatservice.UserLoginData),
       mergeMap(([{ params }, userDetails]) => {
-        console.log(params, userDetails, 'tickets effect');
         return this.getTickes(params, userDetails).pipe(
           map((ticketsData: any) => {
-            console.log('api data', ticketsData);
             return loadTicketsSuccess({ ticketsData });
           }),
         );
@@ -55,11 +52,9 @@ export class TicketsEffect {
   );
 
   private getTickes(params: any, userDetails: any) {
-    console.log(params, userDetails, 'get tickets');
     if (!userDetails.isAdmin && !params) {
       return this.chatservice.get(`/tickets/user/${userDetails._id}`);
     } else if (params) {
-      console.log('helloo');
       return this.chatservice.get(`/tickets/client/${params}`);
     } else {
       return this.chatservice.get(`/tickets`);

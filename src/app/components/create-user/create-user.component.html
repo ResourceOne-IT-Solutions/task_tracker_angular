@@ -328,13 +328,13 @@
               </div>
               <div
                 class="text-end"
-                [ngClass]="creteuserError || isAccountcreate ? 'footer' : ''"
+                [ngClass]="createuserError || isAccountcreate ? 'footer' : ''"
               >
                 <p class="text-primary" *ngIf="isAccountcreate">
                   Account Created Successful
                 </p>
-                <p class="text-danger" *ngIf="creteuserError">
-                  {{ creteuserError }}
+                <p class="text-danger" *ngIf="createuserError">
+                  {{ createuserError }}
                 </p>
 
                 <button class="btn btn-primary" (click)="createNewUser()">

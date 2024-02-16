@@ -4,14 +4,32 @@
   width: 40%;
   margin: 26px auto;
   border-radius: 5px;
+
   .sub-Container {
     padding: 5px 30px;
   }
 }
+
 .feedBack-container {
   .feedbackData {
     width: 80%;
     padding: 9px;
     border-radius: 5px;
+  }
+}
+
+.vinod {
+  &::ng-deep {
+    > div {
+      .feed-back {
+        max-width: 100px;
+        min-height: 50px;
+        max-height: 80px;
+
+        img {
+          width: 100%;
+        }
+      }
+    }
   }
 }
