@@ -35,7 +35,6 @@ export class DashBoardComponent {
   userForm!: FormGroup;
   clientForm!: FormGroup;
   TicketCreationForm!: FormGroup;
-  pieChartData: number[] = [];
   pieChartLabels: string[] = [
     'Closed',
     'Assigned',
@@ -76,6 +75,8 @@ export class DashBoardComponent {
     'right',
   ];
   position = new FormControl(this.positionOptions[0]);
+  TotalTicketsPiechart: any = [];
+  UserListchart: any = [];
   constructor(
     public chatservice: ChatService,
     private router: Router,
@@ -88,18 +89,9 @@ export class DashBoardComponent {
     this.chatservice.UserLoginData.subscribe((res: User | undefined) => {
       this.adminDetails = res;
     });
-
-    // this.chatservice.getSocketData('chatRequest').subscribe((res) => {
-    //   const message = `${res.sender.name} is Requisting to Chat with ${res.opponent.name}`;
-    //   alert(message);
-    // });
     this.chatservice.getSocketData('statusUpdate').subscribe((res: User) => {
       this.adminDetails = res;
     });
-    // this.chatservice.getSocketData('ticketsRequest').subscribe((res) => {
-    //   const message = `${res.sender.name} is Requisting for ${res.client.name} Tickets`;
-    //   alert(message);
-    // });
     this.chatservice.getAllTickets().subscribe((res: Task[]) => {
       this.ticketData = res;
       this.todaysTickets = this.ticketData.filter(
@@ -131,14 +123,19 @@ export class DashBoardComponent {
         this.ticketData,
         'not assigned',
       );
-      this.pieChart(
+      const data = [
         resolvedTickets,
         assigned,
         pendingTickets,
         inprogressTickets,
         notAssigned,
         improper,
-      );
+      ];
+      this.TotalTicketsPiechart = {
+        colors: this.pieChartColors,
+        labels: this.pieChartLabels,
+        data: data,
+      };
     });
 
     this.dropdownSettings = {
@@ -168,7 +165,12 @@ export class DashBoardComponent {
         this.UserListData,
         'on ticket',
       );
-      this.UserpieChart(Avalible, Offline, Break, OnTicket);
+      const data = [Avalible, Offline, Break, OnTicket];
+      this.UserListchart = {
+        colors: this.UserpieChartColors,
+        labels: this.UserpieChartLabels,
+        data: data,
+      };
     });
 
     setInterval(() => {
@@ -186,42 +188,10 @@ export class DashBoardComponent {
       });
     }, 1000);
   }
-
-  ngAfterViewInit() {
-    this.UserpieChart(0, 0, 0, 0);
-  }
-
-  UserpieChart(avalible: any, offline: any, breakk: any, Onticket: any) {
-    this.destroyPieChart();
-    const canvas: any = document.getElementById('Userpiechart');
-    this.chat = new Chart(canvas, {
-      type: 'pie',
-      data: {
-        labels: this.UserpieChartLabels,
-        datasets: [
-          {
-            data: [avalible, offline, breakk, Onticket],
-            backgroundColor: this.UserpieChartColors,
-          },
-        ],
-      },
-    });
-  }
-
-  private destroyPieChart() {
-    if (this.chat) {
-      this.chat.destroy();
-    }
-  }
   openPopup(content: any): void {
     this.modalService.open(content);
   }
-  /// admin status
-
-  selectChange(data: any) {}
-
   // client functions
-
   sendMessageToAll() {
     this.modelHeader = 'request ';
     this.openPopup(this.requestTicketmodal);
@@ -246,45 +216,6 @@ export class DashBoardComponent {
       return { maxLengthExceeded: true };
     }
     return null;
-  }
-
-  // tickets piechart
-  pieChart(
-    resolved: any,
-    assigned: any,
-    pending: any,
-    inprogress: any,
-    notAssigned: any,
-    improper: any,
-  ) {
-    this.pieChartData = [
-      resolved,
-      assigned,
-      pending,
-      inprogress,
-      notAssigned,
-      improper,
-    ];
-    new Chart('pieChartTicket', {
-      type: 'pie',
-      data: {
-        labels: this.pieChartLabels,
-        datasets: [
-          {
-            label: '',
-            data: this.pieChartData,
-            backgroundColor: this.pieChartColors,
-          },
-        ],
-      },
-      options: {
-        plugins: {
-          legend: {
-            display: false,
-          },
-        },
-      },
-    });
   }
 
   adminMessage(dismiss: any) {

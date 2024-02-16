@@ -391,13 +391,31 @@
   [tableColumns]="clientColumns"
 >
 </app-table>
-
-<app-table
-  *ngIf="params == 'today tickets'"
-  [data]="tableData"
-  (singleButtonClick)="singleButtonClick($event)"
-  [tableColumns]="ticketColumns"
-></app-table>
+<div *ngIf="params == 'today tickets'">
+  <div class="pieChart">
+    <div class="chart-legend">
+      <div
+        class="grid-item"
+        *ngFor="let label of pieChartLabels; let i = index"
+      >
+        <span [style.color]="pieChartColors[i]">&#9632;</span>
+        {{ label }}: {{ ChartData[i] }}
+      </div>
+    </div>
+    <!-- <canvas id="pieChartTicket"> </canvas> -->
+    <app-pie-chart
+      *ngIf="ChartData"
+      [pieChartId]="'pieChartTicket'"
+      [PieChartData]="ChartData"
+    ></app-pie-chart>
+    <p>Total Tickets : {{ tableData.length }}</p>
+  </div>
+  <app-table
+    [data]="tableData"
+    (singleButtonClick)="singleButtonClick($event)"
+    [tableColumns]="ticketColumns"
+  ></app-table>
+</div>
 <app-table
   *ngIf="params == 'user tickets'"
   [data]="tableData"

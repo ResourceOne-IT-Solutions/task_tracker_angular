@@ -45,6 +45,7 @@ import { ticketsRuducer } from './chat-store/table.reducer';
 import { TicketsEffect } from './chat-store/table.effect';
 import { FeedBackComponent } from './components/feed-back/feed-back.component';
 import { DialogInfoComponent } from './reusable/dialog-info/dialog-info.component';
+import { PieChartComponent } from './reusable/pie-chart/pie-chart.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { DialogInfoComponent } from './reusable/dialog-info/dialog-info.componen
     DialogModelComponent,
     FeedBackComponent,
     DialogInfoComponent,
+    PieChartComponent,
   ],
   imports: [
     BrowserModule,

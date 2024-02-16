@@ -96,12 +96,15 @@ export class FeedBackComponent {
     this.FullDetails = !this.FullDetails;
   }
   SelectedImage(evt: any) {
-    this.selectedFile = evt.target.files[0];
+    this.selectedFile = evt.target.files;
     const formData = new FormData();
     formData.append('file', this.selectedFile);
   }
   gotoback() {
     this.location.back();
+  }
+  goBack() {
+    this.FullDetails = false;
   }
   SubmitFeedBack() {
     this.submitted = true;
@@ -115,7 +118,11 @@ export class FeedBackComponent {
       files: this.selectedFile,
     };
     const formData = new FormData();
-    formData.append('files', this.selectedFile);
+    for (const file of this.selectedFile) {
+      // if (file.size< 300* 1024) {
+      formData.append('files', file);
+      // }
+    }
     formData.append('data', JSON.stringify(payload));
     if (this.feedBackForm.valid) {
       this.chatservice.sendFeedBack(formData).subscribe();
