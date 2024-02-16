@@ -57,7 +57,6 @@ export class AppComponent implements OnInit {
 
     this.chatservice.getSocketData('chatRequest').subscribe((res) => {
       if (this.currentUser.isAdmin) {
-        console.log('request');
         this.store.dispatch(chatRequests({ chatRequest: res._id }));
         const message = `${res.sender.name} is Requisting to Chat with ${res.opponent.name}`;
         this.dialog.open(DialogInfoComponent, {

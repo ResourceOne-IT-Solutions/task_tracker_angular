@@ -6,7 +6,7 @@
     <mat-icon mat-dialog-close="true" class="color-danger">clear</mat-icon>
   </div>
   <div class="content" mat-dialog-content>
-    <p>{{ data.message }}</p>
+    <p [innerHTML]="data.message">{{ data.message }}</p>
   </div>
   <div class="actions" mat-dialog-actions>
     <button
