@@ -13,8 +13,14 @@ export class DialogInfoComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {}
   ngOnInit() {
-    setTimeout(() => {
-      this.dialogRef.close();
-    }, 5000);
+    this.dialogRef.updatePosition({
+      bottom: '25px',
+      right: '25px',
+    });
+    if (this.data.title !== 'Credentials') {
+      setTimeout(() => {
+        this.dialogRef.close();
+      }, 5000);
+    }
   }
 }

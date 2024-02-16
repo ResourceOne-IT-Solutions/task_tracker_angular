@@ -238,9 +238,11 @@ export class DashBoardComponent {
 }
 
 export interface Column {
+  isTemplate?: boolean;
   columnDef: string;
   header: string;
   cell: Function;
+  click?: Function;
   isMultiButton?: boolean;
   isButton?: boolean;
   isImage?: boolean;

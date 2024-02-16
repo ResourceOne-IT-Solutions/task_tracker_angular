@@ -32,84 +32,84 @@
             </button>
           </span>
         </th>
-        <td mat-cell *matCellDef="let element">
-          <span (click)="clientNameClick(element)" *ngIf="disCol.isText">
-            {{ disCol.cell(element) }}
-          </span>
-          <div>
-            <span
-              matTooltip=" click here to client page"
-              aria-label="Displays a tooltip"
-              style="cursor: pointer"
-              (click)="clientNameClick(element)"
-              *ngIf="disCol.isMouseOver"
-            >
+        <tr>
+          <td mat-cell *matCellDef="let element">
+            <span (click)="clientNameClick(element)" *ngIf="disCol.isText">
               {{ disCol.cell(element) }}
             </span>
-          </div>
-          <p>
-            <a
-              href="javascript:void(0)"
-              (click)="Description(element)"
-              *ngIf="disCol.isLink"
-              >Client Description</a
+            <div>
+              <span
+                matTooltip=" click here to client page"
+                aria-label="Displays a tooltip"
+                style="cursor: pointer"
+                (click)="clientNameClick(element)"
+                *ngIf="disCol.isMouseOver"
+              >
+                {{ disCol.cell(element) }}
+              </span>
+            </div>
+            <p>
+              <a
+                href="javascript:void(0)"
+                (click)="Description(element)"
+                *ngIf="disCol.isLink"
+                >Client Description</a
+              >
+            </p>
+            <p>
+              <a
+                href="javascript:void(0)"
+                (click)="Details(element)"
+                *ngIf="disCol.isDetails"
+                >Click Details</a
+              >
+            </p>
+            <span *ngIf="disCol.isMultiButton">
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="btn1Click(element)"
+              >
+                {{ disCol.cell("btn1") }}
+              </button>
+              <button
+                mat-raised-button
+                color="warn"
+                (click)="btn2Click(element)"
+              >
+                {{ disCol.cell("btn2") }}
+              </button>
+            </span>
+            <span *ngIf="disCol.isButton">
+              <button
+                mat-raised-button
+                color="primary"
+                [disabled]="disCol.cell(element) === 'Closed'"
+                (click)="onClick(element, disCol.cell(element))"
+              >
+                {{ disCol.cell(element) }}
+              </button>
+            </span>
+            <p *ngIf="disCol.isTemplate" [innerHTML]="disCol.cell(element)"></p>
+            <p
+              class="d-flex"
+              *ngIf="disCol.isImage"
+              (click)="openUserDetails(element)"
             >
-          </p>
-          <p>
-            <a
-              href="javascript:void(0)"
-              (click)="Details(element)"
-              *ngIf="disCol.isDetails"
-              >Click Details</a
-            >
-          </p>
-          <span *ngIf="disCol.isMultiButton">
-            <button
-              mat-raised-button
-              color="primary"
-              (click)="btn1Click(element)"
-            >
-              {{ disCol.cell("btn1") }}
-            </button>
-            <button mat-raised-button color="warn" (click)="btn2Click(element)">
-              {{ disCol.cell("btn2") }}
-            </button>
-          </span>
-          <span *ngIf="disCol.isButton">
-            <button
-              mat-raised-button
-              color="primary"
-              [disabled]="disCol.cell(element) === 'Closed'"
-              (click)="onClick(element, disCol.cell(element))"
-            >
-              {{ disCol.cell(element) }}
-            </button>
-          </span>
-          <p *ngIf="disCol.isfeedBackImg">
-            <img
-              *ngIf="disCol.cell(element)"
-              src="{{ disCol.cell(element) }}"
-              class="feed-back"
-            />
-          </p>
-          <p
-            class="d-flex"
-            *ngIf="disCol.isImage"
-            (click)="openUserDetails(element)"
-          >
-            <img
-              *ngIf="disCol.cell(element)"
-              src="{{ disCol.cell(element) }}"
-              class="profileImage"
-            />
-            <img
-              *ngIf="!disCol.cell(element)"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU"
-              class="profileImage"
-            />
-            <span [ngClass]="element.isActive ? 'online' : 'offline'"></span>
-          </p>
-        </td>
+              <img
+                *ngIf="disCol.cell(element)"
+                src="{{ disCol.cell(element) }}"
+                class="profileImage"
+              />
+              <img
+                *ngIf="!disCol.cell(element)"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU"
+                class="profileImage"
+              />
+              <span [ngClass]="element.isActive ? 'online' : 'offline'"></span>
+            </p>
+          </td>
+        </tr>
       </ng-container>
       <tr class="mat-row no-data" *matNoDataRow>
         <td class="mat-cell p-3" [attr.colspan]="displayedColumns.length">

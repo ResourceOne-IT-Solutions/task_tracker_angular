@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogInfoComponent } from 'src/app/reusable/dialog-info/dialog-info.component';
 import { ChatService } from 'src/app/services/chat.service';
 
 @Component({
@@ -13,7 +15,7 @@ export class CreateUserComponent {
   submitted: boolean = false;
   currentUser: any;
 
-  creteuserError: any;
+  createuserError: any;
   isAccountcreate: boolean = false;
   maxDate: any;
   profileImage: any;
@@ -21,6 +23,7 @@ export class CreateUserComponent {
   constructor(
     private fb: FormBuilder,
     private chatservice: ChatService,
+    private dialog: MatDialog,
   ) {
     this.maxDate = new Date();
     this.createUserForm = this.fb.group({
@@ -125,16 +128,24 @@ export class CreateUserComponent {
       };
       formData.append('file', this.profileImage);
       formData.append('user', JSON.stringify(Data));
-      console.log(formData, '123:::', Data, this.profileImage);
       this.chatservice.AddNewUsers(formData).subscribe(
         (res) => {
-          console.log(res, '123');
+          this.createuserError = '';
+          const message = `EmpId : ${res.empId} <br /> UserId : ${res.userId}`;
+          this.dialog.open(DialogInfoComponent, {
+            data: {
+              title: 'Credentials',
+              class: 'info',
+              message: message,
+              btn1: 'Close',
+            },
+          });
           this.isAccountcreate = true;
           this.submitted = false;
           this.createUserForm.reset();
         },
         (error) => {
-          this.creteuserError = error.error.error;
+          this.createuserError = error.error.error;
         },
       );
     }
