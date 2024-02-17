@@ -84,7 +84,7 @@ export const footerColumns = [
     cell: (element: any) => `${element['status']}`,
     isText: true,
   },
-] 
+];
 export const Tickets: Array<Column> = [
   {
     columnDef: 'client',
@@ -123,7 +123,6 @@ export const Tickets: Array<Column> = [
     isText: true,
   },
 
- 
   {
     columnDef: 'closedDate',
     header: 'closed date',
@@ -264,7 +263,7 @@ export const userColumns = [
     columnDef: 'firstName',
     header: 'User Name',
     cell: (element: any) => `${getFullName(element)}`,
-    isMouseOver : true
+    isMouseOver: true,
   },
   {
     columnDef: 'email',

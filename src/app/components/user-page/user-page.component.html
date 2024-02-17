@@ -85,10 +85,7 @@
         </div>
         <p class="tickets">Total Tickets : {{ userTickets.length }}</p>
         <div *ngIf="!isAdminView">
-          <button
-            class="btn btn-info"
-            (click)="requestChat()"
-          >
+          <button class="btn btn-info" (click)="requestChat()">
             Request Chat with User
           </button>
           <button class="btn btn-info ms-2">

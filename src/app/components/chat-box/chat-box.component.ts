@@ -65,7 +65,7 @@ export class ChatBoxComponent {
   today: number = Date.now();
   contact: any;
   ExportChatModal: boolean = false;
-  url: string='';
+  url: string = '';
   constructor(
     public chatservice: ChatService,
     private location: Location,
@@ -76,7 +76,7 @@ export class ChatBoxComponent {
     this.today = Date.now();
   }
   ngOnInit() {
-    this.url = this.chatservice.BE_URL+'/profile-images';
+    this.url = this.chatservice.BE_URL + '/profile-images';
     this.loader.show();
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.currentUser = res;

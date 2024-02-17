@@ -30,5 +30,6 @@ export const EmptyChatRequests = createAction(
   'chat request decreament [ChatBox Component]',
 );
 export const loadDeleteApi = createAction(
-  'user list load delete api [UserList Component]',props<{data:any}>()
+  'user list load delete api [UserList Component]',
+  props<{ data: any }>(),
 );

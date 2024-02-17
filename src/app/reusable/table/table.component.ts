@@ -36,8 +36,11 @@ export class TableComponent {
   @Input() tableData: any[] = [];
   @Output() userDetails = new EventEmitter();
   @Output() singleButtonClick = new EventEmitter();
-  url: string ='';
-  constructor(private loader: NgxSpinnerService, private chatservice :ChatService) {}
+  url: string = '';
+  constructor(
+    private loader: NgxSpinnerService,
+    private chatservice: ChatService,
+  ) {}
   positionOptions: TooltipPosition[] = [
     'after',
     'before',
@@ -59,7 +62,7 @@ export class TableComponent {
   ngOnChanges(change: SimpleChanges) {
     if (change['data']) {
       this.dataSource.data = this.data;
-      console.log(this.data, "data")
+      console.log(this.data, 'data');
     }
   }
   ngAfterViewInit() {

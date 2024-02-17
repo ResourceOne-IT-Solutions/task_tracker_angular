@@ -3,8 +3,14 @@
   {{ params | titlecase }}
 </h1>
 <div class="d-flex justify-content-between align-items-center">
-  <input class="form-control w-50 border border-dark m-2" [(ngModel)]="searchFilter" (keyup)="SearchUsers()" type="text"
-    name="search" placeholder="search" />
+  <input
+    class="form-control w-50 border border-dark m-2"
+    [(ngModel)]="searchFilter"
+    (keyup)="SearchUsers()"
+    type="text"
+    name="search"
+    placeholder="search"
+  />
   <button (click)="goback()" class="btn btn-danger h-25 mr-5">
     Go To Back
   </button>
@@ -18,29 +24,72 @@
       <div class="col-md-12">
         <div class="form-group" [formGroup]="userForm">
           <label class="ms-2">First Name</label>
-          <input type="text" placeholder="First Name" class="form-control m-2" formControlName="fname" />
-          <div class="text-danger mb-2 ps-2" *ngIf="userSubmitted && user['fname'].errors">
-            <div *ngIf="user['fname'].errors['required']">First Name is Required</div>
+          <input
+            type="text"
+            placeholder="First Name"
+            class="form-control m-2"
+            formControlName="fname"
+          />
+          <div
+            class="text-danger mb-2 ps-2"
+            *ngIf="userSubmitted && user['fname'].errors"
+          >
+            <div *ngIf="user['fname'].errors['required']">
+              First Name is Required
+            </div>
           </div>
           <label class="ms-2">Last Name</label>
-          <input type="text" placeholder="Last Name" class="form-control m-2" formControlName="lname" />
-          <div class="text-danger mb-2 ps-2" *ngIf="userSubmitted && user['lname'].errors">
-            <div *ngIf="user['lname'].errors['required']">Last Name is Required</div>
+          <input
+            type="text"
+            placeholder="Last Name"
+            class="form-control m-2"
+            formControlName="lname"
+          />
+          <div
+            class="text-danger mb-2 ps-2"
+            *ngIf="userSubmitted && user['lname'].errors"
+          >
+            <div *ngIf="user['lname'].errors['required']">
+              Last Name is Required
+            </div>
           </div>
           <label class="ms-2">Email</label>
-          <input type="email" placeholder="Email" class="form-control m-2" formControlName="email" />
-          <div class="text-danger mb-2 ps-2" *ngIf="userSubmitted && user['email'].errors">
-            <div *ngIf="user['email'].errors['required']">Email is Required</div>
+          <input
+            type="email"
+            placeholder="Email"
+            class="form-control m-2"
+            formControlName="email"
+          />
+          <div
+            class="text-danger mb-2 ps-2"
+            *ngIf="userSubmitted && user['email'].errors"
+          >
+            <div *ngIf="user['email'].errors['required']">
+              Email is Required
+            </div>
           </div>
           <label class="ms-2">Phone Number</label>
-          <input (keypress)="phoneValidation($event)" type="text" placeholder="Phone Number" class="form-control m-2"
-            formControlName="phone" />
-          <div class="text-danger mb-2 ps-2" *ngIf="userSubmitted && user['phone'].errors">
-            <div *ngIf="user['phone'].errors['required']">Phone is Required</div>
+          <input
+            (keypress)="phoneValidation($event)"
+            type="text"
+            placeholder="Phone Number"
+            class="form-control m-2"
+            formControlName="phone"
+          />
+          <div
+            class="text-danger mb-2 ps-2"
+            *ngIf="userSubmitted && user['phone'].errors"
+          >
+            <div *ngIf="user['phone'].errors['required']">
+              Phone is Required
+            </div>
           </div>
           <label class="ms-2">Date Of Birth</label>
           <input type="date" class="form-control m-2" formControlName="dob" />
-          <div class="text-danger mb-2 ps-2" *ngIf="userSubmitted && user['dob'].errors">
+          <div
+            class="text-danger mb-2 ps-2"
+            *ngIf="userSubmitted && user['dob'].errors"
+          >
             <div *ngIf="user['dob'].errors['required']">Phone is Required</div>
           </div>
         </div>
@@ -63,7 +112,10 @@
   </div>
   <div class="modal-body p-2 m-0">
     <div class="image">
-      <img src="{{url}}/{{userModelData.profileImageUrl}}" crossorigin="anonymous" />
+      <img
+        src="{{ url }}/{{ userModelData.profileImageUrl }}"
+        crossorigin="anonymous"
+      />
     </div>
   </div>
   <div class="modal-footer">
@@ -85,8 +137,15 @@
       <div class="col-md-12">
         <div class="form-group" [formGroup]="clientForm">
           <label class="ps-2">Location</label>
-          <input type="text" class="form-control m-2" formControlName="location" />
-          <div class="text-danger mb-2 ps-2" *ngIf="clientSubmitted && client['location'].errors">
+          <input
+            type="text"
+            class="form-control m-2"
+            formControlName="location"
+          />
+          <div
+            class="text-danger mb-2 ps-2"
+            *ngIf="clientSubmitted && client['location'].errors"
+          >
             <div *ngIf="client['location'].errors['required']">
               Location is Required
             </div>
@@ -100,26 +159,52 @@
               {{ city }}
             </option>
           </select>
-          <div class="text-danger mb-2 ps-2" *ngIf="clientSubmitted && client['zone'].errors">
-            <div *ngIf="client['zone'].errors['required']">Zone is Required</div>
+          <div
+            class="text-danger mb-2 ps-2"
+            *ngIf="clientSubmitted && client['zone'].errors"
+          >
+            <div *ngIf="client['zone'].errors['required']">
+              Zone is Required
+            </div>
           </div>
           <label class="ps-2">Phone Number</label>
-          <input type="text" class="form-control m-2" formControlName="mobile" />
-          <div class="text-danger mb-2 ps-2" *ngIf="clientSubmitted && client['mobile'].errors">
+          <input
+            type="text"
+            class="form-control m-2"
+            formControlName="mobile"
+          />
+          <div
+            class="text-danger mb-2 ps-2"
+            *ngIf="clientSubmitted && client['mobile'].errors"
+          >
             <div *ngIf="client['mobile'].errors['required']">
               Phone Number is Required
             </div>
           </div>
           <label class="ps-2">Technologies</label>
-          <input type="text" class="form-control m-2" formControlName="technologies" />
-          <div class="text-danger mb-2 ps-2" *ngIf="clientSubmitted && client['technologies'].errors">
+          <input
+            type="text"
+            class="form-control m-2"
+            formControlName="technologies"
+          />
+          <div
+            class="text-danger mb-2 ps-2"
+            *ngIf="clientSubmitted && client['technologies'].errors"
+          >
             <div *ngIf="client['technologies'].errors['required']">
               Technologies is Required
             </div>
           </div>
           <label class="ps-2">Company Name</label>
-          <input type="text" class="form-control m-2" formControlName="companyName" />
-          <div class="text-danger mb-2 ps-2" *ngIf="clientSubmitted && client['companyName'].errors">
+          <input
+            type="text"
+            class="form-control m-2"
+            formControlName="companyName"
+          />
+          <div
+            class="text-danger mb-2 ps-2"
+            *ngIf="clientSubmitted && client['companyName'].errors"
+          >
             <div *ngIf="client['companyName'].errors['required']">
               Company Name is Required
             </div>
@@ -149,15 +234,31 @@
             Client Name : {{ userDetailsdata.client.name }}
           </h3>
           <label for="">Description</label>
-          <input type="text" placeholder="description" class="form-control m-2" formControlName="description" />
-          <div class="text-danger mb-2 ps-2" *ngIf="updateSubmitted && updateModal['description'].errors">
+          <input
+            type="text"
+            placeholder="description"
+            class="form-control m-2"
+            formControlName="description"
+          />
+          <div
+            class="text-danger mb-2 ps-2"
+            *ngIf="updateSubmitted && updateModal['description'].errors"
+          >
             <div *ngIf="updateModal['description'].errors['required']">
               Description is Required
             </div>
           </div>
           <label for="">Comments</label>
-          <textarea class="comments" cols="65" rows="5" formControlName="comments"></textarea>
-          <div class="text-danger mb-2 ps-2" *ngIf="updateSubmitted && updateModal['comments'].errors">
+          <textarea
+            class="comments"
+            cols="65"
+            rows="5"
+            formControlName="comments"
+          ></textarea>
+          <div
+            class="text-danger mb-2 ps-2"
+            *ngIf="updateSubmitted && updateModal['comments'].errors"
+          >
             <div *ngIf="updateModal['comments'].errors['required']">
               Comments is Required
             </div>
@@ -170,7 +271,10 @@
               {{ status }}
             </option>
           </select>
-          <div class="text-danger mb-2 ps-2" *ngIf="updateSubmitted && updateModal['status'].errors">
+          <div
+            class="text-danger mb-2 ps-2"
+            *ngIf="updateSubmitted && updateModal['status'].errors"
+          >
             <div *ngIf="updateModal['status'].errors['required']">
               Status is Required
             </div>
@@ -195,10 +299,19 @@
   <div class="modal-body">
     <div class="row">
       <div class="col-md-12">
-        <div class="form-group" >
+        <div class="form-group">
           <label for="">Comments:</label>
-          <textarea name="" id="" cols="60" rows="3" [(ngModel)]="TicketRaised"></textarea>
-          <div class="text-danger mb-2 ps-2" *ngIf="raiseSubmitted && TicketRaised.length <= 0">
+          <textarea
+            name=""
+            id=""
+            cols="60"
+            rows="3"
+            [(ngModel)]="TicketRaised"
+          ></textarea>
+          <div
+            class="text-danger mb-2 ps-2"
+            *ngIf="raiseSubmitted && TicketRaised.length <= 0"
+          >
             <div>Comments is Required</div>
           </div>
         </div>
@@ -244,7 +357,12 @@
   <div class="modal-header p-2 m-0 text-bg-warning">Update</div>
   <div class="modal-body m-2">
     <h3>{{ chatservice.getFullName(ticketDetails.client) | titlecase }}</h3>
-    <input type="text" class="form-control" [value]="ticketDetails.client.email" disabled />
+    <input
+      type="text"
+      class="form-control"
+      [value]="ticketDetails.client.email"
+      disabled
+    />
     <textarea class="form-control m-2" [rows]="4" [(ngModel)]="description">
     </textarea>
     <div class="successMsg" *ngIf="mailSuccessMsg && mailSuccessMsg.message">
@@ -261,17 +379,43 @@
   </div>
 </ng-template>
 
-<app-table *ngIf="params == 'user list'" [data]="tableData" (firstBtnClick)="editUser($event)"
-  (secondBtnClick)="delete($event , 'user')" (userDetails)="openUserDetails($event)" [tableColumns]="userColumns" (nameClick)="routeUserPage($event)">
+<app-table
+  *ngIf="params == 'user list'"
+  [data]="tableData"
+  (firstBtnClick)="editUser($event)"
+  (secondBtnClick)="delete($event, 'user')"
+  (userDetails)="openUserDetails($event)"
+  [tableColumns]="userColumns"
+  (nameClick)="routeUserPage($event)"
+>
 </app-table>
 
-<app-table class="ClientTable" *ngIf="params == 'client list'" [data]="tableData" (firstBtnClick)="editClient($event)"
-  (secondBtnClick)="delete($event , 'client')" (nameClick)="routeToClientTickets($event)"
-  [tableColumns]="clientColumns">
+<app-table
+  class="ClientTable"
+  *ngIf="params == 'client list'"
+  [data]="tableData"
+  (firstBtnClick)="editClient($event)"
+  (secondBtnClick)="delete($event, 'client')"
+  (nameClick)="routeToClientTickets($event)"
+  [tableColumns]="clientColumns"
+>
 </app-table>
-<app-table *ngIf="params == 'today tickets'" [data]="tableData" (singleButtonClick)="singleButtonClick($event)"
-  [tableColumns]="ticketColumns"></app-table>
-<app-table *ngIf="params == 'user tickets'" [data]="tableData" (firstBtnClick)="update($event)"
-  (secondBtnClick)="routeToTickets($event)" (thirdBtnClick)="ticketraise($event)"
-  [tableColumns]="userTickets"></app-table>
-<app-table *ngIf="params == 'helped tickets'" [data]="tableData" [tableColumns]="helpedTickets"></app-table>
+<app-table
+  *ngIf="params == 'today tickets'"
+  [data]="tableData"
+  (singleButtonClick)="singleButtonClick($event)"
+  [tableColumns]="ticketColumns"
+></app-table>
+<app-table
+  *ngIf="params == 'user tickets'"
+  [data]="tableData"
+  (firstBtnClick)="update($event)"
+  (secondBtnClick)="routeToTickets($event)"
+  (thirdBtnClick)="ticketraise($event)"
+  [tableColumns]="userTickets"
+></app-table>
+<app-table
+  *ngIf="params == 'helped tickets'"
+  [data]="tableData"
+  [tableColumns]="helpedTickets"
+></app-table>

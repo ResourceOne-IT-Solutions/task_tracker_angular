@@ -85,7 +85,7 @@ export class DashBoardComponent {
   position = new FormControl(this.positionOptions[0]);
   TotalTicketsPiechart: any = [];
   UserListchart: any = [];
-  url: string='';
+  url: string = '';
   UserListlength: any;
   constructor(
     public chatservice: ChatService,

@@ -52,9 +52,8 @@ export class TicketsEffect {
     ),
   );
 
-
   private deleteCall(data: any) {
-    return of([[]])
+    return of([[]]);
   }
 
   private getTickes(params: any, userDetails: any) {
@@ -85,5 +84,5 @@ export class TicketsEffect {
   constructor(
     private chatservice: ChatService,
     private actions$: Actions,
-  ) { }
+  ) {}
 }
