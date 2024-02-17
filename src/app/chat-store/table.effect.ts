@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { ChatService } from '../services/chat.service';
 import {
+  loadDeleteApi,
   loadTable,
   loadTableSuccess,
   loadTickets,
@@ -24,18 +25,18 @@ export class TicketsEffect {
     ),
   );
 
-  // loadTickets$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(loadTickets),
-  //     mergeMap(({ params }) => {
-  // return this.getTickes(params).pipe(
-  //   map((ticketsData: any) => {
-  //     return loadTicketsSuccess({ ticketsData });
-  //   }),
-  // );
-  //     }),
-  //   ),
-  // );
+  loadDeleteCall$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadDeleteApi),
+      mergeMap(({ data }) => {
+        return this.deleteCall(data).pipe(
+          map((ticketsData: any) => {
+            return loadTicketsSuccess({ ticketsData });
+          }),
+        );
+      }),
+    ),
+  );
 
   loadTickets$ = createEffect(() =>
     this.actions$.pipe(
@@ -50,6 +51,11 @@ export class TicketsEffect {
       }),
     ),
   );
+
+
+  private deleteCall(data: any) {
+    return of([[]])
+  }
 
   private getTickes(params: any, userDetails: any) {
     if (!userDetails.isAdmin && !params) {
@@ -79,5 +85,5 @@ export class TicketsEffect {
   constructor(
     private chatservice: ChatService,
     private actions$: Actions,
-  ) {}
+  ) { }
 }

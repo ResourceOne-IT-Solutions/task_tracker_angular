@@ -84,11 +84,10 @@
           <h2 *ngIf="userTickets <= 0">No Today Tickets</h2>
         </div>
         <p class="tickets">Total Tickets : {{ userTickets.length }}</p>
-        <div>
+        <div *ngIf="!isAdminView">
           <button
             class="btn btn-info"
             (click)="requestChat()"
-            *ngIf="!isAdminView"
           >
             Request Chat with User
           </button>

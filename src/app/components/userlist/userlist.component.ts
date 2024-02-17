@@ -26,6 +26,7 @@ import { getTableData, getUserData } from 'src/app/chat-store/table.selector';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Chart } from 'chart.js';
+import { DialogInfoComponent } from 'src/app/reusable/dialog-info/dialog-info.component';
 
 @Component({
   selector: 'app-userlist',
@@ -45,7 +46,7 @@ export class UserlistComponent {
   'userForm': FormGroup;
   'clientForm': FormGroup;
   'updateForm': FormGroup;
-  'TicketRaisedForm': FormGroup;
+  TicketRaised: string = '';
   userstatus = ['In Progress', 'Pending', 'Closed', 'Improper Requirment'];
   userDetails: any;
   userModelData: any;
@@ -111,6 +112,7 @@ export class UserlistComponent {
   clientSubmitted: boolean = false;
   clientErr: any;
   userErr: any;
+  url: string = '';
   constructor(
     public chatservice: ChatService,
     private modalService: NgbModal,
@@ -120,19 +122,17 @@ export class UserlistComponent {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private store: Store,
-  ) {}
+  ) { }
 
   ngOnInit() {
+    this.url = this.chatservice.BE_URL + '/profile-images';
     this.params = this.route.snapshot.routeConfig?.path?.split('-').join(' ');
     this.userForm = this.fb.group({
       fname: ['', Validators.required],
       lname: ['', Validators.required],
       email: ['', Validators.required],
       phone: ['', Validators.required],
-      dob: ['', Validators.required],
-      joiningDate: ['', Validators.required],
-      profileImageUrl: ['', Validators.required],
-      address: ['', Validators.required],
+      dob: ['', Validators.required],  
     });
     this.clientForm = this.fb.group({
       location: ['', Validators.required],
@@ -146,9 +146,7 @@ export class UserlistComponent {
       comments: ['', Validators.required],
       status: ['', Validators.required],
     });
-    this.TicketRaisedForm = this.fb.group({
-      raise: ['', Validators.required],
-    });
+
     this.chatservice.getSocketData('statusUpdate').subscribe((res) => {
       this.adminDetails = res;
     });
@@ -157,112 +155,20 @@ export class UserlistComponent {
     });
     this.store.pipe(select(getTableData)).subscribe((res: any) => {
       this.tableData = res;
-      // if(this.tableData.length){
-      const resolvedTickets = this.chatservice.getTicketStatus(
-        this.tableData,
-        'resolved',
-      );
-      const pendingTickets = this.chatservice.getTicketStatus(
-        this.tableData,
-        'pending',
-      );
-      const inprogressTickets = this.chatservice.getTicketStatus(
-        this.tableData,
-        'in progress',
-      );
-      const assigned = this.chatservice.getTicketStatus(
-        this.tableData,
-        'assigned',
-      );
-      const improper = this.chatservice.getTicketStatus(
-        this.tableData,
-        'improper requirment',
-      );
-      const notAssigned = this.chatservice.getTicketStatus(
-        this.tableData,
-        'not assigned',
-      );
-      const data = [
-        resolvedTickets,
-        assigned,
-        pendingTickets,
-        inprogressTickets,
-        notAssigned,
-        improper,
-      ];
-      this.ChartData = {
-        colors: this.pieChartColors,
-        labels: this.pieChartLabels,
-        data: data,
-      };
-    });
+    })
   }
   // user form
   get user() {
     return this.userForm.controls;
   }
-  get fname() {
-    return this.user['fname'];
-  }
-  get lname() {
-    return this.user['lname'];
-  }
-  get email() {
-    return this.user['email'];
-  }
-  get phone() {
-    return this.user['phone'];
-  }
-  get dob() {
-    return this.user['dob'];
-  }
-  get joiningDate() {
-    return this.user['joiningDate'];
-  }
-  get profileImageUrl() {
-    return this.user['profileImageUrl'];
-  }
-  get address() {
-    return this.user['address'];
-  }
-
   // client form
   get client() {
     return this.clientForm.controls;
   }
-  get clientLocation() {
-    return this.client['location'];
-  }
-  get zone() {
-    return this.client['zone'];
-  }
-  get technologies() {
-    return this.client['technologies'];
-  }
-  get mobile() {
-    return this.client['mobile'];
-  }
-  get companyName() {
-    return this.client['companyName'];
-  }
+
   // update form
   get updateModal() {
     return this.updateForm.controls;
-  }
-  get updatedescription() {
-    return this.updateModal['description'];
-  }
-  get updatecomments() {
-    return this.updateModal['comments'];
-  }
-  get updatestatus() {
-    return this.updateModal['status'];
-  }
-  get ticketraiseModal() {
-    return this.TicketRaisedForm.controls;
-  }
-  get raise() {
-    return this.ticketraiseModal['raise'];
   }
 
   goback() {
@@ -320,25 +226,46 @@ export class UserlistComponent {
     this.clientForm.controls['location'].patchValue('');
   }
   updateUser(dismiss: any): void {
-    const Data = {
-      firstName: this.userForm.value.fname,
-      lastName: this.userForm.value.lname,
-      email: this.userForm.value.email,
-      mobile: this.userForm.value.phone,
-      designation: this.userDetails.designation,
-    };
-    const payload = {
-      id: this.userDetails._id,
-      data: Data,
-    };
-    this.chatservice.UpdateUsers(payload).subscribe((res: any) => {
-      this.tableData = this.tableData.map((element: any) =>
-        element._id === res._id ? res : element,
-      );
-    });
-    dismiss();
-    this.userForm.reset();
+    this.userSubmitted = true
+    console.log(this.userForm, "1213")
+    if (this.userForm.valid) {
+      const Data = {
+        firstName: this.userForm.value.fname,
+        lastName: this.userForm.value.lname,
+        email: this.userForm.value.email,
+        mobile: this.userForm.value.phone,
+        designation: this.userDetails.designation,
+      };
+      const payload = {
+        id: this.userDetails._id,
+        data: Data,
+      };
+      this.chatservice.UpdateUsers(payload).subscribe((res: any) => {
+        this.tableData = this.tableData.map((element: any) =>
+          element._id === res._id ? res : element,
+        );
+        this.userSubmitted = false
+        this.dialog.open(DialogInfoComponent, {
+          data: {
+            title: 'User Update',
+            message: 'User Update Successfully',
+            btn1: 'Close',
+            class: 'info'
+          }
+        })
+      });
+      dismiss();
+      this.userForm.reset();
+    }
   }
+
+  // route to user page 
+  routeUserPage(details: any) {
+    this.router.navigate(['../user', details._id], {
+      relativeTo: this.route,
+    });
+  }
+
   UserPage(dismiss: any) {
     dismiss();
     this.router.navigate(['../user', this.userModelData._id], {
@@ -347,25 +274,37 @@ export class UserlistComponent {
   }
 
   updateClient(dismiss: any) {
-    dismiss();
-    const data = {
-      mobile: this.clientForm.value.mobile,
-      location: {
-        area: this.clientForm.value.location,
-        zone: this.clientForm.value.zone,
-      },
-      companyName: this.clientForm.value.companyName,
-      technology: this.clientForm.value.technologies,
-    };
-    const payload = {
-      id: this.clientDetails._id,
-      data: data,
-    };
-    this.chatservice.updateClient(payload).subscribe((res: any) => {
-      this.tableData = this.tableData.map((element: any) =>
-        element._id === res._id ? res : element,
-      );
-    });
+    this.clientSubmitted = true
+    if (this.clientForm.valid) {
+      const data = {
+        mobile: this.clientForm.value.mobile,
+        location: {
+          area: this.clientForm.value.location,
+          zone: this.clientForm.value.zone,
+        },
+        companyName: this.clientForm.value.companyName,
+        technology: this.clientForm.value.technologies,
+      };
+      const payload = {
+        id: this.clientDetails._id,
+        data: data,
+      };
+      this.chatservice.updateClient(payload).subscribe((res: any) => {
+        this.tableData = this.tableData.map((element: any) =>
+          element._id === res._id ? res : element,
+        );
+        this.clientSubmitted = false;
+        this.dialog.open(DialogInfoComponent, {
+          data: {
+            title: 'Client Update',
+            message: 'Client Update Successfully',
+            btn1: 'Close',
+            class: 'info'
+          }
+        })
+      });
+      dismiss();
+    }
   }
   editClient(clientDetails: any) {
     this.selectLocation = clientDetails.location.area ? null : undefined;
@@ -441,6 +380,15 @@ export class UserlistComponent {
         };
         this.chatservice.sendSocketData({ key: 'assignTicket', data: payload });
         dismiss();
+      }, (err) => {
+        this.dialog.open(DialogInfoComponent, {
+          data: {
+            title: 'Api Error',
+            message: err.error.error,
+            btn1: 'Close',
+            class: 'warning'
+          }
+        })
       });
     } else if (this.assignUser == 'Assign Resource') {
       const payload = {
@@ -454,6 +402,7 @@ export class UserlistComponent {
       };
       this.chatservice.updateResuorce(payload).subscribe(
         (res: any) => {
+          this.assignErr = ''
           const data = {
             ticket: { name: res.client.name, id: res._id },
             user: { name: res.user.name, id: res.user.id },
@@ -513,6 +462,14 @@ export class UserlistComponent {
             }
             return val;
           });
+          this.dialog.open(DialogInfoComponent, {
+            data: {
+              title: 'Ticket Update',
+              message: 'Ticket Update Successfully',
+              btn1: 'Close',
+              class: 'info'
+            }
+          })
           dismiss();
           this.updateForm.reset();
         },
@@ -528,13 +485,13 @@ export class UserlistComponent {
   }
   raiseTicket(dismiss: any) {
     this.raiseSubmitted = !this.raiseSubmitted;
-    if (this.TicketRaisedForm.valid) {
+    if (this.TicketRaised.length > 0) {
       const raisePayload = {
         sender: {
           name: this.chatservice.getFullName(this.adminDetails),
           id: this.adminDetails._id,
         },
-        content: this.TicketRaisedForm.value.raise,
+        content: this.TicketRaised,
       };
       this.chatservice.sendSocketData({
         key: 'raiseTicket',
@@ -542,7 +499,7 @@ export class UserlistComponent {
       });
       dismiss();
     }
-    this.TicketRaisedForm.reset();
+    this.TicketRaised = '';
   }
   routeToTickets(data: any) {
     const CilentPayload = {
@@ -581,27 +538,47 @@ export class UserlistComponent {
         btn2: 'No',
       },
     });
-
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
         const ticketpayload = {
           id: data._id,
           data: {
             isClosed: true,
+            closedBy: {
+              name: this.chatservice.getFullName(this.adminDetails),
+              id: this.adminDetails._id
+            }
           },
         };
         this.chatservice.updateTicket(ticketpayload).subscribe((res: any) => {
           this.tableData = this.tableData.map((element: any) =>
             element._id === res._id ? res : element,
           );
-        });
+          this.dialog.open(DialogInfoComponent, {
+            data: {
+              title: 'Ticket Closed',
+              message: 'Ticket Closed Successfully',
+              btn1: 'Close',
+              class: 'info'
+            }
+          })
+        }, (error) => {
+          this.dialog.open(DialogInfoComponent, {
+            data: {
+              title: 'Error',
+              message: 'Internal Error Please Try Again After Some Time',
+              btn1: 'Close',
+              class: 'warning'
+            }
+          })
+        })
       }
-    });
+    })
   }
-  deleteUser(user: any) {
+  delete(data: any, user: any) {
     const dialogRef = this.dialog.open(DialogModelComponent, {
       data: {
-        message: 'Are Sure You Want To Delete This User ?',
+        message: `Are Sure You Want To Delete This ${user} ?`,
         btn1: 'Yes',
         btn2: 'No',
       },
@@ -610,31 +587,26 @@ export class UserlistComponent {
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
         this.chatservice
-          .delete(`/clients/${user._id}`)
-          .subscribe((res: any) => console.log(res, 'user Deleted'));
-      }
-    });
-  }
-  deleteClient(client: any) {
-    const dialogRef = this.dialog.open(DialogModelComponent, {
-      data: {
-        message: 'Are Sure You Want To Delete This Client ?',
-        btn1: 'Yes',
-        btn2: 'No',
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result) {
-        this.chatservice
-          .delete(`/clients/${client._id}`)
-          .subscribe((res: any) => console.log(res, 'Client Deleted'));
+          .delete(`/${user}s/${data._id}`)
+          .subscribe((res: any) => {
+            this.tableData = this.tableData.filter((val: any) => val._id !== data._id)
+            this.dialog.open(DialogInfoComponent, {
+              data: {
+                title: `${user} deleted`,
+                message: `${user} Deleted Succesfully`,
+                class: 'info',
+                btn1: 'Close'
+              }
+            })
+          }, (err) => {
+            console.log(err, 'error')
+          });
       }
     });
   }
   phoneValidation(evt: any) {
     const inputChar = String.fromCharCode(evt.charCode);
-    if (this.phone?.value.length > 9 || !/^\d+$/.test(inputChar)) {
+    if (this.user['phone']?.value.length > 9 || !/^\d+$/.test(inputChar)) {
       evt.preventDefault();
       return;
     }

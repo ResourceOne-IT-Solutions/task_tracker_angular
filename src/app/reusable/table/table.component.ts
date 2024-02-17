@@ -14,6 +14,7 @@ import { TooltipPosition } from '@angular/material/tooltip';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { tap } from 'rxjs';
 import { Column } from 'src/app/components/dash-board/dash-board.component';
+import { ChatService } from 'src/app/services/chat.service';
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -29,13 +30,14 @@ export class TableComponent {
   @Output() firstBtnClick = new EventEmitter();
   @Output() secondBtnClick = new EventEmitter();
   @Output() thirdBtnClick = new EventEmitter();
-  @Output() clientnameClick = new EventEmitter();
+  @Output() nameClick = new EventEmitter();
   @Output() descriptionClick = new EventEmitter();
   @Output() detailsClick = new EventEmitter();
   @Input() tableData: any[] = [];
   @Output() userDetails = new EventEmitter();
   @Output() singleButtonClick = new EventEmitter();
-  constructor(private loader: NgxSpinnerService) {}
+  url: string ='';
+  constructor(private loader: NgxSpinnerService, private chatservice :ChatService) {}
   positionOptions: TooltipPosition[] = [
     'after',
     'before',
@@ -46,6 +48,7 @@ export class TableComponent {
   ];
   position = new FormControl(this.positionOptions[0]);
   ngOnInit() {
+    this.url = this.chatservice.BE_URL + '/profile-images';
     this.loader.show();
     setTimeout(() => {
       this.loader.hide();
@@ -56,6 +59,7 @@ export class TableComponent {
   ngOnChanges(change: SimpleChanges) {
     if (change['data']) {
       this.dataSource.data = this.data;
+      console.log(this.data, "data")
     }
   }
   ngAfterViewInit() {
@@ -71,8 +75,8 @@ export class TableComponent {
   btn3Click(data: any) {
     this.thirdBtnClick.emit(data);
   }
-  clientNameClick(data: any) {
-    this.clientnameClick.emit(data);
+  NameClick(data: any) {
+    this.nameClick.emit(data);
   }
   Description(data: any) {
     this.descriptionClick.emit(data);

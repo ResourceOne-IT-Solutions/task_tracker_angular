@@ -34,15 +34,15 @@
         </th>
         <tr>
           <td mat-cell *matCellDef="let element">
-            <span (click)="clientNameClick(element)" *ngIf="disCol.isText">
+            <span (click)="NameClick(element)" *ngIf="disCol.isText">
               {{ disCol.cell(element) }}
             </span>
             <div>
               <span
-                matTooltip=" click here to client page"
+                matTooltip=" click here"
                 aria-label="Displays a tooltip"
                 style="cursor: pointer"
-                (click)="clientNameClick(element)"
+                (click)="NameClick(element)"
                 *ngIf="disCol.isMouseOver"
               >
                 {{ disCol.cell(element) }}
@@ -98,8 +98,9 @@
             >
               <img
                 *ngIf="disCol.cell(element)"
-                src="{{ disCol.cell(element) }}"
+                src="{{url}}/{{ disCol.cell(element) }}"
                 class="profileImage"
+                crossorigin="anonymous"
               />
               <img
                 *ngIf="!disCol.cell(element)"
