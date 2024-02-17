@@ -37,13 +37,6 @@ export const ticketColumns: Array<Column> = [
         : '',
     isText: true,
   },
-
-  {
-    columnDef: 'comments',
-    header: 'comments',
-    cell: (element: any) => `${element['comments']}`,
-    isText: true,
-  },
   {
     columnDef: 'closedDate',
     header: 'closed date',
@@ -64,20 +57,34 @@ export const ticketColumns: Array<Column> = [
   },
 
   {
-    columnDef: 'status',
-    header: 'status',
-    cell: (element: any) => `${element['status']}`,
-    isText: true,
-  },
-  {
     columnDef: 'addOnResource',
     header: 'Helped By',
     cell: (element: any) =>
       `${element['addOnResource']?.map((res: any) => res.name)?.toString() || '--'}`,
     isText: true,
   },
+  {
+    columnDef: 'comments',
+    header: 'comments',
+    cell: (element: any) => `${element['comments'] || '--'} `,
+    isText: true,
+  },
 ];
 
+export const footerColumns = [
+  {
+    columnDef: 'description',
+    header: 'description',
+    cell: (element: any) => `${element['description']}`,
+    isText: true,
+  },
+  {
+    columnDef: 'status',
+    header: 'status',
+    cell: (element: any) => `${element['status']}`,
+    isText: true,
+  },
+] 
 export const Tickets: Array<Column> = [
   {
     columnDef: 'client',
@@ -116,12 +123,7 @@ export const Tickets: Array<Column> = [
     isText: true,
   },
 
-  {
-    columnDef: 'comments',
-    header: 'comments',
-    cell: (element: any) => `${element['comments']}`,
-    isText: true,
-  },
+ 
   {
     columnDef: 'closedDate',
     header: 'closed date',
@@ -145,6 +147,18 @@ export const Tickets: Array<Column> = [
     header: 'Helped By',
     cell: (element: any) =>
       `${element['addOnResource']?.map((res: any) => res.name)?.toString() || '--'}`,
+    isText: true,
+  },
+  {
+    columnDef: 'description',
+    header: 'description',
+    cell: (element: any) => `${element['description']}`,
+    isText: true,
+  },
+  {
+    columnDef: 'comments',
+    header: 'comments',
+    cell: (element: any) => `${element['comments'] || '--'}`,
     isText: true,
   },
   {

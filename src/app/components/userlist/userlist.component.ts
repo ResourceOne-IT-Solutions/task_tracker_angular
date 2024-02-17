@@ -13,10 +13,12 @@ import { Location } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogModelComponent } from 'src/app/reusable/dialog-model/dialog-model.component';
 import {
+  Tickets,
   adminTicketColumns,
   clientColumns,
   description,
   description2,
+  footerColumns,
   ticketColumns,
   userColumns,
   userTicketColumns,
@@ -74,13 +76,12 @@ export class UserlistComponent {
   userColumns: Array<Column> = userColumns;
   clientColumns: Array<Column> = clientColumns;
   ticketColumns: Array<Column> = [
-    ...ticketColumns,
-    ...description2,
+    ...Tickets,
     ...adminTicketColumns,
   ];
   userTickets: Array<Column> = [
     ...ticketColumns,
-    ...description2,
+    ...footerColumns,
     ...userTicketColumns,
   ];
   helpedTickets: Array<Column> = [...ticketColumns, ...description];
