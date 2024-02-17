@@ -120,11 +120,6 @@ export class ChatService {
     return this.get('/get-user');
   }
 
-  // forgot password
-  updatePassword(data: any) {
-    return this.post('/update-password', data);
-  }
-
   getToken() {
     return this.getCookie('token') || '';
   }
@@ -222,7 +217,18 @@ export class ChatService {
       };
     });
   }
-
+  // mail verify
+  getMailVerify(data: any) {
+    return this.post('/mail-verify', data);
+  }
+  // mail otp
+  verifyOtp(data: any) {
+    return this.post('/verify-otp', data);
+  }
+  // update password
+  updatePassword(data: any) {
+    return this.post('/update-password', data);
+  }
   // groups
 
   getAllGroups(id: any) {

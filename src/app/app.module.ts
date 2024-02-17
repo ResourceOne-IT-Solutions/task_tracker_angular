@@ -46,6 +46,10 @@ import { TicketsEffect } from './chat-store/table.effect';
 import { FeedBackComponent } from './components/feed-back/feed-back.component';
 import { DialogInfoComponent } from './reusable/dialog-info/dialog-info.component';
 import { PieChartComponent } from './reusable/pie-chart/pie-chart.component';
+import { ForgotpasswordComponent } from './components/forgotpassword/forgotpassword.component';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -71,6 +75,7 @@ import { PieChartComponent } from './reusable/pie-chart/pie-chart.component';
     FeedBackComponent,
     DialogInfoComponent,
     PieChartComponent,
+    ForgotpasswordComponent,
   ],
   imports: [
     BrowserModule,
@@ -89,7 +94,9 @@ import { PieChartComponent } from './reusable/pie-chart/pie-chart.component';
     MatIconModule,
     MatCardModule,
     MatDialogModule,
-
+    MatStepperModule,
+    MatInputModule,
+    MatListModule,
     NgbModule,
     MatGridListModule,
     MatSelectModule,

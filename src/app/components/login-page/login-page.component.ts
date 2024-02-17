@@ -90,4 +90,7 @@ export class LoginPageComponent {
     this.fieldTextType.isTrue = !this.fieldTextType.isTrue;
     this.cd.detectChanges();
   }
+  forgotPassword() {
+    this.route.navigate(['forgot-password']);
+  }
 }
