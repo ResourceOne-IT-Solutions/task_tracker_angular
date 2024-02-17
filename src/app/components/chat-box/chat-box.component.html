@@ -63,9 +63,10 @@
           >
           </ngx-spinner>
           <div
-            class="SelectedMessage"
             *ngFor="let user of UserListData"
-            [ngClass]="user._id == UserSelected._id ? 'SelectedUser' : ''"
+            [ngClass]="
+              user._id == UserSelected._id ? 'SelectedUser' : 'SelectedMessage'
+            "
           >
             <div class="user-card" (click)="SelectUser(user)">
               <div class="d-flex justify-content-between w-100">

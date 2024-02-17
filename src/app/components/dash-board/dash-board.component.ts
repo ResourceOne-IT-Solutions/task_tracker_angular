@@ -19,9 +19,10 @@ import {
 import { User } from '../../interface/users';
 import { Chart, ChartType, registerables } from 'node_modules/chart.js';
 import { Task } from 'src/app/interface/tickets';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { loadUserData } from 'src/app/chat-store/table.actions';
 import { TooltipPosition } from '@angular/material/tooltip';
+import { getTableData } from 'src/app/chat-store/table.selector';
 @Component({
   selector: 'app-dash-board',
   templateUrl: './dash-board.component.html',
@@ -43,8 +44,6 @@ export class DashBoardComponent {
     'Not Assigned',
     'Improper Requirment',
   ];
-  UserpieChartLabels: string[] = ['Avalible', 'Offline', 'Break', 'On Ticket'];
-
   pieChartColors: string[] = [
     'blue',
     'gray',
@@ -53,7 +52,14 @@ export class DashBoardComponent {
     'red',
     'purple',
   ];
-  UserpieChartColors: string[] = ['green', 'orange', 'red', 'blue'];
+  UserpieChartLabels: string[] = [
+    'Avalible',
+    'Offline',
+    'Break',
+    'On Ticket',
+    'Sleep',
+  ];
+  UserpieChartColors: string[] = ['green', 'orange', 'red', 'blue', 'purple'];
   dropdownSettings: any;
   ticketData: Task[] = [];
   adminDetails!: User | undefined;
@@ -65,6 +71,8 @@ export class DashBoardComponent {
   cstDate!: string;
   pstDate!: string;
   est!: string;
+  tableData: any = [];
+  ChartData: any = [];
   //ToolTip.
   positionOptions: TooltipPosition[] = [
     'after',
@@ -78,6 +86,7 @@ export class DashBoardComponent {
   TotalTicketsPiechart: any = [];
   UserListchart: any = [];
   url: string='';
+  UserListlength: any;
   constructor(
     public chatservice: ChatService,
     private router: Router,
@@ -125,6 +134,52 @@ export class DashBoardComponent {
         this.ticketData,
         'not assigned',
       );
+      const Closed = this.chatservice.getTicketStatus(
+        this.ticketData,
+        'closed',
+      );
+      const data = [
+        resolvedTickets,
+        assigned,
+        pendingTickets,
+        inprogressTickets,
+        notAssigned,
+        improper,
+        Closed,
+      ];
+      this.TotalTicketsPiechart = {
+        colors: this.pieChartColors,
+        labels: this.pieChartLabels,
+        data: data,
+      };
+    });
+
+    this.chatservice.getPendingTickets().subscribe((res: any) => {
+      this.tableData = res;
+      const resolvedTickets = this.chatservice.getTicketStatus(
+        this.tableData,
+        'resolved',
+      );
+      const pendingTickets = this.chatservice.getTicketStatus(
+        this.tableData,
+        'pending',
+      );
+      const inprogressTickets = this.chatservice.getTicketStatus(
+        this.tableData,
+        'in progress',
+      );
+      const assigned = this.chatservice.getTicketStatus(
+        this.tableData,
+        'assigned',
+      );
+      const improper = this.chatservice.getTicketStatus(
+        this.tableData,
+        'improper requirment',
+      );
+      const notAssigned = this.chatservice.getTicketStatus(
+        this.tableData,
+        'not assigned',
+      );
       const data = [
         resolvedTickets,
         assigned,
@@ -133,7 +188,7 @@ export class DashBoardComponent {
         notAssigned,
         improper,
       ];
-      this.TotalTicketsPiechart = {
+      this.ChartData = {
         colors: this.pieChartColors,
         labels: this.pieChartLabels,
         data: data,
@@ -151,6 +206,7 @@ export class DashBoardComponent {
     this.chatservice.getSocketData('newUser').subscribe(({ userPayload }) => {
       this.store.dispatch(loadUserData({ userList: userPayload }));
       this.UserListData = userPayload;
+      this.UserListlength = this.UserListData.length;
       const Avalible = this.chatservice.getUserByStatus(
         this.UserListData,
         'available',
@@ -167,7 +223,11 @@ export class DashBoardComponent {
         this.UserListData,
         'on ticket',
       );
-      const data = [Avalible, Offline, Break, OnTicket];
+      const Sleep = this.chatservice.getUserByStatus(
+        this.UserListData,
+        'sleep',
+      );
+      const data = [Avalible, Offline, Break, OnTicket, Sleep];
       this.UserListchart = {
         colors: this.UserpieChartColors,
         labels: this.UserpieChartLabels,

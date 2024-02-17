@@ -62,6 +62,7 @@
 
     <div class="d-flex piechart-container">
       <div class="pieChart">
+        <h2>Total Tickets</h2>
         <div class="chart-legend">
           <div
             class="grid-item"
@@ -77,6 +78,7 @@
           [PieChartData]="TotalTicketsPiechart"
         ></app-pie-chart>
         <p>Total Tickets : {{ ticketData.length }}</p>
+        <h2 *ngIf="ticketData.length <= 0">No Tickets</h2>
       </div>
     </div>
   </div>
@@ -97,14 +99,28 @@
         [pieChartId]="'Userpiechart'"
         [PieChartData]="UserListchart"
       ></app-pie-chart>
-      <p>Total Users : {{ UserListData.length }}</p>
+      <p>Total Users : {{ UserListlength }}</p>
+      <h2 *ngIf="UserListlength <= 0">No Users</h2>
     </div>
-
-    <!-- <div class="piechartRange">
-      <h3 class="fw-bold">Users status</h3>
-      <canvas id="Userpiechart"></canvas>
-      <app-pie-chart *ngIf="UserListchart" [pieChartId]="'Userpiechart'" [PieChartData]="UserListchart"></app-pie-chart>
-    </div> -->
+    <div class="pieChart">
+      <h2>Today Tickets</h2>
+      <div class="chart-legend">
+        <div
+          class="grid-item"
+          *ngFor="let label of pieChartLabels; let i = index"
+        >
+          <span [style.color]="pieChartColors[i]">&#9632;</span>
+          {{ label }}: {{ ChartData[i] }}
+        </div>
+      </div>
+      <app-pie-chart
+        *ngIf="ChartData"
+        [pieChartId]="'pieChartTicket'"
+        [PieChartData]="ChartData"
+      ></app-pie-chart>
+      <p>Total Today Tickets : {{ tableData.length }}</p>
+      <h2 *ngIf="tableData <= 0">No Today Tickets</h2>
+    </div>
     <div>
       <div>
         <button class="btn btn-primary m-2 sample" [routerLink]="['user-list']">

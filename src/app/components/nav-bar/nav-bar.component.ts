@@ -229,6 +229,18 @@ export class NavBarComponent {
     );
     this.modalService.open(this.ticketModel);
   }
+  SelectClient(data: any) {
+    this.clientData.filter((val: any) => {
+      if (
+        val.firstName ===
+        this.TicketCreationForm.controls?.['client'].value.firstName
+      ) {
+        this.TicketCreationForm.controls['technologies'].patchValue(
+          val.technology,
+        );
+      }
+    });
+  }
   openClientModel() {
     this.openPopup(this.clientModel);
   }

@@ -45,6 +45,9 @@ export class ChatService {
   getAllUsers() {
     return this.get('/users');
   }
+  getUsertickets(userId: any) {
+    return this.get('/tickets/user/' + userId);
+  }
   AddNewUsers(data: any) {
     return this.post('/users/create', data);
   }
