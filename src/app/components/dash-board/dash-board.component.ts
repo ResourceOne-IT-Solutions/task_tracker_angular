@@ -77,6 +77,7 @@ export class DashBoardComponent {
   position = new FormControl(this.positionOptions[0]);
   TotalTicketsPiechart: any = [];
   UserListchart: any = [];
+  url: string='';
   constructor(
     public chatservice: ChatService,
     private router: Router,
@@ -86,6 +87,7 @@ export class DashBoardComponent {
     private store: Store,
   ) {}
   ngOnInit() {
+    this.url = this.chatservice.BE_URL + '/profile-images';
     this.chatservice.UserLoginData.subscribe((res: User | undefined) => {
       this.adminDetails = res;
     });

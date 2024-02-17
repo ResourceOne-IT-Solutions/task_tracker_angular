@@ -6,7 +6,8 @@
           <img
             *ngIf="adminDetails.profileImageUrl"
             class="adminpic"
-            src="{{ adminDetails.profileImageUrl }}"
+            src="{{url}}/{{ adminDetails.profileImageUrl }}"
+            crossorigin="anonymous"
           />
           <img
             *ngIf="!adminDetails.profileImageUrl"

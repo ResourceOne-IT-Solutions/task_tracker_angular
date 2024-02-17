@@ -140,18 +140,17 @@ export const Tickets: Array<Column> = [
         : '',
     isText: true,
   },
-
-  {
-    columnDef: 'status',
-    header: 'status',
-    cell: (element: any) => `${element['status']}`,
-    isText: true,
-  },
   {
     columnDef: 'addOnResource',
     header: 'Helped By',
     cell: (element: any) =>
       `${element['addOnResource']?.map((res: any) => res.name)?.toString() || '--'}`,
+    isText: true,
+  },
+  {
+    columnDef: 'status',
+    header: 'status',
+    cell: (element: any) => `${element['status']}`,
     isText: true,
   },
 ];
@@ -251,7 +250,7 @@ export const userColumns = [
     columnDef: 'firstName',
     header: 'User Name',
     cell: (element: any) => `${getFullName(element)}`,
-    isText: true,
+    isMouseOver : true
   },
   {
     columnDef: 'email',
