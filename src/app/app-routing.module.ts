@@ -17,6 +17,7 @@ import { adminGuard } from './services/admin/admin.guard';
 import { UserlistComponent } from './components/userlist/userlist.component';
 import { TicketdescriptionComponent } from './components/ticket-description/ticket-description.component';
 import { FeedBackComponent } from './components/feed-back/feed-back.component';
+import { ForgotpasswordComponent } from './components/forgotpassword/forgotpassword.component';
 
 const routes: Routes = [
   { path: '', component: WelComePageComponent },
@@ -24,6 +25,10 @@ const routes: Routes = [
     path: 'login_page',
     component: LoginPageComponent,
     canActivate: [guardGuard],
+  },
+  {
+    path: 'forgot-password',
+    component: ForgotpasswordComponent,
   },
   {
     path: 'dashboard',
