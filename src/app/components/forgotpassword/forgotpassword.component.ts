@@ -85,9 +85,9 @@ export class ForgotpasswordComponent implements OnInit {
       };
       this.chatservice.verifyOtp(verifypayload).subscribe(
         (res) => {
+          stepper.next();
           this.otpverify = res;
           this.otpError = '';
-          stepper.next();
         },
         (err: any) => {
           this.otpError = err.error.error;
