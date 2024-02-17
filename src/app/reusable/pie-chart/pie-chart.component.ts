@@ -9,9 +9,10 @@ import { Chart } from 'node_modules/chart.js';
 export class PieChartComponent {
   @Input() pieChartId: any = '';
   @Input() PieChartData: any;
-  ngOnInit() {}
+  myPieChart: any;
+  pydata: any;
   ngOnChanges(changes: SimpleChanges) {
-    new Chart(this.pieChartId, {
+    this.pydata = new Chart(this.pieChartId, {
       type: 'pie',
       data: {
         labels: this.PieChartData.labels,
@@ -31,5 +32,8 @@ export class PieChartComponent {
         },
       },
     });
+  }
+  ngOnInit() {
+    this.pydata.destroy();
   }
 }
