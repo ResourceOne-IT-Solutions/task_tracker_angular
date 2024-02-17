@@ -58,7 +58,25 @@ export class UserPageComponent implements OnInit {
     'right',
   ];
   position = new FormControl(this.positionOptions[0]);
+  pieChartLabels: string[] = [
+    'resolved',
+    'Pending',
+    'In Progress',
+    'Improper Requirment',
+    'Closed',
+    'Assigned',
+    'Not Assigned',
+  ];
+  pieChartColors: string[] = [
+    'blue',
+    'gray',
+    'yellow',
+    'green',
+    'red',
+    'purple',
+  ];
   url: any;
+  UserPiechart: any = [];
   constructor(
     public chatservice: ChatService,
     private router: Router,
@@ -188,71 +206,57 @@ export class UserPageComponent implements OnInit {
         }
       });
 
-    this.chatservice.getAllTickets().subscribe((res: any) => {
-      if (this.currentUser) {
-        this.userTickets = res.filter(
-          (item: any) => item.user.id === this.currentUser._id,
-        );
-        const resolvedTickets = this.chatservice.getTicketStatus(
-          this.userTickets,
-          'resolved',
-        );
-        const pendingTickets = this.chatservice.getTicketStatus(
-          this.userTickets,
-          'pending',
-        );
-        const inprogressTickets = this.chatservice.getTicketStatus(
-          this.userTickets,
-          'in progress',
-        );
-        const improper = this.chatservice.getTicketStatus(
-          this.userTickets,
-          'improper requirment',
-        );
-        const Closed = this.chatservice.getTicketStatus(
-          this.userTickets,
-          'closed',
-        );
-        const helpedTickets = this.chatservice.getTicketStatus(
-          this.userTickets,
-          'closed',
-        );
-
-        this.pieChart(
-          resolvedTickets,
-          pendingTickets.inprogressTickets,
-          improper,
-          Closed,
-          helpedTickets,
-        );
-      }
-    });
-  }
-  pieChart(
-    resolved: any,
-    pending: any,
-    inprogress: any,
-    Improper: any,
-    helped: any,
-  ) {
-    new Chart('piechartdemo', {
-      type: 'pie',
-      data: {
-        labels: [
-          'Resolved',
-          'Pending',
-          'InProgress',
-          'HelpedTickets',
-          'ImproperRequirement',
-        ],
-        datasets: [
-          {
-            label: this.chatservice.getFullName(this.currentUser),
-            data: [resolved, pending, inprogress, helped, Improper],
-          },
-        ],
-      },
-    });
+    this.chatservice
+      .getUsertickets(this.currentUser._id)
+      .subscribe((res: any) => {
+        if (this.currentUser) {
+          this.userTickets = res.filter(
+            (item: any) => item.user.id === this.currentUser._id,
+          );
+          const resolvedTickets = this.chatservice.getTicketStatus(
+            this.userTickets,
+            'resolved',
+          );
+          const pendingTickets = this.chatservice.getTicketStatus(
+            this.userTickets,
+            'pending',
+          );
+          const inprogressTickets = this.chatservice.getTicketStatus(
+            this.userTickets,
+            'in progress',
+          );
+          const improper = this.chatservice.getTicketStatus(
+            this.userTickets,
+            'improper requirment',
+          );
+          const Closed = this.chatservice.getTicketStatus(
+            this.userTickets,
+            'closed',
+          );
+          const Assigned = this.chatservice.getTicketStatus(
+            this.userTickets,
+            'assigned',
+          );
+          const notAssigned = this.chatservice.getTicketStatus(
+            this.userTickets,
+            'Not Assigned',
+          );
+          const data = [
+            resolvedTickets,
+            pendingTickets,
+            inprogressTickets,
+            improper,
+            Closed,
+            Assigned,
+            notAssigned,
+          ];
+          this.UserPiechart = {
+            colors: this.pieChartColors,
+            labels: this.pieChartLabels,
+            data: data,
+          };
+        }
+      });
   }
   breakLoginTimeings(user: any) {
     const statusByBreak = this.statusGroupedByDate();

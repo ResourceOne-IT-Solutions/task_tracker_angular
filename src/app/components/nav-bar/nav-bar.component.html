@@ -236,7 +236,11 @@
   <div class="modal-body m-2">
     <form [formGroup]="TicketCreationForm">
       <label class="ms-2">Client</label>
-      <select class="form-control m-2" formControlName="client">
+      <select
+        class="form-control m-2"
+        formControlName="client"
+        (change)="SelectClient($event)"
+      >
         <option value="" disabled selected class="hide">Select Client</option>
         <option *ngFor="let client of clientData" [ngValue]="client">
           {{ client.firstName }}

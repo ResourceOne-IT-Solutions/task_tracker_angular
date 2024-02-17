@@ -37,6 +37,7 @@ export class ViewRequestPageComponent {
     private cdr: ChangeDetectorRef,
   ) {}
   ngOnInit() {
+    this.loader.show();
     this.chatservice.getRaiseTicketMessages().subscribe((res) => {
       this.raiseTicketMessages = res;
     });
@@ -46,7 +47,6 @@ export class ViewRequestPageComponent {
       }
     });
     this.store.dispatch(EmptyChatRequests());
-    this.loader.show();
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.currentuser = res;
     });
@@ -87,6 +87,7 @@ export class ViewRequestPageComponent {
     this.chatservice.getSocketData('ticketsRequest').subscribe((res) => {
       this.requestCount.push(res._id);
       this.TicketRequest.unshift(res);
+      this.loader.hide();
     });
     this.time = this.chatservice.getFormattedTime();
     this.date = this.chatservice.getFormattedDate(new Date());
