@@ -13,10 +13,12 @@ import { Location } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogModelComponent } from 'src/app/reusable/dialog-model/dialog-model.component';
 import {
+  Tickets,
   adminTicketColumns,
   clientColumns,
   description,
   description2,
+  footerColumns,
   ticketColumns,
   userColumns,
   userTicketColumns,
@@ -73,14 +75,10 @@ export class UserlistComponent {
   tableData$!: Observable<any>;
   userColumns: Array<Column> = userColumns;
   clientColumns: Array<Column> = clientColumns;
-  ticketColumns: Array<Column> = [
-    ...ticketColumns,
-    ...description2,
-    ...adminTicketColumns,
-  ];
+  ticketColumns: Array<Column> = [...Tickets, ...adminTicketColumns];
   userTickets: Array<Column> = [
     ...ticketColumns,
-    ...description2,
+    ...footerColumns,
     ...userTicketColumns,
   ];
   helpedTickets: Array<Column> = [...ticketColumns, ...description];
@@ -122,7 +120,7 @@ export class UserlistComponent {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private store: Store,
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.url = this.chatservice.BE_URL + '/profile-images';
@@ -132,7 +130,7 @@ export class UserlistComponent {
       lname: ['', Validators.required],
       email: ['', Validators.required],
       phone: ['', Validators.required],
-      dob: ['', Validators.required],  
+      dob: ['', Validators.required],
     });
     this.clientForm = this.fb.group({
       location: ['', Validators.required],
@@ -155,7 +153,7 @@ export class UserlistComponent {
     });
     this.store.pipe(select(getTableData)).subscribe((res: any) => {
       this.tableData = res;
-    })
+    });
   }
   // user form
   get user() {
@@ -226,8 +224,8 @@ export class UserlistComponent {
     this.clientForm.controls['location'].patchValue('');
   }
   updateUser(dismiss: any): void {
-    this.userSubmitted = true
-    console.log(this.userForm, "1213")
+    this.userSubmitted = true;
+    console.log(this.userForm, '1213');
     if (this.userForm.valid) {
       const Data = {
         firstName: this.userForm.value.fname,
@@ -244,22 +242,22 @@ export class UserlistComponent {
         this.tableData = this.tableData.map((element: any) =>
           element._id === res._id ? res : element,
         );
-        this.userSubmitted = false
+        this.userSubmitted = false;
         this.dialog.open(DialogInfoComponent, {
           data: {
             title: 'User Update',
             message: 'User Update Successfully',
             btn1: 'Close',
-            class: 'info'
-          }
-        })
+            class: 'info',
+          },
+        });
       });
       dismiss();
       this.userForm.reset();
     }
   }
 
-  // route to user page 
+  // route to user page
   routeUserPage(details: any) {
     this.router.navigate(['../user', details._id], {
       relativeTo: this.route,
@@ -274,7 +272,7 @@ export class UserlistComponent {
   }
 
   updateClient(dismiss: any) {
-    this.clientSubmitted = true
+    this.clientSubmitted = true;
     if (this.clientForm.valid) {
       const data = {
         mobile: this.clientForm.value.mobile,
@@ -299,9 +297,9 @@ export class UserlistComponent {
             title: 'Client Update',
             message: 'Client Update Successfully',
             btn1: 'Close',
-            class: 'info'
-          }
-        })
+            class: 'info',
+          },
+        });
       });
       dismiss();
     }
@@ -367,29 +365,35 @@ export class UserlistComponent {
           status: 'Assigned',
         },
       };
-      this.chatservice.updateTicket(payload).subscribe((res: any) => {
-        this.tableData = this.tableData.map((element: any) =>
-          element._id === res._id ? res : element,
-        );
-        const payload = {
-          id: this.AssignedUser._id,
-          sender: {
-            id: this.adminDetails._id,
-            name: this.chatservice.getFullName(this.adminDetails),
-          },
-        };
-        this.chatservice.sendSocketData({ key: 'assignTicket', data: payload });
-        dismiss();
-      }, (err) => {
-        this.dialog.open(DialogInfoComponent, {
-          data: {
-            title: 'Api Error',
-            message: err.error.error,
-            btn1: 'Close',
-            class: 'warning'
-          }
-        })
-      });
+      this.chatservice.updateTicket(payload).subscribe(
+        (res: any) => {
+          this.tableData = this.tableData.map((element: any) =>
+            element._id === res._id ? res : element,
+          );
+          const payload = {
+            id: this.AssignedUser._id,
+            sender: {
+              id: this.adminDetails._id,
+              name: this.chatservice.getFullName(this.adminDetails),
+            },
+          };
+          this.chatservice.sendSocketData({
+            key: 'assignTicket',
+            data: payload,
+          });
+          dismiss();
+        },
+        (err) => {
+          this.dialog.open(DialogInfoComponent, {
+            data: {
+              title: 'Api Error',
+              message: err.error.error,
+              btn1: 'Close',
+              class: 'warning',
+            },
+          });
+        },
+      );
     } else if (this.assignUser == 'Assign Resource') {
       const payload = {
         id: this.ticketDetails._id,
@@ -402,7 +406,7 @@ export class UserlistComponent {
       };
       this.chatservice.updateResuorce(payload).subscribe(
         (res: any) => {
-          this.assignErr = ''
+          this.assignErr = '';
           const data = {
             ticket: { name: res.client.name, id: res._id },
             user: { name: res.user.name, id: res.user.id },
@@ -467,9 +471,9 @@ export class UserlistComponent {
               title: 'Ticket Update',
               message: 'Ticket Update Successfully',
               btn1: 'Close',
-              class: 'info'
-            }
-          })
+              class: 'info',
+            },
+          });
           dismiss();
           this.updateForm.reset();
         },
@@ -546,34 +550,37 @@ export class UserlistComponent {
             isClosed: true,
             closedBy: {
               name: this.chatservice.getFullName(this.adminDetails),
-              id: this.adminDetails._id
-            }
+              id: this.adminDetails._id,
+            },
           },
         };
-        this.chatservice.updateTicket(ticketpayload).subscribe((res: any) => {
-          this.tableData = this.tableData.map((element: any) =>
-            element._id === res._id ? res : element,
-          );
-          this.dialog.open(DialogInfoComponent, {
-            data: {
-              title: 'Ticket Closed',
-              message: 'Ticket Closed Successfully',
-              btn1: 'Close',
-              class: 'info'
-            }
-          })
-        }, (error) => {
-          this.dialog.open(DialogInfoComponent, {
-            data: {
-              title: 'Error',
-              message: 'Internal Error Please Try Again After Some Time',
-              btn1: 'Close',
-              class: 'warning'
-            }
-          })
-        })
+        this.chatservice.updateTicket(ticketpayload).subscribe(
+          (res: any) => {
+            this.tableData = this.tableData.map((element: any) =>
+              element._id === res._id ? res : element,
+            );
+            this.dialog.open(DialogInfoComponent, {
+              data: {
+                title: 'Ticket Closed',
+                message: 'Ticket Closed Successfully',
+                btn1: 'Close',
+                class: 'info',
+              },
+            });
+          },
+          (error) => {
+            this.dialog.open(DialogInfoComponent, {
+              data: {
+                title: 'Error',
+                message: 'Internal Error Please Try Again After Some Time',
+                btn1: 'Close',
+                class: 'warning',
+              },
+            });
+          },
+        );
       }
-    })
+    });
   }
   delete(data: any, user: any) {
     const dialogRef = this.dialog.open(DialogModelComponent, {
@@ -586,21 +593,24 @@ export class UserlistComponent {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        this.chatservice
-          .delete(`/${user}s/${data._id}`)
-          .subscribe((res: any) => {
-            this.tableData = this.tableData.filter((val: any) => val._id !== data._id)
+        this.chatservice.delete(`/${user}s/${data._id}`).subscribe(
+          (res: any) => {
+            this.tableData = this.tableData.filter(
+              (val: any) => val._id !== data._id,
+            );
             this.dialog.open(DialogInfoComponent, {
               data: {
                 title: `${user} deleted`,
                 message: `${user} Deleted Succesfully`,
                 class: 'info',
-                btn1: 'Close'
-              }
-            })
-          }, (err) => {
-            console.log(err, 'error')
-          });
+                btn1: 'Close',
+              },
+            });
+          },
+          (err) => {
+            console.log(err, 'error');
+          },
+        );
       }
     });
   }

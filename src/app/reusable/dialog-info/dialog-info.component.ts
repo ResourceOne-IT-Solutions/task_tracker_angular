@@ -16,9 +16,8 @@ export class DialogInfoComponent {
     this.dialogRef.updatePosition({
       bottom: '25px',
       right: '25px',
-      
     });
-    this.dialogRef.disableClose  =true
+    this.dialogRef.disableClose = true;
     if (this.data.title !== 'Credentials') {
       setTimeout(() => {
         this.dialogRef.close();

@@ -33,7 +33,7 @@ export class TicketsComponent {
     'In Progress',
     'Not Assigned',
     'Improper Requirment',
-  ];;
+  ];
   isStatusSeleted: boolean = false;
   description: any;
   ticketDetails: any;
@@ -51,7 +51,7 @@ export class TicketsComponent {
     this.store.dispatch(loadTickets({ params: this.paramId }));
     this.store.select(getTicketsData).subscribe((res: any) => {
       this.ticketsData = res;
-      this.mockTicketsData = this.ticketsData
+      this.mockTicketsData = this.ticketsData;
     });
   }
   gotodescription(data: any) {
