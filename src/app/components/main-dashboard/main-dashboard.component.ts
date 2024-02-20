@@ -27,7 +27,6 @@ export class MainDashboardComponent {
     private dialog: MatDialog,
   ) {}
   ngOnInit() {
-    this.data = localStorage.getItem('currentTaskUser');
     this.chatservice.getSocketData('error').subscribe((res) => {
       this.dialog.open(DialogInfoComponent, {
         data: {

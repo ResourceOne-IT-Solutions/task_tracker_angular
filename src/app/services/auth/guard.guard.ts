@@ -21,11 +21,9 @@ export class guardGuard implements CanActivate {
     private chatservice: ChatService,
     private store: Store,
     private activateRoute: ActivatedRoute,
-  ) {}
+  ) { }
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
-    //forget about: how to get the authority of user (I have kept it in shared service)
-
     const token = this.chatservice.getToken();
     if (token) {
       let httpOptions = {
@@ -36,10 +34,14 @@ export class guardGuard implements CanActivate {
       if (route.routeConfig && route.routeConfig.path === 'login_page') {
         this.router.navigate(['/dashboard']);
       }
-      return this.chatservice.getLoginSetup(httpOptions).pipe(
+      return this.chatservice.UserLoginData.pipe(
         map((res: any) => {
-          this.chatservice.UserLogin(res);
-          return true;
+          if (res) {
+            return true;
+          }else{
+            this.router.navigate(['/dashboard'])
+            return false
+          }
         }),
       );
     } else {

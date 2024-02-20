@@ -127,7 +127,8 @@
             <div class="Img_Details">
               <img
                 *ngIf="UserSelected.profileImageUrl"
-                src="{{ UserSelected.profileImageUrl }}"
+                src="{{ url }}/{{ UserSelected.profileImageUrl }}"
+                crossorigin="anonymous"
                 class="avatar"
               />
               <img

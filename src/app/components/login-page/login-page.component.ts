@@ -60,7 +60,6 @@ export class LoginPageComponent {
         .currentTaskUser({ ...this.loginForm.value, isAdmin })
         .subscribe(
           (res: any) => {
-            // localStorage.setItem('currentTaskUser', res.token)
             this.chatservice.setCookie('token', res.token, 1);
             this.chatservice.UserLogin(res);
             this.route.navigate(['dashboard']);

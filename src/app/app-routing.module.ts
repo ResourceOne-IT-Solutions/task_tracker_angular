@@ -33,12 +33,11 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: MainDashboardComponent,
-    canActivate: [guardGuard],
     children: [
       {
         path: '',
         component: DashBoardComponent,
-        canActivate: [guardGuard, adminGuard],
+        canActivate: [adminGuard],
       },
       {
         path: 'Chat-Box',

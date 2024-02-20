@@ -30,13 +30,16 @@ export class adminGuard implements CanActivate {
       };
       return this.chatservice.getLoginSetup(httpOptions).pipe(
         map((res: any) => {
+          this.chatservice.UserLogin(res);
           route.component = res.isAdmin
             ? DashBoardComponent
             : UserPageComponent;
           return true;
         }),
       );
+    }else{
+      this.router.navigate(['/'])
+      return of(false);
     }
-    return of(false);
   }
 }
