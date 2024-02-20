@@ -29,6 +29,7 @@ import { distinctUntilChanged } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Chart } from 'chart.js';
 import { DialogInfoComponent } from 'src/app/reusable/dialog-info/dialog-info.component';
+import { loadTable } from 'src/app/chat-store/table.actions';
 
 @Component({
   selector: 'app-userlist',
@@ -125,6 +126,7 @@ export class UserlistComponent {
   ngOnInit() {
     this.url = this.chatservice.BE_URL + '/profile-images';
     this.params = this.route.snapshot.routeConfig?.path?.split('-').join(' ');
+    this.store.dispatch(loadTable({ params: this.params }));
     this.userForm = this.fb.group({
       fname: ['', Validators.required],
       lname: ['', Validators.required],

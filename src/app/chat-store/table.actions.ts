@@ -1,9 +1,17 @@
 import { Data } from '@angular/router';
 import { createAction, props } from '@ngrx/store';
 
+export const loadUserApi = createAction(
+  'load user api [DashBoard Component]',
+  props<{ httpOptions: any }>(),
+);
+export const loadUserApiSuccess = createAction(
+  'load user api success [DashBoard Component]',
+  props<{ userLoginData: any }>(),
+);
 export const loadTable = createAction(
   'load table api [Tickets Component]',
-  props<{ params: string | undefined; userId: string }>(),
+  props<{ params: string | undefined }>(),
 );
 export const loadTableSuccess = createAction(
   'load table api success [Tickets Component]',
@@ -33,3 +41,6 @@ export const loadDeleteApi = createAction(
   'user list load delete api [UserList Component]',
   props<{ data: any }>(),
 );
+
+export const startLoading = createAction('start loading [App Component]');
+export const stopLoading = createAction('stop loading [App Component]');

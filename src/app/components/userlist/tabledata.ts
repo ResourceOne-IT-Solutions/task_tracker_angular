@@ -216,6 +216,8 @@ export const adminTicketColumns = [
   },
 ];
 
+// user and client columns
+
 export const clientColumns = [
   {
     columnDef: 'firstName',

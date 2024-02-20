@@ -76,7 +76,7 @@ export class UserViewComponent implements OnInit {
     this.router.navigate(['../Chat-Box'], { relativeTo: this.route });
   }
   ticketRequestApproved(data: any) {
-    this.router.navigate([`../tickets/client/${data.client.id}`], {
+    this.router.navigate(['../tickets/client', data.client.id], {
       relativeTo: this.route,
     });
   }

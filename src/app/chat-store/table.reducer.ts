@@ -6,12 +6,15 @@ import {
   loadTableSuccess,
   loadTicketsSuccess,
   loadUserData,
+  startLoading,
+  stopLoading,
 } from './table.actions';
 import { Task } from '../interface/tickets';
 import { state } from '@angular/animations';
 import { User } from '../interface/users';
 
 export interface UserState {
+  isLoading: boolean;
   tableData: Task[];
   userList: User[];
   ticketsData: Task[];
@@ -19,6 +22,7 @@ export interface UserState {
 }
 
 export const initialState: UserState = {
+  isLoading: false,
   tableData: [],
   userList: [],
   ticketsData: [],
@@ -27,7 +31,7 @@ export const initialState: UserState = {
 
 export const ticketsRuducer = createReducer(
   initialState,
-  on(loadTable, (state, { params, userId }) => ({
+  on(loadTable, (state, { params }) => ({
     ...state,
     tableData: [],
   })),
@@ -51,4 +55,6 @@ export const ticketsRuducer = createReducer(
     ...state,
     chatRequestData: [],
   })),
+  on(startLoading, (state) => ({ ...state, isLoading: true })),
+  on(stopLoading, (state) => ({ ...state, isLoading: false })),
 );
