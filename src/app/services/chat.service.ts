@@ -33,7 +33,7 @@ export class ChatService {
   BE_LOCAL2 = 'http://192.168.29.109:1234';
   BE_URL = this.BE_LOCAL;
   constructor(private http: HttpClient) {
-    this.socket = io(this.BE_URL, {
+    this.socket = io(this.BE_SERVER, {
       transports: ['websocket', 'polling', 'flashsocket'],
     });
   }
