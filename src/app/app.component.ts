@@ -9,6 +9,7 @@ import { DialogModelComponent } from './reusable/dialog-model/dialog-model.compo
 import { DialogInfoComponent } from './reusable/dialog-info/dialog-info.component';
 import { Store } from '@ngrx/store';
 import { chatRequests } from './chat-store/table.actions';
+import { isLoading } from './chat-store/table.selector';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,7 @@ import { chatRequests } from './chat-store/table.actions';
 })
 export class AppComponent implements OnInit {
   currentUser: any;
+  isLoading: any;
 
   constructor(
     private route: Router,
@@ -28,6 +30,9 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.chatservice.UserLoginData.subscribe((res) => {
       this.currentUser = res;
+    });
+    this.store.select(isLoading).subscribe((res: any) => {
+      this.isLoading = res;
     });
     this.chatservice.getSocketData('userRaisedTicket').subscribe((res) => {
       if (this.currentUser.isAdmin) {

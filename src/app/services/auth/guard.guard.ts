@@ -12,7 +12,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { DashBoardComponent } from 'src/app/components/dash-board/dash-board.component';
 import { UserPageComponent } from 'src/app/components/user-page/user-page.component';
 import { Store } from '@ngrx/store';
-import { loadTable } from 'src/app/chat-store/table.actions';
+import { loadTable, loadUserApi } from 'src/app/chat-store/table.actions';
 
 @Injectable()
 export class guardGuard implements CanActivate {
@@ -36,16 +36,8 @@ export class guardGuard implements CanActivate {
       if (route.routeConfig && route.routeConfig.path === 'login_page') {
         this.router.navigate(['/dashboard']);
       }
-      return this.chatservice.getLoginSetup(httpOptions).pipe(
-        map((res: any) => {
-          const url = route.routeConfig?.path?.split('-').join(' ');
-          this.chatservice.UserLogin(res);
-          if (url && res) {
-            this.store.dispatch(loadTable({ params: url, userId: res._id }));
-          }
-          return true;
-        }),
-      );
+      this.store.dispatch(loadUserApi({ httpOptions }));
+      return of(true);
     } else {
       if (route.routeConfig && route.routeConfig.path === 'login_page') {
         return of(true);

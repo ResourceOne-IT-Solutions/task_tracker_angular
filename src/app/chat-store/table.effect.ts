@@ -7,6 +7,8 @@ import {
   loadTableSuccess,
   loadTickets,
   loadTicketsSuccess,
+  loadUserApi,
+  loadUserApiSuccess,
 } from './table.actions';
 import { combineLatest, filter, map, mergeMap, of, withLatestFrom } from 'rxjs';
 
@@ -15,8 +17,9 @@ export class TicketsEffect {
   tableData$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadTable),
-      mergeMap(({ params, userId }) => {
-        return this.getTableData(params, userId).pipe(
+      withLatestFrom(this.chatservice.UserLoginData),
+      mergeMap(([{ params }, userId]) => {
+        return this.getTableData(params, userId?._id).pipe(
           map((tableData: any) => {
             return loadTableSuccess({ tableData });
           }),
@@ -37,7 +40,19 @@ export class TicketsEffect {
       }),
     ),
   );
-
+  loadUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadUserApi),
+      mergeMap(({ httpOptions }) => {
+        return this.chatservice.getLoginSetup(httpOptions).pipe(
+          map((user: any) => {
+            this.chatservice.UserLogin(user);
+            return loadUserApiSuccess({ userLoginData: user });
+          }),
+        );
+      }),
+    ),
+  );
   loadTickets$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadTickets),
@@ -65,10 +80,12 @@ export class TicketsEffect {
       return this.chatservice.get(`/tickets`);
     }
   }
-  private getTableData(params: string | undefined, userId: string) {
+  private getTableData(params: string | undefined, userId: string | undefined) {
     switch (params) {
       case 'user list':
-        return this.chatservice.getAllUsers();
+        return this.chatservice
+          .getAllUsers()
+          .pipe(map((users) => users.filter((user: any) => !user.isAdmin)));
       case 'helped tickets':
         return this.chatservice.get(`/tickets/helped-tickets/${userId}`);
       case 'today tickets':

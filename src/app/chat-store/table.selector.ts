@@ -20,3 +20,7 @@ export const getChatRequests = createSelector(
   featureState,
   (state) => state.chatRequestData,
 );
+export const isLoading = createSelector(
+  featureState,
+  (state) => state.isLoading,
+);
