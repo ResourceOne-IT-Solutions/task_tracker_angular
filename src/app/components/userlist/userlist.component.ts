@@ -383,6 +383,14 @@ export class UserlistComponent {
             key: 'assignTicket',
             data: payload,
           });
+          this.dialog.open(DialogInfoComponent, {
+            data: {
+              title: 'User Assigned',
+              message: 'User Assigned Successfully',
+              btn1: 'Close',
+              class: 'info',
+            },
+          });
           dismiss();
         },
         (err) => {
@@ -425,6 +433,14 @@ export class UserlistComponent {
             element._id === res._id ? res : element,
           );
           this.chatservice.sendSocketData({ key: 'addResource', data });
+          this.dialog.open(DialogInfoComponent, {
+            data: {
+              title: 'Resource Assigned',
+              message: 'Resource Assigned Successfully',
+              btn1: 'Close',
+              class: 'info',
+            },
+          });
           dismiss();
         },
         (err: any) => {
