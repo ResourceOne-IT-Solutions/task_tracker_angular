@@ -24,14 +24,14 @@ export class ForgotpasswordComponent implements OnInit {
   ) {}
 
   errorMesg: any;
-  passwordError :any;
+  passwordError: any;
   otpError: any;
-  verifyinfo : any;
+  verifyinfo: any;
   otpverify: any;
   isfirstSubmit: boolean = false;
   submitted: boolean = false;
   isMail: boolean = true;
-
+  showpassword: boolean = false;
   isLinear = true;
   passwordSuccess: any;
   'firstFormGroup': FormGroup;
@@ -58,7 +58,7 @@ export class ForgotpasswordComponent implements OnInit {
   }
   verifymail(stepper: any) {
     if (this.firstFormGroup.valid) {
-      this.isMail = false
+      this.isMail = false;
       const payload = {
         data: this.firstFormGroup.value.userid,
       };
@@ -72,7 +72,7 @@ export class ForgotpasswordComponent implements OnInit {
               message: `${res.message}`,
             },
           });
-            this.isMail = true;
+          this.isMail = true;
         },
         (err: any) => {
           this.errorMesg = err.error.error;
@@ -100,13 +100,16 @@ export class ForgotpasswordComponent implements OnInit {
         },
       );
     }
+    this.firstFormGroup.reset();
+    this.secondFormGroup.reset();
   }
+  // Update password
   updatePassword(stepper: any) {
     this.submitted = true;
-    const key = this.verifyinfo.userId ? "userId": "email"
+    const key = this.verifyinfo.userId ? 'userId' : 'email';
     const credentials = {
-      [key] : this.verifyinfo[key]
-    }
+      [key]: this.verifyinfo[key],
+    };
     if (this.passwordForm.valid) {
       const updatepayload = {
         data: {
@@ -119,23 +122,23 @@ export class ForgotpasswordComponent implements OnInit {
         this.passwordForm.controls['confirmpassword'].value
       ) {
         this.submitted = false;
-        this.chatservice.updatePassword(updatepayload).subscribe((res) => {
-          this.passwordSuccess = res;
-          this.dialog.open(DialogInfoComponent, {
-            data: {
-              message: `${this.passwordSuccess.message}`,
-            },
-          });
-        },
-        (err:any) =>{
-          this.passwordError = err.error.error;
-          this.dialog.open(DialogInfoComponent , {
-            data : {
-              error : `${this.passwordError}`
-            }
-          })
-
-        }
+        this.chatservice.updatePassword(updatepayload).subscribe(
+          (res) => {
+            this.passwordSuccess = res;
+            this.dialog.open(DialogInfoComponent, {
+              data: {
+                message: `${this.passwordSuccess.message}`,
+              },
+            });
+          },
+          (err: any) => {
+            this.passwordError = err.error.error;
+            this.dialog.open(DialogInfoComponent, {
+              data: {
+                error: `${this.passwordError}`,
+              },
+            });
+          },
         );
       }
     }
@@ -144,5 +147,8 @@ export class ForgotpasswordComponent implements OnInit {
 
   goback() {
     this.location.back();
+  }
+  togglePassword() {
+    this.showpassword = !this.showpassword;
   }
 }
