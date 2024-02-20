@@ -71,6 +71,7 @@
 <div *ngIf="params == 'feed-back-list' && !FullDetails">
   <button class="btn btn-danger" (click)="gotoback()">Back</button>
   <app-table
+  class="table"
     [data]="feedBackData"
     [tableColumns]="feedbackcolumns"
     (detailsClick)="GotoFullDetails($event)"
