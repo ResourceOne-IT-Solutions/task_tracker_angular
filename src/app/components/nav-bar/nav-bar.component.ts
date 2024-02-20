@@ -18,7 +18,7 @@ export class NavBarComponent {
   @ViewChild('clientModel', { static: false }) clientModel: any;
   @ViewChild('ticketModel', { static: false }) ticketModel: any;
   adminStatus = ['Offline', 'Break', 'Available', 'On Ticket', 'Sleep'];
-  Breaks = ['BreakFast', 'Lunch Break'];
+  Breaks = ['BreakFast Break', 'Lunch Break'];
 
   @Input() 'isAdmin': boolean;
   @Input() userDetails: any;
@@ -166,9 +166,9 @@ export class NavBarComponent {
     this.StartTimer = false;
     const updatePayload = {
       id: this.userDetails._id,
-      status: this.Status,
+      status: this.Status === 'Break'? this.BreakStatus : this.Status,
     };
-
+      this.BreakStatus = this.Breaks[0]
     this.Status === 'Available'
       ? this.idle.startIdleMonitoring()
       : this.idle.stopIdleIdleMonitoring();
@@ -178,8 +178,16 @@ export class NavBarComponent {
     });
   }
   changeBreakeStatus(data: any) {
+    const updatePayload = {
+      id: this.userDetails._id,
+      status: this.Status === 'Break'? this.BreakStatus : this.Status,
+    };
+    this.chatservice.sendSocketData({
+      key: 'changeStatus',
+      data: updatePayload,
+    });
     if (
-      this.BreakStatus === 'BreakFast' ||
+      this.BreakStatus === 'BreakFast Break' ||
       this.BreakStatus === 'Lunch Break'
     ) {
       this.StartTimer = true;
@@ -319,10 +327,10 @@ export class NavBarComponent {
         this.Minutes++;
         this.Seconds = 0;
       }
-      if (this.Minutes >= 1) {
+      if (this.Minutes >= 20) {
         this.textColor = true;
       }
-      if (this.Minutes >= 2) {
+      if (this.Minutes >= 30) {
         this.LunchBreak = true;
       }
     }, 1000);
