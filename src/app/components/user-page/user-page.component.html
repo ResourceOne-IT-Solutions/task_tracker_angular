@@ -63,29 +63,29 @@
           </p>
         </div>
       </div>
-      <div class="d-flex flex-column justify-content-around" >
-        <div *ngIf="userTickets.length > 0">
-        <p class="userslabel">Stats</p>
-        <div class="pieChart">
-          <h2>Today Tickets</h2>
-          <div class="chart-legend">
-            <div
-              class="grid-item"
-              *ngFor="let label of pieChartLabels; let i = index"
-            >
-              <span [style.color]="pieChartColors[i]">&#9632;</span>
-              {{ label }}: {{ UserPiechart[i] }}
+      <div class="d-flex flex-column justify-content-around">
+        <div>
+          <p class="userslabel">Stats</p>
+          <div class="pieChart">
+            <h2>Today Tickets</h2>
+            <div class="chart-legend">
+              <div
+                class="grid-item"
+                *ngFor="let label of pieChartLabels; let i = index"
+              >
+                <span [style.color]="pieChartColors[i]">&#9632;</span>
+                {{ label }}: {{ UserPiechart[i] }}
+              </div>
             </div>
+            <app-pie-chart
+              *ngIf="UserPiechart"
+              [pieChartId]="'piechartdemo'"
+              [PieChartData]="UserPiechart"
+            ></app-pie-chart>
           </div>
-          <app-pie-chart
-            *ngIf="UserPiechart"
-            [pieChartId]="'piechartdemo'"
-            [PieChartData]="UserPiechart"
-          ></app-pie-chart>
+          <p class="tickets">Total Tickets : {{ userTickets.length }}</p>
         </div>
-        <p class="tickets">Total Tickets : {{ userTickets.length }}</p>
-      </div>
-      <h2 *ngIf="userTickets <= 0">No Today Tickets</h2>
+        <h2 *ngIf="userTickets <= 0">No Today Tickets</h2>
         <div *ngIf="!isAdminView">
           <button class="btn btn-info" (click)="requestChat()">
             Request Chat with User

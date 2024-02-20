@@ -23,7 +23,7 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./user-page.component.scss'],
 })
 export class UserPageComponent implements OnInit {
-  @HostListener( 'window: popstate', ['$event'])
+  @HostListener('window: popstate', ['$event'])
   requestchat = false;
   isupdatestatus = false;
   Userstatus = true;
@@ -87,8 +87,7 @@ export class UserPageComponent implements OnInit {
     private location: LocationStrategy,
     private http: HttpClient,
     private dialog: MatDialog,
-  ) {
-  }
+  ) {}
   ngOnInit(): void {
     this.url = this.chatservice.BE_URL;
     this.chatservice.getSocketData('ticketRaiseStatus').subscribe((res) => {

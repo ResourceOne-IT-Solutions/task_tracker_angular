@@ -72,11 +72,11 @@
             {{ label }}: {{ TotalTicketsPiechart[i] }}
           </div>
         </div>
-          <app-pie-chart
-            *ngIf="TotalTicketsPiechart"
-            [pieChartId]="'totalTicketschart'"
-            [PieChartData]="TotalTicketsPiechart"
-          ></app-pie-chart>
+        <app-pie-chart
+          *ngIf="TotalTicketsPiechart"
+          [pieChartId]="'totalTicketschart'"
+          [PieChartData]="TotalTicketsPiechart"
+        ></app-pie-chart>
         <p>Total Tickets : {{ ticketData.length }}</p>
       </div>
       <h2 *ngIf="ticketData.length <= 0">No Tickets</h2>
