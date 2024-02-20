@@ -110,11 +110,11 @@
         <span class="fw-medium">Content: </span
         >{{ SelectedfeedBackData.content }}
       </p>
-      <p>
+      <p *ngFor="let file of SelectedfeedBackData.files">
         <img
           class="w-25"
           src="data:image/jpeg;base64,{{
-            SelectedfeedBackData.files[0].buffer
+           file.buffer
           }}"
           alt="NoImage"
         />

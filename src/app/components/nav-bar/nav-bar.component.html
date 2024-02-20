@@ -25,13 +25,11 @@
         </select>
         <select
           (change)="changeBreakeStatus($event)"
-          *ngIf="Status === 'Break'"
           [(ngModel)]="BreakStatus"
+          *ngIf="Status === 'Break'"
         >
           <option
-            selected
             class="ms-3"
-            [value]="break"
             *ngFor="let break of Breaks"
           >
             {{ break }}
@@ -40,7 +38,7 @@
       </button>
       <span *ngIf="StartTimer">
         <span
-          *ngIf="BreakStatus === 'BreakFast'"
+          *ngIf="BreakStatus === 'BreakFast Break'"
           class="Breaketimer"
           [ngClass]="textColor ? 'TimeSkip' : ''"
           >{{ format(Minutes) }}:{{ format(Seconds) }}
