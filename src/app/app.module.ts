@@ -103,6 +103,7 @@ import { MatListModule } from '@angular/material/list';
     NgxSpinnerModule,
     StoreModule.forRoot({ tickets: ticketsRuducer }),
     EffectsModule.forRoot([TicketsEffect]),
+    
   ],
 
   providers: [

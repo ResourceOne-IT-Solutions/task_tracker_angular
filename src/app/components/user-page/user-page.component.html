@@ -63,7 +63,8 @@
           </p>
         </div>
       </div>
-      <div class="d-flex flex-column justify-content-around">
+      <div class="d-flex flex-column justify-content-around" >
+        <div *ngIf="userTickets.length > 0">
         <p class="userslabel">Stats</p>
         <div class="pieChart">
           <h2>Today Tickets</h2>
@@ -81,9 +82,10 @@
             [pieChartId]="'piechartdemo'"
             [PieChartData]="UserPiechart"
           ></app-pie-chart>
-          <h2 *ngIf="userTickets <= 0">No Today Tickets</h2>
         </div>
         <p class="tickets">Total Tickets : {{ userTickets.length }}</p>
+      </div>
+      <h2 *ngIf="userTickets <= 0">No Today Tickets</h2>
         <div *ngIf="!isAdminView">
           <button class="btn btn-info" (click)="requestChat()">
             Request Chat with User
