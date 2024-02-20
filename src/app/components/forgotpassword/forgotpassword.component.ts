@@ -24,10 +24,14 @@ export class ForgotpasswordComponent implements OnInit {
   ) {}
 
   errorMesg: any;
+  passwordError :any;
   otpError: any;
+  verifyinfo : any;
   otpverify: any;
   isfirstSubmit: boolean = false;
   submitted: boolean = false;
+  isMail: boolean = true;
+
   isLinear = true;
   passwordSuccess: any;
   'firstFormGroup': FormGroup;
@@ -54,11 +58,13 @@ export class ForgotpasswordComponent implements OnInit {
   }
   verifymail(stepper: any) {
     if (this.firstFormGroup.valid) {
+      this.isMail = false
       const payload = {
         data: this.firstFormGroup.value.userid,
       };
       this.chatservice.getMailVerify(payload).subscribe(
         (res: any) => {
+          this.verifyinfo = res;
           this.isfirstSubmit = true;
           stepper.next();
           this.dialog.open(DialogInfoComponent, {
@@ -66,6 +72,7 @@ export class ForgotpasswordComponent implements OnInit {
               message: `${res.message}`,
             },
           });
+            this.isMail = true;
         },
         (err: any) => {
           this.errorMesg = err.error.error;
@@ -85,9 +92,8 @@ export class ForgotpasswordComponent implements OnInit {
       };
       this.chatservice.verifyOtp(verifypayload).subscribe(
         (res) => {
-          stepper.next();
           this.otpverify = res;
-          this.otpError = '';
+          stepper.next();
         },
         (err: any) => {
           this.otpError = err.error.error;
@@ -97,12 +103,16 @@ export class ForgotpasswordComponent implements OnInit {
   }
   updatePassword(stepper: any) {
     this.submitted = true;
+    const key = this.verifyinfo.userId ? "userId": "email"
+    const credentials = {
+      [key] : this.verifyinfo[key]
+    }
     if (this.passwordForm.valid) {
       const updatepayload = {
         data: {
           password: this.passwordForm.value.newpassword,
-          credential: this.firstFormGroup.value.userid,
         },
+        credentials,
       };
       if (
         this.passwordForm.controls['newpassword'].value ===
@@ -116,7 +126,17 @@ export class ForgotpasswordComponent implements OnInit {
               message: `${this.passwordSuccess.message}`,
             },
           });
-        });
+        },
+        (err:any) =>{
+          this.passwordError = err.error.error;
+          this.dialog.open(DialogInfoComponent , {
+            data : {
+              error : `${this.passwordError}`
+            }
+          })
+
+        }
+        );
       }
     }
     this.passwordForm.reset();
