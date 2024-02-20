@@ -78,8 +78,8 @@
           [PieChartData]="TotalTicketsPiechart"
         ></app-pie-chart>
         <p>Total Tickets : {{ ticketData.length }}</p>
-        <h2 *ngIf="ticketData.length <= 0">No Tickets</h2>
       </div>
+      <h2 *ngIf="ticketData.length <= 0">No Tickets</h2>
     </div>
   </div>
   <div class="d-flex justify-content-around">
@@ -100,8 +100,8 @@
         [PieChartData]="UserListchart"
       ></app-pie-chart>
       <p>Total Users : {{ UserListlength }}</p>
-      <h2 *ngIf="UserListlength <= 0">No Users</h2>
     </div>
+    <h2 *ngIf="UserListchart <= 0">No Users</h2>
     <div class="pieChart">
       <h2>Today Tickets</h2>
       <div class="chart-legend">

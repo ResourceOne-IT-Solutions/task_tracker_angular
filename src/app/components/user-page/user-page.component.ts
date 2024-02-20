@@ -23,6 +23,7 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./user-page.component.scss'],
 })
 export class UserPageComponent implements OnInit {
+  @HostListener('window: popstate', ['$event'])
   requestchat = false;
   isupdatestatus = false;
   Userstatus = true;
@@ -86,14 +87,7 @@ export class UserPageComponent implements OnInit {
     private location: LocationStrategy,
     private http: HttpClient,
     private dialog: MatDialog,
-  ) {
-    history.pushState(null, '', window.location.href);
-    // check if back or forward button is pressed.
-    this.location.onPopState(() => {
-      history.pushState(null, '', window.location.href);
-      // this.stepper.previous();
-    });
-  }
+  ) {}
   ngOnInit(): void {
     this.url = this.chatservice.BE_URL;
     this.chatservice.getSocketData('ticketRaiseStatus').subscribe((res) => {
@@ -257,6 +251,10 @@ export class UserPageComponent implements OnInit {
           };
         }
       });
+  }
+  onPopState(event: Event): void {
+    event.preventDefault();
+    this.stepper.previous();
   }
   breakLoginTimeings(user: any) {
     const statusByBreak = this.statusGroupedByDate();
