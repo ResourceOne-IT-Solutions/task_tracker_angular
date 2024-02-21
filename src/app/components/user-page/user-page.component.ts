@@ -88,16 +88,16 @@ export class UserPageComponent implements OnInit {
     private location: LocationStrategy,
     private http: HttpClient,
     private dialog: MatDialog,
-  ) { }
+  ) {}
   ngOnInit(): void {
     this.paramId = this.route.snapshot.paramMap.get('id');
     if (this.paramId) {
       this.isAdminView = true;
       this.chatservice.get(`/users/${this.paramId}`).subscribe((res: User) => {
-        this.currentUser = res
+        this.currentUser = res;
         this.breakLoginTimeings(this.currentUser);
         this.statusByDate = this.statusGroupedByDate();
-      })
+      });
     } else {
       this.chatservice.UserLoginData.subscribe((res: any) => {
         this.currentUser = res;
@@ -196,7 +196,7 @@ export class UserPageComponent implements OnInit {
       });
   }
   getStatus(status: string) {
-    return this.chatservice.getTicketStatus(this.userTickets ,status);
+    return this.chatservice.getTicketStatus(this.userTickets, status);
   }
   onPopState(event: Event): void {
     event.preventDefault();
@@ -208,35 +208,35 @@ export class UserPageComponent implements OnInit {
     this.breakTimes = statusByBreak ? statusByBreak[0] : undefined;
     this.loginTiming = loginTime ? loginTime : undefined;
     this.chatservice
-    .getUsertickets(this.currentUser._id)
-    .subscribe((res: any) => {
-      if (this.currentUser) {
-        this.userTickets = res.filter(
-          (item: any) => item.user.id === this.currentUser._id,
-        );
-        const resolvedTickets = this.getStatus('resolved');
-        const pendingTickets = this.getStatus('pending');
-        const inprogressTickets = this.getStatus('in progress');
-        const improper = this.getStatus('improper requirment');
-        const Closed = this.getStatus('closed');
-        const Assigned = this.getStatus('assigned');
-        const notAssigned = this.getStatus('Not Assigned');
-        const data = [
-          resolvedTickets,
-          pendingTickets,
-          inprogressTickets,
-          improper,
-          Closed,
-          Assigned,
-          notAssigned,
-        ];
-        this.UserPiechart = {
-          colors: this.pieChartColors,
-          labels: this.pieChartLabels,
-          data: data,
-        };
-      }
-    });
+      .getUsertickets(this.currentUser._id)
+      .subscribe((res: any) => {
+        if (this.currentUser) {
+          this.userTickets = res.filter(
+            (item: any) => item.user.id === this.currentUser._id,
+          );
+          const resolvedTickets = this.getStatus('resolved');
+          const pendingTickets = this.getStatus('pending');
+          const inprogressTickets = this.getStatus('in progress');
+          const improper = this.getStatus('improper requirment');
+          const Closed = this.getStatus('closed');
+          const Assigned = this.getStatus('assigned');
+          const notAssigned = this.getStatus('Not Assigned');
+          const data = [
+            resolvedTickets,
+            pendingTickets,
+            inprogressTickets,
+            improper,
+            Closed,
+            Assigned,
+            notAssigned,
+          ];
+          this.UserPiechart = {
+            colors: this.pieChartColors,
+            labels: this.pieChartLabels,
+            data: data,
+          };
+        }
+      });
   }
   loginTimeGroupedByDate() {
     const groupByTime = this.chatservice.groupByDate(

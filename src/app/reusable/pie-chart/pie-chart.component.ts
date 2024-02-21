@@ -11,12 +11,8 @@ export class PieChartComponent {
   @Input() PieChartData: any;
   myPieChart: any;
   pydata: any;
-  ngOnChanges(changes: SimpleChanges) {
-
-  }
-  ngOnInit() {
-
-  }
+  ngOnChanges(changes: SimpleChanges) {}
+  ngOnInit() {}
   ngAfterViewInit() {
     this.pydata = new Chart(this.pieChartId, {
       type: 'pie',
@@ -40,9 +36,12 @@ export class PieChartComponent {
     });
   }
   displayCenter(index: any) {
-    if (this.PieChartData.data.length % 2 !== 0 && index+1 === this.PieChartData.data.length) {
-      return 'center'
+    if (
+      this.PieChartData.data.length % 2 !== 0 &&
+      index + 1 === this.PieChartData.data.length
+    ) {
+      return 'center';
     }
-    return ''
+    return '';
   }
 }

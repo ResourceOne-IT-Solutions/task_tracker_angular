@@ -71,7 +71,7 @@ export class DashBoardComponent {
   pstDate!: string;
   est!: string;
   tableData: any = [];
-  ChartData: any
+  ChartData: any;
   //ToolTip.
   positionOptions: TooltipPosition[] = [
     'after',
@@ -83,7 +83,7 @@ export class DashBoardComponent {
   ];
   position = new FormControl(this.positionOptions[0]);
   TotalTicketsPiechart: any = [];
-  UserListchart: any ;
+  UserListchart: any;
   url: string = '';
   UserListlength: any;
   constructor(

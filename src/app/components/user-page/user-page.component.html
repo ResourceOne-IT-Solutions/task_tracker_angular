@@ -74,7 +74,9 @@
               [PieChartData]="UserPiechart"
             ></app-pie-chart>
           </div>
-          <p class="ps-5 pt-2 w-50 text-center"  *ngIf="userTickets?.length">Total Tickets : {{ userTickets.length }}</p>
+          <p class="ps-5 pt-2 w-50 text-center" *ngIf="userTickets?.length">
+            Total Tickets : {{ userTickets.length }}
+          </p>
         </div>
         <h2 *ngIf="userTickets.length <= 0">No Today Tickets</h2>
         <div *ngIf="!isAdminView">

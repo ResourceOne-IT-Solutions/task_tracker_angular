@@ -116,7 +116,7 @@ export class UserlistComponent {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private store: Store,
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.url = this.chatservice.BE_URL + '/profile-images';
@@ -150,7 +150,7 @@ export class UserlistComponent {
     });
     this.store.pipe(select(getTableData)).subscribe((res: any) => {
       this.tableData = res;
-      this.mockTableData = res
+      this.mockTableData = res;
     });
   }
   // user form
@@ -171,18 +171,20 @@ export class UserlistComponent {
     this.location.back();
   }
   SearchUsers() {
-
     if (this.params.includes('tickets')) {
       this.tableData = this.mockTableData.filter(
         (val: any) =>
-          val.client.name.toLowerCase().indexOf(this.searchFilter.toLowerCase()) >
-          -1
+          val.client.name
+            .toLowerCase()
+            .indexOf(this.searchFilter.toLowerCase()) > -1,
       );
     } else {
       this.tableData = this.mockTableData.filter(
         (val: any) =>
-          this.chatservice.getFullName(val).toLowerCase().indexOf(this.searchFilter.toLowerCase()) >
-          -1,
+          this.chatservice
+            .getFullName(val)
+            .toLowerCase()
+            .indexOf(this.searchFilter.toLowerCase()) > -1,
       );
     }
   }
@@ -634,10 +636,8 @@ export class UserlistComponent {
     }
   }
   gotodescription(data: any) {
-
     this.router.navigate(['../ticket-description', data._id], {
       relativeTo: this.route,
     });
-
   }
 }

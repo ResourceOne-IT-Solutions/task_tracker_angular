@@ -15,8 +15,6 @@
   margin: 14px 10px;
 }
 
-
-
 .admin-content {
   width: 50%;
   justify-content: space-around;
@@ -34,17 +32,17 @@
 }
 
 .pieChart {
-  >div {
+  > div {
     ::ng-deep .chart-container {
       display: flex;
-     .chart-legend {
-          display: block;
-          padding: 10px;
-          .grid-item{
-            text-align: start;
-            padding: 5px;
-          }
-     }
+      .chart-legend {
+        display: block;
+        padding: 10px;
+        .grid-item {
+          text-align: start;
+          padding: 5px;
+        }
+      }
     }
   }
 }
@@ -107,8 +105,9 @@ textarea {
     // border: 1px solid;
     height: 134px;
     border-radius: 50%;
-    box-shadow: inset 8px 8px 8px #cbced1,
-    inset -8px -8px 8px #e7cfcf;
+    box-shadow:
+      inset 8px 8px 8px #cbced1,
+      inset -8px -8px 8px #e7cfcf;
 
     p {
       margin: 9px;
