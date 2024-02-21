@@ -166,9 +166,9 @@ export class NavBarComponent {
     this.StartTimer = false;
     const updatePayload = {
       id: this.userDetails._id,
-      status: this.Status === 'Break'? this.BreakStatus : this.Status,
+      status: this.Status === 'Break' ? this.BreakStatus : this.Status,
     };
-      this.BreakStatus = this.Breaks[0]
+    this.BreakStatus = this.Breaks[0];
     this.Status === 'Available'
       ? this.idle.startIdleMonitoring()
       : this.idle.stopIdleIdleMonitoring();
@@ -180,7 +180,7 @@ export class NavBarComponent {
   changeBreakeStatus(data: any) {
     const updatePayload = {
       id: this.userDetails._id,
-      status: this.Status === 'Break'? this.BreakStatus : this.Status,
+      status: this.Status === 'Break' ? this.BreakStatus : this.Status,
     };
     this.chatservice.sendSocketData({
       key: 'changeStatus',

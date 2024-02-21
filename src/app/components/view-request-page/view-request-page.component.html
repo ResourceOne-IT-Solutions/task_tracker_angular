@@ -10,13 +10,12 @@
         *ngFor="let chatrequest of ChatRequest; let i = index"
         [ngClass]="requestCount.includes(chatrequest._id) ? 'bg-info' : ''"
       >
-        {{ requestCount.includes(chatrequest._id) }}
         <div>
           <p>
             {{ chatrequest.sender.name }} Is Requisting To Chat With
             {{ chatrequest.opponent.name }}
-            {{ chatrequest.time }}
-            {{ chatrequest.date }}
+            {{ chatrequest.date | date: "dd/MM/yyyy" }}
+            {{ chatrequest.time | date: "hh:mm a" }}
           </p>
           <div *ngIf="chatrequest.isPending == true" class="isPending">
             <button
@@ -53,8 +52,8 @@
           <p>
             {{ ticketrequest.sender.name }} Is Requisting For
             {{ ticketrequest.client.name }}
-            {{ ticketrequest.time }}
-            {{ ticketrequest.date }}
+            {{ ticketrequest.date | date: "dd/MM/yyyy" }}
+            {{ ticketrequest.time | date: "hh:mm a" }}
           </p>
           <div *ngIf="ticketrequest.isPending == true" class="isPending">
             <button
@@ -91,7 +90,7 @@
           <div>
             <p>Message : {{ messages.content }}</p>
             <p>Sent By :{{ messages.sender.name }}</p>
-            <p>Time :{{ messages.time }}</p>
+            <p>Time :{{ messages.time | date: "hh:mm a" }}</p>
           </div>
           <div>
             <p>Delivered To : {{ messages.deliveredTo.length }}</p>
@@ -119,7 +118,7 @@
           <div>
             <p>Message : {{ messages.content }}</p>
             <p>Sent By :{{ messages.sender.name }}</p>
-            <p>Time :{{ messages.time }}</p>
+            <p>Time :{{ messages.time | date: "hh:mm a" }}</p>
           </div>
         </div>
         <div *ngIf="messages.isPending == true" class="isPending">

@@ -86,7 +86,7 @@
           <div>
             <p>Message : {{ messages.content }}</p>
             <p>Sent By :{{ messages.sender.name }}</p>
-            <p>Time :{{ messages.time }}</p>
+            <p>Time :{{ messages.time | date: "dd/MM/yyy hh:mm a" }}</p>
           </div>
           <div>
             <button

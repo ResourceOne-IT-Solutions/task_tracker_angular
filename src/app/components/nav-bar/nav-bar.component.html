@@ -28,10 +28,7 @@
           [(ngModel)]="BreakStatus"
           *ngIf="Status === 'Break'"
         >
-          <option
-            class="ms-3"
-            *ngFor="let break of Breaks"
-          >
+          <option class="ms-3" *ngFor="let break of Breaks">
             {{ break }}
           </option>
         </select>

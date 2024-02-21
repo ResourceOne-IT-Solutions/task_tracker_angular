@@ -21,7 +21,7 @@ export class guardGuard implements CanActivate {
     private chatservice: ChatService,
     private store: Store,
     private activateRoute: ActivatedRoute,
-  ) { }
+  ) {}
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     const token = this.chatservice.getToken();
@@ -38,9 +38,9 @@ export class guardGuard implements CanActivate {
         map((res: any) => {
           if (res) {
             return true;
-          }else{
-            this.router.navigate(['/dashboard'])
-            return false
+          } else {
+            this.router.navigate(['/dashboard']);
+            return false;
           }
         }),
       );
