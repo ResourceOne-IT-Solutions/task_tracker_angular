@@ -37,8 +37,8 @@ export class adminGuard implements CanActivate {
           return true;
         }),
       );
-    }else{
-      this.router.navigate(['/'])
+    } else {
+      this.router.navigate(['/']);
       return of(false);
     }
   }

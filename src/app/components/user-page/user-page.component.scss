@@ -149,21 +149,3 @@
     }
   }
 }
-
-.chart-legend {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-
-  .grid-item {
-    text-align: center;
-
-    span {
-      font-size: 20px;
-    }
-  }
-
-  .grid-item:nth-child(5) {
-    grid-column: span 2;
-  }
-}

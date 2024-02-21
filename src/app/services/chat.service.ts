@@ -279,7 +279,7 @@ export class ChatService {
       return data.firstName + ' ' + data.lastName;
     }
     if (data.firstName) {
-      return data.firstname;
+      return data.firstName;
     }
     if (data.name) {
       return data.name;

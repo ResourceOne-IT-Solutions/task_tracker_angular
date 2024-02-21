@@ -16,6 +16,7 @@ import { TooltipPosition } from '@angular/material/tooltip';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DialogInfoComponent } from 'src/app/reusable/dialog-info/dialog-info.component';
 import { MatDialog } from '@angular/material/dialog';
+import { User } from 'src/app/interface/users';
 
 @Component({
   selector: 'app-user-page',
@@ -89,6 +90,21 @@ export class UserPageComponent implements OnInit {
     private dialog: MatDialog,
   ) {}
   ngOnInit(): void {
+    this.paramId = this.route.snapshot.paramMap.get('id');
+    if (this.paramId) {
+      this.isAdminView = true;
+      this.chatservice.get(`/users/${this.paramId}`).subscribe((res: User) => {
+        this.currentUser = res;
+        this.breakLoginTimeings(this.currentUser);
+        this.statusByDate = this.statusGroupedByDate();
+      });
+    } else {
+      this.chatservice.UserLoginData.subscribe((res: any) => {
+        this.currentUser = res;
+        this.breakLoginTimeings(this.currentUser);
+        this.statusByDate = this.statusGroupedByDate();
+      });
+    }
     this.url = this.chatservice.BE_URL;
     this.chatservice.getSocketData('ticketRaiseStatus').subscribe((res) => {
       this.dialog.open(DialogInfoComponent, {
@@ -114,28 +130,7 @@ export class UserPageComponent implements OnInit {
         timeZone: 'America/Chicago',
       });
     }, 1000);
-    this.paramId = this.route.snapshot.paramMap.get('id');
-    this.chatservice.UserLoginData.subscribe((res: any) => {
-      if (this.paramId) {
-        this.isAdminView = true;
-      } else {
-        this.currentUser = res;
-        this.breakLoginTimeings(this.currentUser);
-        this.statusByDate = this.statusGroupedByDate();
-      }
-    });
-    //AllUserList.....
-    this.chatservice.getAllUsers().subscribe((res) => {
-      this.userList = res.filter((val: any) => {
-        return !val.isAdmin;
-      });
-      if (this.paramId) {
-        this.currentUser = this.userList.find(
-          (val: any) => val._id === this.paramId,
-        );
-        this.breakLoginTimeings(this.currentUser);
-      }
-    });
+
     this.chatservice.getSocketData('adminMessageToAll').subscribe((res) => {
       const message = `Send By AdminName: ${res.sender.name} ,  Admin message  : ${res.content}`;
 
@@ -199,7 +194,19 @@ export class UserPageComponent implements OnInit {
           });
         }
       });
-
+  }
+  getStatus(status: string) {
+    return this.chatservice.getTicketStatus(this.userTickets, status);
+  }
+  onPopState(event: Event): void {
+    event.preventDefault();
+    this.stepper.previous();
+  }
+  breakLoginTimeings(user: any) {
+    const statusByBreak = this.statusGroupedByDate();
+    const loginTime = this.loginTimeGroupedByDate();
+    this.breakTimes = statusByBreak ? statusByBreak[0] : undefined;
+    this.loginTiming = loginTime ? loginTime : undefined;
     this.chatservice
       .getUsertickets(this.currentUser._id)
       .subscribe((res: any) => {
@@ -207,34 +214,13 @@ export class UserPageComponent implements OnInit {
           this.userTickets = res.filter(
             (item: any) => item.user.id === this.currentUser._id,
           );
-          const resolvedTickets = this.chatservice.getTicketStatus(
-            this.userTickets,
-            'resolved',
-          );
-          const pendingTickets = this.chatservice.getTicketStatus(
-            this.userTickets,
-            'pending',
-          );
-          const inprogressTickets = this.chatservice.getTicketStatus(
-            this.userTickets,
-            'in progress',
-          );
-          const improper = this.chatservice.getTicketStatus(
-            this.userTickets,
-            'improper requirment',
-          );
-          const Closed = this.chatservice.getTicketStatus(
-            this.userTickets,
-            'closed',
-          );
-          const Assigned = this.chatservice.getTicketStatus(
-            this.userTickets,
-            'assigned',
-          );
-          const notAssigned = this.chatservice.getTicketStatus(
-            this.userTickets,
-            'Not Assigned',
-          );
+          const resolvedTickets = this.getStatus('resolved');
+          const pendingTickets = this.getStatus('pending');
+          const inprogressTickets = this.getStatus('in progress');
+          const improper = this.getStatus('improper requirment');
+          const Closed = this.getStatus('closed');
+          const Assigned = this.getStatus('assigned');
+          const notAssigned = this.getStatus('Not Assigned');
           const data = [
             resolvedTickets,
             pendingTickets,
@@ -251,16 +237,6 @@ export class UserPageComponent implements OnInit {
           };
         }
       });
-  }
-  onPopState(event: Event): void {
-    event.preventDefault();
-    this.stepper.previous();
-  }
-  breakLoginTimeings(user: any) {
-    const statusByBreak = this.statusGroupedByDate();
-    const loginTime = this.loginTimeGroupedByDate();
-    this.breakTimes = statusByBreak ? statusByBreak[0] : undefined;
-    this.loginTiming = loginTime ? loginTime : undefined;
   }
   loginTimeGroupedByDate() {
     const groupByTime = this.chatservice.groupByDate(
@@ -310,6 +286,11 @@ export class UserPageComponent implements OnInit {
 
   requestChat() {
     this.requestchat = !this.requestchat;
+    this.chatservice.getAllUsers().subscribe((res) => {
+      this.userList = res.filter((val: any) => {
+        return !val.isAdmin;
+      });
+    });
   }
   sendadmin() {
     this.requestchat = !this.requestchat;

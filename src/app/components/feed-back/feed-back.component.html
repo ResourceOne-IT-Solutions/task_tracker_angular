@@ -71,7 +71,7 @@
 <div *ngIf="params == 'feed-back-list' && !FullDetails">
   <button class="btn btn-danger" (click)="gotoback()">Back</button>
   <app-table
-  class="table"
+    class="table"
     [data]="feedBackData"
     [tableColumns]="feedbackcolumns"
     (detailsClick)="GotoFullDetails($event)"
@@ -113,9 +113,7 @@
       <p *ngFor="let file of SelectedfeedBackData.files">
         <img
           class="w-25"
-          src="data:image/jpeg;base64,{{
-           file.buffer
-          }}"
+          src="data:image/jpeg;base64,{{ file.buffer }}"
           alt="NoImage"
         />
       </p>

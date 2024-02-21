@@ -1,1 +1,15 @@
-<canvas [id]="pieChartId" *ngIf="PieChartData"> </canvas>
+<div class="chart-container">
+  <div>
+    <canvas [id]="pieChartId"> </canvas>
+  </div>
+  <div class="chart-legend" *ngIf="PieChartData.data.length">
+    <div
+      class="grid-item"
+      [ngClass]="displayCenter(i)"
+      *ngFor="let label of PieChartData.labels; let i = index"
+    >
+      <span [style.color]="PieChartData.colors[i]">&#9632;</span>
+      {{ label }}: {{ PieChartData.data[i] }}
+    </div>
+  </div>
+</div>
