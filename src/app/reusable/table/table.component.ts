@@ -62,7 +62,6 @@ export class TableComponent {
   ngOnChanges(change: SimpleChanges) {
     if (change['data']) {
       this.dataSource.data = this.data;
-      console.log(this.data, 'data');
     }
   }
   ngAfterViewInit() {

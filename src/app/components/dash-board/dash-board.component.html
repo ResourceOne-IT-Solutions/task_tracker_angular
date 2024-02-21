@@ -3,26 +3,15 @@
     <div class="d-flex admin-content flex-column">
       <div class="admin-page" *ngIf="adminDetails">
         <div class="d-flex justify-content-center">
-          <img
-            *ngIf="adminDetails.profileImageUrl"
-            class="adminpic"
-            src="{{ url }}/{{ adminDetails.profileImageUrl }}"
-            crossorigin="anonymous"
-          />
-          <img
-            *ngIf="!adminDetails.profileImageUrl"
-            class="adminpic"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU"
-          />
+          <img *ngIf="adminDetails.profileImageUrl" class="adminpic" src="{{ url }}/{{ adminDetails.profileImageUrl }}"
+            crossorigin="anonymous" />
+          <img *ngIf="!adminDetails.profileImageUrl" class="adminpic"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU" />
           <div class="mt-5 mb-5">
             <h1 class="m-0 d-flex gap-1">
               {{ chatservice.getFullName(adminDetails) }}
-              <span>({{ adminDetails.userId }})</span
-              ><span
-                matTooltip="Available"
-                aria-label="Displays a tooltip"
-                class="online"
-              ></span>
+              <span>({{ adminDetails.userId }})</span><span matTooltip="Available" aria-label="Displays a tooltip"
+                class="online"></span>
             </h1>
             <p>{{ adminDetails.designation }}</p>
           </div>
@@ -38,29 +27,34 @@
               <span class="usersDetails">Email : </span>{{ adminDetails.email }}
             </p>
             <p>
-              <span class="usersDetails">Mobile : </span
-              >{{ adminDetails.mobile }}
+              <span class="usersDetails">Mobile : </span>{{ adminDetails.mobile }}
             </p>
           </div>
         </div>
       </div>
-      <div class="timezone d-flex">
-        <div class="countryTime">
-          <span>PST</span>
-          <p>{{ pstDate }}</p>
+    </div>
+    <div class="timezone d-flex">
+      <div class="countryTime">
+        <div>
+          <span class="h5">PST</span>
+          <p class="h5">{{ pstDate }}</p>
         </div>
-        <div class="countryTime">
-          <span>CST</span>
-          <p>{{ cstDate }}</p>
+      </div>
+      <div class="countryTime">
+        <div>
+          <span class="h5">CST</span>
+          <p class="h5">{{ cstDate }}</p>
         </div>
-        <div class="countryTime">
-          <span>EST</span>
-          <p>{{ est }}</p>
+      </div>
+      <div class="countryTime">
+        <div>
+          <span class="h5">EST</span>
+          <p class="h5">{{ est }}</p>
         </div>
       </div>
     </div>
 
-    <div class="d-flex piechart-container">
+    <!-- <div class="d-flex piechart-container">
       <div class="pieChart">
         <h2>Total Tickets</h2>
         <div class="chart-legend">
@@ -80,66 +74,41 @@
         <p>Total Tickets : {{ ticketData.length }}</p>
       </div>
       <h2 *ngIf="ticketData.length <= 0">No Tickets</h2>
-    </div>
+    </div> -->
   </div>
   <div class="d-flex justify-content-around">
     <div class="pieChart">
-      <h2>Users Status</h2>
-      <div class="chart-legend">
-        <div
-          class="grid-item"
-          *ngFor="let label of UserpieChartLabels; let i = index"
-        >
-          <span [style.color]="pieChartColors[i]">&#9632;</span>
-          {{ label }}: {{ UserListchart[i] }}
-        </div>
+      <h2 class="ps-5">Users Status</h2>
+      <div *ngIf="UserListlength > 0">
+        <app-pie-chart [pieChartId]="'Userpiechart'" [PieChartData]="UserListchart"></app-pie-chart>
+        <p class="ps-5 pt-1">Total Users : {{ UserListlength }}</p>
       </div>
-      <app-pie-chart
-        *ngIf="UserListchart"
-        [pieChartId]="'Userpiechart'"
-        [PieChartData]="UserListchart"
-      ></app-pie-chart>
-      <p>Total Users : {{ UserListlength }}</p>
+      <h2 *ngIf="UserListlength <= 0">No Users</h2>
     </div>
-    <h2 *ngIf="UserListchart <= 0">No Users</h2>
     <div class="pieChart">
-      <h2>Today Tickets</h2>
-      <div class="chart-legend">
-        <div
-          class="grid-item"
-          *ngFor="let label of pieChartLabels; let i = index"
-        >
-          <span [style.color]="pieChartColors[i]">&#9632;</span>
-          {{ label }}: {{ ChartData[i] }}
-        </div>
+      <h2 class="ps-5">Today Tickets</h2>
+      <div *ngIf="tableData.length">
+        <app-pie-chart  [pieChartId]="'pieChartTicket'"
+          [PieChartData]="ChartData"></app-pie-chart>
+        <p class="ps-5 pt-1">Total Today Tickets : {{ tableData.length }}</p>
       </div>
-      <app-pie-chart
-        *ngIf="ChartData"
-        [pieChartId]="'pieChartTicket'"
-        [PieChartData]="ChartData"
-      ></app-pie-chart>
-      <p>Total Today Tickets : {{ tableData.length }}</p>
       <h2 *ngIf="tableData <= 0">No Today Tickets</h2>
     </div>
-    <div>
-      <div>
-        <button class="btn btn-primary m-2 sample" [routerLink]="['user-list']">
-          User List
-        </button>
-        <button class="btn btn-primary m-2" [routerLink]="['client-list']">
-          Client List
-        </button>
-      </div>
-      <div>
-        <button class="btn btn-primary m-2" [routerLink]="['today-tickets']">
-          Today Tickets
-        </button>
-        <button class="btn btn-info m-2" (click)="sendMessageToAll()">
-          Send Message toAll
-        </button>
-      </div>
-    </div>
   </div>
+</div>
+<div>
+  <button class="btn btn-primary m-2 sample" [routerLink]="['user-list']">
+    User List
+  </button>
+  <button class="btn btn-primary m-2" [routerLink]="['client-list']">
+    Client List
+  </button>
+  <button class="btn btn-primary m-2" [routerLink]="['today-tickets']">
+    Today Tickets
+  </button>
+  <button class="btn btn-info m-2" (click)="sendMessageToAll()">
+    Send Message toAll
+  </button>
 </div>
 
 <!-- requestTicket modal -->
@@ -147,11 +116,7 @@
   <div class="modal-header p-2 m-0"></div>
   <div class="modal-body m-2">
     <label class="ms-2">Request All</label>
-    <textarea
-      class="form-control m-2"
-      placeholder="description"
-      [(ngModel)]="requestticketForm"
-    ></textarea>
+    <textarea class="form-control m-2" placeholder="description" [(ngModel)]="requestticketForm"></textarea>
   </div>
   <div class="modal-footer">
     <button class="btn btn-sm btn-danger" (click)="adminCancel(d)">

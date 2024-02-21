@@ -418,4 +418,5 @@
   *ngIf="params == 'helped tickets'"
   [data]="tableData"
   [tableColumns]="helpedTickets"
+  (descriptionClick)="gotodescription($event)"
 ></app-table>

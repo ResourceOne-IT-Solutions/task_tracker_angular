@@ -67,25 +67,16 @@
         <div>
           <p class="userslabel">Stats</p>
           <div class="pieChart">
-            <h2>Today Tickets</h2>
-            <div class="chart-legend">
-              <div
-                class="grid-item"
-                *ngFor="let label of pieChartLabels; let i = index"
-              >
-                <span [style.color]="pieChartColors[i]">&#9632;</span>
-                {{ label }}: {{ UserPiechart[i] }}
-              </div>
-            </div>
+            <h2 class="ps-5">Today Tickets</h2>
             <app-pie-chart
-              *ngIf="UserPiechart"
+              *ngIf="userTickets?.length"
               [pieChartId]="'piechartdemo'"
               [PieChartData]="UserPiechart"
             ></app-pie-chart>
           </div>
-          <p class="tickets">Total Tickets : {{ userTickets.length }}</p>
+          <p class="ps-5 pt-2 w-50 text-center"  *ngIf="userTickets?.length">Total Tickets : {{ userTickets.length }}</p>
         </div>
-        <h2 *ngIf="userTickets <= 0">No Today Tickets</h2>
+        <h2 *ngIf="userTickets.length <= 0">No Today Tickets</h2>
         <div *ngIf="!isAdminView">
           <button class="btn btn-info" (click)="requestChat()">
             Request Chat with User

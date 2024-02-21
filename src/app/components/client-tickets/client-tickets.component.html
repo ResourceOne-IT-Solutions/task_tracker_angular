@@ -10,10 +10,6 @@
     <p>Phone : {{ clientDataTable.mobile }}</p>
   </div>
   <div class="pieChart">
-    <div class="grid-item" *ngFor="let label of pieChartLabels; let i = index">
-      <span [style.color]="pieChartColors[i]">&#9632;</span>
-      {{ label }}: {{ ClientPieChart[i] }}
-    </div>
     <app-pie-chart
       *ngIf="ClientPieChart"
       [pieChartId]="'piechart'"

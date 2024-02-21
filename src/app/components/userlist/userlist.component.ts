@@ -53,14 +53,12 @@ export class UserlistComponent {
   userstatus = ['In Progress', 'Pending', 'Closed', 'Improper Requirment'];
   userDetails: any;
   userModelData: any;
-  addNewUser: boolean = false;
   loadingStaus: boolean = false;
   selectLocation: any = null;
   searchFilter: any;
   tableData: any = [];
   addResourceData: any = [];
   genders: any = ['Male', 'Female', 'Not Specified'];
-  MockUsers: any;
   zones: any = ['EST', 'IST', 'CST', 'PST'];
   clientDetails: any;
   userDetailsdata: any;
@@ -101,10 +99,6 @@ export class UserlistComponent {
   ];
   ChartData: any = [];
   params: any;
-  MockticketData: any;
-  MockClientData: any;
-  userTicketsData: any = [];
-  usersticketData: any = [];
   userSubmitted: boolean = false;
   updateSubmitted: boolean = false;
   raiseSubmitted: boolean = false;
@@ -112,6 +106,7 @@ export class UserlistComponent {
   clientErr: any;
   userErr: any;
   url: string = '';
+  mockTableData: any = [];
   constructor(
     public chatservice: ChatService,
     private modalService: NgbModal,
@@ -121,7 +116,7 @@ export class UserlistComponent {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private store: Store,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.url = this.chatservice.BE_URL + '/profile-images';
@@ -155,6 +150,7 @@ export class UserlistComponent {
     });
     this.store.pipe(select(getTableData)).subscribe((res: any) => {
       this.tableData = res;
+      this.mockTableData = res
     });
   }
   // user form
@@ -175,24 +171,22 @@ export class UserlistComponent {
     this.location.back();
   }
   SearchUsers() {
-    // this.userList = this.MockUsers.filter(
-    //   (val: any) =>
-    //     val.firstName.toLowerCase().indexOf(this.searchFilter.toLowerCase()) >
-    //     -1,
-    // );
-    // this.ticketData = this.MockticketData.filter(
-    //   (val: any) =>
-    //     val.client.name.toLowerCase().indexOf(this.searchFilter.toLowerCase()) >
-    //     -1,
-    // );
-    // this.clientData = this.MockClientData.filter(
-    //   (val: any) =>
-    //     val.firstName.toLowerCase().indexOf(this.searchFilter.toLowerCase()) >
-    //     -1,
-    // );
+
+    if (this.params.includes('tickets')) {
+      this.tableData = this.mockTableData.filter(
+        (val: any) =>
+          val.client.name.toLowerCase().indexOf(this.searchFilter.toLowerCase()) >
+          -1
+      );
+    } else {
+      this.tableData = this.mockTableData.filter(
+        (val: any) =>
+          this.chatservice.getFullName(val).toLowerCase().indexOf(this.searchFilter.toLowerCase()) >
+          -1,
+      );
+    }
   }
   editUser(userData: any) {
-    this.addNewUser = false;
     this.openPopup(this.userModel);
     this.userForm.patchValue({
       fname: userData.firstName,
@@ -477,7 +471,7 @@ export class UserlistComponent {
       };
       this.chatservice.updateTicket(ticketpayload).subscribe(
         (res: any) => {
-          this.userTicketsData = this.userTicketsData.map((val: any) => {
+          this.tableData = this.tableData.map((val: any) => {
             if (val._id === res._id) {
               val = res;
               return res;
@@ -638,5 +632,12 @@ export class UserlistComponent {
       evt.preventDefault();
       return;
     }
+  }
+  gotodescription(data: any) {
+
+    this.router.navigate(['../ticket-description', data._id], {
+      relativeTo: this.route,
+    });
+
   }
 }
