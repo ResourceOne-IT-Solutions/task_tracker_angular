@@ -32,30 +32,31 @@ export class ForgotpasswordComponent implements OnInit {
   submitted: boolean = false;
   isSubmit: boolean = false;
   isMail: boolean = true;
+  isOtp: boolean = true;
   showpassword: boolean = false;
   showpassword2: boolean = false;
 
   passworderrors: boolean = false;
   isLinear = true;
   passwordSuccess: any;
-  'firstFormGroup': FormGroup;
-  'secondFormGroup': FormGroup;
+  'emailForm': FormGroup;
+  'otpForm': FormGroup;
   'passwordForm': FormGroup;
   ngOnInit(): void {
     this.passwordForm = this.fb.group({
       newpassword: ['', Validators.required],
       confirmpassword: ['', Validators.required],
     });
-    this.firstFormGroup = this.fb.group({
+    this.emailForm = this.fb.group({
       userid: ['', Validators.required],
     });
 
-    this.secondFormGroup = this.fb.group({
+    this.otpForm = this.fb.group({
       otp: ['', Validators.required],
     });
   }
   get mail() {
-    return this.firstFormGroup.controls;
+    return this.emailForm.controls;
   }
   get id() {
     return this.mail['userid'];
@@ -71,11 +72,11 @@ export class ForgotpasswordComponent implements OnInit {
     return this.password['confirmpassword'];
   }
   verifymail(stepper: any) {
-    if (this.firstFormGroup.valid) {
+    if (this.emailForm.valid) {
       this.errorMesg = '';
       this.isMail = false;
       const payload = {
-        data: this.firstFormGroup.value.userid,
+        data: this.emailForm.value.userid,
       };
       this.chatservice.getMailVerify(payload).subscribe(
         (res: any) => {
@@ -98,13 +99,13 @@ export class ForgotpasswordComponent implements OnInit {
 
   // verify otp
   verifyOtp(stepper: any) {
-    if (this.secondFormGroup.valid) {
-      this.isMail = false;
+    if (this.otpForm.valid) {
+      this.isOtp = false;
       this.otpError = '';
       const verifypayload = {
         data: {
-          key: this.firstFormGroup.value.userid,
-          otp: this.secondFormGroup.value.otp,
+          key: this.emailForm.value.userid,
+          otp: this.otpForm.value.otp,
         },
       };
       this.chatservice.verifyOtp(verifypayload).subscribe(
@@ -113,7 +114,7 @@ export class ForgotpasswordComponent implements OnInit {
           stepper.next();
         },
         (err: any) => {
-          this.isMail = true;
+          this.isOtp = true;
           this.otpError = err.error.error;
         },
       );
@@ -160,8 +161,8 @@ export class ForgotpasswordComponent implements OnInit {
       }
     }
     this.passwordForm.reset();
-    this.firstFormGroup.reset();
-    this.secondFormGroup.reset();
+    this.emailForm.reset();
+    this.otpForm.reset();
   }
 
   goback() {
