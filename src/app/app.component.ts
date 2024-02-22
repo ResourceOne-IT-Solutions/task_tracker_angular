@@ -37,29 +37,29 @@ export class AppComponent implements OnInit {
     this.chatservice.getSocketData('userRaisedTicket').subscribe((res) => {
       if (this.currentUser.isAdmin) {
         const message = `${res.sender.name} raised ticket`;
-        this.store.dispatch(openDialog({message , title: 'Ticket Rise'}))
+        this.store.dispatch(openDialog({ message, title: 'Ticket Rise' }));
       }
     });
     this.chatservice
       .getSocketData('ticketRaiseStatus')
       .subscribe((res: any) => {
-        this.store.dispatch(openDialog({message:res , title: 'Ticket Requset'}))
+        this.store.dispatch(
+          openDialog({ message: res, title: 'Ticket Requset' }),
+        );
       });
 
     this.chatservice.getSocketData('chatRequest').subscribe((res) => {
       if (this.currentUser.isAdmin) {
         this.store.dispatch(chatRequests({ chatRequest: res._id }));
         const message = `${res.sender.name} is Requisting to Chat with ${res.opponent.name}`;
-        this.store.dispatch(openDialog({message , title: 'Chat Requset'}))
-
-
+        this.store.dispatch(openDialog({ message, title: 'Chat Requset' }));
       }
     });
     this.chatservice.getSocketData('ticketsRequest').subscribe((res) => {
       this.store.dispatch(chatRequests({ chatRequest: res._id }));
       if (this.currentUser.isAdmin) {
         const message = `${res.sender.name} is Requisting to Ticket with ${res.client.name}`;
-        this.store.dispatch(openDialog({message , title: 'Ticket Requset'}))
+        this.store.dispatch(openDialog({ message, title: 'Ticket Requset' }));
       }
     });
     this.chatservice
@@ -67,7 +67,9 @@ export class AppComponent implements OnInit {
       .subscribe(({ type, result }) => {
         if (this.currentUser._id === result.sender.id) {
           const message = `your  ${type} request is approvedby:${result.approvedBy.name}`;
-          this.store.dispatch(openDialog({message , title: 'Requset Approved'}))
+          this.store.dispatch(
+            openDialog({ message, title: 'Requset Approved' }),
+          );
         }
       });
   }

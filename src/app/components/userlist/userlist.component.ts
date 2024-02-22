@@ -116,7 +116,7 @@ export class UserlistComponent {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private store: Store,
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.url = this.chatservice.BE_URL + '/profile-images';
@@ -241,7 +241,12 @@ export class UserlistComponent {
           element._id === res._id ? res : element,
         );
         this.userSubmitted = false;
-        this.store.dispatch(openDialog({ message: 'User Update Successfully', title: 'User Update' }))
+        this.store.dispatch(
+          openDialog({
+            message: 'User Update Successfully',
+            title: 'User Update',
+          }),
+        );
       });
       dismiss();
       this.userForm.reset();
@@ -283,7 +288,12 @@ export class UserlistComponent {
           element._id === res._id ? res : element,
         );
         this.clientSubmitted = false;
-        this.store.dispatch(openDialog({ message: 'Client Update Successfully', title: 'Client Update' }))
+        this.store.dispatch(
+          openDialog({
+            message: 'Client Update Successfully',
+            title: 'Client Update',
+          }),
+        );
       });
       dismiss();
     }
@@ -367,12 +377,18 @@ export class UserlistComponent {
             data: payload,
           });
 
-          this.store.dispatch(openDialog({ message: 'User Assigned Successfully', title: 'User Assigned' }))
+          this.store.dispatch(
+            openDialog({
+              message: 'User Assigned Successfully',
+              title: 'User Assigned',
+            }),
+          );
           dismiss();
         },
         (err) => {
-          this.store.dispatch(openDialog({ message: err.error.error, title: 'Api Error' }))
-
+          this.store.dispatch(
+            openDialog({ message: err.error.error, title: 'Api Error' }),
+          );
         },
       );
     } else if (this.assignUser == 'Assign Resource') {
@@ -404,7 +420,12 @@ export class UserlistComponent {
             element._id === res._id ? res : element,
           );
           this.chatservice.sendSocketData({ key: 'addResource', data });
-          this.store.dispatch(openDialog({ message: 'Resource Assigned Successfully', title: 'Resource Assigned' }))
+          this.store.dispatch(
+            openDialog({
+              message: 'Resource Assigned Successfully',
+              title: 'Resource Assigned',
+            }),
+          );
           dismiss();
         },
         (err: any) => {
@@ -449,13 +470,20 @@ export class UserlistComponent {
             return val;
           });
           this.updateSubmitted = false;
-          this.store.dispatch(openDialog({ message: 'Ticket Update Successfully', title: 'Ticket Update' }))
+          this.store.dispatch(
+            openDialog({
+              message: 'Ticket Update Successfully',
+              title: 'Ticket Update',
+            }),
+          );
           dismiss();
           this.updateForm.reset();
         },
         (err: any) => {
           this.updateError = err.error.error;
-          this.store.dispatch(openDialog({ message: this.updateError, title: 'Api Error' }))
+          this.store.dispatch(
+            openDialog({ message: this.updateError, title: 'Api Error' }),
+          );
         },
       );
     }
@@ -536,10 +564,20 @@ export class UserlistComponent {
             this.tableData = this.tableData.map((element: any) =>
               element._id === res._id ? res : element,
             );
-            this.store.dispatch(openDialog({ message: 'Ticket Closed Successfully', title: 'Ticket Closed' }))
+            this.store.dispatch(
+              openDialog({
+                message: 'Ticket Closed Successfully',
+                title: 'Ticket Closed',
+              }),
+            );
           },
           (error) => {
-            this.store.dispatch(openDialog({ message: 'Internal Error Please Try Again After Some Time', title: 'Api Error' }))
+            this.store.dispatch(
+              openDialog({
+                message: 'Internal Error Please Try Again After Some Time',
+                title: 'Api Error',
+              }),
+            );
           },
         );
       }
@@ -561,11 +599,18 @@ export class UserlistComponent {
             this.tableData = this.tableData.filter(
               (val: any) => val._id !== data._id,
             );
-            this.store.dispatch(openDialog({ message: `${user} Deleted Succesfully`, title: `${user} deleted` }))
+            this.store.dispatch(
+              openDialog({
+                message: `${user} Deleted Succesfully`,
+                title: `${user} deleted`,
+              }),
+            );
           },
           (err) => {
             console.log(err, 'error');
-            this.store.dispatch(openDialog({ message: err.error.error, title: 'Api Error' }))
+            this.store.dispatch(
+              openDialog({ message: err.error.error, title: 'Api Error' }),
+            );
           },
         );
       }

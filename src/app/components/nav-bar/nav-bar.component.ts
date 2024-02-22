@@ -99,7 +99,7 @@ export class NavBarComponent {
           this.userDetails.newMessages[res.room] = 1;
         }
         const message = `you got new ${res.type} from ${res.from.name}`;
-        this.store.dispatch(openDialog({message , title:'New Message'}))
+        this.store.dispatch(openDialog({ message, title: 'New Message' }));
         this.roomCount = Object.keys(this.userDetails.newMessages).length;
         this.chatservice.UserLogin(this.userDetails);
       }
@@ -116,7 +116,7 @@ export class NavBarComponent {
   get location() {
     return this.client['location'];
   }
-  get zone(){
+  get zone() {
     return this.client['zone'];
   }
   get email() {
@@ -263,7 +263,10 @@ export class NavBarComponent {
         firstName: this.clientForm.value.name,
         email: this.clientForm.value.email,
         mobile: this.clientForm.value.mobile,
-        location: {area :this.clientForm.value.location , zone :this.clientForm.value.zone },
+        location: {
+          area: this.clientForm.value.location,
+          zone: this.clientForm.value.zone,
+        },
         companyName: this.clientForm.value.companyName,
         technology: this.clientForm.value.technologies,
         applicationType: this.clientForm.value.applicationType,
@@ -272,14 +275,22 @@ export class NavBarComponent {
           id: this.userDetails._id,
         },
       };
-      this.chatservice
-        .AddNewClient(data)
-        .subscribe((res) => {
-        this.submitted = false;
-          this.store.dispatch(openDialog({message : 'New Client Created Successful' , title: 'New Client'}))
-        },(err)=>{
-          this.store.dispatch(openDialog({message : err.error.error , title: 'Api Error'}))
-        });
+      this.chatservice.AddNewClient(data).subscribe(
+        (res) => {
+          this.submitted = false;
+          this.store.dispatch(
+            openDialog({
+              message: 'New Client Created Successful',
+              title: 'New Client',
+            }),
+          );
+        },
+        (err) => {
+          this.store.dispatch(
+            openDialog({ message: err.error.error, title: 'Api Error' }),
+          );
+        },
+      );
     }
   }
   cancel(dismiss: any) {
@@ -308,15 +319,23 @@ export class NavBarComponent {
           id: this.userDetails._id,
         },
       };
-      this.chatservice
-        .createNewTicket(payload)
-        .subscribe((res: any) => {
-          this.store.dispatch(openDialog({message : 'Ticket Created Successful' , title: 'Create Ticket'}))
-        },(err)=>{
-          this.store.dispatch(openDialog({message : err.error.error , title: 'Api Error'}))
-        });
+      this.chatservice.createNewTicket(payload).subscribe(
+        (res: any) => {
+          this.store.dispatch(
+            openDialog({
+              message: 'Ticket Created Successful',
+              title: 'Create Ticket',
+            }),
+          );
+        },
+        (err) => {
+          this.store.dispatch(
+            openDialog({ message: err.error.error, title: 'Api Error' }),
+          );
+        },
+      );
       dismiss();
-    this.submitTicketForm = false;
+      this.submitTicketForm = false;
       this.TicketCreationForm.reset();
     }
   }

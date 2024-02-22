@@ -23,8 +23,8 @@ export class ForgotpasswordComponent implements OnInit {
     private dialog: MatDialog,
     private fb: FormBuilder,
     private location: Location,
-    private store: Store
-  ) { }
+    private store: Store,
+  ) {}
 
   errorMesg: any;
   passwordError: any;
@@ -85,7 +85,7 @@ export class ForgotpasswordComponent implements OnInit {
           this.verifyinfo = res;
           this.isfirstSubmit = true;
           stepper.next();
-          this.store.dispatch(openDialog({ message: res.message, title: '' }))
+          this.store.dispatch(openDialog({ message: res.message, title: '' }));
         },
         (err: any) => {
           this.isMail = true;
@@ -141,11 +141,15 @@ export class ForgotpasswordComponent implements OnInit {
         this.chatservice.updatePassword(updatepayload).subscribe(
           (res) => {
             this.passwordSuccess = res;
-            this.store.dispatch(openDialog({ message: this.passwordSuccess.message, title: '' }))
+            this.store.dispatch(
+              openDialog({ message: this.passwordSuccess.message, title: '' }),
+            );
           },
           (err: any) => {
             this.passwordError = err.error.error;
-            this.store.dispatch(openDialog({ message: this.passwordError, title: '' }))
+            this.store.dispatch(
+              openDialog({ message: this.passwordError, title: '' }),
+            );
           },
         );
       }

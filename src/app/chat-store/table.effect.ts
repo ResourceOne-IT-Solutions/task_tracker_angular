@@ -11,7 +11,15 @@ import {
   loadUserApiSuccess,
   openDialog,
 } from './table.actions';
-import { combineLatest, filter, map, mergeMap, of, tap, withLatestFrom } from 'rxjs';
+import {
+  combineLatest,
+  filter,
+  map,
+  mergeMap,
+  of,
+  tap,
+  withLatestFrom,
+} from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogInfoComponent } from '../reusable/dialog-info/dialog-info.component';
 
@@ -73,19 +81,23 @@ export class TicketsEffect {
   private deleteCall(data: any) {
     return of([[]]);
   }
-  openDialog$ = createEffect(() => this.actions$.pipe(
-    ofType(openDialog),
-    tap(({ message , title }) => {
-      this.dialog.open(DialogInfoComponent, {
-        data: {
-          title: title,
-          class: 'info',
-          message: message,
-          btn1: 'Close',
-        },
-      });
-    })
-  ), { dispatch: false });
+  openDialog$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(openDialog),
+        tap(({ message, title }) => {
+          this.dialog.open(DialogInfoComponent, {
+            data: {
+              title: title,
+              class: 'info',
+              message: message,
+              btn1: 'Close',
+            },
+          });
+        }),
+      ),
+    { dispatch: false },
+  );
   private getTickes(params: any, userDetails: any) {
     if (!userDetails.isAdmin && !params) {
       return this.chatservice.get(`/tickets/user/${userDetails._id}`);
@@ -116,6 +128,6 @@ export class TicketsEffect {
   constructor(
     private chatservice: ChatService,
     private actions$: Actions,
-    private dialog : MatDialog
+    private dialog: MatDialog,
   ) {}
 }

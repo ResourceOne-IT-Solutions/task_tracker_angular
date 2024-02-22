@@ -26,10 +26,10 @@ export class MainDashboardComponent {
     private route: ActivatedRoute,
     private store: Store,
     private dialog: MatDialog,
-  ) { }
+  ) {}
   ngOnInit() {
     this.chatservice.getSocketData('error').subscribe((res) => {
-      this.store.dispatch(openDialog({ message: res, title: 'Socket Error' }))
+      this.store.dispatch(openDialog({ message: res, title: 'Socket Error' }));
     });
     this.userData$ = this.chatservice.UserLoginData.pipe(
       map((res: any) => {
@@ -43,7 +43,7 @@ export class MainDashboardComponent {
     this.chatservice.getSocketData('adminMessageToAll').subscribe((res) => {
       if (!this.isAdmin) {
         const message = `Send By AdminName: ${res.sender.name} ,    Admin message  : ${res.content}`;
-        this.store.dispatch(openDialog({ message, title: 'Admin Message' }))
+        this.store.dispatch(openDialog({ message, title: 'Admin Message' }));
       }
     });
   }

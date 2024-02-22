@@ -86,7 +86,7 @@ export class UserPageComponent implements OnInit {
     private route: ActivatedRoute,
     private store: Store,
     private dialog: MatDialog,
-  ) { }
+  ) {}
   ngOnInit(): void {
     this.paramId = this.route.snapshot.paramMap.get('id');
     if (this.paramId) {
@@ -105,7 +105,9 @@ export class UserPageComponent implements OnInit {
     }
     this.url = this.chatservice.BE_URL;
     this.chatservice.getSocketData('ticketRaiseStatus').subscribe((res) => {
-      this.store.dispatch(openDialog({ message: res, title: 'Ticket Raise Status' }))
+      this.store.dispatch(
+        openDialog({ message: res, title: 'Ticket Raise Status' }),
+      );
     });
     setInterval(() => {
       let Estdate = new Date();
@@ -124,7 +126,7 @@ export class UserPageComponent implements OnInit {
 
     this.chatservice.getSocketData('adminMessageToAll').subscribe((res) => {
       const message = `Send By AdminName: ${res.sender.name} ,  Admin message  : ${res.content}`;
-      this.store.dispatch(openDialog({ message, title: 'Admin Message' }))
+      this.store.dispatch(openDialog({ message, title: 'Admin Message' }));
       const payload = {
         status: 'DELIVERY',
         messageId: res._id,
@@ -142,18 +144,17 @@ export class UserPageComponent implements OnInit {
 
     this.chatservice.getTicketSocketData('ticketAssigned').subscribe((data) => {
       const message = `${data.sender.name} assigned you a ticket`;
-      this.store.dispatch(openDialog({ message, title: 'Admin Message' }))
-
+      this.store.dispatch(openDialog({ message, title: 'Admin Message' }));
     });
     this.chatservice
       .getSocketData('resourceAssigned')
       .subscribe(({ resource, sender, ticket, user }) => {
         if (this.currentUser._id === resource.id) {
           const message = `${user.name} is  needs ur help for the ${ticket.name} ticket, ${sender.name} assigned you as a resource`;
-          this.store.dispatch(openDialog({ message, title: 'Admin Message' }))
+          this.store.dispatch(openDialog({ message, title: 'Admin Message' }));
         } else if (this.currentUser._id === user.id) {
           const message = `${sender.name} assigned  ${resource.name} as a resource for your ${ticket.name} ticket`;
-          this.store.dispatch(openDialog({ message, title: 'Admin Message' }))
+          this.store.dispatch(openDialog({ message, title: 'Admin Message' }));
         }
       });
   }
