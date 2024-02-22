@@ -30,8 +30,12 @@ export class ForgotpasswordComponent implements OnInit {
   otpverify: any;
   isfirstSubmit: boolean = false;
   submitted: boolean = false;
+  isSubmit: boolean = false;
   isMail: boolean = true;
   showpassword: boolean = false;
+  showpassword2: boolean = false;
+
+  passworderrors: boolean = false;
   isLinear = true;
   passwordSuccess: any;
   'firstFormGroup': FormGroup;
@@ -56,8 +60,19 @@ export class ForgotpasswordComponent implements OnInit {
   get id() {
     return this.mail['userid'];
   }
+
+  get password() {
+    return this.passwordForm.controls;
+  }
+  get newpassword() {
+    return this.password['newpassword'];
+  }
+  get confirmpassword() {
+    return this.password['confirmpassword'];
+  }
   verifymail(stepper: any) {
     if (this.firstFormGroup.valid) {
+      this.errorMesg = '';
       this.isMail = false;
       const payload = {
         data: this.firstFormGroup.value.userid,
@@ -72,9 +87,9 @@ export class ForgotpasswordComponent implements OnInit {
               message: `${res.message}`,
             },
           });
-          this.isMail = true;
         },
         (err: any) => {
+          this.isMail = true;
           this.errorMesg = err.error.error;
         },
       );
@@ -84,6 +99,8 @@ export class ForgotpasswordComponent implements OnInit {
   // verify otp
   verifyOtp(stepper: any) {
     if (this.secondFormGroup.valid) {
+      this.isMail = false;
+      this.otpError = '';
       const verifypayload = {
         data: {
           key: this.firstFormGroup.value.userid,
@@ -96,12 +113,11 @@ export class ForgotpasswordComponent implements OnInit {
           stepper.next();
         },
         (err: any) => {
+          this.isMail = true;
           this.otpError = err.error.error;
         },
       );
     }
-    this.firstFormGroup.reset();
-    this.secondFormGroup.reset();
   }
   // Update password
   updatePassword(stepper: any) {
@@ -122,6 +138,7 @@ export class ForgotpasswordComponent implements OnInit {
         this.passwordForm.controls['confirmpassword'].value
       ) {
         this.submitted = false;
+        this.isSubmit = false;
         this.chatservice.updatePassword(updatepayload).subscribe(
           (res) => {
             this.passwordSuccess = res;
@@ -143,6 +160,8 @@ export class ForgotpasswordComponent implements OnInit {
       }
     }
     this.passwordForm.reset();
+    this.firstFormGroup.reset();
+    this.secondFormGroup.reset();
   }
 
   goback() {
@@ -150,5 +169,8 @@ export class ForgotpasswordComponent implements OnInit {
   }
   togglePassword() {
     this.showpassword = !this.showpassword;
+  }
+  togglePasswordtwo() {
+    this.showpassword2 = !this.showpassword2;
   }
 }
