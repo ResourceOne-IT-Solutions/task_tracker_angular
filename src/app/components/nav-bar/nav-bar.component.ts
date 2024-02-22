@@ -17,9 +17,8 @@ import { IdleTimeService } from 'src/app/services/idle/idle-time.service';
 export class NavBarComponent {
   @ViewChild('clientModel', { static: false }) clientModel: any;
   @ViewChild('ticketModel', { static: false }) ticketModel: any;
-  adminStatus = ['Offline', 'Break', 'Available', 'On Ticket', 'Sleep'];
-  Breaks = ['BreakFast Break', 'Lunch Break'];
-
+  adminStatus = ['Offline', 'Available', 'OnTicket', 'Sleep'];
+  Breaks = ['BreakFastBreak', 'Lunch Break'];
   @Input() 'isAdmin': boolean;
   @Input() userDetails: any;
   @Input() Status: any;
@@ -33,15 +32,13 @@ export class NavBarComponent {
   userChatRequestCount: any = [];
   userTicketRequestCount: any = [];
   StartTimer: boolean = false;
-  BreakStatus: any;
-
   Minutes = 0;
   Seconds = 0;
   ms = 0;
   timerId: any = Number;
   textColor: boolean = false;
-  LunchBreak: boolean = false;
   requestCount: any = [];
+  SelectedStatus: any;
   constructor(
     private router: Router,
     public chatservice: ChatService,
@@ -109,7 +106,45 @@ export class NavBarComponent {
       }
     });
   }
-
+  SelectStatus(data: any) {
+    this.SelectedStatus = data;
+    this.StartTimer = false;
+    const updatePayload = {
+      id: this.userDetails._id,
+      status: data,
+    };
+    data === 'Available'
+      ? this.idle.startIdleMonitoring()
+      : this.idle.stopIdleIdleMonitoring();
+    this.chatservice.sendSocketData({
+      key: 'changeStatus',
+      data: updatePayload,
+    });
+    if (
+      this.SelectedStatus === 'BreakFast Break' ||
+      this.SelectedStatus === 'Lunch Break'
+    ) {
+      this.StartTimer = true;
+      this.textColor = false;
+      this.Seconds = 0;
+      this.Minutes = 0;
+      this.clickHandler();
+    } else {
+      clearInterval(this.timerId);
+      this.StartTimer = false;
+    }
+  }
+  SelectBreakTime(breakTime: any) {
+    this.SelectedStatus = breakTime;
+    const updatePayload = {
+      id: this.userDetails._id,
+      status: breakTime,
+    };
+    this.chatservice.sendSocketData({
+      key: 'changeStatus',
+      data: updatePayload,
+    });
+  }
   // client form
   get client() {
     return this.clientForm.controls;
@@ -154,51 +189,11 @@ export class NavBarComponent {
   }
   logout() {
     this.deleteCookie('token');
-
     const logoutpayload = {
       id: this.userDetails._id,
     };
     this.chatservice.sendSocketData({ key: 'logout', data: logoutpayload.id });
     this.router.navigate(['/']);
-  }
-  changeStatus(data: any) {
-    this.StartTimer = false;
-    const updatePayload = {
-      id: this.userDetails._id,
-      status: this.Status === 'Break' ? this.BreakStatus : this.Status,
-    };
-    this.BreakStatus = this.Breaks[0];
-    this.Status === 'Available'
-      ? this.idle.startIdleMonitoring()
-      : this.idle.stopIdleIdleMonitoring();
-    this.chatservice.sendSocketData({
-      key: 'changeStatus',
-      data: updatePayload,
-    });
-  }
-  changeBreakeStatus(data: any) {
-    const updatePayload = {
-      id: this.userDetails._id,
-      status: this.Status === 'Break' ? this.BreakStatus : this.Status,
-    };
-    this.chatservice.sendSocketData({
-      key: 'changeStatus',
-      data: updatePayload,
-    });
-    if (
-      this.BreakStatus === 'BreakFast Break' ||
-      this.BreakStatus === 'Lunch Break'
-    ) {
-      this.StartTimer = true;
-      this.textColor = false;
-      this.LunchBreak = false;
-      this.Seconds = 0;
-      this.Minutes = 0;
-      this.clickHandler();
-    } else {
-      clearInterval(this.timerId);
-      this.StartTimer = false;
-    }
   }
   deleteCookie(name: string) {
     document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC';
@@ -326,11 +321,8 @@ export class NavBarComponent {
         this.Minutes++;
         this.Seconds = 0;
       }
-      if (this.Minutes >= 20) {
+      if (this.Minutes >= 20 || this.Minutes >= 30) {
         this.textColor = true;
-      }
-      if (this.Minutes >= 30) {
-        this.LunchBreak = true;
       }
     }, 1000);
   }
