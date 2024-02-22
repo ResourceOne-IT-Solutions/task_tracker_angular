@@ -29,7 +29,7 @@ import { distinctUntilChanged } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Chart } from 'chart.js';
 import { DialogInfoComponent } from 'src/app/reusable/dialog-info/dialog-info.component';
-import { loadTable } from 'src/app/chat-store/table.actions';
+import { loadTable, openDialog } from 'src/app/chat-store/table.actions';
 
 @Component({
   selector: 'app-userlist',
@@ -116,7 +116,7 @@ export class UserlistComponent {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private store: Store,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.url = this.chatservice.BE_URL + '/profile-images';
@@ -189,6 +189,7 @@ export class UserlistComponent {
     }
   }
   editUser(userData: any) {
+    this.userSubmitted = false;
     this.openPopup(this.userModel);
     this.userForm.patchValue({
       fname: userData.firstName,
@@ -223,7 +224,6 @@ export class UserlistComponent {
   }
   updateUser(dismiss: any): void {
     this.userSubmitted = true;
-    console.log(this.userForm, '1213');
     if (this.userForm.valid) {
       const Data = {
         firstName: this.userForm.value.fname,
@@ -241,14 +241,7 @@ export class UserlistComponent {
           element._id === res._id ? res : element,
         );
         this.userSubmitted = false;
-        this.dialog.open(DialogInfoComponent, {
-          data: {
-            title: 'User Update',
-            message: 'User Update Successfully',
-            btn1: 'Close',
-            class: 'info',
-          },
-        });
+        this.store.dispatch(openDialog({ message: 'User Update Successfully', title: 'User Update' }))
       });
       dismiss();
       this.userForm.reset();
@@ -290,19 +283,13 @@ export class UserlistComponent {
           element._id === res._id ? res : element,
         );
         this.clientSubmitted = false;
-        this.dialog.open(DialogInfoComponent, {
-          data: {
-            title: 'Client Update',
-            message: 'Client Update Successfully',
-            btn1: 'Close',
-            class: 'info',
-          },
-        });
+        this.store.dispatch(openDialog({ message: 'Client Update Successfully', title: 'Client Update' }))
       });
       dismiss();
     }
   }
   editClient(clientDetails: any) {
+    this.clientSubmitted = false;
     this.selectLocation = clientDetails.location.area ? null : undefined;
     this.openPopup(this.clientModel);
     this.clientDetails = clientDetails;
@@ -379,25 +366,13 @@ export class UserlistComponent {
             key: 'assignTicket',
             data: payload,
           });
-          this.dialog.open(DialogInfoComponent, {
-            data: {
-              title: 'User Assigned',
-              message: 'User Assigned Successfully',
-              btn1: 'Close',
-              class: 'info',
-            },
-          });
+
+          this.store.dispatch(openDialog({ message: 'User Assigned Successfully', title: 'User Assigned' }))
           dismiss();
         },
         (err) => {
-          this.dialog.open(DialogInfoComponent, {
-            data: {
-              title: 'Api Error',
-              message: err.error.error,
-              btn1: 'Close',
-              class: 'warning',
-            },
-          });
+          this.store.dispatch(openDialog({ message: err.error.error, title: 'Api Error' }))
+
         },
       );
     } else if (this.assignUser == 'Assign Resource') {
@@ -429,14 +404,7 @@ export class UserlistComponent {
             element._id === res._id ? res : element,
           );
           this.chatservice.sendSocketData({ key: 'addResource', data });
-          this.dialog.open(DialogInfoComponent, {
-            data: {
-              title: 'Resource Assigned',
-              message: 'Resource Assigned Successfully',
-              btn1: 'Close',
-              class: 'info',
-            },
-          });
+          this.store.dispatch(openDialog({ message: 'Resource Assigned Successfully', title: 'Resource Assigned' }))
           dismiss();
         },
         (err: any) => {
@@ -480,19 +448,14 @@ export class UserlistComponent {
             }
             return val;
           });
-          this.dialog.open(DialogInfoComponent, {
-            data: {
-              title: 'Ticket Update',
-              message: 'Ticket Update Successfully',
-              btn1: 'Close',
-              class: 'info',
-            },
-          });
+          this.updateSubmitted = false;
+          this.store.dispatch(openDialog({ message: 'Ticket Update Successfully', title: 'Ticket Update' }))
           dismiss();
           this.updateForm.reset();
         },
         (err: any) => {
           this.updateError = err.error.error;
+          this.store.dispatch(openDialog({ message: this.updateError, title: 'Api Error' }))
         },
       );
     }
@@ -573,24 +536,10 @@ export class UserlistComponent {
             this.tableData = this.tableData.map((element: any) =>
               element._id === res._id ? res : element,
             );
-            this.dialog.open(DialogInfoComponent, {
-              data: {
-                title: 'Ticket Closed',
-                message: 'Ticket Closed Successfully',
-                btn1: 'Close',
-                class: 'info',
-              },
-            });
+            this.store.dispatch(openDialog({ message: 'Ticket Closed Successfully', title: 'Ticket Closed' }))
           },
           (error) => {
-            this.dialog.open(DialogInfoComponent, {
-              data: {
-                title: 'Error',
-                message: 'Internal Error Please Try Again After Some Time',
-                btn1: 'Close',
-                class: 'warning',
-              },
-            });
+            this.store.dispatch(openDialog({ message: 'Internal Error Please Try Again After Some Time', title: 'Api Error' }))
           },
         );
       }
@@ -612,17 +561,11 @@ export class UserlistComponent {
             this.tableData = this.tableData.filter(
               (val: any) => val._id !== data._id,
             );
-            this.dialog.open(DialogInfoComponent, {
-              data: {
-                title: `${user} deleted`,
-                message: `${user} Deleted Succesfully`,
-                class: 'info',
-                btn1: 'Close',
-              },
-            });
+            this.store.dispatch(openDialog({ message: `${user} Deleted Succesfully`, title: `${user} deleted` }))
           },
           (err) => {
             console.log(err, 'error');
+            this.store.dispatch(openDialog({ message: err.error.error, title: 'Api Error' }))
           },
         );
       }

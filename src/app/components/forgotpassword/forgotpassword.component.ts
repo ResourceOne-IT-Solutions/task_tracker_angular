@@ -9,6 +9,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogInfoComponent } from 'src/app/reusable/dialog-info/dialog-info.component';
 import { ChatService } from 'src/app/services/chat.service';
 import { Location } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { openDialog } from 'src/app/chat-store/table.actions';
 
 @Component({
   selector: 'app-forgotpassword',
@@ -21,7 +23,8 @@ export class ForgotpasswordComponent implements OnInit {
     private dialog: MatDialog,
     private fb: FormBuilder,
     private location: Location,
-  ) {}
+    private store: Store
+  ) { }
 
   errorMesg: any;
   passwordError: any;
@@ -82,11 +85,7 @@ export class ForgotpasswordComponent implements OnInit {
           this.verifyinfo = res;
           this.isfirstSubmit = true;
           stepper.next();
-          this.dialog.open(DialogInfoComponent, {
-            data: {
-              message: `${res.message}`,
-            },
-          });
+          this.store.dispatch(openDialog({ message: res.message, title: '' }))
         },
         (err: any) => {
           this.isMail = true;
@@ -142,19 +141,11 @@ export class ForgotpasswordComponent implements OnInit {
         this.chatservice.updatePassword(updatepayload).subscribe(
           (res) => {
             this.passwordSuccess = res;
-            this.dialog.open(DialogInfoComponent, {
-              data: {
-                message: `${this.passwordSuccess.message}`,
-              },
-            });
+            this.store.dispatch(openDialog({ message: this.passwordSuccess.message, title: '' }))
           },
           (err: any) => {
             this.passwordError = err.error.error;
-            this.dialog.open(DialogInfoComponent, {
-              data: {
-                error: `${this.passwordError}`,
-              },
-            });
+            this.store.dispatch(openDialog({ message: this.passwordError, title: '' }))
           },
         );
       }
