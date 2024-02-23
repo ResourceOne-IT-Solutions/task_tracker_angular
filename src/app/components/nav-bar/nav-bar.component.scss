@@ -16,31 +16,6 @@
   display: none;
 }
 
-.ticketcount {
-  position: absolute;
-  height: 20px;
-  width: 20px;
-  background: #6e00ff;
-  border-radius: 20px;
-  top: 10px;
-}
-
-.Breaketimer {
-  box-shadow: 0 0 5px 0;
-  background: #fff;
-  border-radius: 3px;
-  padding: 6px;
-}
-
-.TimeSkip {
-  color: red;
-}
-
-.BreakeTime {
-  background-color: #6e00ff;
-  color: #fff;
-}
-
 .requestcount {
   position: absolute;
   height: 20px;
@@ -50,3 +25,100 @@
   top: 10px;
   text-align: center;
 }
+
+.Offline {
+  &::ng-deep {
+    > span {
+      position: relative;
+
+      &::before {
+        content: "";
+        content: "";
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: red;
+        position: absolute;
+        top: 20%;
+        left: -28%;
+      }
+    }
+  }
+}
+.Available {
+  &::ng-deep {
+    > span {
+      position: relative;
+      &::before {
+        content: "";
+        position: absolute;
+        cursor: pointer;
+        width: 12px;
+        height: 12px;
+        background: green;
+        border-radius: 50%;
+        top: 20%;
+        left: -28%;
+      }
+    }
+  }
+}
+.OnTicket {
+  &::ng-deep {
+    > span {
+      position: relative;
+      &::before {
+        content: "";
+        position: absolute;
+        cursor: pointer;
+        height: 12px;
+        width: 12px;
+        background: blue;
+        border-radius: 50%;
+        top: 20%;
+        left: -22%;
+      }
+    }
+  }
+}
+.Sleep {
+  &::ng-deep {
+    > span {
+      position: relative;
+      &::before {
+        content: "";
+        position: absolute;
+        cursor: pointer;
+        width: 12px;
+        height: 12px;
+        background: rgb(128, 128, 129);
+        border-radius: 50%;
+        top: 20%;
+        left: -28%;
+      }
+    }
+  }
+}
+// .Available {
+//   cursor: pointer;
+//   height: 14px;
+//   width: 15px;
+//   background: green;
+//   border-radius: 50%;
+// }
+
+// .OnTicket {
+//   cursor: pointer;
+//   height: 14px;
+//   width: 15px;
+//   background: blue;
+//   border-radius: 50%;
+// }
+
+// .Sleep {
+//   cursor: pointer;
+//   height: 14px;
+//   width: 15px;
+//   background: rgb(128, 128, 129);
+//   border-radius: 50%;
+// }

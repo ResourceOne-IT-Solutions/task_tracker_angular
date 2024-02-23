@@ -42,7 +42,7 @@
         <div class="logintime" *ngIf="loginTiming?.length">
           <h2>Login Time</h2>
           <div *ngFor="let logintime of loginTiming">
-            <p>
+            <p *ngIf="logintime.date === 'Today'">
               {{ logintime.date }} :
               <span *ngFor="let time of logintime.loginTime">
                 {{ time.inTime }} - login :{{
@@ -57,9 +57,13 @@
           <h2>Break Time</h2>
           <p *ngFor="let status of breakTimes.status">
             <span *ngIf="status.type === 'END'"
-              >Start :{{ status.startTime | date: "dd/MM/yyyy hh:mm a" }} - End
-              :{{ status.endTime | date: "dd/MM/yyyy hh:mm a" }}</span
-            >
+              >Start :{{ status.startTime | date: "hh:mm a" }} - End :{{
+                status.endTime | date: "hh:mm a"
+              }}
+              :<b> Duration -</b>
+              {{ status.duration / 60 | number: "1.0-0" }}mints --
+              {{ status.status }}
+            </span>
           </p>
         </div>
       </div>

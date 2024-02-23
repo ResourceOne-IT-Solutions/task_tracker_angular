@@ -50,7 +50,7 @@ import { ForgotpasswordComponent } from './components/forgotpassword/forgotpassw
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
-
+import { MatMenuModule } from '@angular/material/menu';
 @NgModule({
   declarations: [
     AppComponent,
@@ -101,6 +101,7 @@ import { MatListModule } from '@angular/material/list';
     MatGridListModule,
     MatSelectModule,
     NgxSpinnerModule,
+    MatMenuModule,
     StoreModule.forRoot({ tickets: ticketsRuducer }),
     EffectsModule.forRoot([TicketsEffect]),
   ],
