@@ -1,8 +1,8 @@
-<div class="chart-container">
+<div class="chart-container" *ngIf="PieChartData?.data?.length">
   <div>
     <canvas [id]="pieChartId"> </canvas>
   </div>
-  <div class="chart-legend" *ngIf="PieChartData.data.length">
+  <div class="chart-legend">
     <div
       class="grid-item"
       [ngClass]="displayCenter(i)"

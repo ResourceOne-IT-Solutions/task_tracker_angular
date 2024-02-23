@@ -56,7 +56,7 @@ export class TicketsComponent {
   }
   gotodescription(data: any) {
     if (this.paramId) {
-      this.route.navigate(['../../../ticket-description', data._id], {
+      this.route.navigate(['../../ticket-description', data._id], {
         relativeTo: this.router,
       });
     } else {
