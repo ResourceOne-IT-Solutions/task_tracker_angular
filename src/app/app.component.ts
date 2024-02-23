@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogModelComponent } from './reusable/dialog-model/dialog-model.component';
 import { DialogInfoComponent } from './reusable/dialog-info/dialog-info.component';
 import { Store } from '@ngrx/store';
-import { chatRequests } from './chat-store/table.actions';
+import { chatRequests, openDialog } from './chat-store/table.actions';
 import { isLoading } from './chat-store/table.selector';
 
 @Component({
@@ -37,55 +37,29 @@ export class AppComponent implements OnInit {
     this.chatservice.getSocketData('userRaisedTicket').subscribe((res) => {
       if (this.currentUser.isAdmin) {
         const message = `${res.sender.name} raised ticket`;
-        this.dialog.open(DialogInfoComponent, {
-          data: {
-            title: 'Ticket Requset',
-            class: 'info',
-            message: message,
-            btn1: 'Close',
-          },
-        });
+        this.store.dispatch(openDialog({ message, title: 'Ticket Rise' }));
       }
     });
     this.chatservice
       .getSocketData('ticketRaiseStatus')
       .subscribe((res: any) => {
-        this.dialog.open(DialogInfoComponent, {
-          data: {
-            title: 'Ticket Requset',
-            class: 'info',
-            message: res,
-            btn1: 'Close',
-          },
-        });
+        this.store.dispatch(
+          openDialog({ message: res, title: 'Ticket Requset' }),
+        );
       });
 
     this.chatservice.getSocketData('chatRequest').subscribe((res) => {
       if (this.currentUser.isAdmin) {
         this.store.dispatch(chatRequests({ chatRequest: res._id }));
         const message = `${res.sender.name} is Requisting to Chat with ${res.opponent.name}`;
-        this.dialog.open(DialogInfoComponent, {
-          data: {
-            title: 'Chat Requset',
-            class: 'info',
-            message: message,
-            btn1: 'Close',
-          },
-        });
+        this.store.dispatch(openDialog({ message, title: 'Chat Requset' }));
       }
     });
     this.chatservice.getSocketData('ticketsRequest').subscribe((res) => {
       this.store.dispatch(chatRequests({ chatRequest: res._id }));
       if (this.currentUser.isAdmin) {
         const message = `${res.sender.name} is Requisting to Ticket with ${res.client.name}`;
-        this.dialog.open(DialogInfoComponent, {
-          data: {
-            title: 'Ticket Requset',
-            class: 'info',
-            message: message,
-            btn1: 'Close',
-          },
-        });
+        this.store.dispatch(openDialog({ message, title: 'Ticket Requset' }));
       }
     });
     this.chatservice
@@ -93,14 +67,9 @@ export class AppComponent implements OnInit {
       .subscribe(({ type, result }) => {
         if (this.currentUser._id === result.sender.id) {
           const message = `your  ${type} request is approvedby:${result.approvedBy.name}`;
-          this.dialog.open(DialogInfoComponent, {
-            data: {
-              title: 'Chat Requset',
-              class: 'info',
-              message: message,
-              btn1: 'Close',
-            },
-          });
+          this.store.dispatch(
+            openDialog({ message, title: 'Requset Approved' }),
+          );
         }
       });
   }
