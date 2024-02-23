@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ChatService } from 'src/app/services/chat.service';
 import { Column } from '../dash-board/dash-board.component';
-import { Chart, registerables } from 'node_modules/chart.js';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { getTicketsData } from 'src/app/chat-store/table.selector';
 import { Tickets, description } from '../userlist/tabledata';
-Chart.register(...registerables);
 
 @Component({
   selector: 'app-client-tickets',
@@ -35,12 +33,12 @@ export class ClientTicketsComponent implements OnInit {
     'purple',
   ];
   pieChartLabels: string[] = [
-    'Resoved',
-    'NotAssigned',
+    'Closed',
     'Assigned',
     'Pending',
-    'Improper',
-    'InProgress',
+    'In Progress',
+    'Not Assigned',
+    'Improper Requirment',
   ];
   constructor(
     private chatservice: ChatService,
@@ -58,43 +56,17 @@ export class ClientTicketsComponent implements OnInit {
       });
       this.store.select(getTicketsData).subscribe((res: any) => {
         this.clientTicketById = res;
-        if (this.clientTicketById) {
-          const resolvedTickets = this.chatservice.getTicketStatus(
+        if (this.clientTicketById.length) {
+          const statusData = this.chatservice.getPieChartData(
             this.clientTicketById,
-            'resolved',
           );
-          const pendingTickets = this.chatservice.getTicketStatus(
-            this.clientTicketById,
-            'pending',
+          const sortedValues: number[] = this.pieChartLabels.map(
+            (label) => statusData[label] || 0,
           );
-          const inprogressTickets = this.chatservice.getTicketStatus(
-            this.clientTicketById,
-            'in progress',
-          );
-          const assigned = this.chatservice.getTicketStatus(
-            this.clientTicketById,
-            'assigned',
-          );
-          const improper = this.chatservice.getTicketStatus(
-            this.clientTicketById,
-            'improper requirment',
-          );
-          const notAssigned = this.chatservice.getTicketStatus(
-            this.clientTicketById,
-            'not assigned',
-          );
-          const data = [
-            resolvedTickets,
-            notAssigned,
-            assigned,
-            pendingTickets,
-            improper,
-            inprogressTickets,
-          ];
           this.ClientPieChart = {
             colors: this.pieChartColors,
             labels: this.pieChartLabels,
-            data: data,
+            data: sortedValues,
           };
         }
       });

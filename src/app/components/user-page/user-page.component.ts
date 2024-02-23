@@ -158,9 +158,7 @@ export class UserPageComponent implements OnInit {
         }
       });
   }
-  getStatus(status: string) {
-    return this.chatservice.getTicketStatus(this.userTickets, status);
-  }
+
   onPopState(event: Event): void {
     event.preventDefault();
     this.stepper.previous();
@@ -177,26 +175,14 @@ export class UserPageComponent implements OnInit {
           this.userTickets = res.filter(
             (item: any) => item.user.id === this.currentUser._id,
           );
-          const resolvedTickets = this.getStatus('resolved');
-          const pendingTickets = this.getStatus('pending');
-          const inprogressTickets = this.getStatus('in progress');
-          const improper = this.getStatus('improper requirment');
-          const Closed = this.getStatus('closed');
-          const Assigned = this.getStatus('assigned');
-          const notAssigned = this.getStatus('Not Assigned');
-          const data = [
-            resolvedTickets,
-            pendingTickets,
-            inprogressTickets,
-            improper,
-            Closed,
-            Assigned,
-            notAssigned,
-          ];
+          const statusData = this.chatservice.getPieChartData(this.userTickets);
+          const sortedValues: number[] = this.pieChartLabels.map(
+            (label) => statusData[label] || 0,
+          );
           this.UserPiechart = {
             colors: this.pieChartColors,
             labels: this.pieChartLabels,
-            data: data,
+            data: sortedValues,
           };
         }
       });

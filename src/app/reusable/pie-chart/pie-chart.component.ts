@@ -1,5 +1,7 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
-import { Chart } from 'node_modules/chart.js';
+import { Chart, registerables } from 'node_modules/chart.js';
+
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-pie-chart',

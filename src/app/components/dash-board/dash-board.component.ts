@@ -53,7 +53,7 @@ export class DashBoardComponent {
     'purple',
   ];
   UserpieChartLabels: string[] = [
-    'Avalible',
+    'Available',
     'Offline',
     'Break',
     'On Ticket',
@@ -109,88 +109,28 @@ export class DashBoardComponent {
           new Date(val.receivedDate).toLocaleDateString() ===
           new Date().toLocaleDateString(),
       );
-      const resolvedTickets = this.chatservice.getTicketStatus(
-        this.ticketData,
-        'resolved',
+      const TicketStatus = this.chatservice.getPieChartData(this.ticketData);
+      const sortedTicket: number[] = this.pieChartLabels.map(
+        (label) => TicketStatus[label] || 0,
       );
-      const pendingTickets = this.chatservice.getTicketStatus(
-        this.ticketData,
-        'pending',
-      );
-      const inprogressTickets = this.chatservice.getTicketStatus(
-        this.ticketData,
-        'in progress',
-      );
-      const assigned = this.chatservice.getTicketStatus(
-        this.ticketData,
-        'assigned',
-      );
-      const improper = this.chatservice.getTicketStatus(
-        this.ticketData,
-        'improper requirment',
-      );
-      const notAssigned = this.chatservice.getTicketStatus(
-        this.ticketData,
-        'not assigned',
-      );
-      const Closed = this.chatservice.getTicketStatus(
-        this.ticketData,
-        'closed',
-      );
-      const data = [
-        resolvedTickets,
-        assigned,
-        pendingTickets,
-        inprogressTickets,
-        notAssigned,
-        improper,
-        Closed,
-      ];
+      console.log(sortedTicket);
       this.TotalTicketsPiechart = {
         colors: this.pieChartColors,
         labels: this.pieChartLabels,
-        data: data,
+        data: sortedTicket,
       };
     });
 
     this.chatservice.getPendingTickets().subscribe((res: any) => {
       this.tableData = res;
-      const resolvedTickets = this.chatservice.getTicketStatus(
-        this.tableData,
-        'resolved',
+      const statusData = this.chatservice.getPieChartData(this.tableData);
+      const todayTicStatus: number[] = this.pieChartLabels.map(
+        (label) => statusData[label] || 0,
       );
-      const pendingTickets = this.chatservice.getTicketStatus(
-        this.tableData,
-        'pending',
-      );
-      const inprogressTickets = this.chatservice.getTicketStatus(
-        this.tableData,
-        'in progress',
-      );
-      const assigned = this.chatservice.getTicketStatus(
-        this.tableData,
-        'assigned',
-      );
-      const improper = this.chatservice.getTicketStatus(
-        this.tableData,
-        'improper requirment',
-      );
-      const notAssigned = this.chatservice.getTicketStatus(
-        this.tableData,
-        'not assigned',
-      );
-      const data = [
-        resolvedTickets,
-        assigned,
-        pendingTickets,
-        inprogressTickets,
-        notAssigned,
-        improper,
-      ];
       this.ChartData = {
         colors: this.pieChartColors,
         labels: this.pieChartLabels,
-        data: data,
+        data: todayTicStatus,
       };
     });
 
@@ -205,32 +145,18 @@ export class DashBoardComponent {
     this.chatservice.getSocketData('newUser').subscribe(({ userPayload }) => {
       this.store.dispatch(loadUserData({ userList: userPayload }));
       this.UserListData = userPayload;
-      this.UserListlength = this.UserListData.length;
-      const Avalible = this.chatservice.getUserByStatus(
-        this.UserListData,
-        'available',
+      const users = this.UserListData.filter((val) => !val.isAdmin);
+      console.log(users);
+      this.UserListlength = users.length;
+      const statusData = this.chatservice.getPieChartData(users);
+      const sortedValues: number[] = this.UserpieChartLabels.map(
+        (label) => statusData[label] || 0,
       );
-      const Offline = this.chatservice.getUserByStatus(
-        this.UserListData,
-        'offline',
-      );
-      const Break = this.chatservice.getUserByStatus(
-        this.UserListData,
-        'break',
-      );
-      const OnTicket = this.chatservice.getUserByStatus(
-        this.UserListData,
-        'on ticket',
-      );
-      const Sleep = this.chatservice.getUserByStatus(
-        this.UserListData,
-        'sleep',
-      );
-      const data = [Avalible, Offline, Break, OnTicket, Sleep];
+      // const data = [...];
       this.UserListchart = {
         colors: this.UserpieChartColors,
         labels: this.UserpieChartLabels,
-        data: data,
+        data: sortedValues,
       };
     });
 

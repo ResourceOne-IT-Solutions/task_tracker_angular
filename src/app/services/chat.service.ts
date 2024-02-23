@@ -297,12 +297,16 @@ export class ChatService {
       return acc;
     }, {});
   }
-  getUserByStatus(data: any, status: string) {
-    return data.filter((val: User) => val.status.toLowerCase() == status)
-      .length;
-  }
-  getTicketStatus(data: any, status: any) {
-    return data.filter((val: Task) => val.status.toLowerCase() === status)
-      .length;
+  getPieChartData(data: any) {
+    const statusData: any = {};
+    data.forEach((val: any) => {
+      if (val.status in statusData) {
+        statusData[val.status] = statusData[val.status] + 1;
+      } else {
+        statusData[val.status] = 1;
+      }
+    });
+    console.log(statusData, 'status');
+    return statusData;
   }
 }
