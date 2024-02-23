@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
+import { openDialog } from 'src/app/chat-store/table.actions';
 import { DialogInfoComponent } from 'src/app/reusable/dialog-info/dialog-info.component';
 import { ChatService } from 'src/app/services/chat.service';
 
@@ -24,6 +26,7 @@ export class CreateUserComponent {
     private fb: FormBuilder,
     private chatservice: ChatService,
     private dialog: MatDialog,
+    private store: Store,
   ) {
     this.maxDate = new Date();
     this.createUserForm = this.fb.group({
@@ -132,14 +135,7 @@ export class CreateUserComponent {
         (res) => {
           this.createuserError = '';
           const message = `EmpId : ${res.empId} <br /> UserId : ${res.userId}`;
-          this.dialog.open(DialogInfoComponent, {
-            data: {
-              title: 'Credentials',
-              class: 'info',
-              message: message,
-              btn1: 'Close',
-            },
-          });
+          this.store.dispatch(openDialog({ message, title: 'Credentials' }));
           this.isAccountcreate = true;
           this.submitted = false;
           this.createUserForm.reset();

@@ -17,6 +17,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DialogInfoComponent } from 'src/app/reusable/dialog-info/dialog-info.component';
 import { MatDialog } from '@angular/material/dialog';
 import { User } from 'src/app/interface/users';
+import { Store } from '@ngrx/store';
+import { openDialog } from 'src/app/chat-store/table.actions';
 
 @Component({
   selector: 'app-user-page',
@@ -81,12 +83,8 @@ export class UserPageComponent implements OnInit {
   UserPiechart: any = [];
   constructor(
     public chatservice: ChatService,
-    private router: Router,
     private route: ActivatedRoute,
-    private fb: FormBuilder,
-    private modalService: NgbModal,
-    private location: LocationStrategy,
-    private http: HttpClient,
+    private store: Store,
     private dialog: MatDialog,
   ) {}
   ngOnInit(): void {
@@ -107,14 +105,9 @@ export class UserPageComponent implements OnInit {
     }
     this.url = this.chatservice.BE_URL;
     this.chatservice.getSocketData('ticketRaiseStatus').subscribe((res) => {
-      this.dialog.open(DialogInfoComponent, {
-        data: {
-          title: 'Ticket Raise Status',
-          class: 'info',
-          message: res,
-          btn1: 'Close',
-        },
-      });
+      this.store.dispatch(
+        openDialog({ message: res, title: 'Ticket Raise Status' }),
+      );
     });
     setInterval(() => {
       let Estdate = new Date();
@@ -133,15 +126,7 @@ export class UserPageComponent implements OnInit {
 
     this.chatservice.getSocketData('adminMessageToAll').subscribe((res) => {
       const message = `Send By AdminName: ${res.sender.name} ,  Admin message  : ${res.content}`;
-
-      this.dialog.open(DialogInfoComponent, {
-        data: {
-          title: 'Admin Message',
-          class: 'info',
-          message: message,
-          btn1: 'Close',
-        },
-      });
+      this.store.dispatch(openDialog({ message, title: 'Admin Message' }));
       const payload = {
         status: 'DELIVERY',
         messageId: res._id,
@@ -159,39 +144,17 @@ export class UserPageComponent implements OnInit {
 
     this.chatservice.getTicketSocketData('ticketAssigned').subscribe((data) => {
       const message = `${data.sender.name} assigned you a ticket`;
-      this.dialog.open(DialogInfoComponent, {
-        data: {
-          title: 'Admin Message',
-          class: 'info',
-          message: message,
-          btn1: 'Close',
-        },
-      });
+      this.store.dispatch(openDialog({ message, title: 'Admin Message' }));
     });
     this.chatservice
       .getSocketData('resourceAssigned')
       .subscribe(({ resource, sender, ticket, user }) => {
         if (this.currentUser._id === resource.id) {
           const message = `${user.name} is  needs ur help for the ${ticket.name} ticket, ${sender.name} assigned you as a resource`;
-          this.dialog.open(DialogInfoComponent, {
-            data: {
-              title: 'Admin Message',
-              class: 'info',
-              message: message,
-              btn1: 'Close',
-            },
-          });
+          this.store.dispatch(openDialog({ message, title: 'Admin Message' }));
         } else if (this.currentUser._id === user.id) {
           const message = `${sender.name} assigned  ${resource.name} as a resource for your ${ticket.name} ticket`;
-
-          this.dialog.open(DialogInfoComponent, {
-            data: {
-              title: 'Admin Message',
-              class: 'info',
-              message: message,
-              btn1: 'Close',
-            },
-          });
+          this.store.dispatch(openDialog({ message, title: 'Admin Message' }));
         }
       });
   }

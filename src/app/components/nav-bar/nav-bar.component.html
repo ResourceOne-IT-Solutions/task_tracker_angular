@@ -131,6 +131,18 @@
               </div>
             </div>
           </div>
+          <label class="ps-2">Zone</label>
+          <select class="form-control m-2" formControlName="zone">
+            <option value="" disabled selected class="hide">
+              Select Your Zone
+            </option>
+            <option *ngFor="let city of zones" [value]="city">
+              {{ city }}
+            </option>
+          </select>
+          <div class="text-danger mb-2 ps-2" *ngIf="submitted && zone.errors">
+            <div *ngIf="zone.errors['required']">Zone is Required</div>
+          </div>
           <div class="d-flex justify-content-between">
             <div>
               <label class="ps-2">Email</label>
@@ -282,7 +294,7 @@
         *ngIf="submitTicketForm && description.errors"
       >
         <div *ngIf="description.errors['required']">
-          Target Date is Required
+          description is Required
         </div>
       </div>
     </form>

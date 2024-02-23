@@ -42,5 +42,9 @@ export const loadDeleteApi = createAction(
   props<{ data: any }>(),
 );
 
+export const openDialog = createAction(
+  'open dialog [DialogInfo Component]',
+  props<{ message: any; title: any }>(),
+);
 export const startLoading = createAction('start loading [App Component]');
 export const stopLoading = createAction('stop loading [App Component]');

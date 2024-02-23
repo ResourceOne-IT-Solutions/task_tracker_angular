@@ -9,6 +9,7 @@ import { UserPageComponent } from '../user-page/user-page.component';
 import { Store } from '@ngrx/store';
 import { DialogInfoComponent } from 'src/app/reusable/dialog-info/dialog-info.component';
 import { MatDialog } from '@angular/material/dialog';
+import { openDialog } from 'src/app/chat-store/table.actions';
 
 @Component({
   selector: 'app-main-dashboard',
@@ -28,14 +29,7 @@ export class MainDashboardComponent {
   ) {}
   ngOnInit() {
     this.chatservice.getSocketData('error').subscribe((res) => {
-      this.dialog.open(DialogInfoComponent, {
-        data: {
-          title: 'Socket Error',
-          class: 'error',
-          message: res,
-          btn1: 'Close',
-        },
-      });
+      this.store.dispatch(openDialog({ message: res, title: 'Socket Error' }));
     });
     this.userData$ = this.chatservice.UserLoginData.pipe(
       map((res: any) => {
@@ -49,14 +43,7 @@ export class MainDashboardComponent {
     this.chatservice.getSocketData('adminMessageToAll').subscribe((res) => {
       if (!this.isAdmin) {
         const message = `Send By AdminName: ${res.sender.name} ,    Admin message  : ${res.content}`;
-        this.dialog.open(DialogInfoComponent, {
-          data: {
-            title: 'Admin Message',
-            class: 'info',
-            message: message,
-            btn1: 'Close',
-          },
-        });
+        this.store.dispatch(openDialog({ message, title: 'Admin Message' }));
       }
     });
   }

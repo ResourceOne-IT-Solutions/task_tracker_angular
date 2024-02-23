@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
+import { openDialog } from 'src/app/chat-store/table.actions';
 import { getChatRequests } from 'src/app/chat-store/table.selector';
 import { DialogInfoComponent } from 'src/app/reusable/dialog-info/dialog-info.component';
 import { ChatService } from 'src/app/services/chat.service';
@@ -34,6 +35,7 @@ export class NavBarComponent {
   userTicketRequestCount: any = [];
   StartTimer: boolean = false;
   BreakStatus: any;
+  zones: any = ['EST', 'IST', 'CST', 'PST'];
 
   Minutes = 0;
   Seconds = 0;
@@ -55,6 +57,7 @@ export class NavBarComponent {
     this.clientForm = this.fb.group({
       name: ['', Validators.required],
       location: ['', Validators.required],
+      zone: ['', Validators.required],
       mobile: ['', [Validators.required]],
       technologies: ['', Validators.required],
       email: ['', Validators.required],
@@ -96,14 +99,7 @@ export class NavBarComponent {
           this.userDetails.newMessages[res.room] = 1;
         }
         const message = `you got new ${res.type} from ${res.from.name}`;
-        this.dialog.open(DialogInfoComponent, {
-          data: {
-            title: 'Admin Message',
-            class: 'info',
-            message: message,
-            btn1: 'Close',
-          },
-        });
+        this.store.dispatch(openDialog({ message, title: 'New Message' }));
         this.roomCount = Object.keys(this.userDetails.newMessages).length;
         this.chatservice.UserLogin(this.userDetails);
       }
@@ -119,6 +115,9 @@ export class NavBarComponent {
   }
   get location() {
     return this.client['location'];
+  }
+  get zone() {
+    return this.client['zone'];
   }
   get email() {
     return this.client['email'];
@@ -231,6 +230,7 @@ export class NavBarComponent {
     return [year, month, day].join('-');
   }
   OpenTicketModel() {
+    this.submitTicketForm = false;
     this.TicketCreationForm.controls['targetDate'].patchValue(
       this.formatDate(),
     );
@@ -249,6 +249,7 @@ export class NavBarComponent {
     });
   }
   openClientModel() {
+    this.submitted = false;
     this.openPopup(this.clientModel);
   }
   openPopup(content: any): void {
@@ -262,7 +263,10 @@ export class NavBarComponent {
         firstName: this.clientForm.value.name,
         email: this.clientForm.value.email,
         mobile: this.clientForm.value.mobile,
-        location: this.clientForm.value.location,
+        location: {
+          area: this.clientForm.value.location,
+          zone: this.clientForm.value.zone,
+        },
         companyName: this.clientForm.value.companyName,
         technology: this.clientForm.value.technologies,
         applicationType: this.clientForm.value.applicationType,
@@ -271,9 +275,22 @@ export class NavBarComponent {
           id: this.userDetails._id,
         },
       };
-      this.chatservice
-        .AddNewClient(data)
-        .subscribe((res) => console.log(res, 'new client res'));
+      this.chatservice.AddNewClient(data).subscribe(
+        (res) => {
+          this.submitted = false;
+          this.store.dispatch(
+            openDialog({
+              message: 'New Client Created Successful',
+              title: 'New Client',
+            }),
+          );
+        },
+        (err) => {
+          this.store.dispatch(
+            openDialog({ message: err.error.error, title: 'Api Error' }),
+          );
+        },
+      );
     }
   }
   cancel(dismiss: any) {
@@ -302,16 +319,29 @@ export class NavBarComponent {
           id: this.userDetails._id,
         },
       };
-      this.chatservice
-        .createNewTicket(payload)
-        .subscribe((res: any) => console.log(res, 'created ticket'));
+      this.chatservice.createNewTicket(payload).subscribe(
+        (res: any) => {
+          this.store.dispatch(
+            openDialog({
+              message: 'Ticket Created Successful',
+              title: 'Create Ticket',
+            }),
+          );
+        },
+        (err) => {
+          this.store.dispatch(
+            openDialog({ message: err.error.error, title: 'Api Error' }),
+          );
+        },
+      );
       dismiss();
+      this.submitTicketForm = false;
       this.TicketCreationForm.reset();
     }
   }
   phoneValidation(evt: any) {
     const inputChar = String.fromCharCode(evt.charCode);
-    if (this.mobile?.value.length > 9 || !/^\d+$/.test(inputChar)) {
+    if (this.mobile?.value?.length > 9 || !/^\d+$/.test(inputChar)) {
       const inputChar = String.fromCharCode(evt.charCode);
       if (!/^\d+$/.test(inputChar)) {
         evt.preventDefault();
