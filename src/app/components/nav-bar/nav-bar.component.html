@@ -1,91 +1,70 @@
-<nav
-  class="navbar navbar-light justify-content-between p-2"
-  style="background: #bcbdd3"
-  *ngIf="userDetails"
->
-  <a class="navbar-brand Dashboard" (click)="gotDashBoard()"
-    >{{ isAdmin ? "Admin" : "User" }} Dashboard</a
-  >
-  <div class="mr-sm-2">
-    <button class="btn btn-warning m-2">
+<nav class="navbar navbar-light" style="background: #bcbdd3" *ngIf="userDetails">
+  <button class="navbar-toggler p-0" [ngClass]="newValue ? 'bar' : 'inbar'" 
+     (click)="memuClick()">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand Dashboard p-0 m-0" (click)="gotDashBoard()">{{ isAdmin ? "Admin" : "User" }} Dashboard</a>
+  <div class="buttons-list d-flex align-items-center">
+    <button class="btn btn-warning chat-btn">
       <a [routerLink]="['Chat-Box']" class="text-decoration-none">Chat Box</a>
       <span class="roomcount" *ngIf="roomCount > 0">{{ roomCount }}</span>
     </button>
     <ng-container *ngIf="!isAdmin; else admintemplete">
-      <button
-        mat-button
-        [matMenuTriggerFor]="Status"
-        mat-flat-button
-        color="primary"
-      >
+      <button mat-button [matMenuTriggerFor]="Status" mat-flat-button color="primary">
         {{ SelectedStatus ? SelectedStatus : "Available" }} &#9660;
       </button>
       <mat-menu #Status>
-        <button
-          mat-menu-item
-          (click)="SelectStatus(status)"
-          *ngFor="let status of adminStatus"
-          [ngClass]="status"
-        >
+        <button mat-menu-item (click)="SelectStatus(status)" *ngFor="let status of adminStatus" [ngClass]="status">
           {{ status }}
         </button>
         <button mat-menu-item [matMenuTriggerFor]="invertebrates">Break</button>
       </mat-menu>
 
       <mat-menu #invertebrates>
-        <button
-          (click)="SelectStatus(break)"
-          mat-menu-item
-          *ngFor="let break of Breaks"
-        >
+        <button (click)="SelectStatus(break)" mat-menu-item *ngFor="let break of Breaks">
           {{ break }}
         </button>
       </mat-menu>
       <span *ngIf="StartTimer">
-        <span
-          class="fw-bold text-bg-success p-2 m-1"
-          [ngClass]="textColor ? 'text-bg-danger' : ''"
-          >{{ format(Minutes) }}:{{ format(Seconds) }}
+        <span class="fw-bold text-bg-success p-2 m-1" [ngClass]="textColor ? 'text-bg-danger' : ''">{{ format(Minutes)
+          }}:{{ format(Seconds) }}
         </span>
       </span>
-      <button class="btn btn-info m-2" (click)="user()">
+      <button class="btn btn-info" (click)="user()">
         View Request User
       </button>
-      <button class="btn btn-info m-2" (click)="userTickets()">Tickets</button>
-      <button class="btn btn-info m-2" [routerLink]="['feed-back']">
+      <button class="btn btn-info" (click)="userTickets()">Tickets</button>
+      <button class="btn btn-info" [routerLink]="['feed-back']">
         Feed Back
       </button>
-      <button class="btn btn-info m-2" [routerLink]="['feed-back-list']">
+      <button class="btn btn-info" [routerLink]="['feed-back-list']">
         Check FeedBacks
       </button>
     </ng-container>
-    <button class="btn btn-danger ms-3" (click)="logout()">LogOut</button>
+    <button class="btn btn-danger" (click)="logout()">LogOut</button>
   </div>
 </nav>
 <ng-template #admintemplete>
-  <button class="btn btn-primary m-2" (click)="OpenTicketModel()">
+  <button class="btn btn-primary" (click)="OpenTicketModel()">
     Create Ticket
   </button>
-  <button class="btn btn-primary m-2">
-    <a [routerLink]="['create-user']" class="text-decoration-none text-white"
-      >Add User</a
-    >
+  <button class="btn btn-primary">
+    <a [routerLink]="['create-user']" class="text-decoration-none text-white">Add User</a>
   </button>
-  <button class="btn btn-primary m-2" (click)="openClientModel()">
+  <button class="btn btn-primary" (click)="openClientModel()">
     Add Client
   </button>
-  <button class="btn btn-info m-2" (click)="ViewTicket()">Tickets</button>
-  <button class="btn btn-info m-2" (click)="ViewRequest()">
+  <button class="btn btn-info" (click)="ViewTicket()">Tickets</button>
+  <button class="btn btn-info" (click)="ViewRequest()">
     View Request
     <span class="requestcount" *ngIf="requestCount && requestCount.length">
-      {{ requestCount.length }}</span
-    >
+      {{ requestCount.length }}</span>
   </button>
 
-  <button class="btn btn-info m-2" [routerLink]="['feed-back']">
+  <button class="btn btn-info" [routerLink]="['feed-back']">
     Feed Back
   </button>
-  <button class="btn btn-info m-2" [routerLink]="['feed-back-list']">
+  <button class="btn btn-info" [routerLink]="['feed-back-list']">
     Check FeedBacks
   </button>
 </ng-template>
@@ -101,15 +80,8 @@
           <div class="d-flex justify-content-between">
             <div>
               <label class="ps-2">First Name</label>
-              <input
-                type="text"
-                class="form-control m-2"
-                formControlName="name"
-              />
-              <div
-                class="text-danger mb-2 ps-2"
-                *ngIf="submitted && fname.errors"
-              >
+              <input type="text" class="form-control m-2" formControlName="name" />
+              <div class="text-danger mb-2 ps-2" *ngIf="submitted && fname.errors">
                 <div *ngIf="fname.errors['required']">
                   First Name is required
                 </div>
@@ -117,15 +89,8 @@
             </div>
             <div>
               <label class="ps-2">Location</label>
-              <input
-                type="text"
-                class="form-control m-2"
-                formControlName="location"
-              />
-              <div
-                class="text-danger mb-2 ps-2"
-                *ngIf="submitted && location.errors"
-              >
+              <input type="text" class="form-control m-2" formControlName="location" />
+              <div class="text-danger mb-2 ps-2" *ngIf="submitted && location.errors">
                 <div *ngIf="location.errors['required']">
                   Location is required
                 </div>
@@ -147,30 +112,16 @@
           <div class="d-flex justify-content-between">
             <div>
               <label class="ps-2">Email</label>
-              <input
-                type="email"
-                class="form-control m-2"
-                formControlName="email"
-              />
-              <div
-                class="text-danger mb-2 ps-2"
-                *ngIf="submitted && email.errors"
-              >
+              <input type="email" class="form-control m-2" formControlName="email" />
+              <div class="text-danger mb-2 ps-2" *ngIf="submitted && email.errors">
                 <div *ngIf="email.errors['required']">Email is required</div>
               </div>
             </div>
             <div>
               <label class="ps-2">Phone Number</label>
-              <input
-                type="text"
-                (keypress)="phoneValidation($event)"
-                class="form-control m-2"
-                formControlName="mobile"
-              />
-              <div
-                class="text-danger mb-2 ps-2"
-                *ngIf="submitted && mobile.errors"
-              >
+              <input type="text" (keypress)="phoneValidation($event)" class="form-control m-2"
+                formControlName="mobile" />
+              <div class="text-danger mb-2 ps-2" *ngIf="submitted && mobile.errors">
                 <div *ngIf="mobile.errors['required']">
                   Phone Number is required
                 </div>
@@ -180,15 +131,8 @@
           <div class="d-flex justify-content-between">
             <div>
               <label class="ps-2">Technology</label>
-              <input
-                type="text"
-                class="form-control m-2"
-                formControlName="technologies"
-              />
-              <div
-                class="text-danger mb-2 ps-2"
-                *ngIf="submitted && technologies.errors"
-              >
+              <input type="text" class="form-control m-2" formControlName="technologies" />
+              <div class="text-danger mb-2 ps-2" *ngIf="submitted && technologies.errors">
                 <div *ngIf="technologies.errors['required']">
                   Technologies is required
                 </div>
@@ -196,15 +140,8 @@
             </div>
             <div>
               <label class="ps-2">Application Type</label>
-              <input
-                type="text"
-                class="form-control m-2"
-                formControlName="applicationType"
-              />
-              <div
-                class="text-danger mb-2 ps-2"
-                *ngIf="submitted && applicationType.errors"
-              >
+              <input type="text" class="form-control m-2" formControlName="applicationType" />
+              <div class="text-danger mb-2 ps-2" *ngIf="submitted && applicationType.errors">
                 <div *ngIf="applicationType.errors['required']">
                   ApplicationType is required
                 </div>
@@ -212,15 +149,8 @@
             </div>
           </div>
           <label class="ps-2">Company Name</label>
-          <input
-            type="text"
-            class="form-control m-2"
-            formControlName="companyName"
-          />
-          <div
-            class="text-danger mb-2 ps-2"
-            *ngIf="submitted && companyName.errors"
-          >
+          <input type="text" class="form-control m-2" formControlName="companyName" />
+          <div class="text-danger mb-2 ps-2" *ngIf="submitted && companyName.errors">
             <div *ngIf="companyName.errors['required']">
               ApplicationType is required
             </div>
@@ -244,56 +174,28 @@
   <div class="modal-body m-2">
     <form [formGroup]="TicketCreationForm">
       <label class="ms-2">Client</label>
-      <select
-        class="form-control m-2"
-        formControlName="client"
-        (change)="SelectClient($event)"
-      >
+      <select class="form-control m-2" formControlName="client" (change)="SelectClient($event)">
         <option value="" disabled selected class="hide">Select Client</option>
         <option *ngFor="let client of clientData" [ngValue]="client">
           {{ client.firstName }}
         </option>
       </select>
-      <div
-        class="text-danger mb-2 ps-2"
-        *ngIf="submitTicketForm && clientName.errors"
-      >
+      <div class="text-danger mb-2 ps-2" *ngIf="submitTicketForm && clientName.errors">
         <div *ngIf="clientName.errors['required']">Client Name is Required</div>
       </div>
       <label class="ms-2">Technologies</label>
-      <input
-        class="form-control m-2"
-        type="text"
-        formControlName="technologies"
-      />
-      <div
-        class="text-danger mb-2 ps-2"
-        *ngIf="submitTicketForm && tickettech.errors"
-      >
+      <input class="form-control m-2" type="text" formControlName="technologies" />
+      <div class="text-danger mb-2 ps-2" *ngIf="submitTicketForm && tickettech.errors">
         <div *ngIf="tickettech.errors['required']">Technology is Required</div>
       </div>
       <label class="ms-2">Taget Date</label>
-      <input
-        class="form-control m-2"
-        type="date"
-        formControlName="targetDate"
-      />
-      <div
-        class="text-danger mb-2 ps-2"
-        *ngIf="submitTicketForm && targetDate.errors"
-      >
+      <input class="form-control m-2" type="date" formControlName="targetDate" />
+      <div class="text-danger mb-2 ps-2" *ngIf="submitTicketForm && targetDate.errors">
         <div *ngIf="targetDate.errors['required']">Target Date is Required</div>
       </div>
       <label class="ms-2">Description</label>
-      <textarea
-        class="form-control m-2"
-        placeholder="description"
-        formControlName="description"
-      ></textarea>
-      <div
-        class="text-danger mb-2 ps-2"
-        *ngIf="submitTicketForm && description.errors"
-      >
+      <textarea class="form-control m-2" placeholder="description" formControlName="description"></textarea>
+      <div class="text-danger mb-2 ps-2" *ngIf="submitTicketForm && description.errors">
         <div *ngIf="description.errors['required']">
           description is Required
         </div>

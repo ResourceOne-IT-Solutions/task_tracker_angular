@@ -1,10 +1,73 @@
+.navbar {
+  padding: 16px 10px;
+  gap: 10px;
+  .bar{
+    color : blue;
+  }
+
+  .navbar-toggler {
+    border: none;
+    display: none;
+    &:focus,
+    &:focus-visible {
+      box-shadow: none;
+    }
+  }
+  .buttons-list {
+    gap: 8px;
+    .chat-btn {
+      position: relative;
+      margin-right: 10px;
+      .roomcount {
+        top: -10px;
+        right: -10px;
+      }
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .navbar {
+    justify-content: initial;
+    position: relative;
+    .navbar-toggler {
+      display: block;
+    }
+
+    .inbar ~ div {
+      display: block !important;
+    }
+
+    .buttons-list {
+      display: none !important;
+      position: absolute;
+      flex-direction: column;
+      left: 0;
+      gap: 0;
+      top: 62px;
+      width: 250px;
+      left: 0;
+      background: #bcbdd3;
+      .chat-btn {
+        margin: 0;
+      }
+      button {
+        width: 100%;
+        margin: 0;
+        border-radius: 0;
+        border-bottom: 1px solid;
+      }
+    }
+  }
+}
+
 .roomcount {
   position: absolute;
   height: 20px;
   width: 20px;
   background: green;
   border-radius: 20px;
-  top: 10px;
+  // top: 10px;
   text-align: center;
 }
 
