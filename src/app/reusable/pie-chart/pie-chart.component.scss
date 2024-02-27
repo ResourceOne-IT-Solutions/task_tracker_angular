@@ -15,6 +15,12 @@
   }
 }
 
+.chart-container {
+  width: fit-content;
+  margin: auto;
+  align-items: center;
+}
+
 canvas {
   width: 200px !important;
   height: 200px !important;

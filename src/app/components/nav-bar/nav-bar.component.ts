@@ -42,6 +42,8 @@ export class NavBarComponent {
   textColor: boolean = false;
   requestCount: any = [];
   SelectedStatus: any;
+  public isCollapsed = false;
+  newValue: boolean =true;
   constructor(
     private router: Router,
     public chatservice: ChatService,
@@ -70,6 +72,10 @@ export class NavBarComponent {
     });
   }
   ngOnInit() {
+    console.log(window.innerWidth , '')
+  if(window.innerWidth >= 1023 || window.innerWidth <= 1023){
+    this.newValue = true
+  }
     this.store.select(getChatRequests).subscribe((res: any) => {
       this.requestCount = [...res];
     });
@@ -359,5 +365,10 @@ export class NavBarComponent {
   }
   format(num: number) {
     return (num + '').length === 1 ? '0' + num : num + '';
+  }
+  memuClick(){
+    this.isCollapsed = !this.isCollapsed;
+    this.newValue =!this.newValue
+    console.log('one')
   }
 }
