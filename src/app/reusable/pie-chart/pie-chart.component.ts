@@ -12,11 +12,16 @@ export class PieChartComponent {
   @Input() pieChartId: any = '';
   @Input() PieChartData: any;
   myPieChart: any;
-  pydata: any;
-  ngOnChanges(changes: SimpleChanges) {}
-  ngOnInit() {}
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes){
+      this.updateChart();
+    }
+  }
+  ngOnInit() {
+    
+  }
   ngAfterViewInit() {
-    this.pydata = new Chart(this.pieChartId, {
+    this.myPieChart = new Chart(this.pieChartId, {
       type: 'pie',
       data: {
         labels: this.PieChartData.labels,
@@ -36,6 +41,12 @@ export class PieChartComponent {
         },
       },
     });
+  }
+  private updateChart() {
+    this.myPieChart.data.labels = this.PieChartData?.labels;
+    this.myPieChart.data.datasets[0].data = this.PieChartData?.data;
+    this.myPieChart.data.datasets[0].backgroundColor = this.PieChartData?.colors;
+    this.myPieChart.update();
   }
   displayCenter(index: any) {
     if (
