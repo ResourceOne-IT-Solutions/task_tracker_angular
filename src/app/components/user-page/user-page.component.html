@@ -1,27 +1,28 @@
-<div class="Container" *ngIf="currentUser">
+<div class="userdashinfo" *ngIf="currentUser">
   <div class="userinfo">
-    <img
-      *ngIf="currentUser.profileImageUrl"
-      src="{{ url }}/profile-images/{{ currentUser.profileImageUrl }}"
-      crossorigin="anonymous"
-      alt=""
-    />
-    <img
-      *ngIf="!currentUser.profileImageUrl"
-      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU"
-      alt=""
-      referrerpolicy="no-referrer"
-      crossorigin="use-credentials"
-    />
-    <p>{{ chatservice.getFullName(currentUser) }}</p>
-    &nbsp;&nbsp;
-    <span>({{ currentUser.userId }} )</span>
+    <div>
+      <img
+        *ngIf="currentUser.profileImageUrl"
+        src="{{ url }}/profile-images/{{ currentUser.profileImageUrl }}"
+        crossorigin="anonymous"
+        alt=""
+      />
+      <img
+        *ngIf="!currentUser.profileImageUrl"
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU"
+        alt=""
+        referrerpolicy="no-referrer"
+        crossorigin="use-credentials"
+      />
+    </div>
+    <p class="userName">{{ chatservice.getFullName(currentUser) }}</p>
+    <span class="userId">({{ currentUser.userId }} )</span>
     <span
       matTooltip="{{ currentUser.status }}"
       aria-label="Displays a tooltip"
+      class="userstatus"
       [ngClass]="currentUser.status"
-    ></span
-    >&nbsp;
+    ></span>
     <span
       matTooltip="OnTicket"
       class="OnTicket"
@@ -29,16 +30,18 @@
     ></span>
   </div>
   <div class="employeList">
-    <div class="main-employeDetails">
-      <div>
+    <div class="employeDetails d-flex align-items-center">
+      <div class="employeInfo">
         <p class="userslabel">Employeee Details</p>
-        <p>Emp ID : {{ currentUser.empId }}</p>
-        <p>Employe Name : {{ chatservice.getFullName(currentUser) }}</p>
-        <p>Email : {{ currentUser.email }}</p>
-        <p>Phone : {{ currentUser.mobile }}</p>
-        <p>Role : {{ currentUser.designation }}</p>
-        <p>Status :{{ currentUser.status }}</p>
-        <p>Gender :{{ currentUser.gender }}</p>
+        <p><label>Emp ID :</label> {{ currentUser.empId }}</p>
+        <p><label>Employe Name :</label> {{ chatservice.getFullName(currentUser) }}</p>
+        <p><label>Email :</label> {{ currentUser.email }}</p>
+        <p><label>Phone :</label> {{ currentUser.mobile }}</p>
+        <p><label>Role :</label> {{ currentUser.designation }}</p>
+        <p><label>Status :</label> {{ currentUser.status }}</p>
+        <p><label>Gender :</label> {{ currentUser.gender }}</p>
+      </div>
+      <div class="employeTimeinfo d-flex flex-column">
         <div class="logintime" *ngIf="loginTiming?.length">
           <h2>Login Time</h2>
           <div *ngFor="let logintime of loginTiming">
@@ -67,72 +70,73 @@
           </p>
         </div>
       </div>
-      <div class="d-flex flex-column justify-content-around">
-        <div>
-          <p class="userslabel">Stats</p>
-          <div class="pieChart">
-            <h2 class="ps-5">Today Tickets</h2>
-            <app-pie-chart
-              *ngIf="userTickets?.length"
-              [pieChartId]="'piechartdemo'"
-              [PieChartData]="UserPiechart"
-            ></app-pie-chart>
-          </div>
-          <p class="ps-5 pt-2 w-50 text-center" *ngIf="userTickets?.length">
+    </div>
+    <div class="employeTicket">
+      <!-- <div> -->
+        <!-- <p class="userslabel">Stats</p> -->
+        <div class="pieChart">
+          <h2>Today Tickets</h2>
+          <app-pie-chart
+            *ngIf="userTickets?.length"
+            [pieChartId]="'piechartdemo'"
+            [PieChartData]="UserPiechart"
+          ></app-pie-chart>
+          <p *ngIf="userTickets?.length">
             Total Tickets : {{ userTickets.length }}
           </p>
         </div>
-        <h2 *ngIf="userTickets.length <= 0">No Today Tickets</h2>
-        <div *ngIf="!isAdminView">
-          <button class="btn btn-info" (click)="requestChat()">
-            Request Chat with User
-          </button>
-          <button class="btn btn-info ms-2">
-            <a [routerLink]="['./user-tickets']" class="text-decoration-none"
-              >Today Tickets</a
+      <!-- </div> -->
+      <h2 *ngIf="userTickets.length <= 0">No Today Tickets</h2>
+      <div class="employeBtn" *ngIf="!isAdminView">
+        <button class="btn btn-info" (click)="requestChat()">
+          Request Chat with User
+        </button>
+        <button class="btn btn-info ms-2">
+          <a [routerLink]="['./user-tickets']" class="text-decoration-none"
+            >Today Tickets</a
+          >
+        </button>
+        <button class="btn btn-info m-2">
+          <!-- Helped Tickets -->
+          <a [routerLink]="['./helped-tickets']" class="text-decoration-none"
+            >Helped Tickets</a
+          >
+        </button>
+        <div class="requestchat" *ngIf="requestchat">
+          <mat-form-field>
+            <mat-select
+              placeholder="Select user"
+              (selectionChange)="selectuser($event.value)"
             >
+              <mat-option [value]="user" *ngFor="let user of userList">{{
+                chatservice.getFullName(user)
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button
+            *ngIf="requestchat"
+            class="btn btn-warning admin"
+            (click)="sendadmin()"
+          >
+            send Admin
           </button>
-          <button class="btn btn-info m-2">
-            <!-- Helped Tickets -->
-            <a [routerLink]="['./helped-tickets']" class="text-decoration-none"
-              >Helped Tickets</a
-            >
-          </button>
-          <div class="requestchat" *ngIf="requestchat">
-            <mat-form-field>
-              <mat-select
-                placeholder="Select user"
-                (selectionChange)="selectuser($event.value)"
-              >
-                <mat-option [value]="user" *ngFor="let user of userList">{{
-                  chatservice.getFullName(user)
-                }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-            <button
-              *ngIf="requestchat"
-              class="btn btn-warning admin"
-              (click)="sendadmin()"
-            >
-              send Admin
-            </button>
-          </div>
         </div>
-        <div class="timezone d-flex">
-          <div class="countryTime">
-            <span>PST</span>
-            <p>{{ pstDate }}</p>
-          </div>
-          <div class="countryTime">
-            <span>CST</span>
-            <p>{{ cstDate }}</p>
-          </div>
-          <div class="countryTime">
-            <span>EST</span>
-            <p>{{ est }}</p>
-          </div>
+      </div>
+      <div class="timezone d-flex">
+        <div class="countryTime">
+          <span>PST</span>
+          <p>{{ pstDate }}</p>
+        </div>
+        <div class="countryTime">
+          <span>CST</span>
+          <p>{{ cstDate }}</p>
+        </div>
+        <div class="countryTime">
+          <span>EST</span>
+          <p>{{ est }}</p>
         </div>
       </div>
     </div>
+    <!-- </div> -->
   </div>
 </div>
