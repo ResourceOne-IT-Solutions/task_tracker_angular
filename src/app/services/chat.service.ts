@@ -1,9 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HostListener, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, timer } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, of, timer } from 'rxjs';
+import * as jwt from 'jwt-decode';
 import { io, Socket } from 'socket.io-client';
 import { User } from '../interface/users';
 import { Task } from '../interface/tickets';
+import { Store } from '@ngrx/store';
+import { openDialog } from '../chat-store/table.actions';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +36,11 @@ export class ChatService {
   BE_LOCAL = 'http://192.168.10.30:1234';
   BE_LOCAL2 = 'http://192.168.29.109:1234';
   BE_URL = this.BE_SERVER;
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private store: Store,
+    private route: Router
+  ) {
     this.socket = io(this.BE_URL, {
       transports: ['websocket', 'polling', 'flashsocket'],
     });
@@ -114,14 +122,14 @@ export class ChatService {
     return this.put('/tickets/assign-resource', data);
   }
   currentTaskUser(data: any) {
-    return this.post('/verify-login', data);
+    return this.http.post(this.BE_URL + '/verify-login', data);
   }
-  getLoginSetup(data: any) {
+  getLoginSetup() {
     return this.get('/get-user');
   }
 
   getToken() {
-    return this.getCookie('token') || '';
+    return localStorage.getItem('token') || '';
   }
   // upload file
   uploadFile(data: any) {
@@ -155,6 +163,10 @@ export class ChatService {
       }
     }
     return null;
+  }
+  getRefreshToken() {
+    const refreshToken = localStorage.getItem('refreshToken');
+    return this.http.post(this.BE_URL + '/refresh-token', { refreshToken });
   }
   // socket io
   sendSocketData(data: any) {
@@ -234,36 +246,75 @@ export class ChatService {
   getAllGroups(id: any) {
     return this.get(`/message/groups/${id}`);
   }
-
+  isAccessTokenExpired(token: any) {
+    try {
+      const decodedToken = jwt.jwtDecode(token);
+      console.log('DECODED::::', { decodedToken, token });
+      if (decodedToken && decodedToken.exp) {
+        return Date.now() >= decodedToken.exp * 1000;
+      }
+      return true;
+    } catch (error: any) {
+      return true;
+    }
+  }
   // api mian calls
+  fetchWithAccessToken(
+    method: 'get' | 'post' | 'put' | 'delete',
+    url: string,
+    data?: any,
+  ) {
+    let accessToken = localStorage.getItem('token') || '';
+    if (!accessToken || this.isAccessTokenExpired(accessToken)) {
+      this.getRefreshToken().subscribe(
+        (res: any) => {
+          accessToken = res.accessToken;
+        },
+        (error: any) => {
+          this.store.dispatch(
+            openDialog({
+              message: error.error.message,
+              title: 'Refresh Token Error',
+            }),
+          );
+        },
+      );
+    }
+    if (method == 'post' || method === 'put') {
+      return this.http[method](url, data, {
+        headers: new HttpHeaders({
+          Authorization: accessToken,
+        }),
+      });
+    }
+    return this.http[method](url, {
+      headers: new HttpHeaders({
+        Authorization: accessToken,
+      }),
+    });
+  }
 
   get(url: any): Observable<any> {
-    return this.http.get(this.BE_URL + url, {
-      headers: new HttpHeaders({
-        Authorization: this.getToken(),
+    return this.fetchWithAccessToken('get', this.BE_URL + url).pipe(
+      map((res: any) => {
+        return res;
       }),
-    });
+      catchError<any, any>((error: any) => {
+        console.log(error,'3000001111')
+        return this.store.dispatch(
+          openDialog({ message: error.error.error, title: 'Api Call error' }),
+        );
+      }),
+    );
   }
   post(url: any, data: any): Observable<any> {
-    return this.http.post(this.BE_URL + url, data, {
-      headers: new HttpHeaders({
-        Authorization: this.getToken(),
-      }),
-    });
+    return this.fetchWithAccessToken('post', this.BE_URL + url, data);
   }
   put(url: any, data: any): Observable<any> {
-    return this.http.put(this.BE_URL + url, data, {
-      headers: new HttpHeaders({
-        Authorization: this.getToken(),
-      }),
-    });
+    return this.fetchWithAccessToken('put', this.BE_URL + url, data);
   }
   delete(url: any): Observable<any> {
-    return this.http.delete(this.BE_URL + url, {
-      headers: new HttpHeaders({
-        Authorization: this.getToken(),
-      }),
-    });
+    return this.fetchWithAccessToken('delete', this.BE_URL + url);
   }
   // send mail
 
@@ -309,4 +360,17 @@ export class ChatService {
     console.log(statusData, 'status');
     return statusData;
   }
+  getBreakTimings = (duration: number) => {
+    const addZero = (num: number) => {
+      return num >= 10 ? num : `0${num}`;
+    };
+    const sec = Math.round(duration % 60);
+    let min = Math.round(duration / 60);
+    const hrs = Math.round(min / 60);
+    if (hrs > 0) {
+      min = min % 60;
+      return `${addZero(hrs)}:${addZero(min)}:${addZero(sec)}`;
+    }
+    return `${addZero(min)}: ${addZero(sec)}`;
+  };
 }
