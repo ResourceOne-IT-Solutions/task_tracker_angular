@@ -43,10 +43,12 @@ export class PieChartComponent {
     });
   }
   private updateChart() {
-    this.myPieChart.data.labels = this.PieChartData?.labels;
-    this.myPieChart.data.datasets[0].data = this.PieChartData?.data;
-    this.myPieChart.data.datasets[0].backgroundColor = this.PieChartData?.colors;
-    this.myPieChart.update();
+    if (this.myPieChart) {
+      this.myPieChart.data.labels = this.PieChartData?.labels;
+      this.myPieChart.data.datasets[0].data = this.PieChartData?.data;
+      this.myPieChart.data.datasets[0].backgroundColor = this.PieChartData?.colors;
+      this.myPieChart.update();
+    }
   }
   displayCenter(index: any) {
     if (

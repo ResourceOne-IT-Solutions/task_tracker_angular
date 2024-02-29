@@ -50,7 +50,7 @@ export class UserlistComponent {
   'clientForm': FormGroup;
   'updateForm': FormGroup;
   TicketRaised: string = '';
-  userstatus = ['In Progress', 'Pending', 'Closed', 'Improper Requirment' , 'Assigned'];
+  userstatus :string[] = ['In Progress', 'Pending', 'Closed', 'Improper Requirment'];
   userDetails: any;
   userModelData: any;
   loadingStaus: boolean = false;
@@ -436,19 +436,25 @@ export class UserlistComponent {
     } else if (data.name === 'Close') {
       // this.closeTicket(data.userDetails);
       this.modelHeader = 'Close Ticket';
+     
       this.openPopup(this.updateModel);
       this.userDetailsdata = data.userDetails;
-      this.updateForm.patchValue({
-        description: this.userDetailsdata.description,
-        comments: this.userDetailsdata.comments,
-        status: this.userDetailsdata.status,
-      });
+      this.updateFormPatch(this.userDetailsdata)
+      
       this.close = true
       this.showForm = false
       this.modelHeader = 'Close Ticket';
     }
   }
-
+ // patch value to update form
+  updateFormPatch(userDetails :any){
+    const ticketstatus = userDetails.status
+    this.updateForm.patchValue({
+      description: userDetails.description,
+      comments: userDetails.comments,
+      status: this.userstatus.includes(ticketstatus)  ? ticketstatus : '',
+    });
+  }
  
   // user ticket update form
   update(userDetails: any) {
@@ -456,11 +462,7 @@ export class UserlistComponent {
     this.showForm = true ;
     this.modelHeader = 'Update Ticket';
     this.openPopup(this.updateModel);
-    this.updateForm.patchValue({
-      description: userDetails.description,
-      comments: userDetails.comments,
-      status: userDetails.status,
-    });
+    this.updateFormPatch(userDetails)
     this.userDetailsdata = userDetails;
   }
   updateUserTicket(dismiss: any) {
@@ -494,6 +496,9 @@ export class UserlistComponent {
           );
           dismiss();
           this.updateForm.reset();
+          this.updateForm.patchValue({
+            status : ''
+          })
         },
         (err: any) => {
           this.updateError = err.error.error;
@@ -563,13 +568,13 @@ export class UserlistComponent {
           data: {
             isClosed: true,
             ...(this.showForm ? {...this.updateForm.value }:{}),
-            closedBy: {
+            updatedBy: {
               name: this.chatservice.getFullName(this.adminDetails),
               id: this.adminDetails._id,
             },
           },
         };
-        this.chatservice.updateTicket(ticketpayload).subscribe(
+         this.chatservice.updateTicket(ticketpayload).subscribe(
           (res: any) => {
             this.tableData = this.tableData.map((element: any) =>
               element._id === res._id ? res : element,
@@ -581,6 +586,10 @@ export class UserlistComponent {
               }),
             );
             dismiss()
+            this.updateForm.reset();
+            this.updateForm.patchValue({
+              status : ''
+            })
           },
           (error) => {
             this.store.dispatch(
