@@ -1,0 +1,32 @@
+
+<div class="header-content d-flex align-items-center justify-content-between" *ngIf="userDetails">
+    <h1 class="title">Resource One IT Solutions</h1>
+   <ng-container *ngIf="isAdmin; else admintemplete">
+    <div class="admin-info d-flex align-items-center">
+        <div class="admin-status" *ngIf="isAdmin">
+          <button class="btn btn-success d-flex align-items-center">
+            <span title="Available"></span>
+            Available
+          </button>
+        </div>
+        <div class="admin-in-out">
+          <button class="btn btn-danger">
+            Logout
+          </button>
+        </div>
+        <div class="admin-profile d-flex align-items-center">
+          <img
+            class="admin-pic"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU"
+          />
+          <h4 class="admin-name">Emmanuel Yadavalli Admin<span><i class="fa-solid fa-chevron-down"></i></span></h4>
+        </div>
+      </div>
+   </ng-container>
+  </div>
+
+
+  <ng-template #admintemplete>
+    <h2>hello</h2>
+    <p>resource one</p>
+  </ng-template>

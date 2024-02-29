@@ -23,6 +23,8 @@ import { Store, select } from '@ngrx/store';
 import { loadUserData } from 'src/app/chat-store/table.actions';
 import { TooltipPosition } from '@angular/material/tooltip';
 import { getTableData } from 'src/app/chat-store/table.selector';
+import { Observable, map } from 'rxjs';
+import { IdleTimeService } from 'src/app/services/idle/idle-time.service';
 @Component({
   selector: 'app-dash-board',
   templateUrl: './dash-board.component.html',
@@ -30,7 +32,12 @@ import { getTableData } from 'src/app/chat-store/table.selector';
 })
 export class DashBoardComponent {
   @ViewChild('requestTicketmodal', { static: false }) requestTicketmodal: any;
+  @ViewChild('availableModel', { static: false }) availableModel: any;
+  // availableTickets: Array<Column> = [...availableColumns];
 
+
+  'userData$': Observable<any>;
+  isAdmin: boolean = false;
   isAdminStatus = false;
   modelHeader: string = '';
   userForm!: FormGroup;
@@ -86,6 +93,9 @@ export class DashBoardComponent {
   UserListchart: any;
   url: string = '';
   UserListlength: any;
+  availableUsers:any = [];
+  UsersStatus: any;
+  dummyData: any=[];
   constructor(
     public chatservice: ChatService,
     private router: Router,
@@ -93,8 +103,19 @@ export class DashBoardComponent {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private store: Store,
+    private idleSerive: IdleTimeService,
+
   ) {}
   ngOnInit() {
+    this.userData$ = this.chatservice.UserLoginData.pipe(
+      map((res: any) => {
+        this.isAdmin = res.isAdmin;
+        if (!res.isAdmin && res.status === 'Available') {
+          this.idleSerive.startIdleMonitoring();
+        }
+        return res;
+      }),
+    );
     this.url = this.chatservice.BE_URL + '/profile-images';
     this.chatservice.UserLoginData.subscribe((res: User | undefined) => {
       this.adminDetails = res;
@@ -146,7 +167,8 @@ export class DashBoardComponent {
       this.store.dispatch(loadUserData({ userList: userPayload }));
       this.UserListData = userPayload;
       const users = this.UserListData.filter((val) => !val.isAdmin);
-      console.log(users);
+      this.availableUsers = users;
+      this.UsersStatus = this.chatservice.getPieChartData(users);
       this.UserListlength = users.length;
       const statusData = this.chatservice.getPieChartData(users);
       const sortedValues: number[] = this.UserpieChartLabels.map(
@@ -221,6 +243,25 @@ export class DashBoardComponent {
       });
       dismiss();
     }
+  }
+  viewDetails(userStatus:any){
+    // this.UserListData.filter((val:any) =>{
+    //   console.log(!val.isAdmin, '777777',val.status === this.UsersStatus.Available )
+    //   if(!val.isAdmin && val.status === userStatus){
+    //     this.availableUsers.push(val)
+    //     console.log(val,'5555555555555',this.availableUsers )
+    //   }
+    // })
+    this.dummyData = this.availableUsers
+    this.dummyData=this.dummyData.filter((v:any)=>{
+      if(v.status === userStatus){
+
+      return v
+      }
+    })
+
+    this.openPopup(this.availableModel);
+
   }
 }
 
