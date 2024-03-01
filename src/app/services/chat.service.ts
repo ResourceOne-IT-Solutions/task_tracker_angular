@@ -1,6 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HostListener, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, map, of, timer } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  catchError,
+  map,
+  of,
+  switchMap,
+  throwError,
+  timer,
+} from 'rxjs';
 import * as jwt from 'jwt-decode';
 import { io, Socket } from 'socket.io-client';
 import { User } from '../interface/users';
@@ -17,7 +26,6 @@ export class ChatService {
   chatRequest = new BehaviorSubject('');
   TotalUser = new BehaviorSubject('');
   private socket: Socket;
-
   getRoleData(role: any) {
     this.RoleData.next(role);
   }
@@ -39,7 +47,7 @@ export class ChatService {
   constructor(
     private http: HttpClient,
     private store: Store,
-    private route: Router
+    private route: Router,
   ) {
     this.socket = io(this.BE_URL, {
       transports: ['websocket', 'polling', 'flashsocket'],
@@ -249,7 +257,6 @@ export class ChatService {
   isAccessTokenExpired(token: any) {
     try {
       const decodedToken = jwt.jwtDecode(token);
-      console.log('DECODED::::', { decodedToken, token });
       if (decodedToken && decodedToken.exp) {
         return Date.now() >= decodedToken.exp * 1000;
       }
@@ -258,50 +265,58 @@ export class ChatService {
       return true;
     }
   }
-  // api mian calls
+
   fetchWithAccessToken(
     method: 'get' | 'post' | 'put' | 'delete',
     url: string,
     data?: any,
-  ) {
+  ): Observable<any> {
     let accessToken = localStorage.getItem('token') || '';
     if (!accessToken || this.isAccessTokenExpired(accessToken)) {
-      this.getRefreshToken().subscribe(
-        (res: any) => {
+      return this.getRefreshToken().pipe(
+        switchMap((res: any) => {
           accessToken = res.accessToken;
-        },
-        (error: any) => {
+          localStorage.setItem('token', accessToken);
+          return this.makeHttpRequest(method, url, data, accessToken);
+        }),
+        catchError((error: any) => {
           this.store.dispatch(
             openDialog({
               message: error.error.message,
               title: 'Refresh Token Error',
             }),
           );
-        },
-      );
-    }
-    if (method == 'post' || method === 'put') {
-      return this.http[method](url, data, {
-        headers: new HttpHeaders({
-          Authorization: accessToken,
+          return throwError('Refresh token error');
         }),
-      });
+      );
+    } else {
+      return this.makeHttpRequest(method, url, data, accessToken);
     }
-    return this.http[method](url, {
-      headers: new HttpHeaders({
-        Authorization: accessToken,
-      }),
-    });
   }
 
+  private makeHttpRequest(
+    method: 'get' | 'post' | 'put' | 'delete',
+    url: string,
+    data?: any,
+    accessToken?: any,
+  ): Observable<any> {
+    let headers = new HttpHeaders({
+      Authorization: accessToken,
+    });
+
+    if (method == 'post' || method === 'put') {
+      return this.http[method](url, data, { headers });
+    } else {
+      return this.http[method](url, { headers });
+    }
+  }
   get(url: any): Observable<any> {
     return this.fetchWithAccessToken('get', this.BE_URL + url).pipe(
       map((res: any) => {
         return res;
       }),
       catchError<any, any>((error: any) => {
-        console.log(error,'3000001111')
-        return this.store.dispatch(
+        this.store.dispatch(
           openDialog({ message: error.error.error, title: 'Api Call error' }),
         );
       }),
@@ -357,7 +372,6 @@ export class ChatService {
         statusData[val.status] = 1;
       }
     });
-    console.log(statusData, 'status');
     return statusData;
   }
   getBreakTimings = (duration: number) => {

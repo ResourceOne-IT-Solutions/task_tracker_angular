@@ -28,21 +28,20 @@ export class adminGuard implements CanActivate {
     //       Authorization: token,
     //     }),
     //   };
-      return this.chatservice.getLoginSetup().pipe(
-        map(
-          (res: any) => {
-            this.chatservice.UserLogin(res);
-            route.component = res.isAdmin
-              ? DashBoardComponent
-              : UserPageComponent;
-            return true;
-          },
-          (error: any) => {
-            return true;
-          },
-        ),
-        
-      );
+    return this.chatservice.getLoginSetup().pipe(
+      map(
+        (res: any) => {
+          this.chatservice.UserLogin(res);
+          route.component = res.isAdmin
+            ? DashBoardComponent
+            : UserPageComponent;
+          return true;
+        },
+        (error: any) => {
+          return true;
+        },
+      ),
+    );
     // } else {
     //   this.router.navigate(['/']);
     //   return of(false);

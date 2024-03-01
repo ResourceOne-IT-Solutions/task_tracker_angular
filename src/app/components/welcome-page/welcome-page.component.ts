@@ -8,7 +8,7 @@ import { ChatService } from '../../services/chat.service';
   styleUrls: ['./welcome-page.component.scss'],
 })
 export class WelComePageComponent {
-  formValue:any;
+  formValue: any;
   inputValue: any;
   constructor(
     private Router: Router,
