@@ -1,8 +1,28 @@
-<div class="nav-header" *ngIf="userData$ | async as userData">
-  <app-nav-bar
+<!-- <div class="main-dashboard-container"> -->
+  <div class="header" *ngIf="userData$ | async as userData">
+    <!-- <app-nav-bar
+      [userDetails]="userData"
+      [isAdmin]="userData.isAdmin"
+      [Status]="userData.status"
+    ></app-nav-bar> -->
+    <app-header 
     [userDetails]="userData"
     [isAdmin]="userData.isAdmin"
     [Status]="userData.status"
-  ></app-nav-bar>
-</div>
-<router-outlet></router-outlet>
+    ></app-header>
+    <div class="d-flex">
+     <div class="w-25">
+      <app-nav-bar
+      [userDetails]="userData"
+      [isAdmin]="userData.isAdmin"
+      [Status]="userData.status"
+    ></app-nav-bar>
+     </div>
+      <div class="w-75">
+        <router-outlet></router-outlet>
+      </div>
+
+    </div>
+  </div>
+<!-- </div> -->
+

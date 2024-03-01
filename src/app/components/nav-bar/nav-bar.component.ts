@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { openDialog } from 'src/app/chat-store/table.actions';
 import { getChatRequests } from 'src/app/chat-store/table.selector';
 import { DialogInfoComponent } from 'src/app/reusable/dialog-info/dialog-info.component';
@@ -186,18 +187,7 @@ export class NavBarComponent {
   get description() {
     return this.ticketform['description'];
   }
-  logout() {
-    this.deleteTokens();
-    const logoutpayload = {
-      id: this.userDetails._id,
-    };
-    this.chatservice.sendSocketData({ key: 'logout', data: logoutpayload.id });
-    this.router.navigate(['/']);
-  }
-  deleteTokens() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
-  }
+  
   OpenChatBox() {
     this.router.navigate(['Chat-Box'], { relativeTo: this.route });
   }

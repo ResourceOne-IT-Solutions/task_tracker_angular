@@ -1,137 +1,112 @@
-<!-- <div> -->
-<!-- <div class="d-flex adminMain"> -->
-<!-- <div class="d-flex piechart-container">
-      <div class="pieChart">
-        <h2>Total Tickets</h2>
-        <div class="chart-legend">
-          <div
-            class="grid-item"
-            *ngFor="let label of pieChartLabels; let i = index"
-          >
-            <span [style.color]="pieChartColors[i]">&#9632;</span>
-            {{ label }}: {{ TotalTicketsPiechart[i] }}
+
+<div class="admin-main-container d-flex">
+  <div class="admin-details">
+    <h2>Admin Dashboard</h2>
+    <div class="admin-status-cards">
+      <h4>User Status</h4>
+      <div class="card-list d-flex">
+        <div class="card">
+          <div class="card-section d-flex align-items-center justify-content-between">
+            <div class="card-title">
+              <p>Available</p>
+              <span>{{UsersStatus?.Available}}/21 </span>
+            </div>
+            <img class="card-img" src="https://cdn-icons-png.flaticon.com/128/5582/5582975.png" />
+          </div>
+          <div class="card-more-info d-flex align-items-center justify-content-between">
+            <a>More details</a>
+            <span (click)="viewDetails('Available')"><i class="fa-solid fa-arrow-right"></i></span>
           </div>
         </div>
-        <app-pie-chart
-          *ngIf="TotalTicketsPiechart"
-          [pieChartId]="'totalTicketschart'"
-          [PieChartData]="TotalTicketsPiechart"
-        ></app-pie-chart>
-        <p>Total Tickets : {{ ticketData.length }}</p>
+        <div class="card">
+          <div class="card-section d-flex align-items-center justify-content-between">
+            <div class="card-title">
+              <p>Off Line</p>
+              <span>{{UsersStatus?.Offline}}/21</span>
+            </div>
+            <img class="card-img" src="https://cdn-icons-png.flaticon.com/128/5818/5818373.png" />
+          </div>
+          <div class="card-more-info d-flex align-items-center justify-content-between">
+            <a>More details</a>
+            <span (click)="viewDetails('Offline')"><i class="fa-solid fa-arrow-right"></i></span>
+
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-section d-flex align-items-center justify-content-between">
+            <div class="card-title">
+              <p>Break</p>
+              <span>{{UsersStatus?.Break ? UsersStatus?.Break : '0'}} /21</span>
+            </div>
+            <img class="card-img" src="https://cdn-icons-png.flaticon.com/128/10634/10634938.png" />
+          </div>
+          <div class="card-more-info d-flex align-items-center justify-content-between">
+            <a>More details</a>
+            <span (click)="viewDetails('Break')"><i class="fa-solid fa-arrow-right"></i></span>
+
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-section d-flex align-items-center justify-content-between">
+            <div class="card-title">
+              <p>On Ticket</p>
+              <span>0/21</span>
+            </div>
+            <img class="card-img" src="https://cdn-icons-png.flaticon.com/128/10242/10242204.png" />
+          </div>
+          <div class="card-more-info d-flex align-items-center justify-content-between">
+            <a>More details</a>
+            <span (click)="viewDetails('OnTicket')"><i class="fa-solid fa-arrow-right"></i></span>
+
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-section d-flex align-items-center justify-content-between">
+            <div class="card-title">
+              <p>sleep</p>
+              <span> {{UsersStatus?.Sleep}}/21</span>
+            </div>
+            <img class="card-img" src="https://cdn-icons-png.flaticon.com/128/2455/2455146.png" />
+          </div>
+          <div class="card-more-info d-flex align-items-center justify-content-between">
+            <a>More details</a>
+            <span (click)="viewDetails('Sleep')"><i class="fa-solid fa-arrow-right"></i></span>
+
+          </div>
+        </div>
       </div>
-      <h2 *ngIf="ticketData.length <= 0">No Tickets</h2>
-    </div> -->
-<!-- </div> -->
-<!-- <div class="d-flex justify-content-around">
-    <div class="pieChart">
-      <h2 class="ps-5">Users Status</h2>
-      <div *ngIf="UserListlength > 0">
-        <app-pie-chart
-          [pieChartId]="'Userpiechart'"
-          [PieChartData]="UserListchart"
-        ></app-pie-chart>
-        <p class="ps-5 pt-1">Total Users : {{ UserListlength }}</p>
-      </div>
-      <h2 *ngIf="UserListlength <= 0">No Users</h2>
+      <p class="user-count">Total Users : {{ UserListlength }}</p>
     </div>
-    <div class="pieChart">
-      <h2 class="ps-5">Today Tickets</h2>
-      <div *ngIf="tableData.length">
-        <app-pie-chart
-          [pieChartId]="'pieChartTicket'"
-          [PieChartData]="ChartData"
-        ></app-pie-chart>
-        <p class="ps-5 pt-1">Total Today Tickets : {{ tableData.length }}</p>
-      </div>
-      <h2 *ngIf="tableData <= 0">No Today Tickets</h2>
-    </div>
-  </div> -->
-<!-- </div> -->
-<div class="admin-main-container d-flex">
-  <div class="admin-page" *ngIf="adminDetails">
-    <div class="user-content">
-      <div class="profile-info">
-        <img
-          *ngIf="adminDetails.profileImageUrl"
-          class="adminpic"
-          src="{{ url }}/{{ adminDetails.profileImageUrl }}"
-          crossorigin="anonymous"
-        />
-        <img
-          *ngIf="!adminDetails.profileImageUrl"
-          class="adminpic"
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU"
-        />
-        <h1 class="user-name d-flex justify-content-center align-items-center">
-          {{ chatservice.getFullName(adminDetails) }}
-          <span
-            matTooltip="Available"
-            aria-label="Displays a tooltip"
-            class="online"
-          ></span>
-        </h1>
-        <span class="user-id">({{ adminDetails.userId }})</span>
-        <p class="user-role">{{ adminDetails.designation }}</p>
-      </div>
-      <div class="user-details">
-        <h4>Admin Details</h4>
-        <p>
-          <span class="usersDetails">Admin Name :</span>
-          {{ chatservice.getFullName(adminDetails) }}
-        </p>
-        <p>
-          <span class="usersDetails">Email : </span>{{ adminDetails.email }}
-        </p>
-        <p>
-          <span class="usersDetails">Mobile : </span>{{ adminDetails.mobile }}
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="admin-records d-flex align-items-center">
-    <div class="timezone d-flex justify-content-center align-items-center">
-      <div class="countryTime">
-        <div>
-          <span class="h5">PST</span>
-          <p class="h5">{{ pstDate }}</p>
+    <div class="admin-records d-flex">
+      <div class="timezone">
+        <h4>Time Zones</h4>
+        <div class="timezone-list d-flex justify-content-center">
+          <div class="countryTime d-flex align-items-center justify-content-center">
+            <span>PST</span>
+            <p>{{ pstDate }}</p>
+          </div>
+          <div class="countryTime d-flex align-items-center justify-content-center">
+            <span>CST</span>
+            <p>{{ cstDate }}</p>
+          </div>
+          <div class="countryTime d-flex align-items-center justify-content-center">
+            <span>EST</span>
+            <p>{{ est }}</p>
+          </div>
         </div>
-      </div>
-      <div class="countryTime">
-        <div>
-          <span class="h5">CST</span>
-          <p class="h5">{{ cstDate }}</p>
+      </div> 
+        <div class="pieChart">
+          <h4>Today Tickets</h4>
+          <div *ngIf="tableData.length">
+            <app-pie-chart
+              [pieChartId]="'pieChartTicket'"
+              [PieChartData]="ChartData"
+            ></app-pie-chart>
+            <p class="user-count">Total Today Tickets : {{ tableData.length }}</p>
+          </div>
+          <h2 *ngIf="tableData <= 0">No Today Tickets</h2>
         </div>
-      </div>
-      <div class="countryTime">
-        <div>
-          <span class="h5">EST</span>
-          <p class="h5">{{ est }}</p>
-        </div>
-      </div>
-    </div>
-    <div class="pie-container d-flex">
-      <div class="pieChart">
-        <h3>Users Status</h3>
-        <div *ngIf="UserListlength > 0">
-          <app-pie-chart
-            [pieChartId]="'Userpiechart'"
-            [PieChartData]="UserListchart"
-          ></app-pie-chart>
-          <p class="user-count">Total Users : {{ UserListlength }}</p>
-        </div>
-        <h2 *ngIf="UserListlength <= 0">No Users</h2>
-      </div>
-      <div class="pieChart">
-        <h3>Today Tickets</h3>
-        <div *ngIf="tableData.length">
-          <app-pie-chart
-            [pieChartId]="'pieChartTicket'"
-            [PieChartData]="ChartData"
-          ></app-pie-chart>
-          <p class="user-count">Total Today Tickets : {{ tableData.length }}</p>
-        </div>
-        <h2 *ngIf="tableData <= 0">No Today Tickets</h2>
-      </div>
+      <!-- </div>  -->
     </div>
   </div>
 </div>
@@ -170,3 +145,26 @@
     </button>
   </div>
 </ng-template>
+
+<!-- user Details Model -->
+
+<ng-template #availableModel let-d="dismiss">
+  <h5 *ngIf="availableUsers.status === 'Available'">Available users</h5>
+  <div class="modal-body m-2">
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Role</th>
+        <th>Profile Image</th>
+      </tr>
+      <tr *ngFor="let available of dummyData ">
+          <td>{{chatservice.getFullName(available)}}</td>
+          <td>{{available.designation}}</td>
+          <td><img width="50px" height="50px" crossorigin="anonymous" src="{{url}}/{{available.profileImageUrl}}"></td>
+      </tr>
+    </table>
+  </div>
+  <div class="modal-footer">
+  </div>
+</ng-template>
+

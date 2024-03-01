@@ -51,6 +51,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
+import { HeaderComponent } from './components/header/header.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -76,6 +77,7 @@ import { MatMenuModule } from '@angular/material/menu';
     DialogInfoComponent,
     PieChartComponent,
     ForgotpasswordComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
