@@ -187,7 +187,7 @@ export class NavBarComponent {
   get description() {
     return this.ticketform['description'];
   }
-  
+
   OpenChatBox() {
     this.router.navigate(['Chat-Box'], { relativeTo: this.route });
   }

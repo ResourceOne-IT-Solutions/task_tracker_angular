@@ -225,11 +225,14 @@
     <div class="row">
       <div class="col-md-12">
         <div *ngIf="close">
-            <span>The ticket status is in {{userDetailsdata?.status}} state do you want change</span>
-            <button (click)="showForm = true">Update</button>
+          <span
+            >The ticket status is in {{ userDetailsdata?.status }} state do you
+            want change</span
+          >
+          <button (click)="showForm = true">Update</button>
         </div>
         <div class="form-group my-2" [formGroup]="updateForm" *ngIf="showForm">
-          <h3 class="fw-medium"  *ngIf="!close">
+          <h3 class="fw-medium" *ngIf="!close">
             Client Name : {{ userDetailsdata.client.name }}
           </h3>
           <label class="my-2" for="">Description</label>
@@ -251,7 +254,7 @@
           </div>
           <label for="" class="my-2">Comments</label>
           <textarea
-            class="form-control  my-2"
+            class="form-control my-2"
             cols="65"
             rows="2"
             formControlName="comments"
@@ -260,7 +263,10 @@
             class="text-danger my-2"
             *ngIf="updateSubmitted && updateModal['comments'].errors"
           >
-            <div class="my-2" *ngIf="updateModal['comments'].errors['required']">
+            <div
+              class="my-2"
+              *ngIf="updateModal['comments'].errors['required']"
+            >
               Comments is Required
             </div>
           </div>
@@ -288,12 +294,20 @@
   </div>
   <div class="modal-footer">
     <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
-    <button class="btn btn-sm btn-primary" *ngIf="!close" (click)="updateUserTicket(d)">
-       Update
+    <button
+      class="btn btn-sm btn-primary"
+      *ngIf="!close"
+      (click)="updateUserTicket(d)"
+    >
+      Update
     </button>
-    <button class="btn btn-sm btn-primary" *ngIf="close"  (click)="closeTicket(d)">
+    <button
+      class="btn btn-sm btn-primary"
+      *ngIf="close"
+      (click)="closeTicket(d)"
+    >
       Close Ticket
-   </button>
+    </button>
   </div>
 </ng-template>
 <!-- ticket raise modal -->

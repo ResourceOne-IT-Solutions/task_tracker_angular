@@ -1,47 +1,47 @@
 .header-content {
-    padding: 10px;
+  padding: 10px;
 
-    .title {
+  .title {
+    margin: 0;
+    font-weight: bold;
+  }
+
+  .admin-info {
+    gap: 16px;
+
+    .admin-status {
+      button {
+        gap: 6px;
+
+        span {
+          width: 15px;
+          height: 15px;
+          border-radius: 50%;
+          background: #00ff00;
+        }
+      }
+    }
+
+    .admin-profile {
+      gap: 8px;
+
+      .admin-pic {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+      }
+
+      .admin-name {
         margin: 0;
+        font-size: 14px;
         font-weight: bold;
-    }
+        line-height: 20px;
 
-    .admin-info {
-        gap: 16px;
-
-        .admin-status {
-            button {
-                gap: 6px;
-
-                span {
-                    width: 15px;
-                    height: 15px;
-                    border-radius: 50%;
-                    background: #00ff00;
-                }
-            }
+        span {
+          font-size: 12px;
+          margin-left: 4px;
         }
-
-        .admin-profile {
-            gap: 8px;
-
-            .admin-pic {
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-            }
-
-            .admin-name {
-                margin: 0;
-                font-size: 14px;
-                font-weight: bold;
-                line-height: 20px;
-
-                span {
-                    font-size: 12px;
-                    margin-left: 4px;
-                }
-            }
-        }
+      }
     }
+  }
 }

@@ -5,50 +5,40 @@
   </button> -->
   <!-- <a class="navbar-brand Dashboard p-0 m-0" (click)="gotDashBoard()">{{ isAdmin ? "Admin" : "User" }} Dashboard</a> -->
   <!-- <div class="buttons-list d-flex align-items-center"> -->
-    <div class="nav-bar">
-      <div class="admin-profile">
-        <div class="admin-pic">
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU"
-          />
-          <span></span>
-        </div>
-        <h4 class="admin-name">{{chatservice.getFullName(userDetails)}}</h4>
-        <span class="admin-id">({{userDetails.userId}})</span>
-        <p class="admin-role">{{userDetails.designation}}</p>
+  <div class="nav-bar">
+    <div class="admin-profile">
+      <div class="admin-pic">
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU"
+        />
+        <span></span>
       </div>
+      <h4 class="admin-name">{{ chatservice.getFullName(userDetails) }}</h4>
+      <span class="admin-id">({{ userDetails.userId }})</span>
+      <p class="admin-role">{{ userDetails.designation }}</p>
     </div>
-    <button class="chat-btn">
-      <a [routerLink]="['Chat-Box']" class="text-decoration-none">Chat Box</a>
-      <span class="roomcount" *ngIf="roomCount > 0">{{ roomCount }}</span>
+  </div>
+  <button class="chat-btn">
+    <a [routerLink]="['Chat-Box']" class="text-decoration-none">Chat Box</a>
+    <span class="roomcount" *ngIf="roomCount > 0">{{ roomCount }}</span>
+  </button>
+  <ng-container *ngIf="!isAdmin; else admintemplete">
+    <button class="btn btn-info" (click)="user()">View Request User</button>
+    <button class="btn btn-info" (click)="userTickets()">Tickets</button>
+    <button class="btn btn-info" [routerLink]="['feed-back']">Feed Back</button>
+    <button class="btn btn-info" [routerLink]="['feed-back-list']">
+      Check FeedBacks
     </button>
-    <ng-container *ngIf="!isAdmin; else admintemplete">
-      <button class="btn btn-info" (click)="user()">
-        View Request User
-      </button>
-      <button class="btn btn-info" (click)="userTickets()">Tickets</button>
-      <button class="btn btn-info" [routerLink]="['feed-back']">
-        Feed Back
-      </button>
-      <button class="btn btn-info" [routerLink]="['feed-back-list']">
-        Check FeedBacks
-      </button>
-    </ng-container>
+  </ng-container>
   <!-- </div> -->
 </nav>
 
-
-
 <ng-template #admintemplete>
-  <button (click)="OpenTicketModel()">
-    Create Ticket
-  </button>
+  <button (click)="OpenTicketModel()">Create Ticket</button>
   <button>
     <a [routerLink]="['create-user']" class="text-decoration-none">Add User</a>
   </button>
-  <button (click)="openClientModel()">
-    Add Client
-  </button>
+  <button (click)="openClientModel()">Add Client</button>
   <button (click)="ViewTicket()">Tickets</button>
   <button (click)="ViewRequest()">
     View Request
@@ -57,12 +47,8 @@
     >
   </button>
 
-  <button [routerLink]="['feed-back']">
-    Feed Back
-  </button>
-  <button [routerLink]="['feed-back-list']">
-    Check FeedBacks
-  </button>
+  <button [routerLink]="['feed-back']">Feed Back</button>
+  <button [routerLink]="['feed-back-list']">Check FeedBacks</button>
 </ng-template>
 
 <ng-template #clientModel let-d="dismiss">
