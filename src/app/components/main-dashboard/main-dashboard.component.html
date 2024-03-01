@@ -10,6 +10,19 @@
     [isAdmin]="userData.isAdmin"
     [Status]="userData.status"
     ></app-header>
+    <div class="d-flex">
+     <div class="w-25">
+      <app-nav-bar
+      [userDetails]="userData"
+      [isAdmin]="userData.isAdmin"
+      [Status]="userData.status"
+    ></app-nav-bar>
+     </div>
+      <div class="w-75">
+        <router-outlet></router-outlet>
+      </div>
+
+    </div>
   </div>
 <!-- </div> -->
-<router-outlet></router-outlet>
+

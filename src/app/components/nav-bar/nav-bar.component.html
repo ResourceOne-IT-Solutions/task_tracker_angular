@@ -5,31 +5,24 @@
   </button> -->
   <!-- <a class="navbar-brand Dashboard p-0 m-0" (click)="gotDashBoard()">{{ isAdmin ? "Admin" : "User" }} Dashboard</a> -->
   <!-- <div class="buttons-list d-flex align-items-center"> -->
+    <div class="nav-bar">
+      <div class="admin-profile">
+        <div class="admin-pic">
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU"
+          />
+          <span></span>
+        </div>
+        <h4 class="admin-name">{{chatservice.getFullName(userDetails)}}</h4>
+        <span class="admin-id">({{userDetails.userId}})</span>
+        <p class="admin-role">{{userDetails.designation}}</p>
+      </div>
+    </div>
     <button class="chat-btn">
       <a [routerLink]="['Chat-Box']" class="text-decoration-none">Chat Box</a>
       <span class="roomcount" *ngIf="roomCount > 0">{{ roomCount }}</span>
     </button>
     <ng-container *ngIf="!isAdmin; else admintemplete">
-      <button mat-button [matMenuTriggerFor]="Status" mat-flat-button color="primary">
-        {{ SelectedStatus ? SelectedStatus : "Available" }} &#9660;
-      </button>
-      <mat-menu #Status>
-        <button mat-menu-item (click)="SelectStatus(status)" *ngFor="let status of adminStatus" [ngClass]="status">
-          {{ status }}
-        </button>
-        <button mat-menu-item [matMenuTriggerFor]="invertebrates">Break</button>
-      </mat-menu>
-
-      <mat-menu #invertebrates>
-        <button (click)="SelectStatus(break)" mat-menu-item *ngFor="let break of Breaks">
-          {{ break }}
-        </button>
-      </mat-menu>
-      <span *ngIf="StartTimer">
-        <span class="fw-bold text-bg-success p-2 m-1" [ngClass]="textColor ? 'text-bg-danger' : ''">{{ format(Minutes)
-          }}:{{ format(Seconds) }}
-        </span>
-      </span>
       <button class="btn btn-info" (click)="user()">
         View Request User
       </button>
@@ -41,7 +34,6 @@
         Check FeedBacks
       </button>
     </ng-container>
-    <button (click)="logout()">LogOut</button>
   <!-- </div> -->
 </nav>
 

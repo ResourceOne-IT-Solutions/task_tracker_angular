@@ -1,3 +1,6 @@
+:host{
+  width: 100%;
+}
 .admin-main-container {
   padding: 10px;
   background: #e8e9eb;
@@ -52,7 +55,8 @@
   }
 
   .admin-details {
-    width: calc(100% - 250px);
+    width: 100%;
+   // width: calc(100% - 250px);
     padding: 10px;
 
     h2 {

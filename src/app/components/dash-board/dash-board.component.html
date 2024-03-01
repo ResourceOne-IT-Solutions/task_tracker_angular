@@ -48,24 +48,6 @@
   </div> -->
 <!-- </div> --> 
 <div class="admin-main-container d-flex">
-  <div class="nav-bar" *ngIf="userData$ | async as userData">
-    <div class="admin-profile">
-      <div class="admin-pic">
-        <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU"
-        />
-        <span></span>
-      </div>
-      <h4 class="admin-name">Emmanuel Yadavalli Admin</h4>
-      <span class="admin-id">(emm27f97)</span>
-      <p class="admin-role">Business Analyst</p>
-    </div>
-    <app-nav-bar
-      [userDetails]="userData"
-      [isAdmin]="userData.isAdmin"
-      [Status]="userData.status"
-    ></app-nav-bar>
-  </div>
   <div class="admin-details">
     <h2>Admin Dashboard</h2>
     <div class="admin-status-cards">
