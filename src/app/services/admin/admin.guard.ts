@@ -21,25 +21,31 @@ export class adminGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     //forget about: how to get the authority of user (I have kept it in shared service)
-    const token = this.chatservice.getToken();
-    if (token) {
-      let httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: token,
-        }),
-      };
-      return this.chatservice.getLoginSetup(httpOptions).pipe(
-        map((res: any) => {
-          this.chatservice.UserLogin(res);
-          route.component = res.isAdmin
-            ? DashBoardComponent
-            : UserPageComponent;
-          return true;
-        }),
+    // const token = this.chatservice.getToken();
+    // if (token) {
+    //   let httpOptions = {
+    //     headers: new HttpHeaders({
+    //       Authorization: token,
+    //     }),
+    //   };
+      return this.chatservice.getLoginSetup().pipe(
+        map(
+          (res: any) => {
+            this.chatservice.UserLogin(res);
+            route.component = res.isAdmin
+              ? DashBoardComponent
+              : UserPageComponent;
+            return true;
+          },
+          (error: any) => {
+            return true;
+          },
+        ),
+        
       );
-    } else {
-      this.router.navigate(['/']);
-      return of(false);
-    }
+    // } else {
+    //   this.router.navigate(['/']);
+    //   return of(false);
+    // }
   }
 }

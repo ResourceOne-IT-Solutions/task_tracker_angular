@@ -25,32 +25,29 @@ export class guardGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     const token = this.chatservice.getToken();
-    if (token) {
-      let httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: token,
-        }),
-      };
-      if (route.routeConfig && route.routeConfig.path === 'login_page') {
-        this.router.navigate(['/dashboard']);
-      }
+    // if (token) {
       return this.chatservice.UserLoginData.pipe(
         map((res: any) => {
           if (res) {
+            if (route.routeConfig && route.routeConfig.path === 'login_page') {
+              this.router.navigate(['/dashboard']);
+            }
             return true;
           } else {
-            this.router.navigate(['/dashboard']);
-            return false;
+            if(token){
+              this.router.navigate(['/dashboard']);
+            }
+            return true;
           }
         }),
       );
-    } else {
-      if (route.routeConfig && route.routeConfig.path === 'login_page') {
-        return of(true);
-      } else {
-        this.router.navigate(['/']);
-        return of(true);
-      }
-    }
+    // } else {
+      // if (route.routeConfig && route.routeConfig.path === 'login_page') {
+      //   return of(true);
+      // } else {
+    //     this.router.navigate(['/']);
+    //     return of(true);
+    //   }
+    // }
   }
 }

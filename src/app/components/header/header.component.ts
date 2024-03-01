@@ -42,9 +42,7 @@ export class HeaderComponent implements OnInit  {
       console.log(this.adminDetails , '42::')
     });
   }
-  deleteCookie(name: string) {
-    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC';
-  }
+  
   SelectStatus(data: any) {
     this.SelectedStatus = data;
     this.StartTimer = false;
@@ -84,15 +82,20 @@ export class HeaderComponent implements OnInit  {
       data: updatePayload,
     });
   }
-
-  logout() {
-    this.deleteCookie('token');
+// logout function
+ logout() {
+    this.deleteTokens();
     const logoutpayload = {
       id: this.userDetails._id,
     };
     this.chatservice.sendSocketData({ key: 'logout', data: logoutpayload.id });
     this.router.navigate(['/']);
   }
+  deleteTokens() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
+  }
+  
   clickHandler() {
     this.timerId = setInterval(() => {
       this.Seconds++;

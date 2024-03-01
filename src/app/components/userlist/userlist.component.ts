@@ -50,7 +50,7 @@ export class UserlistComponent {
   'clientForm': FormGroup;
   'updateForm': FormGroup;
   TicketRaised: string = '';
-  userstatus = ['In Progress', 'Pending', 'Closed', 'Improper Requirment'];
+  userstatus :string[] = ['In Progress', 'Pending', 'Closed', 'Improper Requirment'];
   userDetails: any;
   userModelData: any;
   loadingStaus: boolean = false;
@@ -107,6 +107,8 @@ export class UserlistComponent {
   userErr: any;
   url: string = '';
   mockTableData: any = [];
+  showForm :boolean =false;
+  close: any;
   constructor(
     public chatservice: ChatService,
     private modalService: NgbModal,
@@ -116,7 +118,7 @@ export class UserlistComponent {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private store: Store,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.url = this.chatservice.BE_URL + '/profile-images';
@@ -132,7 +134,7 @@ export class UserlistComponent {
     this.clientForm = this.fb.group({
       location: ['', Validators.required],
       zone: ['', Validators.required],
-      mobile: ['', [Validators.required, this.validateNumberLength.bind(this)]],
+      mobile: ['', [Validators.required]],
       technologies: ['', Validators.required],
       companyName: ['', Validators.required],
     });
@@ -167,9 +169,14 @@ export class UserlistComponent {
     return this.updateForm.controls;
   }
 
+  openPopup(content: any): void {
+    this.modalService.open(content);
+  }
   goback() {
     this.location.back();
   }
+
+  // search filter
   SearchUsers() {
     if (this.params.includes('tickets')) {
       this.tableData = this.mockTableData.filter(
@@ -188,6 +195,9 @@ export class UserlistComponent {
       );
     }
   }
+
+  // Edit User 
+
   editUser(userData: any) {
     this.userSubmitted = false;
     this.openPopup(this.userModel);
@@ -200,28 +210,7 @@ export class UserlistComponent {
     });
     this.userDetails = userData;
   }
-  openPopup(content: any): void {
-    this.modalService.open(content);
-  }
-  validateNumberLength(control: AbstractControl) {
-    if (control.value && control.value.toString().length > 10) {
-      return { maxLengthExceeded: true };
-    }
-    return null;
-  }
-  openUserDetails(userDetails: any) {
-    this.userModelData = userDetails;
-    if (this.userModelData && this.userModelData?.email) {
-      this.chatservice.UserLogin(userDetails);
-      this.modalService.open(this.userDetailsModel);
-    }
-  }
-  cancel(dismiss: any) {
-    dismiss();
-    this.userForm.reset();
-    this.clientForm.reset();
-    this.clientForm.controls['location'].patchValue('');
-  }
+
   updateUser(dismiss: any): void {
     this.userSubmitted = true;
     if (this.userForm.valid) {
@@ -252,6 +241,21 @@ export class UserlistComponent {
       this.userForm.reset();
     }
   }
+ 
+  openUserDetails(userDetails: any) {
+    this.userModelData = userDetails;
+    if (this.userModelData && this.userModelData?.email) {
+      this.chatservice.UserLogin(userDetails);
+      this.modalService.open(this.userDetailsModel);
+    }
+  }
+  cancel(dismiss: any) {
+    dismiss();
+    this.userForm.reset();
+    this.clientForm.reset();
+    this.clientForm.controls['location'].patchValue('');
+  }
+
 
   // route to user page
   routeUserPage(details: any) {
@@ -260,13 +264,7 @@ export class UserlistComponent {
     });
   }
 
-  UserPage(dismiss: any) {
-    dismiss();
-    this.router.navigate(['../user', this.userModelData._id], {
-      relativeTo: this.route,
-    });
-  }
-
+  // Edit Client 
   updateClient(dismiss: any) {
     this.clientSubmitted = true;
     if (this.clientForm.valid) {
@@ -335,17 +333,6 @@ export class UserlistComponent {
       this.AssignedUser = '';
       this.modalService.open(this.assignTicketModel);
     });
-  }
-  singleButtonClick(data: any) {
-    if (data.name == 'Send Mail') {
-      this.openPopup(this.sendMailModel);
-      this.ticketDetails = data.userDetails;
-      this.description = this.ticketDetails.description;
-    } else if (data.name == 'Assign User' || data.name == 'Add Resource') {
-      this.assignTicket(data.userDetails);
-    } else if (data.name === 'Close') {
-      this.closeTicket(data.userDetails);
-    }
   }
 
   ticketAssign(dismiss: any) {
@@ -436,15 +423,46 @@ export class UserlistComponent {
       );
     }
   }
-  // user ticket update form
-  update(userDetails: any) {
-    this.modelHeader = 'Update Ticket';
-    this.openPopup(this.updateModel);
+
+  // table single button click
+
+  singleButtonClick(data: any) {
+    if (data.name == 'Send Mail') {
+      this.openPopup(this.sendMailModel);
+      this.ticketDetails = data.userDetails;
+      this.description = this.ticketDetails.description;
+    } else if (data.name == 'Assign User' || data.name == 'Add Resource') {
+      this.assignTicket(data.userDetails);
+    } else if (data.name === 'Close') {
+      // this.closeTicket(data.userDetails);
+      this.modelHeader = 'Close Ticket';
+     
+      this.openPopup(this.updateModel);
+      this.userDetailsdata = data.userDetails;
+      this.updateFormPatch(this.userDetailsdata)
+      
+      this.close = true
+      this.showForm = false
+      this.modelHeader = 'Close Ticket';
+    }
+  }
+ // patch value to update form
+  updateFormPatch(userDetails :any){
+    const ticketstatus = userDetails.status
     this.updateForm.patchValue({
       description: userDetails.description,
       comments: userDetails.comments,
-      status: userDetails.status,
+      status: this.userstatus.includes(ticketstatus)  ? ticketstatus : '',
     });
+  }
+ 
+  // user ticket update form
+  update(userDetails: any) {
+    this.close = false;
+    this.showForm = true ;
+    this.modelHeader = 'Update Ticket';
+    this.openPopup(this.updateModel);
+    this.updateFormPatch(userDetails)
     this.userDetailsdata = userDetails;
   }
   updateUserTicket(dismiss: any) {
@@ -478,6 +496,9 @@ export class UserlistComponent {
           );
           dismiss();
           this.updateForm.reset();
+          this.updateForm.patchValue({
+            status : ''
+          })
         },
         (err: any) => {
           this.updateError = err.error.error;
@@ -539,27 +560,21 @@ export class UserlistComponent {
       this.mailSuccessMsg = res;
     });
   }
-  closeTicket(data: any) {
-    const dialogRef = this.dialog.open(DialogModelComponent, {
-      data: {
-        message: 'Are Sure You Want To Close The Ticket ?',
-        btn1: 'Yes',
-        btn2: 'No',
-      },
-    });
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result) {
+
+  // close ticket 
+  closeTicket(dismiss: any) {
         const ticketpayload = {
-          id: data._id,
+          id: this.userDetailsdata._id,
           data: {
             isClosed: true,
-            closedBy: {
+            ...(this.showForm ? {...this.updateForm.value }:{}),
+            updatedBy: {
               name: this.chatservice.getFullName(this.adminDetails),
               id: this.adminDetails._id,
             },
           },
         };
-        this.chatservice.updateTicket(ticketpayload).subscribe(
+         this.chatservice.updateTicket(ticketpayload).subscribe(
           (res: any) => {
             this.tableData = this.tableData.map((element: any) =>
               element._id === res._id ? res : element,
@@ -570,6 +585,11 @@ export class UserlistComponent {
                 title: 'Ticket Closed',
               }),
             );
+            dismiss()
+            this.updateForm.reset();
+            this.updateForm.patchValue({
+              status : ''
+            })
           },
           (error) => {
             this.store.dispatch(
@@ -580,8 +600,6 @@ export class UserlistComponent {
             );
           },
         );
-      }
-    });
   }
   delete(data: any, user: any) {
     const dialogRef = this.dialog.open(DialogModelComponent, {

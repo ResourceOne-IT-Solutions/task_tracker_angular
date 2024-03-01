@@ -12,7 +12,7 @@ export class LoginPageComponent {
   UserData: any;
   UserDataa: boolean = false;
   LoginBoolean: boolean = true;
-  RoleDetails: any;
+  RoleDetails = 'Admin';
   submitted: boolean = false;
   ErrorMsg: any;
   navigateData: any;
@@ -37,7 +37,9 @@ export class LoginPageComponent {
       this.UserDataa = false;
     });
     this.chatservice.RoleData.subscribe((res: any) => {
-      this.RoleDetails = res;
+      if (res) {
+        this.RoleDetails = res;
+      }
       if (this.RoleDetails === 'Admin') {
         this.navigateData = 'User';
       } else {
@@ -60,7 +62,8 @@ export class LoginPageComponent {
         .currentTaskUser({ ...this.loginForm.value, isAdmin })
         .subscribe(
           (res: any) => {
-            this.chatservice.setCookie('token', res.token, 1);
+            localStorage.setItem('token', res.token);
+            localStorage.setItem('refreshToken', res.refreshToken);
             this.chatservice.UserLogin(res);
             this.route.navigate(['dashboard']);
           },

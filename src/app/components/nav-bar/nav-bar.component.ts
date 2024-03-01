@@ -44,7 +44,7 @@ export class NavBarComponent {
   requestCount: any = [];
   SelectedStatus: any;
   public isCollapsed = false;
-  newValue: boolean =true;
+  newValue: boolean = true;
   constructor(
     private router: Router,
     public chatservice: ChatService,
@@ -89,9 +89,6 @@ export class NavBarComponent {
     this.chatservice.getSocketData('statusUpdate').subscribe((res) => {
       this.roomCount = Object.keys(this.userDetails.newMessages).length;
     });
-    this.chatservice.getAllClients().subscribe((res: any) => {
-      this.clientData = res;
-    });
     this.chatservice.getSocketData('notifications').subscribe((res: any) => {
       if (res.id === this.userDetails._id) {
         if (this.userDetails.newMessages.hasOwnProperty(res.room)) {
@@ -121,7 +118,7 @@ export class NavBarComponent {
       data: updatePayload,
     });
     if (
-      this.SelectedStatus === 'BreakFast Break' ||
+      this.SelectedStatus === 'BreakFastBreak' ||
       this.SelectedStatus === 'Lunch Break'
     ) {
       this.StartTimer = true;
@@ -190,17 +187,7 @@ export class NavBarComponent {
   get description() {
     return this.ticketform['description'];
   }
-  logout() {
-    this.deleteCookie('token');
-    const logoutpayload = {
-      id: this.userDetails._id,
-    };
-    this.chatservice.sendSocketData({ key: 'logout', data: logoutpayload.id });
-    this.router.navigate(['/']);
-  }
-  deleteCookie(name: string) {
-    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC';
-  }
+  
   OpenChatBox() {
     this.router.navigate(['Chat-Box'], { relativeTo: this.route });
   }
@@ -229,6 +216,9 @@ export class NavBarComponent {
     return [year, month, day].join('-');
   }
   OpenTicketModel() {
+    this.chatservice.getAllClients().subscribe((res: any) => {
+      this.clientData = res;
+    });
     this.submitTicketForm = false;
     this.TicketCreationForm.controls['targetDate'].patchValue(
       this.formatDate(),
@@ -363,7 +353,7 @@ export class NavBarComponent {
   format(num: number) {
     return (num + '').length === 1 ? '0' + num : num + '';
   }
-  memuClick(){
-    this.newValue =!this.newValue
+  memuClick() {
+    this.newValue = !this.newValue;
   }
 }

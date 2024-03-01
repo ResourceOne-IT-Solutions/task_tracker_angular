@@ -100,8 +100,6 @@ export class DashBoardComponent {
     public chatservice: ChatService,
     private router: Router,
     private modalService: NgbModal,
-    private fb: FormBuilder,
-    private route: ActivatedRoute,
     private store: Store,
     private idleSerive: IdleTimeService,
 
@@ -134,7 +132,6 @@ export class DashBoardComponent {
       const sortedTicket: number[] = this.pieChartLabels.map(
         (label) => TicketStatus[label] || 0,
       );
-      console.log(sortedTicket);
       this.TotalTicketsPiechart = {
         colors: this.pieChartColors,
         labels: this.pieChartLabels,
@@ -244,14 +241,8 @@ export class DashBoardComponent {
       dismiss();
     }
   }
+  // show userDetails Table
   viewDetails(userStatus:any){
-    // this.UserListData.filter((val:any) =>{
-    //   console.log(!val.isAdmin, '777777',val.status === this.UsersStatus.Available )
-    //   if(!val.isAdmin && val.status === userStatus){
-    //     this.availableUsers.push(val)
-    //     console.log(val,'5555555555555',this.availableUsers )
-    //   }
-    // })
     this.dummyData = this.availableUsers
     this.dummyData=this.dummyData.filter((v:any)=>{
       if(v.status === userStatus){

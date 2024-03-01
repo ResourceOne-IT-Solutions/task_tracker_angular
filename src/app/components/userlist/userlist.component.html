@@ -118,12 +118,6 @@
       />
     </div>
   </div>
-  <div class="modal-footer">
-    <button class="btn btn-sm btn-primary" (click)="UserPage(d)">
-      Goto UserPage
-    </button>
-    <button class="btn btn-sm btn-danger" (click)="cancel(d)">Close</button>
-  </div>
 </ng-template>
 
 <!-- Client Model -->
@@ -222,6 +216,7 @@
   </div>
 </ng-template>
 
+<!-- Update Ticket Model-->
 <ng-template #updateModel let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title">{{ modelHeader }}</h4>
@@ -229,41 +224,48 @@
   <div class="modal-body">
     <div class="row">
       <div class="col-md-12">
-        <div class="form-group" [formGroup]="updateForm">
-          <h3 class="fw-medium">
+        <div *ngIf="close">
+            <span>The ticket status is in {{userDetailsdata?.status}} state do you want change</span>
+            <button (click)="showForm = true">Update</button>
+        </div>
+        <div class="form-group my-2" [formGroup]="updateForm" *ngIf="showForm">
+          <h3 class="fw-medium"  *ngIf="!close">
             Client Name : {{ userDetailsdata.client.name }}
           </h3>
-          <label for="">Description</label>
-          <input
+          <label class="my-2" for="">Description</label>
+          <textarea
+            cols="65"
+            rows="2"
             type="text"
             placeholder="description"
-            class="form-control m-2"
+            class="form-control my-2"
             formControlName="description"
-          />
+          ></textarea>
           <div
-            class="text-danger mb-2 ps-2"
+            class="text-danger my-2"
             *ngIf="updateSubmitted && updateModal['description'].errors"
           >
             <div *ngIf="updateModal['description'].errors['required']">
               Description is Required
             </div>
           </div>
-          <label for="">Comments</label>
+          <label for="" class="my-2">Comments</label>
           <textarea
-            class="comments"
+            class="form-control  my-2"
             cols="65"
-            rows="5"
+            rows="2"
             formControlName="comments"
           ></textarea>
           <div
-            class="text-danger mb-2 ps-2"
+            class="text-danger my-2"
             *ngIf="updateSubmitted && updateModal['comments'].errors"
           >
-            <div *ngIf="updateModal['comments'].errors['required']">
+            <div class="my-2" *ngIf="updateModal['comments'].errors['required']">
               Comments is Required
             </div>
           </div>
-          <select class="form-control m-2" formControlName="status">
+          <label>Status</label>
+          <select class="form-control my-2" formControlName="status">
             <option [value]="''" disabled selected class="hide">
               Select Status
             </option>
@@ -272,23 +274,26 @@
             </option>
           </select>
           <div
-            class="text-danger mb-2 ps-2"
+            class="text-danger my-2"
             *ngIf="updateSubmitted && updateModal['status'].errors"
           >
-            <div *ngIf="updateModal['status'].errors['required']">
+            <div *ngIf="updateModal['status'].errors['required']" class="my-2">
               Status is Required
             </div>
           </div>
         </div>
       </div>
     </div>
-    <span *ngIf="updateError" class="text-danger">{{ updateError }}</span>
+    <span *ngIf="updateError" class="text-danger my-2">{{ updateError }}</span>
   </div>
   <div class="modal-footer">
     <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
-    <button class="btn btn-sm btn-primary" (click)="updateUserTicket(d)">
-      Update
+    <button class="btn btn-sm btn-primary" *ngIf="!close" (click)="updateUserTicket(d)">
+       Update
     </button>
+    <button class="btn btn-sm btn-primary" *ngIf="close"  (click)="closeTicket(d)">
+      Close Ticket
+   </button>
   </div>
 </ng-template>
 <!-- ticket raise modal -->
