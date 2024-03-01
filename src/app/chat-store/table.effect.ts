@@ -55,7 +55,7 @@ export class TicketsEffect {
     this.actions$.pipe(
       ofType(loadUserApi),
       mergeMap(({ httpOptions }) => {
-        return this.chatservice.getLoginSetup(httpOptions).pipe(
+        return this.chatservice.getLoginSetup().pipe(
           map((user: any) => {
             this.chatservice.UserLogin(user);
             return loadUserApiSuccess({ userLoginData: user });

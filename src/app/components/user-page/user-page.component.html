@@ -34,7 +34,10 @@
       <div class="employeInfo">
         <p class="userslabel">Employeee Details</p>
         <p><label>Emp ID :</label> {{ currentUser.empId }}</p>
-        <p><label>Employe Name :</label> {{ chatservice.getFullName(currentUser) }}</p>
+        <p>
+          <label>Employe Name :</label>
+          {{ chatservice.getFullName(currentUser) }}
+        </p>
         <p><label>Email :</label> {{ currentUser.email }}</p>
         <p><label>Phone :</label> {{ currentUser.mobile }}</p>
         <p><label>Role :</label> {{ currentUser.designation }}</p>
@@ -64,7 +67,7 @@
                 status.endTime | date: "hh:mm a"
               }}
               :<b> Duration -</b>
-              {{ status.duration / 60 | number: "1.0-0" }}mints --
+              {{ chatservice.getBreakTimings(status.duration / 60) }}mints --
               {{ status.status }}
             </span>
           </p>
@@ -73,18 +76,18 @@
     </div>
     <div class="employeTicket">
       <!-- <div> -->
-        <!-- <p class="userslabel">Stats</p> -->
-        <div class="pieChart">
-          <h2>Today Tickets</h2>
-          <app-pie-chart
-            *ngIf="userTickets?.length"
-            [pieChartId]="'piechartdemo'"
-            [PieChartData]="UserPiechart"
-          ></app-pie-chart>
-          <p *ngIf="userTickets?.length">
-            Total Tickets : {{ userTickets.length }}
-          </p>
-        </div>
+      <!-- <p class="userslabel">Stats</p> -->
+      <div class="pieChart">
+        <h2>Today Tickets</h2>
+        <app-pie-chart
+          *ngIf="userTickets?.length"
+          [pieChartId]="'piechartdemo'"
+          [PieChartData]="UserPiechart"
+        ></app-pie-chart>
+        <p *ngIf="userTickets?.length">
+          Total Tickets : {{ userTickets.length }}
+        </p>
+      </div>
       <!-- </div> -->
       <h2 *ngIf="userTickets.length <= 0">No Today Tickets</h2>
       <div class="employeBtn" *ngIf="!isAdminView">

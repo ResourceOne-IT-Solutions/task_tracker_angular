@@ -90,8 +90,6 @@ export class DashBoardComponent {
     public chatservice: ChatService,
     private router: Router,
     private modalService: NgbModal,
-    private fb: FormBuilder,
-    private route: ActivatedRoute,
     private store: Store,
   ) {}
   ngOnInit() {
@@ -113,7 +111,6 @@ export class DashBoardComponent {
       const sortedTicket: number[] = this.pieChartLabels.map(
         (label) => TicketStatus[label] || 0,
       );
-      console.log(sortedTicket);
       this.TotalTicketsPiechart = {
         colors: this.pieChartColors,
         labels: this.pieChartLabels,
@@ -146,7 +143,6 @@ export class DashBoardComponent {
       this.store.dispatch(loadUserData({ userList: userPayload }));
       this.UserListData = userPayload;
       const users = this.UserListData.filter((val) => !val.isAdmin);
-      console.log(users);
       this.UserListlength = users.length;
       const statusData = this.chatservice.getPieChartData(users);
       const sortedValues: number[] = this.UserpieChartLabels.map(
