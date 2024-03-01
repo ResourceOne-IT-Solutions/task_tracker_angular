@@ -22,7 +22,10 @@ export class HeaderComponent implements OnInit  {
   timerId: any = Number;
   adminStatus = ['Offline', 'Available', 'OnTicket', 'Sleep'];
   Breaks = ['BreakFastBreak', 'Lunch Break'];
-  adminDetails!: User | undefined;
+  adminDetails:any
+  url: string = '';
+  isProfile : boolean = false;
+
 
 
 
@@ -35,12 +38,13 @@ export class HeaderComponent implements OnInit  {
 
   ngOnInit(): void {
     this.Status = this.userDetails.status;
-    console.log(this.userDetails , '14:::');
-    // this.chatservice.UserLogin(this.userDetails);
+    this.chatservice.UserLogin(this.userDetails);
     this.chatservice.UserLoginData.subscribe((res: User | undefined) => {
       this.adminDetails = res;
-      console.log(this.adminDetails , '42::')
+      console.log(this.adminDetails , '42::');
     });
+    this.url = this.chatservice.BE_URL + '/profile-images';
+
   }
   
   SelectStatus(data: any) {
@@ -110,6 +114,12 @@ export class HeaderComponent implements OnInit  {
   }
   format(num: number) {
     return (num + '').length === 1 ? '0' + num : num + '';
+  }
+
+  // profile Data
+  profileData(){
+    this.isProfile = !this.isProfile
+
   }
 
 

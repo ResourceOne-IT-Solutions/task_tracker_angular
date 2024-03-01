@@ -3,10 +3,10 @@
 }
 .admin-main-container {
   padding: 10px;
-  background: #e8e9eb;
+  background: #152035;
 
   .nav-bar {
-    width: 250px;
+    // width: 250px;
 
     .admin-profile {
       text-align: center;
@@ -67,6 +67,7 @@
       padding: 20px 10px;
       margin: 20px 0;
       background: #fff;
+      color: #000;
       border-radius: 12px;
 
       h4 {
@@ -75,18 +76,25 @@
       }
 
       .card-list {
+        flex-wrap: wrap;
         gap: 10px;
 
         .card {
-          border: none;
-          background: #e8e9eb;
+          background: #1b2a47;
           border-radius: 12px;
-          width: 20%;
-          border: 2px solid #e8e9eb;
+          width: calc(20% - 8px);
+          min-width: 160px;
+          // min-width: 160px;
+          border: 2px solid #1b2a47;
+
+          // &:nth-last-child(1) {
+          //   margin: 0;
+          // }
 
           .card-section {
             flex-direction: row;
             padding: 10px;
+            color: #fff;
           }
 
           .card-more-info {
@@ -130,6 +138,7 @@
         width: 50%;
         padding: 20px 10px;
         background: #fff;
+        color: #000;
         border-radius: 12px;
         height: fit-content;
 
@@ -166,6 +175,7 @@
         width: 50%;
         padding: 20px 10px;
         background: #fff;
+        color: #000;
         border-radius: 12px;
 
         .user-count {
@@ -179,7 +189,41 @@
 .footer-btn-group {
   padding: 10px;
   gap: 10px;
-  background: #e8e9eb;
+  background: #152035;
+  border-top: 1px solid;
+}
+
+@media screen and (max-width: 1150px) {
+  .card {
+    width: calc(25% - 8px) !important;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .card {
+    width: calc(33.33% - 8px) !important;
+  }
+
+  .admin-records {
+    flex-direction: column;
+
+    .timezone,
+    .pieChart {
+      width: 100% !important;
+    }
+  }
+}
+
+@media screen and (max-width: 810px) {
+  .card {
+    width: calc(50% - 8px) !important;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .card {
+    width: 100% !important;
+  }
 }
 
 

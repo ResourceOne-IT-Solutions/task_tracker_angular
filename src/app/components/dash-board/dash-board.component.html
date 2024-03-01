@@ -50,7 +50,8 @@
           <div class="card-section d-flex align-items-center justify-content-between">
             <div class="card-title">
               <p>On Ticket</p>
-              <span>0/21</span>
+              <span>{{UsersStatus?.OnTicket ? UsersStatus?.OnTicket : '0'}} /21</span>
+              
             </div>
             <img class="card-img" src="https://cdn-icons-png.flaticon.com/128/10242/10242204.png" />
           </div>
@@ -63,7 +64,7 @@
         <div class="card">
           <div class="card-section d-flex align-items-center justify-content-between">
             <div class="card-title">
-              <p>sleep</p>
+              <p>Sleep</p>
               <span> {{UsersStatus?.Sleep}}/21</span>
             </div>
             <img class="card-img" src="https://cdn-icons-png.flaticon.com/128/2455/2455146.png" />

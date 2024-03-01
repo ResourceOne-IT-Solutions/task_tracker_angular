@@ -4,6 +4,16 @@
 //   z-index: 9;
 // }
 
-.header {
-  background: #e8e9eb;
+.main-container {
+  // background: #e8e9eb;
+  background-color: #1b2a47;
+  color: #fff;
+
+  .nav-section {
+    width: 250px;
+  }
+
+  .info-section {
+    width: calc(100% - 250px);
+  }
 }

@@ -1,5 +1,5 @@
 
-<div class="header-content d-flex align-items-center justify-content-between" *ngIf="userDetails">
+<div class="header-content d-flex justify-content-between" *ngIf="userDetails">
     <h1 class="title">Resource One IT Solutions</h1>
    <ng-container>
     <div class="admin-info d-flex align-items-center">
@@ -36,12 +36,20 @@
             Logout
           </button>
         </div>
-        <div class="admin-profile d-flex align-items-center">
-          <img
-            class="admin-pic"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU"
-          />
-          <h4 class="admin-name">Emmanuel Yadavalli Admin<span><i class="fa-solid fa-chevron-down"></i></span></h4>
+        <div class="admin-profile d-flex align-items-center" (click)="profileData()">
+          <img class="admin-pic" crossorigin="anonymous" src="{{url}}/{{userDetails.profileImageUrl}}">
+          <h4 class="admin-name">Profile<span><i class="fa-solid fa-chevron-down"></i></span></h4>
+          <div class="admin-profile-info" *ngIf="isProfile">
+            <h4>{{userDetails.isAdmin === true ? 'Admin' : 'User'}} Details</h4>
+            <ul>
+              <li><label>Employee Id :</label> {{userDetails.userId}}</li>
+              <li><label>First Name :</label> {{userDetails.firstName}}</li>
+              <li><label>Last Name :</label> {{userDetails.lastName}}</li>
+              <li><label>E Mail :</label> {{userDetails.email}}</li>
+              <li><label>Mobile :</label> {{userDetails.mobile}}</li>
+              <li><label>Desgination :</label> {{userDetails.designation}}</li>
+            </ul>
+          </div>
         </div>
       </div>
    </ng-container>

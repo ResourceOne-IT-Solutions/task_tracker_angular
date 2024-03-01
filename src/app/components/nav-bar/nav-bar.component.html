@@ -8,10 +8,9 @@
     <div class="nav-bar">
       <div class="admin-profile">
         <div class="admin-pic">
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU"
-          />
-          <span></span>
+          <img class="admin-pic" crossorigin="anonymous" src="{{url}}/{{userDetails.profileImageUrl}}">
+         
+          <span *ngIf="userDetails.isAdmin"></span>
         </div>
         <h4 class="admin-name">{{chatservice.getFullName(userDetails)}}</h4>
         <span class="admin-id">({{userDetails.userId}})</span>
