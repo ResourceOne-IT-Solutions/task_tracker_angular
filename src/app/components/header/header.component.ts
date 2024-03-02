@@ -110,7 +110,6 @@ export class HeaderComponent implements OnInit {
   format(num: number) {
     return (num + '').length === 1 ? '0' + num : num + '';
   }
-
   // profile Data
   profileData() {
     this.isProfile = !this.isProfile;

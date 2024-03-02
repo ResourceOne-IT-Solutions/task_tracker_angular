@@ -65,7 +65,10 @@ export class ChatBoxComponent {
   today: number = Date.now();
   contact: any;
   ExportChatModal: boolean = false;
+  ChartUser: boolean = true;
   url: string = '';
+  activeButton: string = 'button1';
+  chatButtons = ['Users', 'Groups'];
   constructor(
     public chatservice: ChatService,
     private location: Location,
@@ -374,5 +377,14 @@ export class ChatBoxComponent {
     });
     const pdfName = `${this.chatservice.getFullName(this.currentUser)}-${this.chatservice.getFullName(this.UserSelected)}-Chat.pdf`;
     pdf.save(pdfName);
+  }
+  // ChatUsers(){
+  //   this.ChartUser = true
+  // }
+  // ChatGroups(){
+  //   this.ChartUser = false
+  // }
+  ChatInfo(data: any) {
+    this.ChartUser = data;
   }
 }

@@ -13,7 +13,6 @@
           crossorigin="anonymous"
           src="{{ url }}/{{ userDetails.profileImageUrl }}"
         />
-
         <span *ngIf="userDetails.isAdmin"></span>
       </div>
       <h4 class="admin-name">{{ chatservice.getFullName(userDetails) }}</h4>
