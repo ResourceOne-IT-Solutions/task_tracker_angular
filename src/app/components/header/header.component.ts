@@ -7,9 +7,9 @@ import { IdleTimeService } from 'src/app/services/idle/idle-time.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit  {
+export class HeaderComponent implements OnInit {
   @Input() 'isAdmin': boolean;
   @Input() userDetails: any;
   @Input() Status: any;
@@ -24,25 +24,22 @@ export class HeaderComponent implements OnInit  {
   Breaks = ['BreakFastBreak', 'Lunch Break'];
   adminDetails!: User | undefined;
 
-
-
-
-  constructor(  private router: Router,
+  constructor(
+    private router: Router,
     private idle: IdleTimeService,
-    public chatservice: ChatService, ){
-
-  }
+    public chatservice: ChatService,
+  ) {}
 
   ngOnInit(): void {
     this.Status = this.userDetails.status;
-    console.log(this.userDetails , '14:::');
+    console.log(this.userDetails, '14:::');
     // this.chatservice.UserLogin(this.userDetails);
     this.chatservice.UserLoginData.subscribe((res: User | undefined) => {
       this.adminDetails = res;
-      console.log(this.adminDetails , '42::')
+      console.log(this.adminDetails, '42::');
     });
   }
-  
+
   SelectStatus(data: any) {
     this.SelectedStatus = data;
     this.StartTimer = false;
@@ -82,8 +79,8 @@ export class HeaderComponent implements OnInit  {
       data: updatePayload,
     });
   }
-// logout function
- logout() {
+  // logout function
+  logout() {
     this.deleteTokens();
     const logoutpayload = {
       id: this.userDetails._id,
@@ -95,7 +92,7 @@ export class HeaderComponent implements OnInit  {
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
   }
-  
+
   clickHandler() {
     this.timerId = setInterval(() => {
       this.Seconds++;
@@ -111,7 +108,4 @@ export class HeaderComponent implements OnInit  {
   format(num: number) {
     return (num + '').length === 1 ? '0' + num : num + '';
   }
-
-
-
 }

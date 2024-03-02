@@ -1,4 +1,4 @@
-:host{
+:host {
   width: 100%;
 }
 .admin-main-container {
@@ -56,7 +56,7 @@
 
   .admin-details {
     width: 100%;
-   // width: calc(100% - 250px);
+    // width: calc(100% - 250px);
     padding: 10px;
 
     h2 {
@@ -105,7 +105,7 @@
               margin-bottom: 4px;
             }
           }
-  
+
           img {
             width: 60px;
             height: 60px;
@@ -142,8 +142,9 @@
             height: 144px;
             gap: 6px;
             border-radius: 50%;
-            box-shadow: inset 8px 8px 8px #cbced1,
-            inset -8px -8px 8px #e7cfcf;
+            box-shadow:
+              inset 8px 8px 8px #cbced1,
+              inset -8px -8px 8px #e7cfcf;
 
             span {
               font-size: 18px;
@@ -181,7 +182,6 @@
   gap: 10px;
   background: #e8e9eb;
 }
-
 
 // .admin-main-container {
 //   .admin-page {
@@ -421,9 +421,9 @@
 //     // border: 1px solid;
 //     height: 134px;
 //     border-radius: 50%;
-    // box-shadow:
-    //   inset 8px 8px 8px #cbced1,
-    //   inset -8px -8px 8px #e7cfcf;
+// box-shadow:
+//   inset 8px 8px 8px #cbced1,
+//   inset -8px -8px 8px #e7cfcf;
 
 //     p {
 //       margin: 9px;
@@ -468,7 +468,8 @@ table {
   width: 100%;
 }
 
-td, th {
+td,
+th {
   border: 1px solid #dddddd;
   text-align: left;
   padding: 8px;
