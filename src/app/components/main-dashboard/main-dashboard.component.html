@@ -1,5 +1,5 @@
 <!-- <div class="main-dashboard-container"> -->
-<div class="header" *ngIf="userData$ | async as userData">
+<div class="main-container" *ngIf="userData$ | async as userData">
   <!-- <app-nav-bar
       [userDetails]="userData"
       [isAdmin]="userData.isAdmin"
@@ -11,14 +11,14 @@
     [Status]="userData.status"
   ></app-header>
   <div class="d-flex">
-    <div class="w-25">
+    <div class="nav-section">
       <app-nav-bar
         [userDetails]="userData"
         [isAdmin]="userData.isAdmin"
         [Status]="userData.status"
       ></app-nav-bar>
     </div>
-    <div class="w-75">
+    <div class="info-section">
       <router-outlet></router-outlet>
     </div>
   </div>

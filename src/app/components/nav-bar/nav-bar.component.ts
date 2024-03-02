@@ -45,6 +45,7 @@ export class NavBarComponent {
   SelectedStatus: any;
   public isCollapsed = false;
   newValue: boolean = true;
+  url: string = '';
   constructor(
     private router: Router,
     public chatservice: ChatService,
@@ -73,6 +74,7 @@ export class NavBarComponent {
     });
   }
   ngOnInit() {
+    this.url = this.chatservice.BE_URL + '/profile-images';
     this.store.select(getChatRequests).subscribe((res: any) => {
       this.requestCount = [...res];
     });

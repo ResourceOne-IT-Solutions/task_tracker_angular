@@ -9,6 +9,7 @@
     margin-bottom: 4px;
     text-align: initial;
     font-weight: 500;
+    color: #fff;
 
     .roomcount {
       background: #00ff00;
@@ -18,11 +19,16 @@
     }
 
     a {
-      color: #000;
+      color: #fff;
     }
 
     &:hover {
       background: #fff;
+      color: #000;
+
+      a {
+        color: #000;
+      }
     }
 
     &.chat-btn {
@@ -34,7 +40,7 @@
   }
 }
 .nav-bar {
-  width: 250px;
+  // width: 250px;
 
   .admin-profile {
     text-align: center;
@@ -67,8 +73,9 @@
 
     .admin-name {
       margin: 10px 0 4px 0;
-      font-size: 14px;
-      font-weight: bold;
+      font-size: 16px;
+      line-height: 22px;
+      font-weight: 500;
     }
 
     .admin-id,
@@ -76,7 +83,7 @@
       font-size: 12px;
       line-height: 18px;
       display: block;
-      font-weight: bold;
+      font-weight: 500;
       margin-bottom: 4px;
     }
   }
@@ -128,7 +135,7 @@
 //       left: 0;
 //       gap: 0;
 //       top: 62px;
-//       width: 250px;
+//       width: 250px;admin-name
 //       left: 0;
 //       background: #bcbdd3;
 //       .chat-btn {
