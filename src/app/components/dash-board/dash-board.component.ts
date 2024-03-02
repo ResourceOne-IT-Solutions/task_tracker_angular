@@ -35,7 +35,6 @@ export class DashBoardComponent {
   @ViewChild('availableModel', { static: false }) availableModel: any;
   // availableTickets: Array<Column> = [...availableColumns];
 
-
   'userData$': Observable<any>;
   isAdmin: boolean = false;
   isAdminStatus = false;
@@ -93,16 +92,15 @@ export class DashBoardComponent {
   UserListchart: any;
   url: string = '';
   UserListlength: any;
-  availableUsers:any = [];
+  availableUsers: any = [];
   UsersStatus: any;
-  dummyData: any=[];
+  dummyData: any = [];
   constructor(
     public chatservice: ChatService,
     private router: Router,
     private modalService: NgbModal,
     private store: Store,
     private idleSerive: IdleTimeService,
-
   ) {}
   ngOnInit() {
     this.userData$ = this.chatservice.UserLoginData.pipe(
@@ -242,17 +240,15 @@ export class DashBoardComponent {
     }
   }
   // show userDetails Table
-  viewDetails(userStatus:any){
-    this.dummyData = this.availableUsers
-    this.dummyData=this.dummyData.filter((v:any)=>{
-      if(v.status === userStatus){
-
-      return v
+  viewDetails(userStatus: any) {
+    this.dummyData = this.availableUsers;
+    this.dummyData = this.dummyData.filter((v: any) => {
+      if (v.status === userStatus) {
+        return v;
       }
-    })
+    });
 
     this.openPopup(this.availableModel);
-
   }
 }
 

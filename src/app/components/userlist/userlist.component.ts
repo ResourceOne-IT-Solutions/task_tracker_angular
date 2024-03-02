@@ -50,7 +50,12 @@ export class UserlistComponent {
   'clientForm': FormGroup;
   'updateForm': FormGroup;
   TicketRaised: string = '';
-  userstatus :string[] = ['In Progress', 'Pending', 'Closed', 'Improper Requirment'];
+  userstatus: string[] = [
+    'In Progress',
+    'Pending',
+    'Closed',
+    'Improper Requirment',
+  ];
   userDetails: any;
   userModelData: any;
   loadingStaus: boolean = false;
@@ -107,7 +112,7 @@ export class UserlistComponent {
   userErr: any;
   url: string = '';
   mockTableData: any = [];
-  showForm :boolean =false;
+  showForm: boolean = false;
   close: any;
   constructor(
     public chatservice: ChatService,
@@ -118,7 +123,7 @@ export class UserlistComponent {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private store: Store,
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.url = this.chatservice.BE_URL + '/profile-images';
@@ -196,7 +201,7 @@ export class UserlistComponent {
     }
   }
 
-  // Edit User 
+  // Edit User
 
   editUser(userData: any) {
     this.userSubmitted = false;
@@ -241,7 +246,7 @@ export class UserlistComponent {
       this.userForm.reset();
     }
   }
- 
+
   openUserDetails(userDetails: any) {
     this.userModelData = userDetails;
     if (this.userModelData && this.userModelData?.email) {
@@ -256,7 +261,6 @@ export class UserlistComponent {
     this.clientForm.controls['location'].patchValue('');
   }
 
-
   // route to user page
   routeUserPage(details: any) {
     this.router.navigate(['../user', details._id], {
@@ -264,7 +268,7 @@ export class UserlistComponent {
     });
   }
 
-  // Edit Client 
+  // Edit Client
   updateClient(dismiss: any) {
     this.clientSubmitted = true;
     if (this.clientForm.valid) {
@@ -436,33 +440,33 @@ export class UserlistComponent {
     } else if (data.name === 'Close') {
       // this.closeTicket(data.userDetails);
       this.modelHeader = 'Close Ticket';
-     
+
       this.openPopup(this.updateModel);
       this.userDetailsdata = data.userDetails;
-      this.updateFormPatch(this.userDetailsdata)
-      
-      this.close = true
-      this.showForm = false
+      this.updateFormPatch(this.userDetailsdata);
+
+      this.close = true;
+      this.showForm = false;
       this.modelHeader = 'Close Ticket';
     }
   }
- // patch value to update form
-  updateFormPatch(userDetails :any){
-    const ticketstatus = userDetails.status
+  // patch value to update form
+  updateFormPatch(userDetails: any) {
+    const ticketstatus = userDetails.status;
     this.updateForm.patchValue({
       description: userDetails.description,
       comments: userDetails.comments,
-      status: this.userstatus.includes(ticketstatus)  ? ticketstatus : '',
+      status: this.userstatus.includes(ticketstatus) ? ticketstatus : '',
     });
   }
- 
+
   // user ticket update form
   update(userDetails: any) {
     this.close = false;
-    this.showForm = true ;
+    this.showForm = true;
     this.modelHeader = 'Update Ticket';
     this.openPopup(this.updateModel);
-    this.updateFormPatch(userDetails)
+    this.updateFormPatch(userDetails);
     this.userDetailsdata = userDetails;
   }
   updateUserTicket(dismiss: any) {
@@ -497,8 +501,8 @@ export class UserlistComponent {
           dismiss();
           this.updateForm.reset();
           this.updateForm.patchValue({
-            status : ''
-          })
+            status: '',
+          });
         },
         (err: any) => {
           this.updateError = err.error.error;
@@ -561,45 +565,45 @@ export class UserlistComponent {
     });
   }
 
-  // close ticket 
+  // close ticket
   closeTicket(dismiss: any) {
-        const ticketpayload = {
-          id: this.userDetailsdata._id,
-          data: {
-            isClosed: true,
-            ...(this.showForm ? {...this.updateForm.value }:{}),
-            updatedBy: {
-              name: this.chatservice.getFullName(this.adminDetails),
-              id: this.adminDetails._id,
-            },
-          },
-        };
-         this.chatservice.updateTicket(ticketpayload).subscribe(
-          (res: any) => {
-            this.tableData = this.tableData.map((element: any) =>
-              element._id === res._id ? res : element,
-            );
-            this.store.dispatch(
-              openDialog({
-                message: 'Ticket Closed Successfully',
-                title: 'Ticket Closed',
-              }),
-            );
-            dismiss()
-            this.updateForm.reset();
-            this.updateForm.patchValue({
-              status : ''
-            })
-          },
-          (error) => {
-            this.store.dispatch(
-              openDialog({
-                message: 'Internal Error Please Try Again After Some Time',
-                title: 'Api Error',
-              }),
-            );
-          },
+    const ticketpayload = {
+      id: this.userDetailsdata._id,
+      data: {
+        isClosed: true,
+        ...(this.showForm ? { ...this.updateForm.value } : {}),
+        updatedBy: {
+          name: this.chatservice.getFullName(this.adminDetails),
+          id: this.adminDetails._id,
+        },
+      },
+    };
+    this.chatservice.updateTicket(ticketpayload).subscribe(
+      (res: any) => {
+        this.tableData = this.tableData.map((element: any) =>
+          element._id === res._id ? res : element,
         );
+        this.store.dispatch(
+          openDialog({
+            message: 'Ticket Closed Successfully',
+            title: 'Ticket Closed',
+          }),
+        );
+        dismiss();
+        this.updateForm.reset();
+        this.updateForm.patchValue({
+          status: '',
+        });
+      },
+      (error) => {
+        this.store.dispatch(
+          openDialog({
+            message: 'Internal Error Please Try Again After Some Time',
+            title: 'Api Error',
+          }),
+        );
+      },
+    );
   }
   delete(data: any, user: any) {
     const dialogRef = this.dialog.open(DialogModelComponent, {

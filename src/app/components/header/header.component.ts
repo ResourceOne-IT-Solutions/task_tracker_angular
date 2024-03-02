@@ -7,9 +7,9 @@ import { IdleTimeService } from 'src/app/services/idle/idle-time.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit  {
+export class HeaderComponent implements OnInit {
   @Input() 'isAdmin': boolean;
   @Input() userDetails: any;
   @Input() Status: any;
@@ -22,31 +22,26 @@ export class HeaderComponent implements OnInit  {
   timerId: any = Number;
   adminStatus = ['Offline', 'Available', 'OnTicket', 'Sleep'];
   Breaks = ['BreakFastBreak', 'Lunch Break'];
-  adminDetails:any
+  adminDetails: any;
   url: string = '';
-  isProfile : boolean = false;
+  isProfile: boolean = false;
 
-
-
-
-
-  constructor(  private router: Router,
+  constructor(
+    private router: Router,
     private idle: IdleTimeService,
-    public chatservice: ChatService, ){
-
-  }
+    public chatservice: ChatService,
+  ) {}
 
   ngOnInit(): void {
     this.Status = this.userDetails.status;
     this.chatservice.UserLogin(this.userDetails);
     this.chatservice.UserLoginData.subscribe((res: User | undefined) => {
       this.adminDetails = res;
-      console.log(this.adminDetails , '42::');
+      console.log(this.adminDetails, '42::');
     });
     this.url = this.chatservice.BE_URL + '/profile-images';
-
   }
-  
+
   SelectStatus(data: any) {
     this.SelectedStatus = data;
     this.StartTimer = false;
@@ -86,8 +81,8 @@ export class HeaderComponent implements OnInit  {
       data: updatePayload,
     });
   }
-// logout function
- logout() {
+  // logout function
+  logout() {
     this.deleteTokens();
     const logoutpayload = {
       id: this.userDetails._id,
@@ -99,7 +94,7 @@ export class HeaderComponent implements OnInit  {
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
   }
-  
+
   clickHandler() {
     this.timerId = setInterval(() => {
       this.Seconds++;
@@ -117,11 +112,7 @@ export class HeaderComponent implements OnInit  {
   }
 
   // profile Data
-  profileData(){
-    this.isProfile = !this.isProfile
-
+  profileData() {
+    this.isProfile = !this.isProfile;
   }
-
-
-
 }

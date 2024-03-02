@@ -1,57 +1,80 @@
-
 <div class="header-content d-flex justify-content-between" *ngIf="userDetails">
-    <h1 class="title">Resource One IT Solutions</h1>
-   <ng-container>
+  <h1 class="title">Resource One IT Solutions</h1>
+  <ng-container>
     <div class="admin-info d-flex align-items-center">
-        <div class="admin-status" *ngIf="isAdmin">
-          <button class="btn btn-success d-flex align-items-center">
-            <span title="Available"></span>
-            Available
-          </button>
-        </div>
-       <div class="user" *ngIf="!isAdmin">
-        <button mat-button [matMenuTriggerFor]="Status" mat-flat-button color="primary">
+      <div class="admin-status" *ngIf="isAdmin">
+        <button class="btn btn-success d-flex align-items-center">
+          <span title="Available"></span>
+          Available
+        </button>
+      </div>
+      <div class="user" *ngIf="!isAdmin">
+        <button
+          mat-button
+          [matMenuTriggerFor]="Status"
+          mat-flat-button
+          color="primary"
+        >
           {{ SelectedStatus ? SelectedStatus : "Available" }} &#9660;
         </button>
         <mat-menu #Status>
-          <button mat-menu-item (click)="SelectStatus(status)" *ngFor="let status of adminStatus" [ngClass]="status">
+          <button
+            mat-menu-item
+            (click)="SelectStatus(status)"
+            *ngFor="let status of adminStatus"
+            [ngClass]="status"
+          >
             {{ status }}
           </button>
-          <button mat-menu-item [matMenuTriggerFor]="invertebrates">Break</button>
+          <button mat-menu-item [matMenuTriggerFor]="invertebrates">
+            Break
+          </button>
         </mat-menu>
-  
+
         <mat-menu #invertebrates>
-          <button (click)="SelectStatus(break)" mat-menu-item *ngFor="let break of Breaks">
+          <button
+            (click)="SelectStatus(break)"
+            mat-menu-item
+            *ngFor="let break of Breaks"
+          >
             {{ break }}
           </button>
         </mat-menu>
         <span *ngIf="StartTimer">
-          <span class="fw-bold text-bg-success p-2 m-1" [ngClass]="textColor ? 'text-bg-danger' : ''">{{ format(Minutes)
-            }}:{{ format(Seconds) }}
+          <span
+            class="fw-bold text-bg-success p-2 m-1"
+            [ngClass]="textColor ? 'text-bg-danger' : ''"
+            >{{ format(Minutes) }}:{{ format(Seconds) }}
           </span>
         </span>
-       </div>
-        <div class="admin-in-out">
-          <button (click)="logout()" class="btn btn-danger">
-            Logout
-          </button>
-        </div>
-        <div class="admin-profile d-flex align-items-center" (click)="profileData()">
-          <img class="admin-pic" crossorigin="anonymous" src="{{url}}/{{userDetails.profileImageUrl}}">
-          <h4 class="admin-name">Profile<span><i class="fa-solid fa-chevron-down"></i></span></h4>
-          <div class="admin-profile-info" *ngIf="isProfile">
-            <h4>{{userDetails.isAdmin === true ? 'Admin' : 'User'}} Details</h4>
-            <ul>
-              <li><label>Employee Id :</label> {{userDetails.userId}}</li>
-              <li><label>First Name :</label> {{userDetails.firstName}}</li>
-              <li><label>Last Name :</label> {{userDetails.lastName}}</li>
-              <li><label>E Mail :</label> {{userDetails.email}}</li>
-              <li><label>Mobile :</label> {{userDetails.mobile}}</li>
-              <li><label>Desgination :</label> {{userDetails.designation}}</li>
-            </ul>
-          </div>
+      </div>
+      <div class="admin-in-out">
+        <button (click)="logout()" class="btn btn-danger">Logout</button>
+      </div>
+      <div
+        class="admin-profile d-flex align-items-center"
+        (click)="profileData()"
+      >
+        <img
+          class="admin-pic"
+          crossorigin="anonymous"
+          src="{{ url }}/{{ userDetails.profileImageUrl }}"
+        />
+        <h4 class="admin-name">
+          Profile<span><i class="fa-solid fa-chevron-down"></i></span>
+        </h4>
+        <div class="admin-profile-info" *ngIf="isProfile">
+          <h4>{{ userDetails.isAdmin === true ? "Admin" : "User" }} Details</h4>
+          <ul>
+            <li><label>Employee Id :</label> {{ userDetails.userId }}</li>
+            <li><label>First Name :</label> {{ userDetails.firstName }}</li>
+            <li><label>Last Name :</label> {{ userDetails.lastName }}</li>
+            <li><label>E Mail :</label> {{ userDetails.email }}</li>
+            <li><label>Mobile :</label> {{ userDetails.mobile }}</li>
+            <li><label>Desgination :</label> {{ userDetails.designation }}</li>
+          </ul>
         </div>
       </div>
-   </ng-container>
-  </div>
-
+    </div>
+  </ng-container>
+</div>
