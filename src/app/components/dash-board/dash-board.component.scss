@@ -3,7 +3,7 @@
 }
 .admin-main-container {
   padding: 10px;
-  background: #152035;
+  // background: #152035;
 
   .nav-bar {
     // width: 250px;
@@ -190,7 +190,7 @@
 .footer-btn-group {
   padding: 10px;
   gap: 10px;
-  background: #152035;
+  // background: #152035;
   border-top: 1px solid;
 }
 
@@ -226,6 +226,10 @@
     width: 100% !important;
   }
 }
+.modal-header {
+  background-color: coral;
+}
+
 // .admin-main-container {
 //   .admin-page {
 //     width: 30%;
@@ -505,19 +509,27 @@
 // //     // background-color: coral;
 // //   }
 // // }
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
+.popup {
+  height: 350px;
+  overflow: auto;
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    border: 2px solid black;
+  }
+  td,
+  th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    position: relative;
+  }
+  th {
+    background-color: deepskyblue;
+  }
 
-td,
-th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
+  //  tr:nth-child(even) {
+  //    background-color: #dddddd;
+  //  }
 }
-
-// // tr:nth-child(even) {
-// //   background-color: #dddddd;
-// // }

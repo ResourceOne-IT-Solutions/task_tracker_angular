@@ -9,7 +9,7 @@
             class="card-section d-flex align-items-center justify-content-between"
           >
             <div class="card-title">
-              <p>Available</p>
+              <p>{{ info[0] }}</p>
               <span>{{ UsersStatus?.Available }}/21 </span>
             </div>
             <img
@@ -31,7 +31,7 @@
             class="card-section d-flex align-items-center justify-content-between"
           >
             <div class="card-title">
-              <p>Off Line</p>
+              <p>{{ info[1] }}</p>
               <span>{{ UsersStatus?.Offline }}/21</span>
             </div>
             <img
@@ -53,7 +53,7 @@
             class="card-section d-flex align-items-center justify-content-between"
           >
             <div class="card-title">
-              <p>Break</p>
+              <p>{{ info[2] }}</p>
               <span
                 >{{ UsersStatus?.Break ? UsersStatus?.Break : "0" }} /21</span
               >
@@ -77,7 +77,7 @@
             class="card-section d-flex align-items-center justify-content-between"
           >
             <div class="card-title">
-              <p>On Ticket</p>
+              <p>{{ info[3] }}</p>
               <span
                 >{{
                   UsersStatus?.OnTicket ? UsersStatus?.OnTicket : "0"
@@ -104,7 +104,7 @@
             class="card-section d-flex align-items-center justify-content-between"
           >
             <div class="card-title">
-              <p>Sleep</p>
+              <p>{{ info[4] }}</p>
               <span> {{ UsersStatus?.Sleep }}/21</span>
             </div>
             <img
@@ -202,27 +202,32 @@
 <!-- user Details Model -->
 
 <ng-template #availableModel let-d="dismiss">
-  <h5 *ngIf="availableUsers.status === 'Available'">Available users</h5>
-  <div class="modal-body m-2">
-    <table>
-      <tr>
-        <th>Name</th>
-        <th>Role</th>
-        <th>Profile Image</th>
-      </tr>
-      <tr *ngFor="let available of dummyData">
-        <td>{{ chatservice.getFullName(available) }}</td>
-        <td>{{ available.designation }}</td>
-        <td>
-          <img
-            width="50px"
-            height="50px"
-            crossorigin="anonymous"
-            src="{{ url }}/{{ available.profileImageUrl }}"
-          />
-        </td>
-      </tr>
-    </table>
+  <div class="popup">
+    <div class="modal-header">
+      <h3>{{ modalHeaders }}</h3>
+      <span (click)="closeModal(d)"><i class="fa-solid fa-xmark"></i></span>
+    </div>
+    <div class="modal-body m-2">
+      <table class="popup">
+        <tr>
+          <th>Name</th>
+          <th>Role</th>
+          <th>Profile Image</th>
+        </tr>
+        <tr *ngFor="let available of dummyData">
+          <td>{{ chatservice.getFullName(available) }}</td>
+          <td>{{ available.designation }}</td>
+          <td>
+            <img
+              width="50px"
+              height="50px"
+              crossorigin="anonymous"
+              src="{{ url }}/{{ available.profileImageUrl }}"
+            />
+          </td>
+        </tr>
+        <h2 *ngIf="dummyData.length <= 0">No Data Found</h2>
+      </table>
+    </div>
   </div>
-  <div class="modal-footer"></div>
 </ng-template>

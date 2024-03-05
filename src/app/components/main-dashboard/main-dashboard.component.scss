@@ -1,19 +1,45 @@
-// .nav-header {
-//   position: sticky;
-//   top: 0px;
-//   z-index: 9;
-// }
-
 .main-container {
-  // background: #e8e9eb;
   background-color: #1b2a47;
   color: #fff;
-
   .nav-section {
     width: 250px;
   }
-
   .info-section {
     width: calc(100% - 250px);
+    height: calc(100vh - 60px);
+    overflow: auto;
+    background-color: #152035;
+  }
+}
+@media screen and (max-width: 768px) {
+  .main-container {
+    .main-board-content {
+      position: relative;
+      .nav-section {
+        position: absolute;
+        background: #1b2a47;
+        z-index: 9;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        transform: translateX(0);
+        animation-name: slideIn;
+        animation-duration: 2s;
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateX(-250px);
+        }
+        to {
+          transform: translateX(0);
+        }
+      }
+
+      .info-section {
+        width: 100%;
+        height: calc(100vh - 92px);
+      }
+    }
   }
 }

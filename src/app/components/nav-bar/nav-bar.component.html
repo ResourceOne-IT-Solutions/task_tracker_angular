@@ -1,25 +1,4 @@
 <nav class="navbar-btn-list" *ngIf="userDetails">
-  <!-- <button class="navbar-toggler p-0" [ngClass]="newValue ? 'bar' : 'inbar'" 
-     (click)="memuClick()">
-    <span class="navbar-toggler-icon"></span>
-  </button> -->
-  <!-- <a class="navbar-brand Dashboard p-0 m-0" (click)="gotDashBoard()">{{ isAdmin ? "Admin" : "User" }} Dashboard</a> -->
-  <!-- <div class="buttons-list d-flex align-items-center"> -->
-  <div class="nav-bar">
-    <div class="admin-profile">
-      <div class="admin-pic">
-        <img
-          class="admin-pic"
-          crossorigin="anonymous"
-          src="{{ url }}/{{ userDetails.profileImageUrl }}"
-        />
-        <span *ngIf="userDetails.isAdmin"></span>
-      </div>
-      <h4 class="admin-name">{{ chatservice.getFullName(userDetails) }}</h4>
-      <span class="admin-id">({{ userDetails.userId }})</span>
-      <p class="admin-role">{{ userDetails.designation }}</p>
-    </div>
-  </div>
   <button class="chat-btn">
     <a [routerLink]="['Chat-Box']" class="text-decoration-none">Chat Box</a>
     <span class="roomcount" *ngIf="roomCount > 0">{{ roomCount }}</span>
@@ -32,7 +11,6 @@
       Check FeedBacks
     </button>
   </ng-container>
-  <!-- </div> -->
 </nav>
 
 <ng-template #admintemplete>

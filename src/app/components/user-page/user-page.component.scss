@@ -11,257 +11,208 @@
   margin: 14px 10px;
 }
 
-.userdashinfo {
-  // width: 80%;
-  max-width: 1024px;
-  margin: 10px auto;
-  // box-shadow: 0 0 5px 0px;
-  // border-radius: 6px;
+.userdashInfo {
+  padding: 20px;
 
-  .userinfo {
-    // position: relative;
-    // width: 50%;
-    // text-align: center;
-    // margin: 10px auto;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    justify-content: center;
-    background: #dedede;
-    border-bottom: 5px solid #00ffff;
-    padding: 20px 10px;
+  .userInfo {
+    padding: 20px;
+    background: #fff;
+    color: #000;
+    border-radius: 12px;
+    margin-top: 100px;
 
-    .userstatus {
-      width: 15px;
-      height: 15px;
-      border-radius: 50%;
-      cursor: pointer;
-
-      &.Offline {
-        // cursor: pointer;
-        // height: 14px;
-        // width: 15px;
-        background: red;
-        // border-radius: 50%;
-      }
-
-      &.Sleep {
-        cursor: pointer;
-        height: 14px;
-        width: 15px;
-        background: rgb(128, 128, 129);
-        border-radius: 50%;
-      }
-
-      &.Break {
-        // cursor: pointer;
-        // height: 14px;
-        // width: 15px;
-        background: orange;
-        // border-radius: 50%;
-      }
-
-      &.Available {
-        // cursor: pointer;
-        // height: 14px;
-        // width: 15px;
-        background: green;
-        // border-radius: 50%;
-      }
-    }
-
-    .OnTicket {
-      cursor: pointer;
-      height: 15px;
-      width: 15px;
-      background: blue;
-      border-radius: 50%;
+    .userImage {
+      padding-top: 100px;
+      position: relative;
     }
 
     img {
-      // width: 77px;
-      // height: 69px;
-      // border: 1px solid;
-      // border-radius: 50%;
-      // margin: 9px 23px 0 0;
-      width: 100px;
-      height: 100px;
+      width: 200px;
+      height: 200px;
       border-radius: 50%;
+      position: absolute;
+      top: -120px;
+      left: calc(50% - 100px);
+    }
+
+    .userStatus,
+    .onTicket {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      border-radius: 50%;
+      background: blue;
+      top: -110px;
+      left: calc(50% + 50px);
+      cursor: pointer;
+
+      &.Offline {
+        background: red;
+      }
+
+      &.Sleep {
+        background: rgb(128, 128, 129);
+      }
+
+      &.Break {
+        background: orange;
+      }
+
+      &.Available {
+        background: green;
+      }
     }
 
     .userName {
-      margin: 0;
-      font-size: 24px;
+      text-align: center;
+      margin: 10px 0 0;
+      font-size: 16px;
+      line-height: 22px;
       font-weight: bold;
     }
 
     .userId {
-      font-size: 14px;
-      // margin: 19px 0 0 0;
+      text-align: center;
+      display: block;
+      margin: 4px 0 20px 0;
       font-weight: 500;
     }
-  }
-
-  .employeList {
-    // margin: 33px 0 0 0;
-    padding: 20px;
 
     .employeDetails {
       gap: 20px;
 
       .employeInfo {
-        width: 40%;
+        width: 50%;
+
+        .userslabel {
+          font-size: 16px;
+          line-height: 22px;
+          font-weight: 500;
+          border-bottom: 1px solid;
+          padding-bottom: 4px;
+          margin-bottom: 16px;
+        }
 
         p {
-          font-size: 14px;
-          line-height: 22px;
           margin-bottom: 8px;
+
           &:nth-last-child(1) {
             margin: 0;
           }
 
-          &.userslabel {
-            margin-bottom: 16px;
-            font-size: 18px;
-            line-height: 26px;
-            font-weight: 500;
-            text-decoration: underline;
-          }
-
           label {
-            min-width: 120px;
-            text-align: right;
             font-weight: 500;
+            min-width: 110px;
           }
         }
       }
       .employeTimeinfo {
-        width: 60%;
-        gap: 20px;
+        width: 50%;
 
-        .loginTime {
+        .loginTime,
+        .status {
           margin-bottom: 20px;
+
+          p {
+            margin-bottom: 8px;
+
+            &:nth-last-child(1) {
+              margin: 0;
+            }
+          }
         }
-        h2 {
-          margin-bottom: 16px;
-          font-size: 18px;
-          line-height: 26px;
-          font-weight: 500;
-          text-decoration: underline;
-        }
-        p {
-          font-size: 14px;
+
+        h3 {
+          font-size: 16px;
           line-height: 22px;
-          margin-bottom: 8px;
-          &:nth-last-child(1) {
+          font-weight: 500;
+          border-bottom: 1px solid;
+          padding-bottom: 4px;
+          margin-bottom: 16px;
+        }
+      }
+    }
+  }
+
+  .employeTicket {
+    margin: 20px 0;
+    gap: 20px;
+
+    .pieChart,
+    .timezone {
+      width: 50%;
+      padding: 20px;
+      background: #fff;
+      color: #000;
+      border-radius: 12px;
+      height: fit-content;
+
+      h3 {
+        font-size: 16px;
+        line-height: 22px;
+        font-weight: 500;
+        border-bottom: 1px solid;
+        padding-bottom: 4px;
+        margin-bottom: 16px;
+      }
+
+      .timezoneList {
+        gap: 10px;
+
+        .countryTime {
+          width: 144px;
+          flex-direction: column;
+          height: 144px;
+          gap: 6px;
+          border-radius: 50%;
+          box-shadow:
+            inset 8px 8px 8px #cbced1,
+            inset -8px -8px 8px #e7cfcf;
+
+          span {
+            font-size: 18px;
+            line-height: 24px;
+            font-weight: bold;
+            margin: 0;
+          }
+
+          p {
+            font-size: 16px;
+            line-height: 22px;
+            font-weight: 500;
             margin: 0;
           }
         }
       }
     }
+  }
+
+  .employeBtn {
+    gap: 10px;
+    padding-top: 20px;
+    border-top: 1px solid;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .userdashInfo {
     .employeTicket {
-      padding: 20px;
-      .pieChart {
-        > h2,
-        > p {
-          margin-bottom: 16px;
-          font-size: 18px;
-          line-height: 26px;
-          font-weight: 500;
-          text-decoration: underline;
-          text-align: center;
-        }
-        app-pie-chart {
-          ::ng-deep .chart-container {
-            display: flex;
-            align-items: center;
-            margin-bottom: 16px;
-            gap: 20px;
-            .chart-legend {
-              display: flex;
-              flex-direction: column;
-              gap: 6px;
-              .grid-item {
-                text-align: initial;
-              }
-            }
-          }
-        }
-      }
-      .employeBtn {
-        margin: 20px 0;
-      }
-    }
-  }
+      flex-wrap: wrap;
 
-  .main-employeDetails {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 22px;
-
-    .userslabel {
-      font-weight: 500;
-      text-decoration: underline;
-    }
-
-    .requestchat {
-      width: 194px;
-      margin-top: 3px;
-      height: 100px;
-      color: red;
-    }
-
-    .pieChart {
-      width: 280px;
-    }
-
-    .tickets {
-      text-align: center;
-      font-size: 16px;
-      margin: 5px 0;
-    }
-  }
-}
-
-.timezone {
-  align-items: center;
-  display: flex;
-  gap: 14px;
-  text-align: center;
-  justify-content: center;
-
-  .countryTime {
-    width: 91px;
-    // border: 1px solid;
-    padding: 10px;
-
-    span {
-      font-weight: bold;
-    }
-
-    height: 81px;
-    border-radius: 50%;
-    box-shadow:
-      inset 8px 8px 8px #cbced1,
-      inset -8px -8px 8px #e7cfcf;
-
-    p {
-      margin: 9px;
-      font-weight: 550;
-
-      span {
-        display: block;
+      .pieChart,
+      .timezone {
+        width: 100%;
       }
     }
   }
 }
 
-@media screen and (max-width: 768px) {
-  .userdashinfo {
-    .employeList {
+@media screen and (max-width: 991px) {
+  .userdashInfo {
+    .userInfo {
       .employeDetails {
-        flex-direction: column;
+        flex-wrap: wrap;
+
         .employeInfo,
         .employeTimeinfo {
           width: 100%;
