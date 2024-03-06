@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HostListener, Injectable } from '@angular/core';
 import {
   BehaviorSubject,
+  EMPTY,
   Observable,
   catchError,
   map,
@@ -32,7 +33,7 @@ export class ChatService {
 
   //User Behavior
   UserLoginData = new BehaviorSubject<User | undefined>(undefined);
-  UserLogin(data: User) {
+  UserLogin(data: User | undefined) {
     this.UserLoginData.next(data);
   }
   // chat Behavior
@@ -43,7 +44,7 @@ export class ChatService {
   BE_SERVER = 'https://task-tracker-server-2njm.onrender.com';
   BE_LOCAL = 'http://192.168.10.30:1234';
   BE_LOCAL2 = 'http://192.168.29.109:1234';
-  BE_URL = this.BE_SERVER;
+  BE_URL = this.BE_LOCAL;
   constructor(
     private http: HttpClient,
     private store: Store,
@@ -280,6 +281,7 @@ export class ChatService {
           return this.makeHttpRequest(method, url, data, accessToken);
         }),
         catchError((error: any) => {
+          this.handleTokenError()
           this.store.dispatch(
             openDialog({
               message: error.error.message,
@@ -310,29 +312,81 @@ export class ChatService {
       return this.http[method](url, { headers });
     }
   }
+
+  //get call
+
   get(url: any): Observable<any> {
     return this.fetchWithAccessToken('get', this.BE_URL + url).pipe(
       map((res: any) => {
         return res;
       }),
-      catchError<any, any>((error: any) => {
-        this.store.dispatch(
-          openDialog({ message: error.error.error, title: 'Api Call error' }),
-        );
+      catchError((error: any) => {
+        if (error === 'Refresh token error' || error.error.error === 'invalid token') {
+          this.handleTokenError()
+        }
+        return EMPTY
       }),
     );
   }
+
+  //post call
+
   post(url: any, data: any): Observable<any> {
-    return this.fetchWithAccessToken('post', this.BE_URL + url, data);
+    return this.fetchWithAccessToken('post', this.BE_URL + url, data).pipe(
+      map((res: any) => {
+        return res;
+      }),
+      catchError((error: any) => {
+        if (error === 'Refresh token error' || error.error.error === 'invalid token') {
+          this.handleTokenError()
+        }
+        return EMPTY
+      }),
+    );
   }
+
+  // put call
+
   put(url: any, data: any): Observable<any> {
-    return this.fetchWithAccessToken('put', this.BE_URL + url, data);
+    return this.fetchWithAccessToken('put', this.BE_URL + url, data).pipe(
+      map((res: any) => {
+        return res;
+      }),
+      catchError((error: any) => {
+        if (error === 'Refresh token error' || error.error.error === 'invalid token') {
+          this.handleTokenError()
+        }
+        return EMPTY
+      }),
+    );
   }
+
+  // delete call
+
   delete(url: any): Observable<any> {
-    return this.fetchWithAccessToken('delete', this.BE_URL + url);
+    return this.fetchWithAccessToken('delete', this.BE_URL + url).pipe(
+      map((res: any) => {
+        return res;
+      }),
+      catchError((error: any) => {
+        if (error === 'Refresh token error' || error.error.error === 'invalid token') {
+          this.handleTokenError()
+        }
+        return EMPTY
+      }),
+    );
+  }
+  //handling Token Error
+  handleTokenError() {
+    localStorage.removeItem('token')
+    localStorage.removeItem('refreshToken')
+    this.UserLoginData.next(undefined)
+    this.route.navigate(['/login_page'])
+    this.store.dispatch(
+      openDialog({ message: 'invalid token', title: 'Api Call error' }),
+    );
   }
   // send mail
-
   sendMail(data: any) {
     return this.post('/mail/client-update', data);
   }
