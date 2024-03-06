@@ -1,23 +1,19 @@
 <nav class="navbar-btn-list" *ngIf="userDetails">
-  <button class="chat-btn">
-    <a [routerLink]="['Chat-Box']" class="text-decoration-none">Chat Box</a>
+  <button class="chat-btn" [routerLink]="['Chat-Box']">
+    Chat Box
     <span class="roomcount" *ngIf="roomCount > 0">{{ roomCount }}</span>
   </button>
   <ng-container *ngIf="!isAdmin; else admintemplete">
-    <button class="btn btn-info" (click)="user()">View Request User</button>
-    <button class="btn btn-info" (click)="userTickets()">Tickets</button>
-    <button class="btn btn-info" [routerLink]="['feed-back']">Feed Back</button>
-    <button class="btn btn-info" [routerLink]="['feed-back-list']">
-      Check FeedBacks
-    </button>
+    <button (click)="user()">View Request User</button>
+    <button (click)="userTickets()">Tickets</button>
+    <button [routerLink]="['feed-back']">Feed Back</button>
+    <button [routerLink]="['feed-back-list']">Check FeedBacks</button>
   </ng-container>
 </nav>
 
 <ng-template #admintemplete>
   <button (click)="OpenTicketModel()">Create Ticket</button>
-  <button>
-    <a [routerLink]="['create-user']" class="text-decoration-none">Add User</a>
-  </button>
+  <button [routerLink]="['create-user']">Add User</button>
   <button (click)="openClientModel()">Add Client</button>
   <button (click)="ViewTicket()">Tickets</button>
   <button (click)="ViewRequest()">

@@ -73,6 +73,7 @@
       h4 {
         padding-bottom: 4px;
         border-bottom: 1px solid #dedede;
+        font-weight: bold;
       }
 
       .card-list {
@@ -132,6 +133,7 @@
       h4 {
         padding-bottom: 4px;
         border-bottom: 1px solid #dedede;
+        font-weight: bold;
       }
 
       .timezone {
@@ -178,6 +180,9 @@
         background: #fff;
         color: #000;
         border-radius: 12px;
+        h4 {
+          font-weight: bold;
+        }
 
         .user-count {
           margin: 20px 0 0;
