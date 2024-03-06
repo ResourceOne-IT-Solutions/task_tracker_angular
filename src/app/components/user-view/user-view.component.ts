@@ -3,6 +3,11 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { ChatService } from 'src/app/services/chat.service';
 import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
 import { Location } from '@angular/common';
+import {
+  ADMIN_MESSAGES,
+  CHATMESSAGES,
+  TICKETREQUESTMESSAGES,
+} from 'src/app/utils/Constants';
 @Component({
   selector: 'app-user-view',
   templateUrl: './user-view.component.html',
@@ -14,6 +19,10 @@ export class UserViewComponent implements OnInit {
   selectedChatUser: any = [];
   adminMessages: any;
   currentuser: any;
+  SelectedRequests = ADMIN_MESSAGES;
+  ADMIN_MESSAGES: any = ADMIN_MESSAGES;
+  TICKETREQUESTMESSAGES: any = TICKETREQUESTMESSAGES;
+  CHATMESSAGES: any = CHATMESSAGES;
   constructor(
     private chatservice: ChatService,
     private router: Router,
@@ -94,5 +103,8 @@ export class UserViewComponent implements OnInit {
   }
   goback() {
     this.location.back();
+  }
+  UserRequests(requests: any) {
+    this.SelectedRequests = requests;
   }
 }

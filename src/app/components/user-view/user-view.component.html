@@ -1,12 +1,22 @@
-<div class="back-btn">
+<div class="back-btn d-flex justify-content-between align-items-center">
   <button (click)="goback()" class="btn btn-danger">Go To Back</button>
+  <div class="view_btns">
+    <button (click)="UserRequests(ADMIN_MESSAGES)">Admin Messages</button>
+    <button (click)="UserRequests(TICKETREQUESTMESSAGES)">
+      Ticket Request
+    </button>
+    <button (click)="UserRequests(CHATMESSAGES)">Chat Request</button>
+  </div>
 </div>
 <div class="User-ViewRequest">
-  <div class="User-ChatRequest position-relative">
+  <div
+    class="User-ChatRequest w-100 position-relative"
+    *ngIf="SelectedRequests === CHATMESSAGES"
+  >
     <h1>Chat Request</h1>
     <ol>
       <li *ngFor="let chatrequest of userChatRequest; let i = index">
-        <div>
+        <div class="d-flex justify-content-between align-items-center m-2">
           <p>
             {{ chatrequest.sender.name }} is Requisting to Chat with
             {{ chatrequest.opponent.name }}
@@ -40,11 +50,14 @@
       </ngx-spinner>
     </ol>
   </div>
-  <div class="User-TicketRequest position-relative">
+  <div
+    class="User-TicketRequest w-100 position-relative"
+    *ngIf="SelectedRequests === TICKETREQUESTMESSAGES"
+  >
     <h1>Ticket Request</h1>
     <ol>
       <li *ngFor="let ticketrequest of userTicketRequest; let i = index">
-        <div>
+        <div class="d-flex justify-content-between align-items-center m-2">
           <p>
             {{ ticketrequest.sender.name }} is Requisting for
             {{ ticketrequest.client.name }}
@@ -78,11 +91,16 @@
       </ngx-spinner>
     </ol>
   </div>
-  <div class="User-Messages position-relative">
+  <div
+    class="User-Messages w-100 position-relative"
+    *ngIf="SelectedRequests === ADMIN_MESSAGES"
+  >
     <h1>Admin Messages</h1>
     <ol>
       <li *ngFor="let messages of adminMessages; let i = index">
-        <div class="message">
+        <div
+          class="message d-flex justify-content-between align-items-center m-2"
+        >
           <div>
             <p>Message : {{ messages.content }}</p>
             <p>Sent By :{{ messages.sender.name }}</p>
