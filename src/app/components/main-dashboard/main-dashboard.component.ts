@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
 import { HttpHeaders } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
@@ -20,6 +20,7 @@ export class MainDashboardComponent {
   data: any;
   'userData$': Observable<any>;
   isAdmin: boolean = false;
+  isCollapsed: boolean = false;
   constructor(
     private chatservice: ChatService,
     private idleSerive: IdleTimeService,
@@ -46,5 +47,10 @@ export class MainDashboardComponent {
         this.store.dispatch(openDialog({ message, title: 'Admin Message' }));
       }
     });
+  }
+
+  // hamburger click data form header component
+  HamburgerClick(isToggle: boolean) {
+    this.isCollapsed = isToggle;
   }
 }

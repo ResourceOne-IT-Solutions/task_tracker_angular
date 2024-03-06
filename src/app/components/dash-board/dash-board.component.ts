@@ -95,6 +95,9 @@ export class DashBoardComponent {
   availableUsers: any = [];
   UsersStatus: any;
   dummyData: any = [];
+  info = ['Available', 'Offline', 'Break', 'On Ticket', 'Sleep'];
+  modalHeaders: any;
+  currentuser: any;
   constructor(
     public chatservice: ChatService,
     private router: Router,
@@ -241,14 +244,18 @@ export class DashBoardComponent {
   }
   // show userDetails Table
   viewDetails(userStatus: any) {
+    this.modalHeaders = userStatus;
+    this.modalHeaders += ' Users';
     this.dummyData = this.availableUsers;
     this.dummyData = this.dummyData.filter((v: any) => {
       if (v.status === userStatus) {
         return v;
       }
     });
-
     this.openPopup(this.availableModel);
+  }
+  closeModal(dismiss: any) {
+    dismiss();
   }
 }
 

@@ -1,5 +1,5 @@
 .navbar-btn-list {
-  padding: 0 10px;
+  padding: 10px;
 
   button {
     width: 100%;
@@ -39,55 +39,55 @@
     }
   }
 }
-.nav-bar {
-  // width: 250px;
+// .nav-bar {
+//   // width: 250px;
 
-  .admin-profile {
-    text-align: center;
-    margin: 10px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #dedede;
+//   .admin-profile {
+//     text-align: center;
+//     margin: 10px;
+//     padding-bottom: 10px;
+//     border-bottom: 2px solid #dedede;
 
-    .admin-pic {
-      position: relative;
-      width: fit-content;
-      margin: auto;
+//     .admin-pic {
+//       position: relative;
+//       width: fit-content;
+//       margin: auto;
 
-      img {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-      }
+//       img {
+//         width: 60px;
+//         height: 60px;
+//         border-radius: 50%;
+//       }
 
-      span {
-        width: 15px;
-        height: 15px;
-        border-radius: 50%;
-        background-color: #00ff00;
-        display: block;
-        position: absolute;
-        top: 2px;
-        right: 2px;
-      }
-    }
+//       span {
+//         width: 15px;
+//         height: 15px;
+//         border-radius: 50%;
+//         background-color: #00ff00;
+//         display: block;
+//         position: absolute;
+//         top: 2px;
+//         right: 2px;
+//       }
+//     }
 
-    .admin-name {
-      margin: 10px 0 4px 0;
-      font-size: 16px;
-      line-height: 22px;
-      font-weight: 500;
-    }
+//     .admin-name {
+//       margin: 10px 0 4px 0;
+//       font-size: 16px;
+//       line-height: 22px;
+//       font-weight: 500;
+//     }
 
-    .admin-id,
-    .admin-role {
-      font-size: 12px;
-      line-height: 18px;
-      display: block;
-      font-weight: 500;
-      margin-bottom: 4px;
-    }
-  }
-}
+//     .admin-id,
+//     .admin-role {
+//       font-size: 12px;
+//       line-height: 18px;
+//       display: block;
+//       font-weight: 500;
+//       margin-bottom: 4px;
+//     }
+//   }
+// }
 // .navbar {
 //   padding: 16px 10px;
 //   gap: 10px;

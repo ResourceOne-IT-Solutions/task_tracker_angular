@@ -1,17 +1,12 @@
-<!-- <div class="main-dashboard-container"> -->
 <div class="main-container" *ngIf="userData$ | async as userData">
-  <!-- <app-nav-bar
-      [userDetails]="userData"
-      [isAdmin]="userData.isAdmin"
-      [Status]="userData.status"
-    ></app-nav-bar> -->
   <app-header
     [userDetails]="userData"
     [isAdmin]="userData.isAdmin"
     [Status]="userData.status"
+    (HamburgerClick)="HamburgerClick($event)"
   ></app-header>
-  <div class="d-flex">
-    <div class="nav-section">
+  <div class="main-board-content d-flex">
+    <div class="nav-section" *ngIf="!isCollapsed">
       <app-nav-bar
         [userDetails]="userData"
         [isAdmin]="userData.isAdmin"
@@ -23,4 +18,3 @@
     </div>
   </div>
 </div>
-<!-- </div> -->

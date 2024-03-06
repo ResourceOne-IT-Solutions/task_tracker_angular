@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/interface/users';
 import { ChatService } from 'src/app/services/chat.service';
@@ -25,6 +25,8 @@ export class HeaderComponent implements OnInit {
   adminDetails: any;
   url: string = '';
   isProfile: boolean = false;
+  isCollapsed: boolean = true;
+  @Output() HamburgerClick: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(
     private router: Router,
@@ -37,7 +39,6 @@ export class HeaderComponent implements OnInit {
     this.chatservice.UserLogin(this.userDetails);
     this.chatservice.UserLoginData.subscribe((res: User | undefined) => {
       this.adminDetails = res;
-      console.log(this.adminDetails, '42::');
     });
     this.url = this.chatservice.BE_URL + '/profile-images';
   }
@@ -113,5 +114,12 @@ export class HeaderComponent implements OnInit {
   // profile Data
   profileData() {
     this.isProfile = !this.isProfile;
+  }
+  gotDashBoard() {
+    this.router.navigate(['dashboard']);
+  }
+  memuClick() {
+    this.isCollapsed = !this.isCollapsed;
+    this.HamburgerClick.emit(this.isCollapsed);
   }
 }

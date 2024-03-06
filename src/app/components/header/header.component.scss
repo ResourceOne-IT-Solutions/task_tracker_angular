@@ -1,6 +1,10 @@
 .header-content {
   padding: 10px;
   align-items: center;
+
+  .header-toggle-btn {
+    display: none;
+  }
   .title {
     margin: 0;
     font-weight: bold;
@@ -86,6 +90,28 @@
   .header-content {
     flex-direction: column;
     align-items: initial;
+    position: relative;
+    padding-left: 40px;
+
+    .header-toggle-btn {
+      display: block;
+      position: absolute;
+      padding: 0;
+      border: none;
+      background: transparent;
+      left: 10px;
+      top: 13px;
+      cursor: pointer;
+
+      &:focus-visible {
+        outline: none;
+      }
+
+      span {
+        font-size: 24px;
+        color: #fff;
+      }
+    }
 
     .admin-info {
       justify-content: flex-end;
