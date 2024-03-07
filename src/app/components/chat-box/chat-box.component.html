@@ -1,146 +1,143 @@
-<div class="container menuChat">
-  <div class="row">
-    <div class="col-md-4">
-      <div class="user-list-card">
-        <div class="Search-Input d-flex">
-          <button class="border-0 fs-4 bg-white text-dark" (click)="goBack()">
-            <i class="fa fa-arrow-left" aria-hidden="true"></i>
-          </button>
-          <input
-            type="text"
-            class="value"
-            [(ngModel)]="SearchFilter"
-            (keyup)="SearchUsers()"
-            placeholder="Search"
-          />
-        </div>
-        <div class="Chat-btns">
-          <button
-            [ngClass]="ChartUser ? 'chat-user' : 'chat-group'"
-            (click)="ChatInfo(true)"
-          >
-            Users
-          </button>
-          <button
-            [ngClass]="!ChartUser ? 'chat-user' : 'chat-group'"
-            (click)="ChatInfo(false)"
-          >
-            Groups
-          </button>
-        </div>
-        <div class="chat-list">
-          <div *ngIf="!ChartUser" class="Groups">
-            <p class="Group-Heading" (click)="openCreateGroupModel()">
-              <span
-                ><i class="fa-solid fa-people-group"></i> Add New Groups</span
-              ><span *ngIf="currentUser.isAdmin" class="groupModel"
-                ><i class="fa-solid fa-plus"></i
-              ></span>
-            </p>
-            <ngx-spinner
-              bdColor="rgba(0,0,0,0.32)"
-              size="large"
-              color="#8652d5"
-              type="ball-clip-rotate-multiple"
-              [fullScreen]="false"
-            >
-            </ngx-spinner>
-            <div
-              (click)="SelectGroup(group)"
-              class="d-flex justify-content-between images"
-              [ngClass]="group._id == UserSelected._id ? 'SelectedUser' : ''"
-              *ngFor="let group of groupList"
-            >
-              <div class="d-flex align-items-end ms-3">
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU"
-                  class="avatar"
-                />
-                <p>{{ group.name }}</p>
-              </div>
-              <p class="newmessage" *ngIf="getNewMessages(group) > 0">
-                {{ getNewMessages(group) }}
-              </p>
-            </div>
-            <div *ngIf="groupList.length <= 0">{{ noGroupAvailable }}</div>
+<div class="menu-chat d-flex">
+  <div class="user-chat-list">
+    <div class="search-input d-flex">
+      <button class="border-0 fs-4 bg-white text-dark" (click)="goBack()">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+      </button>
+      <input
+        type="text"
+        class="value"
+        [(ngModel)]="SearchFilter"
+        (keyup)="SearchUsers()"
+        placeholder="Search"
+      />
+    </div>
+    <div class="chat-btns">
+      <button
+        [ngClass]="ChartUser ? 'chat-user' : 'chat-group'"
+        (click)="ChatInfo(true)"
+      >
+        Users
+      </button>
+      <button
+        [ngClass]="!ChartUser ? 'chat-user' : 'chat-group'"
+        (click)="ChatInfo(false)"
+      >
+        Groups
+      </button>
+    </div>
+    <div class="chat-list">
+      <div *ngIf="!ChartUser" class="groups">
+        <p
+          class="group-heading d-flex align-items-center justify-content-between"
+          (click)="openCreateGroupModel()"
+        >
+          <span><i class="fa-solid fa-people-group"></i> Add New Groups</span
+          ><span *ngIf="currentUser.isAdmin" class="groupModel"
+            ><i class="fa-solid fa-plus"></i
+          ></span>
+        </p>
+        <ngx-spinner
+          bdColor="rgba(0,0,0,0.32)"
+          size="large"
+          color="#8652d5"
+          type="ball-clip-rotate-multiple"
+          [fullScreen]="false"
+        >
+        </ngx-spinner>
+        <div
+          (click)="SelectGroup(group)"
+          class="group-card d-flex justify-content-between align-items-center images"
+          [ngClass]="group._id == UserSelected._id ? 'SelectedUser' : ''"
+          *ngFor="let group of groupList"
+        >
+          <div class="group-info d-flex align-items-center">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU"
+              class="avatar"
+            />
+            <p>{{ group.name }}</p>
           </div>
+          <p class="newmessage" *ngIf="getNewMessages(group) > 0">
+            {{ getNewMessages(group) }}
+          </p>
+        </div>
+        <div *ngIf="groupList.length <= 0">{{ noGroupAvailable }}</div>
+      </div>
 
-          <div *ngIf="ChartUser" class="All-Users">
-            <!-- <p class="User-Heading"><i class="fa-regular fa-user"></i> Users</p> -->
-            <ngx-spinner
-              bdColor="rgba(0,0,0,0.32)"
-              size="large"
-              color="#8652d5"
-              type="ball-clip-rotate-multiple"
-              [fullScreen]="false"
-            >
-            </ngx-spinner>
-            <div
-              *ngFor="let user of UserListData"
-              [ngClass]="
-                user._id == UserSelected._id
-                  ? 'SelectedUser'
-                  : 'SelectedMessage'
-              "
-            >
-              <div class="user-card" (click)="SelectUser(user)">
-                <div class="d-flex justify-content-between w-100">
-                  <div class="d-flex align-items-center">
-                    <div class="Img_Details">
-                      <img
-                        *ngIf="user.profileImageUrl"
-                        src="{{ url }}/{{ user.profileImageUrl }}"
-                        class="avatar"
-                        crossorigin="anonymous"
-                      />
-                      <img
-                        *ngIf="!user.profileImageUrl"
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU"
-                        class="avatar"
-                      />
-                      <div
-                        matTooltip="Offline"
-                        *ngIf="user.status === 'Offline'"
-                        class="Offline"
-                      ></div>
-                      <div
-                        matTooltip="Busy"
-                        *ngIf="user.status === 'Busy'"
-                        class="Busy"
-                      ></div>
-                      <div
-                        matTooltip="Available"
-                        *ngIf="user.status === 'Available'"
-                        class="Available"
-                      ></div>
-                    </div>
-                    <div>
-                      <h3 class="m-0">{{ chatservice.getFullName(user) }}</h3>
-                      <p class="designation">{{ user.designation }}</p>
-                    </div>
-                  </div>
-                  <p class="newmessage" *ngIf="getNewMessages(user) > 0">
-                    {{ getNewMessages(user) }}
-                  </p>
+      <div *ngIf="ChartUser" class="all-users">
+        <!-- <p class="User-Heading"><i class="fa-regular fa-user"></i> Users</p> -->
+        <ngx-spinner
+          bdColor="rgba(0,0,0,0.32)"
+          size="large"
+          color="#8652d5"
+          type="ball-clip-rotate-multiple"
+          [fullScreen]="false"
+        >
+        </ngx-spinner>
+        <div
+          *ngFor="let user of UserListData"
+          [ngClass]="
+            user._id == UserSelected._id ? 'SelectedUser' : 'SelectedMessage'
+          "
+        >
+          <div class="user-card" (click)="SelectUser(user)">
+            <div class="d-flex justify-content-between w-100">
+              <div class="d-flex align-items-center">
+                <div class="img-details">
+                  <img
+                    *ngIf="user.profileImageUrl"
+                    src="{{ url }}/{{ user.profileImageUrl }}"
+                    class="avatar"
+                    crossorigin="anonymous"
+                  />
+                  <img
+                    *ngIf="!user.profileImageUrl"
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEqncZEwNmacOsxcOyUMD7z2JiZF4-Z6PVRBu2KZnlxcFU5SZipi_yd4aV0kzwJL17BI&usqp=CAU"
+                    class="avatar"
+                  />
+                  <div
+                    matTooltip="Offline"
+                    *ngIf="user.status === 'Offline'"
+                    class="Offline"
+                  ></div>
+                  <div
+                    matTooltip="Busy"
+                    *ngIf="user.status === 'Busy'"
+                    class="Busy"
+                  ></div>
+                  <div
+                    matTooltip="Available"
+                    *ngIf="user.status === 'Available'"
+                    class="Available"
+                  ></div>
+                </div>
+                <div>
+                  <h3 class="m-0">{{ chatservice.getFullName(user) }}</h3>
+                  <p class="designation">{{ user.designation }}</p>
                 </div>
               </div>
+              <p class="newmessage" *ngIf="getNewMessages(user) > 0">
+                {{ getNewMessages(user) }}
+              </p>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="col-md-8">
-      <div *ngIf="ChatBox" class="chat-container">
-        <ng-container>
-          <div class="chat-header">
-            <button
-              class="back border-0 fs-4 text-dark"
-              (click)="PreviousPage()"
-            >
+  <div class="user-chat-msg">
+    <div *ngIf="ChatBox" class="chat-container">
+      <ng-container>
+        <div
+          class="chat-header d-flex align-items-center justify-content-between"
+        >
+          <div class="chat-subhead d-flex align-items-center">
+            <button class="back border-0 fs-4" (click)="PreviousPage()">
               <i class="fa fa-arrow-left" aria-hidden="true"></i>
             </button>
-            <div class="Img_Details">
+            <div class="chat-box-img">
               <img
                 *ngIf="UserSelected.profileImageUrl"
                 src="{{ url }}/{{ UserSelected.profileImageUrl }}"
@@ -171,7 +168,7 @@
                 class="Available"
               ></div>
             </div>
-            <div>
+            <div class="chat-box-user">
               <h3 class="m-0">
                 {{ isGroup ? UserSelected.name : UserSelected.firstName }}
               </h3>
@@ -181,99 +178,94 @@
                 }}
               </p>
             </div>
-            <div class="d-flex justify-content-end w-75">
-              <span (click)="ExportChatModal = !ExportChatModal">
-                <i class="fa-solid fa-ellipsis-vertical fs-4"></i>
-                <span
-                  class="Export-Button"
-                  *ngIf="ExportChatModal"
-                  (click)="ExportChat()"
-                  >Export Chat</span
-                >
-              </span>
-            </div>
           </div>
-          <div class="chat-body" #chatContainer>
-            <div class="SendMessage" *ngFor="let Daymessages of TotalMessages">
-              <p>{{ Daymessages._id }}</p>
-              <ng-container *ngFor="let message of Daymessages.messageByDate">
-                <div
-                  class="d-flex justify-content-between"
-                  [class]="getMessageClass(message)"
-                >
-                  <p
-                    *ngIf="message.type == 'message'; else fileRender"
-                    class="d-flex flex-column text-start"
-                  >
-                    <span class="fw-semibold" *ngIf="isGroup">{{
-                      message.from.name
-                    }}</span>
-                    <span class="message-content">{{ message.content }}</span>
-                    <span class="message-Time text-end">{{
-                      message.time | date: "dd/MM/yyyy hh:mm a"
-                    }}</span>
-                  </p>
-                  <ng-template #fileRender>
-                    <app-file-render [message]="message"></app-file-render>
-                  </ng-template>
-                </div>
-              </ng-container>
-            </div>
-            <div class="ContactDetails" *ngIf="ClientContactDetails">
-              <!-- <p *ngFor="let contact of SelectedContact">
-                  <span>{{contact?.firstName}}</span><br>
-                  <span>{{contact?.mobile}}</span>
-                  <span class="time text-secondary">{{today | date:'h:mm:ss a'}}</span>
-                </p> -->
-            </div>
-            <div class="ClientContacts" *ngIf="ClientContactModel">
-              <button class="Close" (click)="Close()">X</button>
-              <div
-                class="d-flex justify-content-around align-items-center contacts"
-                *ngFor="let contacts of ClientContacts"
-                (click)="SeclectContact(contacts)"
-              >
-                <p class="m-0">{{ contacts.firstName }}</p>
-                <p class="m-0">{{ contacts.mobile }}</p>
+          <span class="more-icon" (click)="ExportChatModal = !ExportChatModal">
+            <i class="fa-solid fa-ellipsis-vertical fs-4"></i>
+            <span
+              class="export-btn"
+              *ngIf="ExportChatModal"
+              (click)="ExportChat()"
+              >Export Chat</span
+            >
+          </span>
+        </div>
+        <div class="chat-body" #chatContainer>
+          <div class="send-message" *ngFor="let Daymessages of TotalMessages">
+            <p class="msg-date">{{ Daymessages._id }}</p>
+            <ng-container *ngFor="let message of Daymessages.messageByDate">
+              <div class="msg-content" [class]="getMessageClass(message)">
+                <p *ngIf="message.type == 'message'; else fileRender">
+                  <span class="fw-semibold" *ngIf="isGroup">{{
+                    message.from.name
+                  }}</span>
+                  <span class="message-content">{{ message.content }}</span>
+                  <span class="message-time">{{
+                    message.time | date: "dd/MM/yyyy hh:mm a"
+                  }}</span>
+                </p>
+                <ng-template #fileRender>
+                  <app-file-render [message]="message"></app-file-render>
+                </ng-template>
               </div>
+            </ng-container>
+          </div>
+          <div class="ContactDetails" *ngIf="ClientContactDetails">
+            <!-- <p *ngFor="let contact of SelectedContact">
+                <span>{{contact?.firstName}}</span><br>
+                <span>{{contact?.mobile}}</span>
+                <span class="time text-secondary">{{today | date:'h:mm:ss a'}}</span>
+              </p> -->
+          </div>
+          <div class="ClientContacts" *ngIf="ClientContactModel">
+            <button class="Close" (click)="Close()">X</button>
+            <div
+              class="d-flex justify-content-around align-items-center contacts"
+              *ngFor="let contacts of ClientContacts"
+              (click)="SeclectContact(contacts)"
+            >
+              <p class="m-0">{{ contacts.firstName }}</p>
+              <p class="m-0">{{ contacts.mobile }}</p>
             </div>
           </div>
-          <div class="chat-footer">
-            <div class="file-container" *ngIf="displayIcons">
-              <label for="imageFile"
-                >file : <i class="fa-solid fa-file"></i
-              ></label>
-              <input
-                style="display: none"
-                type="file"
-                id="imageFile"
-                (change)="SelectedImage($event)"
-              />
-
-              <span (click)="Contacts()"
-                >contacts : <i class="fa-solid fa-address-book"></i>
-              </span>
-            </div>
-            <span (click)="displayIcons = !displayIcons" class="file-icon">{{
-              displayIcons ? "-" : "+"
-            }}</span>
-
+        </div>
+        <div class="chat-footer">
+          <div class="file-container" *ngIf="displayIcons">
+            <label for="imageFile"
+              >file : <i class="fa-solid fa-file"></i
+            ></label>
             <input
-              type="text"
-              placeholder="Type a message"
-              class="form-control"
-              [(ngModel)]="messageText"
-              (keyup.enter)="sendMessage()"
+              style="display: none"
+              type="file"
+              id="imageFile"
+              (change)="SelectedImage($event)"
             />
-            <button class="btn btn-primary btn-sm px-3" (click)="sendMessage()">
-              Send
-            </button>
+
+            <span (click)="Contacts()"
+              >contacts : <i class="fa-solid fa-address-book"></i>
+            </span>
           </div>
-        </ng-container>
-      </div>
-      <div class="NoChatUser" *ngIf="NoUser">
-        <h1>Hii👋 Welcome To Chat💬 Application.</h1>
-      </div>
+          <span (click)="displayIcons = !displayIcons" class="file-icon">{{
+            displayIcons ? "-" : "+"
+          }}</span>
+
+          <input
+            type="text"
+            placeholder="Type a message"
+            class="form-control"
+            [(ngModel)]="messageText"
+            (keyup.enter)="sendMessage()"
+          />
+          <button class="btn btn-primary btn-sm px-3" (click)="sendMessage()">
+            Send
+          </button>
+        </div>
+      </ng-container>
+    </div>
+    <div
+      class="no-chat-user d-flex align-items-center justify-content-center"
+      *ngIf="NoUser"
+    >
+      <h1>Hii👋 Welcome To Chat💬 Application.</h1>
     </div>
   </div>
 </div>
