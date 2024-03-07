@@ -7,19 +7,9 @@ import {
   loadTableSuccess,
   loadTickets,
   loadTicketsSuccess,
-  loadUserApi,
-  loadUserApiSuccess,
   openDialog,
 } from './table.actions';
-import {
-  combineLatest,
-  filter,
-  map,
-  mergeMap,
-  of,
-  tap,
-  withLatestFrom,
-} from 'rxjs';
+import {map,mergeMap, of, tap, withLatestFrom} from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogInfoComponent } from '../reusable/dialog-info/dialog-info.component';
 
@@ -51,19 +41,7 @@ export class TicketsEffect {
       }),
     ),
   );
-  loadUser$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(loadUserApi),
-      mergeMap(({ httpOptions }) => {
-        return this.chatservice.getLoginSetup().pipe(
-          map((user: any) => {
-            this.chatservice.UserLogin(user);
-            return loadUserApiSuccess({ userLoginData: user });
-          }),
-        );
-      }),
-    ),
-  );
+
   loadTickets$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadTickets),

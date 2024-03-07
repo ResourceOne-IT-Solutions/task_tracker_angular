@@ -18,7 +18,6 @@ import { UserlistComponent } from './components/userlist/userlist.component';
 import { TicketdescriptionComponent } from './components/ticket-description/ticket-description.component';
 import { FeedBackComponent } from './components/feed-back/feed-back.component';
 import { ForgotpasswordComponent } from './components/forgotpassword/forgotpassword.component';
-import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 
 const routes: Routes = [
   { path: '', component: WelComePageComponent },
