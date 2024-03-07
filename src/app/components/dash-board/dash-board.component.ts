@@ -25,6 +25,7 @@ import { TooltipPosition } from '@angular/material/tooltip';
 import { getTableData } from 'src/app/chat-store/table.selector';
 import { Observable, map } from 'rxjs';
 import { IdleTimeService } from 'src/app/services/idle/idle-time.service';
+import { usersStatusColumns } from '../userlist/tabledata';
 @Component({
   selector: 'app-dash-board',
   templateUrl: './dash-board.component.html',
@@ -94,10 +95,12 @@ export class DashBoardComponent {
   UserListlength: any;
   availableUsers: any = [];
   UsersStatus: any;
-  dummyData: any = [];
+  userStatusData: any = [];
   info = ['Available', 'Offline', 'Break', 'On Ticket', 'Sleep'];
   modalHeaders: any;
   currentuser: any;
+  userColumns: Array<Column> = [...usersStatusColumns];
+
   constructor(
     public chatservice: ChatService,
     private router: Router,
@@ -246,8 +249,8 @@ export class DashBoardComponent {
   viewDetails(userStatus: any) {
     this.modalHeaders = userStatus;
     this.modalHeaders += ' Users';
-    this.dummyData = this.availableUsers;
-    this.dummyData = this.dummyData.filter((v: any) => {
+    this.userStatusData = this.availableUsers;
+    this.userStatusData = this.userStatusData.filter((v: any) => {
       if (v.status === userStatus) {
         return v;
       }

@@ -2,7 +2,12 @@
 <div class="Back d-flex justify-content-between align-items-center">
   <button (click)="goback()" class="btn btn-danger">Go To Back</button>
   <div class="view_btns">
-    <button (click)="AdminRequests(ADMIN_MESSAGES)">Admin Messages</button>
+    <button
+      (click)="AdminRequests(ADMIN_MESSAGES)"
+      [ngClass]="seletedRequests === ADMIN_MESSAGES ? 'selected' : ''"
+    >
+      Admin Messages
+    </button>
     <button (click)="AdminRequests(TICKETREQUESTMESSAGES)">
       Ticket Request
     </button>
@@ -17,7 +22,6 @@
     class="ChatRequest position-relative"
     *ngIf="seletedRequests === CHATMESSAGES"
   >
-    <h1>Chat Request</h1>
     <ol>
       <li
         *ngFor="let chatrequest of ChatRequest; let i = index"
@@ -58,7 +62,6 @@
     class="TicketREquest position-relative"
     *ngIf="seletedRequests === TICKETREQUESTMESSAGES"
   >
-    <h1>Ticket Request</h1>
     <ol>
       <li
         *ngFor="let ticketrequest of TicketRequest; let i = index"
@@ -101,7 +104,6 @@
     class="TicketREquest position-relative px-2"
     *ngIf="seletedRequests === ADMIN_MESSAGES"
   >
-    <h1>Admin Message</h1>
     <ol>
       <h3>Total User : {{ totalUser }}</h3>
       <li *ngFor="let messages of adminMessages; let i = index">
@@ -133,7 +135,6 @@
     class="TicketREquest position-relative px-2"
     *ngIf="seletedRequests === TICKETRAISEDMESSAGES"
   >
-    <h1>TicketRaise Messages</h1>
     <ol>
       <li
         *ngFor="let messages of raiseTicketMessages; let i = index"

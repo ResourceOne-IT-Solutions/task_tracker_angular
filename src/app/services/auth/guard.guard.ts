@@ -23,7 +23,7 @@ export class guardGuard implements CanActivate {
         if (res) {
           if (route.routeConfig && route.routeConfig.path === 'login_page') {
             this.router.navigate(['/dashboard']);
-            return true
+            return true;
           }
           return true;
         } else {

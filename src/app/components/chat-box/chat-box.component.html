@@ -66,7 +66,6 @@
       </div>
 
       <div *ngIf="ChartUser" class="all-users">
-        <!-- <p class="User-Heading"><i class="fa-regular fa-user"></i> Users</p> -->
         <ngx-spinner
           bdColor="rgba(0,0,0,0.32)"
           size="large"
@@ -209,17 +208,10 @@
               </div>
             </ng-container>
           </div>
-          <div class="ContactDetails" *ngIf="ClientContactDetails">
-            <!-- <p *ngFor="let contact of SelectedContact">
-                <span>{{contact?.firstName}}</span><br>
-                <span>{{contact?.mobile}}</span>
-                <span class="time text-secondary">{{today | date:'h:mm:ss a'}}</span>
-              </p> -->
-          </div>
-          <div class="ClientContacts" *ngIf="ClientContactModel">
-            <button class="Close" (click)="Close()">X</button>
+          <div class="client-contacts" *ngIf="ClientContactModel">
+            <button class="close" (click)="Close()">X</button>
             <div
-              class="d-flex justify-content-around align-items-center contacts"
+              class="contacts d-flex align-items-center"
               *ngFor="let contacts of ClientContacts"
               (click)="SeclectContact(contacts)"
             >
@@ -229,10 +221,13 @@
           </div>
         </div>
         <div class="chat-footer">
-          <div class="file-container" *ngIf="displayIcons">
-            <label for="imageFile"
-              >file : <i class="fa-solid fa-file"></i
-            ></label>
+          <div
+            class="file-container d-flex align-items-center"
+            *ngIf="displayIcons"
+          >
+            <label for="imageFile" class="image-file">
+              <i class="fa-solid fa-file"></i>
+            </label>
             <input
               style="display: none"
               type="file"
@@ -240,8 +235,8 @@
               (change)="SelectedImage($event)"
             />
 
-            <span (click)="Contacts()"
-              >contacts : <i class="fa-solid fa-address-book"></i>
+            <span (click)="Contacts()" class="image-contact">
+              <i class="fa-solid fa-address-book"></i>
             </span>
           </div>
           <span (click)="displayIcons = !displayIcons" class="file-icon">{{

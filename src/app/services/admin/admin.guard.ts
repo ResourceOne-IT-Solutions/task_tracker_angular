@@ -17,28 +17,23 @@ export class adminGuard implements CanActivate {
     private router: Router,
     private chatservice: ChatService,
     private store: Store,
-  ) { }
+  ) {}
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     //forget about: how to get the authority of user (I have kept it in shared service)
     return this.chatservice.get('/get-user').pipe(
-      map(
-        (res: any) => {
-          this.chatservice.UserLogin(res);
-          route.component = res.isAdmin
-            ? DashBoardComponent
-            : UserPageComponent;
-          return true;
-        }
-      ),
+      map((res: any) => {
+        this.chatservice.UserLogin(res);
+        route.component = res.isAdmin ? DashBoardComponent : UserPageComponent;
+        return true;
+      }),
       catchError((error: any) => {
         console.log('Error occurred:', error);
         localStorage.removeItem('token');
         localStorage.removeItem('refreshToken');
         this.router.navigate(['login_page']);
         return of(false);
-      })
-
+      }),
     );
   }
 }

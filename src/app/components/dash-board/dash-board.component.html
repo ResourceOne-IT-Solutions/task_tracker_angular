@@ -202,32 +202,15 @@
 <!-- user Details Model -->
 
 <ng-template #availableModel let-d="dismiss">
-  <div class="popup">
-    <div class="modal-header">
-      <h3>{{ modalHeaders }}</h3>
-      <span (click)="closeModal(d)"><i class="fa-solid fa-xmark"></i></span>
-    </div>
-    <div class="modal-body m-2">
-      <table class="popup">
-        <tr>
-          <th>Name</th>
-          <th>Role</th>
-          <th>Profile Image</th>
-        </tr>
-        <tr *ngFor="let available of dummyData">
-          <td>{{ chatservice.getFullName(available) }}</td>
-          <td>{{ available.designation }}</td>
-          <td>
-            <img
-              width="50px"
-              height="50px"
-              crossorigin="anonymous"
-              src="{{ url }}/{{ available.profileImageUrl }}"
-            />
-          </td>
-        </tr>
-        <h2 *ngIf="dummyData.length <= 0">No Data Found</h2>
-      </table>
-    </div>
+  <div
+    class="modal-header p-3 d-flex justify-content-between bg-info-subtle fs-6"
+  >
+    <span>{{ modalHeaders }}</span>
+    <span (click)="closeModal(d)"><i class="fa-solid fa-xmark"></i></span>
   </div>
+  <app-table
+    class="usersStatus"
+    [data]="userStatusData"
+    [tableColumns]="userColumns"
+  ></app-table>
 </ng-template>

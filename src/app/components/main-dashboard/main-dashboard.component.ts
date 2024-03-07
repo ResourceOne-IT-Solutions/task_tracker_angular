@@ -20,7 +20,7 @@ export class MainDashboardComponent {
   data: any;
   'userData$': Observable<any>;
   isAdmin: boolean = false;
-  isCollapsed: boolean = false;
+  isCollapsed: boolean = true;
   constructor(
     private chatservice: ChatService,
     private idleSerive: IdleTimeService,
@@ -51,6 +51,6 @@ export class MainDashboardComponent {
 
   // hamburger click data form header component
   HamburgerClick(isToggle: boolean) {
-    this.isCollapsed = isToggle;
+    this.isCollapsed = !this.isCollapsed;
   }
 }

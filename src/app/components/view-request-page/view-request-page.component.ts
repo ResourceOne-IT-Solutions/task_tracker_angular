@@ -40,6 +40,7 @@ export class ViewRequestPageComponent {
   TICKETRAISEDMESSAGES: any = TICKETRAISEDMESSAGES;
   TICKETREQUESTMESSAGES: any = TICKETREQUESTMESSAGES;
   CHATMESSAGES: any = CHATMESSAGES;
+  isSelected = true;
   constructor(
     private chatservice: ChatService,
     private loader: NgxSpinnerService,
@@ -112,6 +113,7 @@ export class ViewRequestPageComponent {
   }
   AdminRequests(data: any) {
     this.seletedRequests = data;
+    console.log(this.seletedRequests, '116::');
   }
   goback() {
     this.location.back();

@@ -16,7 +16,6 @@ export class FileRenderComponent {
     private sanitizer: DomSanitizer,
   ) {}
   ngOnInit() {
-    this.FileContact = JSON.parse(this.message.fileLink);
     if (this.message.fileLink && this.message.type !== 'contact') {
       this.chatservice.getFile(this.message.fileLink).subscribe(
         (res: any) => {
@@ -34,11 +33,14 @@ export class FileRenderComponent {
           console.error('Error loading image', error);
         },
       );
+    } else {
+      this.FileContact = JSON.parse(this.message.fileLink);
     }
   }
   getMessageType(data: string) {
     if (data.includes('pdf')) return 'application/pdf';
     else if (data.includes('jpeg')) return 'image/jpeg';
+    else if (data.includes('png')) return 'image/png';
     else if (data.includes('sheet')) return 'xlsx';
     return data;
   }

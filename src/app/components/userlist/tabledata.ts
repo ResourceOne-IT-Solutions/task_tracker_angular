@@ -310,6 +310,26 @@ export const userColumns = [
     isMultiButton: true,
   },
 ];
+export const usersStatusColumns = [
+  {
+    columnDef: 'available',
+    header: 'Name',
+    cell: (element: any) => `${getFullName(element)}`,
+    isText: true,
+  },
+  {
+    columnDef: 'designation',
+    header: 'Designation',
+    cell: (element: any) => `${element['designation']}`,
+    isText: true,
+  },
+  {
+    columnDef: 'profileImageUrl',
+    header: 'profile pic',
+    cell: (element: any) => `${element['profileImageUrl']}`,
+    isImage: true,
+  },
+];
 
 export function getFullName(data: any) {
   if (data.firstName && data.lastName) {

@@ -6,7 +6,7 @@
     (HamburgerClick)="HamburgerClick($event)"
   ></app-header>
   <div class="main-board-content d-flex">
-    <div class="nav-section" *ngIf="!isCollapsed">
+    <div class="nav-section" [class.collapsed]="isCollapsed">
       <app-nav-bar
         [userDetails]="userData"
         [isAdmin]="userData.isAdmin"

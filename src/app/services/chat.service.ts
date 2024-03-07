@@ -281,7 +281,7 @@ export class ChatService {
           return this.makeHttpRequest(method, url, data, accessToken);
         }),
         catchError((error: any) => {
-          this.handleTokenError()
+          this.handleTokenError();
           this.store.dispatch(
             openDialog({
               message: error.error.message,
@@ -321,10 +321,13 @@ export class ChatService {
         return res;
       }),
       catchError((error: any) => {
-        if (error === 'Refresh token error' || error.error.error === 'invalid token') {
-          this.handleTokenError()
+        if (
+          error === 'Refresh token error' ||
+          error.error.error === 'invalid token'
+        ) {
+          this.handleTokenError();
         }
-        return EMPTY
+        return EMPTY;
       }),
     );
   }
@@ -337,10 +340,13 @@ export class ChatService {
         return res;
       }),
       catchError((error: any) => {
-        if (error === 'Refresh token error' || error.error.error === 'invalid token') {
-          this.handleTokenError()
+        if (
+          error === 'Refresh token error' ||
+          error.error.error === 'invalid token'
+        ) {
+          this.handleTokenError();
         }
-        return EMPTY
+        return EMPTY;
       }),
     );
   }
@@ -353,10 +359,13 @@ export class ChatService {
         return res;
       }),
       catchError((error: any) => {
-        if (error === 'Refresh token error' || error.error.error === 'invalid token') {
-          this.handleTokenError()
+        if (
+          error === 'Refresh token error' ||
+          error.error.error === 'invalid token'
+        ) {
+          this.handleTokenError();
         }
-        return EMPTY
+        return EMPTY;
       }),
     );
   }
@@ -369,19 +378,22 @@ export class ChatService {
         return res;
       }),
       catchError((error: any) => {
-        if (error === 'Refresh token error' || error.error.error === 'invalid token') {
-          this.handleTokenError()
+        if (
+          error === 'Refresh token error' ||
+          error.error.error === 'invalid token'
+        ) {
+          this.handleTokenError();
         }
-        return EMPTY
+        return EMPTY;
       }),
     );
   }
   //handling Token Error
   handleTokenError() {
-    localStorage.removeItem('token')
-    localStorage.removeItem('refreshToken')
-    this.UserLoginData.next(undefined)
-    this.route.navigate(['/login_page'])
+    localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
+    this.UserLoginData.next(undefined);
+    this.route.navigate(['/login_page']);
     this.store.dispatch(
       openDialog({ message: 'invalid token', title: 'Api Call error' }),
     );

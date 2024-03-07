@@ -61,7 +61,6 @@ export class ChatBoxComponent {
   requestedChat: any;
   ClientContacts: any;
   SelectedContact: any = [];
-  ClientContactDetails: boolean = false;
   today: number = Date.now();
   contact: any;
   ExportChatModal: boolean = false;
@@ -378,12 +377,6 @@ export class ChatBoxComponent {
     const pdfName = `${this.chatservice.getFullName(this.currentUser)}-${this.chatservice.getFullName(this.UserSelected)}-Chat.pdf`;
     pdf.save(pdfName);
   }
-  // ChatUsers(){
-  //   this.ChartUser = true
-  // }
-  // ChatGroups(){
-  //   this.ChartUser = false
-  // }
   ChatInfo(data: any) {
     this.ChartUser = data;
   }
