@@ -177,7 +177,7 @@ export class TicketsComponent {
   cancel(dismiss: any) {
     dismiss();
   }
-  ConvertExcel() {
+  ConvertExcel(dismiss: any) {
     const covertedData = this.ticketsData.map((element: any) => {
       const modifiedElement = {
         ...element,
@@ -193,5 +193,6 @@ export class TicketsComponent {
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
     XLSX.writeFile(wb, 'excel-export.xlsx');
+    dismiss();
   }
 }

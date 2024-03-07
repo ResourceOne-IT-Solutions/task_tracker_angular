@@ -8,7 +8,7 @@
           placeholder="Group Name"
           class="form-control m-2"
           formControlName="groupName"
-          class="form-control"
+          class="form-control form-check-inline m-1"
         />
         <p
           class="text-danger"
@@ -19,7 +19,7 @@
         >
           Feild Required
         </p>
-        <mat-form-field>
+        <mat-form-field class="form-control m-1">
           <mat-label>Select Users</mat-label>
           <mat-select formControlName="userlist" multiple>
             <mat-option *ngFor="let user of data.UserListData" [value]="user">{{
@@ -40,6 +40,7 @@
           <textarea
             placeholder="description"
             formControlName="description"
+            class="form-control m-1"
           ></textarea>
           <p
             class="text-danger"

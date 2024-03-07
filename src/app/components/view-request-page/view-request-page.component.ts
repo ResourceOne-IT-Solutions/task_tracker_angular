@@ -7,6 +7,12 @@ import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
 import { Store } from '@ngrx/store';
 import { EmptyChatRequests } from 'src/app/chat-store/table.actions';
 import { getChatRequests } from 'src/app/chat-store/table.selector';
+import {
+  ADMIN_MESSAGES,
+  CHATMESSAGES,
+  TICKETRAISEDMESSAGES,
+  TICKETREQUESTMESSAGES,
+} from 'src/app/utils/Constants';
 
 @Component({
   selector: 'app-view-request-page',
@@ -29,6 +35,11 @@ export class ViewRequestPageComponent {
   adminMessages: any;
   raiseTicketMessages: any;
   totalUser: any;
+  seletedRequests = ADMIN_MESSAGES;
+  ADMIN_MESSAGES: any = ADMIN_MESSAGES;
+  TICKETRAISEDMESSAGES: any = TICKETRAISEDMESSAGES;
+  TICKETREQUESTMESSAGES: any = TICKETREQUESTMESSAGES;
+  CHATMESSAGES: any = CHATMESSAGES;
   constructor(
     private chatservice: ChatService,
     private loader: NgxSpinnerService,
@@ -98,6 +109,9 @@ export class ViewRequestPageComponent {
           val._id === res._id ? res : val,
         );
       });
+  }
+  AdminRequests(data: any) {
+    this.seletedRequests = data;
   }
   goback() {
     this.location.back();

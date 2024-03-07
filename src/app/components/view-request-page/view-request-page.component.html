@@ -1,9 +1,22 @@
-<h1>View Request Page</h1>
-<div class="Back">
+<h1>Welcome To View Request Page</h1>
+<div class="Back d-flex justify-content-between align-items-center">
   <button (click)="goback()" class="btn btn-danger">Go To Back</button>
+  <div class="view_btns">
+    <button (click)="AdminRequests(ADMIN_MESSAGES)">Admin Messages</button>
+    <button (click)="AdminRequests(TICKETREQUESTMESSAGES)">
+      Ticket Request
+    </button>
+    <button (click)="AdminRequests(CHATMESSAGES)">Chat Request</button>
+    <button (click)="AdminRequests(TICKETRAISEDMESSAGES)">
+      TicketRaise Messages
+    </button>
+  </div>
 </div>
 <div class="Main-ViewRequest">
-  <div class="ChatRequest position-relative">
+  <div
+    class="ChatRequest position-relative"
+    *ngIf="seletedRequests === CHATMESSAGES"
+  >
     <h1>Chat Request</h1>
     <ol>
       <li
@@ -41,7 +54,10 @@
       </ngx-spinner>
     </ol>
   </div>
-  <div class="TicketREquest position-relative">
+  <div
+    class="TicketREquest position-relative"
+    *ngIf="seletedRequests === TICKETREQUESTMESSAGES"
+  >
     <h1>Ticket Request</h1>
     <ol>
       <li
@@ -81,7 +97,10 @@
       </ngx-spinner>
     </ol>
   </div>
-  <div class="TicketREquest position-relative px-2">
+  <div
+    class="TicketREquest position-relative px-2"
+    *ngIf="seletedRequests === ADMIN_MESSAGES"
+  >
     <h1>Admin Message</h1>
     <ol>
       <h3>Total User : {{ totalUser }}</h3>
@@ -110,10 +129,16 @@
       <h3 *ngIf="adminMessages <= 0">No Request Messages</h3>
     </ol>
   </div>
-  <div class="TicketREquest position-relative px-2">
+  <div
+    class="TicketREquest position-relative px-2"
+    *ngIf="seletedRequests === TICKETRAISEDMESSAGES"
+  >
     <h1>TicketRaise Messages</h1>
     <ol>
-      <li *ngFor="let messages of raiseTicketMessages; let i = index">
+      <li
+        *ngFor="let messages of raiseTicketMessages; let i = index"
+        class="d-flex justify-content-between"
+      >
         <div class="message">
           <div>
             <p>Message : {{ messages.content }}</p>
