@@ -3,11 +3,8 @@
 }
 .admin-main-container {
   padding: 10px;
-  // background: #152035;
 
   .nav-bar {
-    // width: 250px;
-
     .admin-profile {
       text-align: center;
       margin: 10px;
@@ -56,7 +53,6 @@
 
   .admin-details {
     width: 100%;
-    // width: calc(100% - 250px);
     padding: 10px;
 
     h2 {
@@ -85,13 +81,7 @@
           border-radius: 12px;
           width: calc(20% - 8px);
           min-width: 160px;
-          // min-width: 160px;
           border: 2px solid #1b2a47;
-
-          // &:nth-last-child(1) {
-          //   margin: 0;
-          // }
-
           .card-section {
             flex-direction: row;
             padding: 10px;
@@ -195,7 +185,6 @@
 .footer-btn-group {
   padding: 10px;
   gap: 10px;
-  // background: #152035;
   border-top: 1px solid;
 }
 
@@ -231,310 +220,11 @@
     width: 100% !important;
   }
 }
-.modal-header {
-  background-color: coral;
-}
 
-// .admin-main-container {
-//   .admin-page {
-//     width: 30%;
-//     .user-content {
-//       border: 1px solid #dedede;
-//       margin: 10px;
-//       border-radius: 12px;
-//       .profile-info {
-//         text-align: center;
-//         padding: 20px 10px;
-//         .adminpic {
-//           width: 150px;
-//           height: 150px;
-//           border-radius: 50%;
-//         }
-//         .user-name {
-//           gap: 6px;
-//           font-size: 20px;
-//           line-height: 26px;
-//           font-weight: bold;
-//           margin: 10px 0 0;
-//         }
-//         .user-id,
-//         .user-role {
-//           font-size: 16px;
-//           line-height: 20px;
-//           font-weight: 500;
-//           margin: 4px 0;
-//           display: block;
-//         }
-//       }
-//       .user-details {
-//         padding: 20px 10px;
-//         background: #dedede;
-//         border-radius: 0 0 12px 12px;
-//         h4 {
-//           margin: 0;
-//           font-weight: 500;
-//           text-decoration: underline;
-//           margin-bottom: 12px;
-//           text-align: center;
-//         }
-//         p {
-//           margin: 0 0 8px 0;
-//           display: flex;
-//           gap: 4px;
-//           word-break: break-word;
-//           &:nth-last-child(1) {
-//             margin: 0;
-//           }
-//           span {
-//             min-width: 110px;
-//             display: block;
-//             text-align: right;
-//           }
-//         }
-//       }
-//     }
-//   }
-//   .admin-records {
-//     width: 70%;
-//     padding: 10px;
-//     flex-direction: column;
-//     gap: 30px;
-//     .timezone {
-//       width: 100%;
-//     }
-//    .images {
-//      .user-images {
-//       border: 3px solid red;
-//       display: flex;
-
-//     }
-//     img {
-//       height: 150px;
-//       width: 150px;
-//     }
-//    }
-//     .pie-container {
-//       width: 100%;
-//       .pieChart {
-//         width: 50%;
-//         text-align: center;
-//         h3 {
-//           font-weight: 500;
-//           text-decoration: underline;
-//         }
-//         .user-count {
-//           margin: 20px 0;
-//           font-weight: 500;
-//         }
-//       }
-//     }
-//   }
-// }
-
-// .footer-btn-group {
-//   gap: 10px;
-//   padding: 10px;
-//   border-top: 1px solid #dedede;
-//   button {
-//     margin: 0;
-//   }
-// }
-
-// @media (max-width: 1024px) {
-//   .admin-main-container {
-//     .admin-page {
-//       width: 40%;
-//     }
-//     .admin-records {
-//       width: 60%;
-//     }
-//     .admin-records {
-//       .pie-container {
-//         flex-direction: column;
-//         .pieChart {
-//           width: 100%;
-//         }
-//       }
-//     }
-//   }
-// }
-
-// @media (max-width: 768px) {
-//   .admin-main-container {
-//     flex-direction: column;
-//     .admin-page,
-//     .admin-records {
-//       width: 100%;
-//     }
-//   }
-// }
-
-// .hide {
-//   display: none;
-// }
-
-// .logout-button {
-//   margin-top: 10px;
-//   display: flex;
-//   margin-right: 23px;
-//   justify-content: flex-end;
-// }
-
-// .admindrop {
-//   display: flex;
-//   justify-content: flex-end;
-//   margin: 14px 10px;
-// }
-
-// .admin-content {
-//   width: 50%;
-//   justify-content: space-around;
-// }
-
-// .adminMain {
-//   box-shadow: 0 0 5px 0;
-//   margin: 5px;
-//   border-radius: 5px;
-// }
-
-// .piechart-container {
-//   width: 50%;
-//   justify-content: space-around;
-// }
-
-// .pieChart {
-//   > div {
-//     ::ng-deep .chart-container {
-//       display: flex;
-//       .chart-legend {
-//         display: block;
-//         padding: 10px;
-//         .grid-item {
-//           text-align: start;
-//           padding: 5px;
-//         }
-//       }
-//     }
-//   }
-// }
-
-// .progress {
-//   width: 200px;
-// }
-
-// // .adminpic {
-// //   width: 100px;
-// //   height: 100px;
-// // }
-
-// // .admin-page {
-// //   width: 100%;
-// //   margin: 5px;
-
-// //   img {
-// //     border-radius: 52px;
-// //     margin: 10px;
-// //   }
-// // }
-
-// .ErrorMsg {
-//   color: red;
-// }
-
-// textarea {
-//   width: 100%;
-//   height: 300px;
-// }
-
-// .successMsg {
-//   span {
-//     background-color: yellow;
-//     padding: 2px;
-//   }
-// }
-
-// .timezone {
-//   gap: 14px;
-//   text-align: center;
-//   // width: 50%;
-
-//   .countryTime {
-//     width: 144px;
-//     padding: 10px;
-//     margin: 10px;
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-
-//     span {
-//       font-weight: bold;
-//     }
-
-//     // border: 1px solid;
-//     height: 134px;
-//     border-radius: 50%;
-// box-shadow:
-//   inset 8px 8px 8px #cbced1,
-//   inset -8px -8px 8px #e7cfcf;
-
-//     p {
-//       margin: 9px;
-//       font-weight: 550;
-
-//       span {
-//         display: block;
-//       }
-//     }
-//   }
-// }
-
-// .online {
-//   display: block;
-//   // margin-top: 10px;
-//   height: 14px;
-//   width: 15px;
-//   background: green;
-//   border-radius: 50%;
-//   cursor: pointer;
-// }
-
-// .sample:active {
-//   background-color: green;
-//   border: 0;
-//   color: #fff;
-// }
-
-// .usersDetails {
-//   font-size: 16px;
-//   font-weight: 500;
-// }
-// // .user-images{
-// //   // border: 2px solid green;
-// //   .user-card{
-// //     // background-color: coral;
-// //   }
-// // }
-.popup {
-  height: 350px;
-  overflow: auto;
-  table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-    border: 2px solid black;
+.usersStatus {
+  &::ng-deep {
+    .offline {
+      display: none;
+    }
   }
-  td,
-  th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-    position: relative;
-  }
-  th {
-    background-color: deepskyblue;
-  }
-
-  //  tr:nth-child(even) {
-  //    background-color: #dddddd;
-  //  }
 }

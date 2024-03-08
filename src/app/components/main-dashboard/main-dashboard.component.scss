@@ -3,10 +3,10 @@
   color: #fff;
   .nav-section {
     width: 250px;
+    display: block;
   }
   .info-section {
     width: calc(100% - 250px);
-    height: calc(100vh - 60px);
     overflow: auto;
     background-color: #152035;
   }
@@ -16,6 +16,10 @@
     .main-board-content {
       position: relative;
       .nav-section {
+        display: none;
+      }
+      .nav-section.collapsed {
+        display: block;
         position: absolute;
         background: #1b2a47;
         z-index: 9;
@@ -38,7 +42,6 @@
 
       .info-section {
         width: 100%;
-        height: calc(100vh - 92px);
       }
     }
   }

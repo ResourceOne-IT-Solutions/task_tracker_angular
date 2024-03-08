@@ -16,7 +16,7 @@ export class adminGuard implements CanActivate {
     private router: Router,
     private chatservice: ChatService,
     private store: Store,
-  ) { }
+  ) {}
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     //forget about: how to get the authority of user (I have kept it in shared service)
@@ -44,5 +44,4 @@ export class adminGuard implements CanActivate {
       })
     })
   }
-
 }

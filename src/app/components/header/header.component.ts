@@ -88,7 +88,7 @@ export class HeaderComponent implements OnInit {
     const logoutpayload = {
       id: this.userDetails._id,
     };
-    this.chatservice.UserLogin(undefined)
+    this.chatservice.UserLogin(undefined);
     this.chatservice.sendSocketData({ key: 'logout', data: logoutpayload.id });
     this.router.navigate(['/']);
   }
