@@ -14,14 +14,9 @@ h1 {
       color: #fff;
       margin: 0 8px;
     }
-
-    button:focus {
-      color: #fff;
-      background: rgb(100, 46, 224);
+    .selected-Color {
+      background: #614bf1d9;
     }
-  }
-  .selected-Color {
-    background: green !important;
   }
 }
 

@@ -58,7 +58,7 @@ export class HeaderComponent implements OnInit {
       data: updatePayload,
     });
     if (
-      this.SelectedStatus === 'BreakFast Break' ||
+      this.SelectedStatus === 'BreakFastBreak' ||
       this.SelectedStatus === 'Lunch Break'
     ) {
       this.StartTimer = true;

@@ -7,10 +7,20 @@
     >
       Admin Messages
     </button>
-    <button (click)="UserRequests(TICKETREQUESTMESSAGES)">
+    <button
+      (click)="UserRequests(TICKETREQUESTMESSAGES)"
+      [ngClass]="
+        SelectedRequests === TICKETREQUESTMESSAGES ? 'selected-Color' : ''
+      "
+    >
       Ticket Request
     </button>
-    <button (click)="UserRequests(CHATMESSAGES)">Chat Request</button>
+    <button
+      (click)="UserRequests(CHATMESSAGES)"
+      [ngClass]="SelectedRequests === CHATMESSAGES ? 'selected-Color' : ''"
+    >
+      Chat Request
+    </button>
   </div>
 </div>
 <div class="User-ViewRequest">
