@@ -1,19 +1,19 @@
-<div class="feedback-Container" *ngIf="params === 'feed-back'">
+<div class="feedback-container" *ngIf="params === 'feed-back'">
   <h3 class="fs-3">Hey {{ currentUser.firstName }} Have a great day!</h3>
-  <div class="sub-Container">
-    <p><span class="fw-medium"> Name:</span> {{ currentUser.firstName }}</p>
-    <p><span class="fw-medium"> Mobile: </span> {{ currentUser.mobile }}</p>
-    <p><span class="fw-medium"> Email: </span> {{ currentUser.email }}</p>
+  <div class="feedback-sub-container">
+    <p><span class="fw-medium">Name :</span> {{ currentUser.firstName }}</p>
+    <p><span class="fw-medium">Mobile :</span> {{ currentUser.mobile }}</p>
+    <p><span class="fw-medium">Email :</span> {{ currentUser.email }}</p>
     <form action="" [formGroup]="feedBackForm">
-      <div>
-        <p class="m-0 fw-medium">Content:</p>
+      <div class="form-field">
+        <p class="fw-medium">Content :</p>
         <textarea
           class="form-control border-black"
           formControlName="content"
           name=""
           id=""
           cols="30"
-          rows="2"
+          rows="4"
         ></textarea>
         <p
           class="text-danger"
@@ -24,8 +24,8 @@
           Please Select an Issue Type
         </p>
       </div>
-      <div class="mt-2">
-        <span class="fw-medium">Issue Type:</span>
+      <div class="form-field">
+        <p class="fw-medium">Issue Type :</p>
         <select
           class="form-select border-black"
           name=""
@@ -48,8 +48,8 @@
           Please Select an Issue Type
         </p>
       </div>
-      <div class="form-control mt-md-3 form-label">
-        File:
+      <div class="form-field form-control form-label">
+        File :
         <input
           type="file"
           accept="image/*"
@@ -59,12 +59,7 @@
         />
       </div>
     </form>
-    <button
-      class="btn btn-info w-75 m-lg-2 p-2 text-md-center"
-      (click)="SubmitFeedBack()"
-    >
-      Submit
-    </button>
+    <button class="btn btn-info" (click)="SubmitFeedBack()">Submit</button>
   </div>
 </div>
 <!-- <div *ngIf="path === 'feed-back-list'"> -->

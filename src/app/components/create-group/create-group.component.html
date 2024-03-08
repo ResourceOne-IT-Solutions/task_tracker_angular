@@ -1,64 +1,66 @@
-<h1 mat-dialog-title class="text-bg-warning">Create Group</h1>
-<div>
-  <div class="row">
-    <div class="col-md-12">
-      <div class="form-group" [formGroup]="createGroupForm">
-        <input
-          type="text"
-          placeholder="Group Name"
-          class="form-control m-2"
-          formControlName="groupName"
-          class="form-control form-check-inline m-1"
-        />
-        <p
-          class="text-danger"
-          *ngIf="
-            submitted &&
-            createGroupForm.controls?.['groupName']?.status == 'INVALID'
-          "
-        >
-          Feild Required
-        </p>
-        <mat-form-field class="form-control m-1">
-          <mat-label>Select Users</mat-label>
-          <mat-select formControlName="userlist" multiple>
-            <mat-option *ngFor="let user of data.UserListData" [value]="user">{{
-              chartservice.getFullName(user)
-            }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <p
-          class="text-danger"
-          *ngIf="
-            submitted &&
-            createGroupForm.controls?.['userlist']?.status == 'INVALID'
-          "
-        >
-          Feild Required
-        </p>
-        <div>
-          <textarea
-            placeholder="description"
-            formControlName="description"
-            class="form-control m-1"
-          ></textarea>
-          <p
-            class="text-danger"
-            *ngIf="
-              submitted &&
-              createGroupForm.controls?.['description']?.status == 'INVALID'
-            "
-          >
-            Feild Required
-          </p>
-        </div>
-      </div>
+<div class="create-group-modal">
+  <h1 mat-dialog-title class="text-bg-warning modal-head">Create Group</h1>
+  <div class="form-group modal-content" [formGroup]="createGroupForm">
+    <div class="input-field">
+      <input
+        type="text"
+        placeholder="Group Name"
+        formControlName="groupName"
+        class="form-control form-check-inline"
+      />
+      <p
+        class="text-danger"
+        *ngIf="
+          submitted &&
+          createGroupForm.controls?.['groupName']?.status == 'INVALID'
+        "
+      >
+        Feild Required
+      </p>
+    </div>
+    <div class="select-field">
+      <mat-form-field class="form-control">
+        <mat-label>Select Users</mat-label>
+        <mat-select formControlName="userlist" multiple>
+          <mat-option *ngFor="let user of data.UserListData" [value]="user">{{
+            chartservice.getFullName(user)
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <p
+        class="text-danger"
+        *ngIf="
+          submitted &&
+          createGroupForm.controls?.['userlist']?.status == 'INVALID'
+        "
+      >
+        Feild Required
+      </p>
+    </div>
+    <div class="description-field">
+      <textarea
+        placeholder="description"
+        formControlName="description"
+        class="form-control"
+      ></textarea>
+      <p
+        class="text-danger"
+        *ngIf="
+          submitted &&
+          createGroupForm.controls?.['description']?.status == 'INVALID'
+        "
+      >
+        Feild Required
+      </p>
     </div>
   </div>
-</div>
-<div mat-dialog-actions>
-  <button class="btn btn-sm btn-danger" (click)="onNoClick()">Cancel</button>
-  <button mat-button class="btn btn-primary" (click)="CreateGroup()">
-    Create Group
-  </button>
+  <div
+    mat-dialog-actions
+    class="modal-footer justify-content-end align-items-center"
+  >
+    <button class="btn btn-sm btn-danger" (click)="onNoClick()">Cancel</button>
+    <button class="btn btn-sm btn-primary" (click)="CreateGroup()">
+      Create Group
+    </button>
+  </div>
 </div>

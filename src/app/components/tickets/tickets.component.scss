@@ -1,10 +1,51 @@
-.main {
-  justify-content: space-around;
-  margin-top: 10px;
-  div {
-    width: 19%;
+.tickets-main-section {
+  padding: 20px;
+
+  .tickets-head {
+    padding: 10px;
+    background: #fff;
+    color: #000;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    gap: 10px;
+
+    .header-form-fields {
+      gap: 10px;
+
+      .search,
+      .dropdown {
+        min-width: fit-content;
+
+        label {
+          display: block;
+          margin-bottom: 4px;
+        }
+      }
+
+      .dropdown {
+        mat-form-field {
+          ::ng-deep div {
+            padding: 0;
+
+            &:nth-last-child(1) {
+              height: 0;
+            }
+
+            .mat-mdc-form-field-infix {
+              padding: 6px 12px;
+              min-height: 38px;
+            }
+          }
+        }
+      }
+    }
+
+    .tickets-btn-group {
+      gap: 10px;
+    }
   }
-}
-.hide {
-  display: none;
+
+  .hide {
+    display: none;
+  }
 }

@@ -125,11 +125,11 @@
         *matRowDef="let row; columns: displayedColumns"
       ></tr>
     </table>
-    <mat-paginator
-      *ngIf="dataSource"
-      [hidden]="!dataSource.data.length"
-      [pageSizeOptions]="[5, 10, 25, 100]"
-      [pageSize]="5"
-    ></mat-paginator>
   </div>
+  <mat-paginator
+    *ngIf="dataSource"
+    [hidden]="!dataSource.data.length"
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    [pageSize]="5"
+  ></mat-paginator>
 </div>
