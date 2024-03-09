@@ -62,8 +62,10 @@
     <button class="btn btn-info" (click)="SubmitFeedBack()">Submit</button>
   </div>
 </div>
-<!-- <div *ngIf="path === 'feed-back-list'"> -->
-<div *ngIf="params == 'feed-back-list' && !FullDetails">
+<div
+  class="check-feedback-container"
+  *ngIf="params == 'feed-back-list' && !FullDetails"
+>
   <button class="btn btn-danger" (click)="gotoback()">Back</button>
   <app-table
     class="table"
@@ -72,7 +74,7 @@
     (detailsClick)="GotoFullDetails($event)"
   ></app-table>
 </div>
-<div *ngIf="FullDetails">
+<div *ngIf="FullDetails" class="feedback-details-container">
   <ngx-spinner
     bdColor="rgba(0,0,0,0.32)"
     size="large"
@@ -81,37 +83,21 @@
     [fullScreen]="false"
   >
   </ngx-spinner>
-  <div class="d-flex align-items-center">
-    <button class="btn btn-danger m-lg-2" (click)="gotoback()">Back</button>
-    <p class="text-center fs-2 fw-lighter w-100 m-3">
-      Hey Hi {{ SelectedfeedBackData?.sender?.name }} Thanks you for Visiting..
+  <button class="btn btn-danger" (click)="gotoback()">Back</button>
+  <h3 class="text-center fs-2 fw-lighter">
+    Hey Hi {{ SelectedfeedBackData?.sender?.name }} Thanks you for Visiting..
+  </h3>
+  <div class="feedback-data">
+    <p><label>Name :</label>{{ SelectedfeedBackData.sender.name }}</p>
+    <p><label>IssueType :</label>{{ SelectedfeedBackData.type }}</p>
+    <p>
+      <label>Time :</label>
+      {{ SelectedfeedBackData.time | date: "dd/MM/yyyy hh:mm a" }}
+    </p>
+    <p><label>Content :</label>{{ SelectedfeedBackData.content }}</p>
+    <p *ngFor="let file of SelectedfeedBackData.files">
+      <img src="data:image/jpeg;base64,{{ file.buffer }}" alt="NoImage" />
     </p>
   </div>
-  <div class="feedBack-container d-flex flex-wrap justify-content-center gap-4">
-    <div class="feedbackData">
-      <p>
-        <span class="fw-medium">Name: </span>
-        {{ SelectedfeedBackData.sender.name }}
-      </p>
-      <p>
-        <span class="fw-medium">IssueType: </span
-        >{{ SelectedfeedBackData.type }}
-      </p>
-      <p>
-        <span class="fw-medium">Time:</span>
-        {{ SelectedfeedBackData.time | date: "dd/MM/yyyy hh:mm a" }}
-      </p>
-      <p>
-        <span class="fw-medium">Content: </span
-        >{{ SelectedfeedBackData.content }}
-      </p>
-      <p *ngFor="let file of SelectedfeedBackData.files">
-        <img
-          class="w-25"
-          src="data:image/jpeg;base64,{{ file.buffer }}"
-          alt="NoImage"
-        />
-      </p>
-    </div>
-  </div>
+  <!-- </div> -->
 </div>

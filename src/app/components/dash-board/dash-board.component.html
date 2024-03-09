@@ -10,7 +10,10 @@
           >
             <div class="card-title">
               <p>{{ info[0] }}</p>
-              <span>{{ UsersStatus?.Available }}/21 </span>
+              <span
+                >{{ UsersStatus?.Available ? UsersStatus?.Available : "0" }} /
+                {{ UserListlength }}
+              </span>
             </div>
             <img
               class="card-img"
@@ -19,11 +22,10 @@
           </div>
           <div
             class="card-more-info d-flex align-items-center justify-content-between"
+            (click)="viewDetails('Available')"
           >
             <a>More details</a>
-            <span (click)="viewDetails('Available')"
-              ><i class="fa-solid fa-arrow-right"></i
-            ></span>
+            <span><i class="fa-solid fa-arrow-right"></i></span>
           </div>
         </div>
         <div class="card">
@@ -32,7 +34,10 @@
           >
             <div class="card-title">
               <p>{{ info[1] }}</p>
-              <span>{{ UsersStatus?.Offline }}/21</span>
+              <span
+                >{{ UsersStatus?.Offline ? UsersStatus?.Offline : "0" }}/
+                {{ UserListlength }}</span
+              >
             </div>
             <img
               class="card-img"
@@ -55,7 +60,14 @@
             <div class="card-title">
               <p>{{ info[2] }}</p>
               <span
-                >{{ UsersStatus?.Break ? UsersStatus?.Break : "0" }} /21</span
+                >{{
+                  UsersStatus?.BreakFastBreak
+                    ? UsersStatus?.BreakFastBreak
+                    : "0" && UsersStatus?.LunchBreak
+                      ? UsersStatus?.LunchBreak
+                      : "0"
+                }}
+                / {{ UserListlength }}</span
               >
             </div>
             <img
@@ -79,10 +91,8 @@
             <div class="card-title">
               <p>{{ info[3] }}</p>
               <span
-                >{{
-                  UsersStatus?.OnTicket ? UsersStatus?.OnTicket : "0"
-                }}
-                /21</span
+                >{{ UsersStatus?.OnTicket ? UsersStatus?.OnTicket : "0" }} /
+                {{ UserListlength }}</span
               >
             </div>
             <img
@@ -105,7 +115,10 @@
           >
             <div class="card-title">
               <p>{{ info[4] }}</p>
-              <span> {{ UsersStatus?.Sleep }}/21</span>
+              <span>
+                {{ UsersStatus?.Sleep ? UsersStatus?.Sleep : "0" }}/
+                {{ UserListlength }}</span
+              >
             </div>
             <img
               class="card-img"

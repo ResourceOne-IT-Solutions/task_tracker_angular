@@ -227,4 +227,10 @@
       display: none;
     }
   }
+  &::ng-deep {
+    .mat-mdc-paginator-page-size {
+      display: none;
+      background-color: #00ff00;
+    }
+  }
 }

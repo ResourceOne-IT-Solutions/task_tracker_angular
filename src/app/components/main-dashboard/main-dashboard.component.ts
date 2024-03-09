@@ -20,7 +20,7 @@ export class MainDashboardComponent {
   data: any;
   'userData$': Observable<any>;
   isAdmin: boolean = false;
-  isCollapsed: boolean = true;
+  isCollapsed: boolean = false;
   constructor(
     private chatservice: ChatService,
     private idleSerive: IdleTimeService,

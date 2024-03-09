@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
   ms = 0;
   timerId: any = Number;
   adminStatus = ['Offline', 'Available', 'OnTicket', 'Sleep'];
-  Breaks = ['BreakFastBreak', 'Lunch Break'];
+  Breaks = ['BreakFastBreak', 'LunchBreak'];
   adminDetails: any;
   url: string = '';
   isProfile: boolean = false;
@@ -59,7 +59,7 @@ export class HeaderComponent implements OnInit {
     });
     if (
       this.SelectedStatus === 'BreakFast Break' ||
-      this.SelectedStatus === 'Lunch Break'
+      this.SelectedStatus === 'LunchBreak'
     ) {
       this.StartTimer = true;
       this.textColor = false;
