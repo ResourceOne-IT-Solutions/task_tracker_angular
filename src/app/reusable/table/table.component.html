@@ -64,7 +64,10 @@
                 >Click Details</a
               >
             </p>
-            <span *ngIf="disCol.isMultiButton">
+            <span
+              class="cell-btn-group d-flex align-items-center"
+              *ngIf="disCol.isMultiButton"
+            >
               <button
                 mat-raised-button
                 color="primary"

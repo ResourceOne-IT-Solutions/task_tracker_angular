@@ -20,7 +20,7 @@ export class NavBarComponent {
   @ViewChild('clientModel', { static: false }) clientModel: any;
   @ViewChild('ticketModel', { static: false }) ticketModel: any;
   adminStatus = ['Offline', 'Available', 'OnTicket', 'Sleep'];
-  Breaks = ['BreakFastBreak', 'Lunch Break'];
+  Breaks = ['BreakFastBreak', 'LunchBreak'];
   @Input() 'isAdmin': boolean;
   @Input() userDetails: any;
   @Input() Status: any;
@@ -122,7 +122,7 @@ export class NavBarComponent {
     });
     if (
       this.SelectedStatus === 'BreakFastBreak' ||
-      this.SelectedStatus === 'Lunch Break'
+      this.SelectedStatus === 'LunchBreak'
     ) {
       this.StartTimer = true;
       this.textColor = false;

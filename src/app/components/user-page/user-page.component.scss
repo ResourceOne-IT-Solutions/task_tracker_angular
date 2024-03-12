@@ -191,6 +191,31 @@
     gap: 10px;
     padding-top: 20px;
     border-top: 1px solid;
+    flex-wrap: wrap;
+
+    .requestchat {
+      width: 100%;
+
+      mat-form-field {
+        ::ng-deep div {
+          padding: 0;
+          border-radius: 0;
+
+          &:nth-last-child(1) {
+            height: 0;
+          }
+
+          .mat-mdc-form-field-infix {
+            padding: 6px 12px;
+            min-height: 38px;
+          }
+        }
+      }
+
+      button {
+        border-radius: 0;
+      }
+    }
   }
 }
 
