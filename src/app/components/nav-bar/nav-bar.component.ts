@@ -46,11 +46,12 @@ export class NavBarComponent {
   public isCollapsed = false;
   newValue: boolean = true;
   url: string = '';
+  UserNavSelectedData: any;
   constructor(
     private router: Router,
     public chatservice: ChatService,
     private route: ActivatedRoute,
-    private modalService: NgbModal,
+    public modalService: NgbModal,
     private fb: FormBuilder,
     private idle: IdleTimeService,
     private dialog: MatDialog,
@@ -96,7 +97,7 @@ export class NavBarComponent {
         if (this.userDetails.newMessages.hasOwnProperty(res.room)) {
           this.userDetails.newMessages[res.room]++;
         } else {
-          this.userDetails.newMessages[res.room] = 1;
+          this.userDetails.newMessages[res.room] = 0;
         }
         const message = `you got new ${res.type} from ${res.from.name}`;
         this.store.dispatch(openDialog({ message, title: 'New Message' }));
@@ -193,17 +194,38 @@ export class NavBarComponent {
   OpenChatBox() {
     this.router.navigate(['Chat-Box'], { relativeTo: this.route });
   }
-  ViewRequest() {
+  ViewRequest(request: any) {
+    this.UserNavSelectedData = request;
     this.router.navigate(['view-requestPage'], { relativeTo: this.route });
   }
-  ViewTicket() {
+  ViewTicket(viewTicket: any) {
+    this.UserNavSelectedData = viewTicket;
     this.router.navigate(['tickets'], { relativeTo: this.route });
   }
-  user() {
+  UserView_Request(ViewRequest: any) {
+    this.UserNavSelectedData = ViewRequest;
     this.router.navigate(['user-view-request'], { relativeTo: this.route });
   }
-  userTickets() {
+  feedBack(suggetions: any) {
+    this.UserNavSelectedData = suggetions;
+    this.router.navigate(['feed-back'], { relativeTo: this.route });
+  }
+  Check_feedBack(checkfeedback: any) {
+    this.UserNavSelectedData = checkfeedback;
+    this.router.navigate(['feed-back-list'], { relativeTo: this.route });
+  }
+  ChatBoxPage(chatpage: any) {
+    this.UserNavSelectedData = chatpage;
+    this.router.navigate(['Chat-Box'], { relativeTo: this.route });
+  }
+  userTickets(Tickets: any) {
+    this.UserNavSelectedData = Tickets;
     this.router.navigate(['tickets'], { relativeTo: this.route });
+  }
+  CreateNewUser(newUser: any) {
+    this.UserNavSelectedData = newUser;
+    console.log(this.router, '227::');
+    this.router.navigate(['create-user'], { relativeTo: this.route });
   }
   gotDashBoard() {
     this.router.navigate(['dashboard']);
@@ -217,7 +239,8 @@ export class NavBarComponent {
     if (day.length < 2) day = '0' + day;
     return [year, month, day].join('-');
   }
-  OpenTicketModel() {
+  OpenTicketModel(modalTicket: any) {
+    this.UserNavSelectedData = modalTicket;
     this.chatservice.getAllClients().subscribe((res: any) => {
       this.clientData = res;
     });
@@ -239,7 +262,9 @@ export class NavBarComponent {
       }
     });
   }
-  openClientModel() {
+  openClientModel(ClientModal: any) {
+    console.log(this.clientModel, 'Client');
+    this.UserNavSelectedData = ClientModal;
     this.submitted = false;
     this.openPopup(this.clientModel);
   }

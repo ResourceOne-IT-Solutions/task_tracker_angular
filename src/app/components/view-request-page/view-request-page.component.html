@@ -4,15 +4,30 @@
   <div class="view_btns">
     <button
       (click)="AdminRequests(ADMIN_MESSAGES)"
-      [ngClass]="seletedRequests === ADMIN_MESSAGES ? 'selected' : ''"
+      [ngClass]="seletedRequests === ADMIN_MESSAGES ? 'selected_color' : ''"
     >
       Admin Messages
     </button>
-    <button (click)="AdminRequests(TICKETREQUESTMESSAGES)">
+    <button
+      (click)="AdminRequests(TICKETREQUESTMESSAGES)"
+      [ngClass]="
+        seletedRequests === TICKETREQUESTMESSAGES ? 'selected_color' : ''
+      "
+    >
       Ticket Request
     </button>
-    <button (click)="AdminRequests(CHATMESSAGES)">Chat Request</button>
-    <button (click)="AdminRequests(TICKETRAISEDMESSAGES)">
+    <button
+      (click)="AdminRequests(CHATMESSAGES)"
+      [ngClass]="seletedRequests === CHATMESSAGES ? 'selected_color' : ''"
+    >
+      Chat Request
+    </button>
+    <button
+      (click)="AdminRequests(TICKETRAISEDMESSAGES)"
+      [ngClass]="
+        seletedRequests === TICKETRAISEDMESSAGES ? 'selected_color' : ''
+      "
+    >
       TicketRaise Messages
     </button>
   </div>
@@ -105,7 +120,6 @@
     *ngIf="seletedRequests === ADMIN_MESSAGES"
   >
     <ol>
-      <h3>Total User : {{ totalUser }}</h3>
       <li *ngFor="let messages of adminMessages; let i = index">
         <div class="message">
           <div>
