@@ -9,7 +9,7 @@ import {
   loadTicketsSuccess,
   openDialog,
 } from './table.actions';
-import {map,mergeMap, of, tap, withLatestFrom} from 'rxjs';
+import { map, mergeMap, of, tap, withLatestFrom } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogInfoComponent } from '../reusable/dialog-info/dialog-info.component';
 
