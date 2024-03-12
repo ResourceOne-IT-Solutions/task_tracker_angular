@@ -241,6 +241,9 @@ export class ChatBoxComponent {
     this.chatservice.getAllClients().subscribe((res: any) => {
       this.ClientContacts = res;
       this.ClientContactModel = !this.ClientContactModel;
+      setTimeout(() => {
+        this.scrollToBottom();
+      }, 0);
     });
   }
   SeclectContact(contacts: any) {

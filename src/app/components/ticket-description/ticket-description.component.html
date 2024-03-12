@@ -1,46 +1,48 @@
-<div class="text-center" *ngIf="description">
+<div class="ticket-description-container" *ngIf="description">
   <button (click)="goback()" class="btn btn-danger back">Go To Back</button>
-  <h1>TICKETS BY ID</h1>
-  <div class="ClientDetails">
-    <div *ngIf="CurrentUser.isAdmin">
-      <button class="btn btn-primary back" (click)="ConvertToExcel()">
-        Convert Excel
-      </button>
-      <button class="btn btn-primary back" (click)="SendMail()">
-        Send Mail
-      </button>
+  <div class="client-details">
+    <div class="client-head d-flex align-items-center justify-content-between">
+      <h1>TICKETS BY ID</h1>
+      <div *ngIf="CurrentUser.isAdmin" class="client-btn-group d-flex">
+        <button class="btn btn-primary back" (click)="ConvertToExcel()">
+          Convert Excel
+        </button>
+        <button class="btn btn-primary back" (click)="SendMail()">
+          Send Mail
+        </button>
+      </div>
     </div>
-    <p><b>Client Name :</b>{{ description.client.name }}</p>
-    <p><b>UserName :</b>{{ description.user.name }}</p>
-    <p><b>Technology :</b>{{ description.technology }}</p>
-    <p><b>Status :</b>{{ description.status }}</p>
-    <p><b>Description :</b>{{ description.description }}</p>
-    <p><b>Comments :</b>{{ description.comments }}</p>
-    <p>
-      <b>ReceivedDate :</b
-      >{{ description.receivedDate | date: "dd/MM/yyyy hh:mm a" }}
-    </p>
-    <p>
-      <b>addOnResource :</b> <span>{{ getaddonResource() }}</span>
-    </p>
-    <div class="m-2" *ngFor="let updates of description.updates; let i = index">
-      <p class="fw-bold text-decoration-underline">Update {{ i + 1 }}</p>
+    <div class="client-details-list">
+      <p><label>Client Name :</label>{{ description.client.name }}</p>
+      <p><label>UserName :</label>{{ description.user.name }}</p>
+      <p><label>Technology :</label>{{ description.technology }}</p>
+      <p><label>Status :</label>{{ description.status }}</p>
+      <p><label>Description :</label>{{ description.description }}</p>
+      <p><label>Comments :</label>{{ description.comments }}</p>
       <p>
-        <span class="fw-medium">Date: &nbsp;</span>
-        {{ updates.date | date: "dd/MM/yyyy hh:mm a" }}
+        <label>ReceivedDate :</label
+        >{{ description.receivedDate | date: "dd/MM/yyyy hh:mm a" }}
       </p>
-      <p>
-        <span class="fw-medium">Description: &nbsp;</span>
-        {{ updates.description }}
-      </p>
-      <p>
-        <span class="fw-medium">Comments: &nbsp;</span> {{ updates.comments }}
-      </p>
-      <p><span class="fw-medium">Status: &nbsp;</span> {{ updates.status }}</p>
-      <p>
-        <span class="fw-medium">UpdateBy: &nbsp;</span>
-        {{ updates.updatedBy.name }}
-      </p>
+      <p><label>addOnResource :</label>{{ getaddonResource() }}</p>
+      <div
+        class="client-update-list"
+        *ngFor="let updates of description.updates; let i = index"
+      >
+        <h3>Update {{ i + 1 }}</h3>
+        <p>
+          <label>Date :</label>{{ updates.date | date: "dd/MM/yyyy hh:mm a" }}
+        </p>
+        <p>
+          <label>Description :</label>
+          {{ updates.description }}
+        </p>
+        <p><label>Comments :</label> {{ updates.comments }}</p>
+        <p><label>Status :</label> {{ updates.status }}</p>
+        <p>
+          <label>UpdateBy :</label>
+          {{ updates.updatedBy.name }}
+        </p>
+      </div>
     </div>
   </div>
 </div>

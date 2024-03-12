@@ -1,72 +1,76 @@
-<div class="d-flex main">
-  <div class="search">
-    <label>Search UserName/ClientName</label>
-    <input
-      class="form-control"
-      type="text"
-      [(ngModel)]="searchText"
-      (input)="searchFilter()"
-      placeholder="Search Client Name"
-    />
+<div class="tickets-main-section">
+  <div class="d-flex align-items-center justify-content-between tickets-head">
+    <div class="header-form-fields d-flex align-items-center">
+      <div class="search">
+        <label>Search UserName/ClientName</label>
+        <input
+          class="form-control"
+          type="text"
+          [(ngModel)]="searchText"
+          (input)="searchFilter()"
+          placeholder="Search Client Name"
+        />
+      </div>
+      <div class="dropdown">
+        <label>Filter By Status</label>
+        <mat-form-field>
+          <mat-select
+            name="countryString"
+            [(ngModel)]="selectedStatus"
+            (selectionChange)="filterByStatus($event.value)"
+          >
+            <mat-option value="" disabled class="hide"
+              >Select Status</mat-option
+            >
+            <mat-option *ngFor="let status of statusData" [value]="status">{{
+              status
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="dropdown">
+        <label>Filter By Date</label>
+        <mat-form-field>
+          <mat-select
+            name="countryString"
+            [(ngModel)]="seletedDate"
+            (selectionChange)="filterByDate($event.value)"
+          >
+            <mat-option value="" class="hide">Select Date</mat-option>
+            <mat-option *ngFor="let status of dateData" [value]="status">{{
+              status
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="tickets-btn-group d-flex align-items-center">
+      <button class="btn btn-primary" (click)="ResetFilter()">
+        Reset Filters
+      </button>
+      <button class="btn btn-primary" (click)="excelModal()">
+        Convert To Excel
+      </button>
+    </div>
   </div>
-  <div>
-    <label>Filter By Status</label>
-    <mat-form-field>
-      <mat-select
-        name="countryString"
-        [(ngModel)]="selectedStatus"
-        (selectionChange)="filterByStatus($event.value)"
-      >
-        <mat-option value="" disabled class="hide">Select Status</mat-option>
-        <mat-option *ngFor="let status of statusData" [value]="status">{{
-          status
-        }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div>
-    <label>Filter By Date</label>
-    <mat-form-field>
-      <mat-select
-        name="countryString"
-        [(ngModel)]="seletedDate"
-        (selectionChange)="filterByDate($event.value)"
-      >
-        <mat-option value="" class="hide">Select Date</mat-option>
-        <mat-option *ngFor="let status of dateData" [value]="status">{{
-          status
-        }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div>
-    <button class="btn btn-primary" (click)="ResetFilter()">
-      Reset Filters
-    </button>
-  </div>
-  <div>
-    <button class="btn btn-primary" (click)="excelModal()">
-      Convert To Excel
-    </button>
-  </div>
+  <!--Excel Confirm Dialouge Box -->
+  <ng-template #ExcelDialouge let-d="dismiss">
+    <div class="modal-header p-2 m-0 d-block text-center">
+      <h2 class="modal-title p-0 m-0">Excel</h2>
+    </div>
+    <div class="modal-body m-2">
+      <p>Are You Confirm the Convert to Excel..👍</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-sm btn-primary" (click)="ConvertExcel(d)">
+        Continue
+      </button>
+      <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
+    </div>
+  </ng-template>
+  <app-table
+    [data]="ticketsData"
+    [tableColumns]="ticketColumns"
+    (descriptionClick)="gotodescription($event)"
+  ></app-table>
 </div>
-<!--Excel Confirm Dialouge Box -->
-<ng-template #ExcelDialouge let-d="dismiss">
-  <div class="modal-header p-2 m-0 d-block text-center">
-    <h2 class="modal-title p-0 m-0">Excel</h2>
-  </div>
-  <div class="modal-body m-2">
-    <p>Are You Confirm the Convert to Excel..👍</p>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-sm btn-primary" (click)="ConvertExcel(d)">
-      Continue
-    </button>
-    <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
-  </div>
-</ng-template>
-<app-table
-  [data]="ticketsData"
-  [tableColumns]="ticketColumns"
-  (descriptionClick)="gotodescription($event)"
-></app-table>

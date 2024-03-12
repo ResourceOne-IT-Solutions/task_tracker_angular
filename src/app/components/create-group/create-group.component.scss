@@ -1,0 +1,51 @@
+.create-group-modal {
+  .modal-head {
+    margin: 0;
+    padding: 10px 20px;
+    &::before {
+      display: none;
+    }
+  }
+
+  .modal-content {
+    margin: 0;
+    padding: 10px 20px;
+
+    input {
+      margin: 0;
+    }
+
+    .text-danger {
+      font-size: 12px;
+      font-weight: 500;
+      margin: 4px 0 0;
+    }
+
+    .input-field,
+    .select-field {
+      margin-bottom: 12px;
+    }
+
+    .select-field {
+      mat-form-field {
+        padding: 0;
+
+        ::ng-deep div {
+          &:nth-last-child(1) {
+            height: 0;
+          }
+        }
+      }
+    }
+  }
+
+  .modal-footer {
+    gap: 10px;
+    padding: 10px 20px;
+    border-top: 1px solid #dedede;
+  }
+}
+
+::ng-deep .cdk-overlay-pane {
+  width: 620px;
+}

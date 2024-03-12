@@ -1,11 +1,14 @@
-<div
-  *ngIf="
-    getMessageType(message.type) === 'image/png' ||
-    getMessageType(message.type) === 'image/jpeg'
-  "
-  (click)="downloadFile($event, url, message.content)"
->
+<div class="chat-img-container">
   <img [src]="url" *ngIf="url" />
+  <span
+    *ngIf="
+      getMessageType(message.type) === 'image/png' ||
+      getMessageType(message.type) === 'image/jpeg'
+    "
+    (click)="downloadFile($event, url, message.content)"
+  >
+    <i class="fa-solid fa-download"></i
+  ></span>
 </div>
 <p *ngIf="message.type === 'contact'">
   <span> {{ FileContact.name }}</span>
