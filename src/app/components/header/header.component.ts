@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
   Seconds = 0;
   ms = 0;
   timerId: any = Number;
-  adminStatus = ['Offline', 'Available', 'OnTicket', 'Sleep'];
+  adminStatus = ['Offline', 'Available', 'On Ticket', 'Sleep'];
   Breaks = ['BreakFast Break', 'Lunch Break'];
   adminDetails: any;
   url: string = '';

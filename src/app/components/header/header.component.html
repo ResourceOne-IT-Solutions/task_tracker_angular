@@ -51,9 +51,6 @@
           </span>
         </span>
       </div>
-      <div class="admin-in-out">
-        <button (click)="logout()" class="btn btn-danger">Logout</button>
-      </div>
       <div
         class="admin-profile d-flex align-items-center"
         (click)="profileData()"
@@ -77,6 +74,9 @@
             <li><label>Desgination :</label> {{ userDetails.designation }}</li>
           </ul>
         </div>
+      </div>
+      <div class="admin-in-out">
+        <button (click)="logout()" class="btn btn-danger">Logout</button>
       </div>
     </div>
   </ng-container>
