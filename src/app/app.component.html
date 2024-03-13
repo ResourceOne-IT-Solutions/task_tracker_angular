@@ -1,10 +1,15 @@
-<ngx-spinner
-  *ngIf="isLoading"
-  bdColor="rgba(0,0,0,0.32)"
-  size="large"
-  color="#8652d5"
-  type="ball-clip-rotate-multiple"
-  [fullScreen]="false"
->
-</ngx-spinner>
-<router-outlet></router-outlet>
+<div *ngIf="isOnline">
+  <ngx-spinner
+    *ngIf="isLoading"
+    bdColor="rgba(0,0,0,0.32)"
+    size="large"
+    color="#8652d5"
+    type="ball-clip-rotate-multiple"
+    [fullScreen]="false"
+  >
+  </ngx-spinner>
+  <router-outlet></router-outlet>
+</div>
+<div class="text-center text-danger" *ngIf="!isOnline">
+  <h3>Please Check your network connection!</h3>
+</div>

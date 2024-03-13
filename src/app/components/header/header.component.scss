@@ -29,7 +29,11 @@
         }
       }
     }
-
+    .admin-profile:hover {
+      gap: 8px;
+      position: relative;
+      cursor: pointer;
+    }
     .admin-profile {
       gap: 8px;
       position: relative;
