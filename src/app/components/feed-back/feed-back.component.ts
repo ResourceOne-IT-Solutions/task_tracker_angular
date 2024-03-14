@@ -49,14 +49,7 @@ export class FeedBackComponent {
       columnDef: 'file',
       header: 'Images',
       cell: (element: any) => {
-        if (element.files.length > 0) {
-          const addonImages =
-            element.files.length > 1
-              ? `<span *ngIf=${element.files.length}>${element.files.length - 1} more</span>`
-              : '';
-          return `<div class='feed-back'><img  src=data:${element.files[0].mimetype};base64,${element.files[0].buffer}>${addonImages}</div>`;
-        }
-        return `<img  src=data:${element.files[0].mimetype};base64,${element.files[0].buffer} alt='no image'>`;
+        return element
       },
       isTemplate: true,
     },

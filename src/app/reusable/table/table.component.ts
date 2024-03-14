@@ -1,9 +1,11 @@
 import {
   Component,
+  ContentChild,
   EventEmitter,
   Input,
   Output,
   SimpleChanges,
+  TemplateRef,
   ViewChild,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
@@ -21,6 +23,7 @@ import { ChatService } from 'src/app/services/chat.service';
   styleUrls: ['./table.component.scss'],
 })
 export class TableComponent {
+  @ContentChild(TemplateRef) templateRef!: TemplateRef<any>;
   @Input() data: any;
   @Input() 'tableColumns': Column[];
   dataSource = new MatTableDataSource();
@@ -61,6 +64,7 @@ export class TableComponent {
   }
   ngOnChanges(change: SimpleChanges) {
     if (change['data']) {
+      this.displayedColumns = this.tableColumns.map((c) => c.columnDef);
       this.dataSource.data = this.data;
     }
   }

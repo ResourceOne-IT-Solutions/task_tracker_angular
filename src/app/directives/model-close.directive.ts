@@ -11,7 +11,6 @@ import {
   selector: '[appModelClose]',
 })
 export class ModelCloseDirective {
-  // @Input() appModelClose! :boolean
   @Output() clickOutside = new EventEmitter<boolean>();
   constructor(private el: ElementRef) {}
 

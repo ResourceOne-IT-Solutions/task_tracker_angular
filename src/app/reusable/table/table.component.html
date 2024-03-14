@@ -87,13 +87,15 @@
               <button
                 mat-raised-button
                 color="primary"
-                [disabled]="disCol.cell(element) === 'Closed'"
                 (click)="onClick(element, disCol.cell(element))"
               >
                 {{ disCol.cell(element) }}
               </button>
             </span>
-            <p *ngIf="disCol.isTemplate" [innerHTML]="disCol.cell(element)"></p>
+            <p *ngIf="disCol.isTemplate">
+              <ng-template [ngTemplateOutlet]="templateRef"
+              [ngTemplateOutletContext]="{$implicit: element}"></ng-template>
+            </p>
             <p
               class="d-flex"
               *ngIf="disCol.isImage"

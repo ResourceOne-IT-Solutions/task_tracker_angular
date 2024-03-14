@@ -22,7 +22,6 @@ import { Task } from 'src/app/interface/tickets';
 import { Store, select } from '@ngrx/store';
 import { loadUserData } from 'src/app/chat-store/table.actions';
 import { TooltipPosition } from '@angular/material/tooltip';
-import { getTableData } from 'src/app/chat-store/table.selector';
 import { Observable, map } from 'rxjs';
 import { IdleTimeService } from 'src/app/services/idle/idle-time.service';
 import { usersStatusColumns } from '../userlist/tabledata';
