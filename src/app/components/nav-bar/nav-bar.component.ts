@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,7 +7,6 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { openDialog } from 'src/app/chat-store/table.actions';
 import { getChatRequests } from 'src/app/chat-store/table.selector';
-import { DialogInfoComponent } from 'src/app/reusable/dialog-info/dialog-info.component';
 import { ChatService } from 'src/app/services/chat.service';
 import { IdleTimeService } from 'src/app/services/idle/idle-time.service';
 
@@ -21,9 +20,9 @@ export class NavBarComponent {
   @ViewChild('ticketModel', { static: false }) ticketModel: any;
   adminStatus = ['Offline', 'Available', 'OnTicket', 'Sleep'];
   Breaks = ['BreakFastBreak', 'LunchBreak'];
-  @Input() 'isAdmin': boolean;
-  @Input() userDetails: any;
-  @Input() Status: any;
+  'isAdmin': boolean;
+  userDetails: any;
+  Status: any;
   'roomCount': number;
   'clientForm': FormGroup;
   'TicketCreationForm': FormGroup;
@@ -86,10 +85,14 @@ export class NavBarComponent {
           this.userTicketRequestCount.push(result);
         }
       });
-
+      this.chatservice.UserLoginData.subscribe((res:any)=>{
+        this.userDetails = res
+        this.isAdmin = res?.isAdmin
+       this.roomCount = Object.keys(this.userDetails.newMessages).length;
+      })
     this.Status = this.userDetails.status;
-    this.roomCount = Object.keys(this.userDetails.newMessages).length;
     this.chatservice.getSocketData('statusUpdate').subscribe((res) => {
+      console.log(res , this.userDetails ,'93:::')
       this.roomCount = Object.keys(this.userDetails.newMessages).length;
     });
     this.chatservice.getSocketData('notifications').subscribe((res: any) => {
@@ -106,6 +109,7 @@ export class NavBarComponent {
       }
     });
   }
+ 
   SelectStatus(data: any) {
     this.SelectedStatus = data;
     this.StartTimer = false;
@@ -224,7 +228,6 @@ export class NavBarComponent {
   }
   CreateNewUser(newUser: any) {
     this.UserNavSelectedData = newUser;
-    console.log(this.router, '227::');
     this.router.navigate(['create-user'], { relativeTo: this.route });
   }
   gotDashBoard() {

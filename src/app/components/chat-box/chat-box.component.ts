@@ -197,6 +197,7 @@ export class ChatBoxComponent {
       key: 'updateUser',
       data: this.currentUser,
     });
+    this.chatservice.UserLogin(this.currentUser)
     const roomId = this.genarateRoomId(user._id, this.currentUser._id);
     this.chatservice.sendSocketData({
       key: 'joinRoom',

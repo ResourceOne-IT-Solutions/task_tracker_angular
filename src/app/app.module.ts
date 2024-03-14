@@ -53,6 +53,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { HeaderComponent } from './components/header/header.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { ModelCloseDirective } from './directives/model-close.directive';
 @NgModule({
   declarations: [
     AppComponent,
@@ -79,6 +80,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     PieChartComponent,
     ForgotpasswordComponent,
     HeaderComponent,
+    ModelCloseDirective,
   ],
   imports: [
     BrowserModule,
