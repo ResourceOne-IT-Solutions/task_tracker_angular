@@ -31,11 +31,10 @@
         <p
           class="group-heading d-flex align-items-center justify-content-between"
           (click)="openCreateGroupModel()"
+          *ngIf="currentUser.isAdmin"
         >
-          <span><i class="fa-solid fa-people-group"></i> Add New Groups</span
-          ><span *ngIf="currentUser.isAdmin" class="groupModel"
-            ><i class="fa-solid fa-plus"></i
-          ></span>
+          <span><i class="fa-solid fa-people-group"></i> Add New Group</span
+          ><span class="groupModel"><i class="fa-solid fa-plus"></i></span>
         </p>
         <ngx-spinner
           bdColor="rgba(0,0,0,0.32)"

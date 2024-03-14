@@ -33,7 +33,7 @@ export class CreateUserComponent {
       fname: ['', Validators.required],
       lname: ['', Validators.required],
       email: ['', Validators.required],
-      phone: ['', Validators.required],
+      phone: ['+91', Validators.required],
       dob: ['', Validators.required],
       password: ['', Validators.required],
       empId: ['', Validators.required],
@@ -97,7 +97,7 @@ export class CreateUserComponent {
   }
   phoneValidation(evt: any) {
     const inputChar = String.fromCharCode(evt.charCode);
-    if (this.phone?.value.length > 9 || !/^\d+$/.test(inputChar)) {
+    if (this.phone?.value.length > 12 || !/^\d+$/.test(inputChar)) {
       evt.preventDefault();
       return;
     }

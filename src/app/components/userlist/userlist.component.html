@@ -232,7 +232,9 @@
               >The ticket status is in {{ userDetailsdata?.status }} state do
               you want change</span
             >
-            <button (click)="showForm = true">Update</button>
+            <button class="btn btn-primary ms-2" (click)="showForm = true">
+              Update
+            </button>
           </div>
           <div
             class="form-group my-2"
@@ -307,7 +309,7 @@
     <div class="modal-footer">
       <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
       <button
-        class="btn btn-sm btn-primary"
+        class="btn btn-danger"
         *ngIf="!close"
         (click)="updateUserTicket(d)"
       >
