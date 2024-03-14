@@ -43,7 +43,6 @@ export class NavBarComponent {
   requestCount: any = [];
   SelectedStatus: any;
   public isCollapsed = false;
-  newValue: boolean = true;
   url: string = '';
   UserNavSelectedData: any;
   constructor(
@@ -85,14 +84,14 @@ export class NavBarComponent {
           this.userTicketRequestCount.push(result);
         }
       });
-      this.chatservice.UserLoginData.subscribe((res:any)=>{
-        this.userDetails = res
-        this.isAdmin = res?.isAdmin
-       this.roomCount = Object.keys(this.userDetails.newMessages).length;
-      })
+    this.chatservice.UserLoginData.subscribe((res: any) => {
+      this.userDetails = res;
+      this.isAdmin = res?.isAdmin;
+      this.roomCount = Object.keys(this.userDetails.newMessages).length;
+    });
     this.Status = this.userDetails.status;
     this.chatservice.getSocketData('statusUpdate').subscribe((res) => {
-      console.log(res , this.userDetails ,'93:::')
+      console.log(res, this.userDetails, '93:::');
       this.roomCount = Object.keys(this.userDetails.newMessages).length;
     });
     this.chatservice.getSocketData('notifications').subscribe((res: any) => {
@@ -107,46 +106,6 @@ export class NavBarComponent {
         this.roomCount = Object.keys(this.userDetails.newMessages).length;
         this.chatservice.UserLogin(this.userDetails);
       }
-    });
-  }
- 
-  SelectStatus(data: any) {
-    this.SelectedStatus = data;
-    this.StartTimer = false;
-    const updatePayload = {
-      id: this.userDetails._id,
-      status: data,
-    };
-    data === 'Available'
-      ? this.idle.startIdleMonitoring()
-      : this.idle.stopIdleIdleMonitoring();
-    this.chatservice.sendSocketData({
-      key: 'changeStatus',
-      data: updatePayload,
-    });
-    if (
-      this.SelectedStatus === 'BreakFastBreak' ||
-      this.SelectedStatus === 'LunchBreak'
-    ) {
-      this.StartTimer = true;
-      this.textColor = false;
-      this.Seconds = 0;
-      this.Minutes = 0;
-      this.clickHandler();
-    } else {
-      clearInterval(this.timerId);
-      this.StartTimer = false;
-    }
-  }
-  SelectBreakTime(breakTime: any) {
-    this.SelectedStatus = breakTime;
-    const updatePayload = {
-      id: this.userDetails._id,
-      status: breakTime,
-    };
-    this.chatservice.sendSocketData({
-      key: 'changeStatus',
-      data: updatePayload,
     });
   }
   // client form
@@ -367,23 +326,5 @@ export class NavBarComponent {
         return;
       }
     }
-  }
-  clickHandler() {
-    this.timerId = setInterval(() => {
-      this.Seconds++;
-      if (this.Seconds >= 60) {
-        this.Minutes++;
-        this.Seconds = 0;
-      }
-      if (this.Minutes >= 20 || this.Minutes >= 30) {
-        this.textColor = true;
-      }
-    }, 1000);
-  }
-  format(num: number) {
-    return (num + '').length === 1 ? '0' + num : num + '';
-  }
-  memuClick() {
-    this.newValue = !this.newValue;
   }
 }

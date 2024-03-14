@@ -10,7 +10,6 @@ import { DialogInfoComponent } from './reusable/dialog-info/dialog-info.componen
 import { Store } from '@ngrx/store';
 import { chatRequests, openDialog } from './chat-store/table.actions';
 import { isLoading } from './chat-store/table.selector';
-import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -20,7 +19,6 @@ export class AppComponent implements OnInit {
   currentUser: any;
   isLoading: any;
   isOnline: boolean;
-  modalVersion: boolean;
 
   constructor(
     private route: Router,
@@ -28,25 +26,12 @@ export class AppComponent implements OnInit {
     private idleservice: IdleTimeService,
     private dialog: MatDialog,
     private store: Store,
-    private swUpdate: SwUpdate,
   ) {
-    this.isOnline = false;
-    this.modalVersion = false;
+    this.isOnline = true;
   }
   ngOnInit(): void {
-    this.updateOnlineStatus();
     window.addEventListener('online', this.updateOnlineStatus.bind(this));
     window.addEventListener('offline', this.updateOnlineStatus.bind(this));
-    if (this.swUpdate.isEnabled) {
-      this.swUpdate.versionUpdates.pipe(
-        filter(
-          (evt: any): evt is VersionReadyEvent => evt.type === 'VERSION_READY',
-        ),
-        map((evt: any) => {
-          this.modalVersion = true;
-        }),
-      );
-    }
 
     this.chatservice.UserLoginData.subscribe((res) => {
       this.currentUser = res;
@@ -94,7 +79,7 @@ export class AppComponent implements OnInit {
       });
   }
 
-  private updateOnlineStatus(): void {
-    this.isOnline = window.navigator.onLine;
+  private updateOnlineStatus(e: any): void {
+    this.isOnline = e.type === 'online';
   }
 }

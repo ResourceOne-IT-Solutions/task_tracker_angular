@@ -43,8 +43,8 @@ export class ChatService {
   BE_SERVER = 'https://task-tracker-server-2njm.onrender.com';
   BE_LOCAL = 'http://192.168.10.30:1234';
   BE_LOCAL2 = 'http://192.168.29.109:1234';
-  SOCKET_URL= this.BE_SERVER
-  VERSION = "/api/v1"
+  SOCKET_URL = this.BE_SERVER;
+  VERSION = '/api/v1';
   BE_URL = this.SOCKET_URL + this.VERSION;
   constructor(
     private http: HttpClient,

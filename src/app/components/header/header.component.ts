@@ -123,7 +123,7 @@ export class HeaderComponent implements OnInit {
     this.isCollapsed = !this.isCollapsed;
     this.HamburgerClick.emit(this.isCollapsed);
   }
-  closeModel(){
-    this.isProfile = false
+  closeModel() {
+    this.isProfile = false;
   }
 }

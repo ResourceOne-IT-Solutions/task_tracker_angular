@@ -12,11 +12,21 @@
         </button>
       </div>
       <div class="user" *ngIf="!isAdmin">
-        <button mat-button [matMenuTriggerFor]="Status" mat-flat-button color="primary">
+        <button
+          mat-button
+          [matMenuTriggerFor]="Status"
+          mat-flat-button
+          color="primary"
+        >
           {{ SelectedStatus ? SelectedStatus : "Available" }} &#9660;
         </button>
         <mat-menu #Status>
-          <button mat-menu-item (click)="SelectStatus(status)" *ngFor="let status of adminStatus" [ngClass]="status">
+          <button
+            mat-menu-item
+            (click)="SelectStatus(status)"
+            *ngFor="let status of adminStatus"
+            [ngClass]="status"
+          >
             {{ status }}
           </button>
           <button mat-menu-item [matMenuTriggerFor]="invertebrates">
@@ -25,19 +35,33 @@
         </mat-menu>
 
         <mat-menu #invertebrates>
-          <button (click)="SelectStatus(break)" mat-menu-item *ngFor="let break of Breaks">
+          <button
+            (click)="SelectStatus(break)"
+            mat-menu-item
+            *ngFor="let break of Breaks"
+          >
             {{ break }}
           </button>
         </mat-menu>
         <span *ngIf="StartTimer">
-          <span class="fw-bold text-bg-success p-2 m-1" [ngClass]="textColor ? 'text-bg-danger' : ''">{{ format(Minutes)
-            }}:{{ format(Seconds) }}
+          <span
+            class="fw-bold text-bg-success p-2 m-1"
+            [ngClass]="textColor ? 'text-bg-danger' : ''"
+            >{{ format(Minutes) }}:{{ format(Seconds) }}
           </span>
         </span>
       </div>
-      <div class="admin-profile d-flex align-items-center" appModelClose (clickOutside)="closeModel()">
+      <div
+        class="admin-profile d-flex align-items-center"
+        appModelClose
+        (clickOutside)="closeModel()"
+      >
         <div (click)="profileData()" class="d-flex">
-          <img class="admin-pic" crossorigin="anonymous" src="{{ url }}/{{ userDetails.profileImageUrl }}" />
+          <img
+            class="admin-pic"
+            crossorigin="anonymous"
+            src="{{ url }}/{{ userDetails.profileImageUrl }}"
+          />
           <h4 class="btn btn-danger" class="admin-name">
             Profile<span><i class="fa-solid fa-chevron-down"></i></span>
           </h4>
