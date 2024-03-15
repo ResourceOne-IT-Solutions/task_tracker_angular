@@ -1,5 +1,5 @@
-<div class="menu-chat d-flex">
-  <div class="user-chat-list">
+<div [ngClass]="isChat ? 'open' : 'close'" class="menu-chat d-flex">
+  <div class="user-chat-list" *ngIf="userChatList">
     <div class="search-input d-flex">
       <button class="border-0 fs-4 bg-white text-dark" (click)="goBack()">
         <i class="fa fa-arrow-left" aria-hidden="true"></i>

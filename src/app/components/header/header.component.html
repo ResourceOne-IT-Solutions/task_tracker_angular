@@ -53,16 +53,19 @@
       </div>
       <div
         class="admin-profile d-flex align-items-center"
-        (click)="profileData()"
+        appModelClose
+        (clickOutside)="closeModel()"
       >
-        <img
-          class="admin-pic"
-          crossorigin="anonymous"
-          src="{{ url }}/{{ userDetails.profileImageUrl }}"
-        />
-        <h4 class="btn btn-danger" class="admin-name">
-          Profile<span><i class="fa-solid fa-chevron-down"></i></span>
-        </h4>
+        <div (click)="profileData()" class="d-flex">
+          <img
+            class="admin-pic"
+            crossorigin="anonymous"
+            src="{{ url }}/{{ userDetails.profileImageUrl }}"
+          />
+          <h4 class="btn btn-danger" class="admin-name">
+            Profile<span><i class="fa-solid fa-chevron-down"></i></span>
+          </h4>
+        </div>
         <div class="admin-profile-info" *ngIf="isProfile">
           <h4>{{ userDetails.isAdmin === true ? "Admin" : "User" }} Details</h4>
           <ul>
@@ -73,10 +76,10 @@
             <li><label>Mobile :</label> {{ userDetails.mobile }}</li>
             <li><label>Desgination :</label> {{ userDetails.designation }}</li>
           </ul>
+          <div class="admin-in-out">
+            <button (click)="logout()" class="btn btn-danger">Logout</button>
+          </div>
         </div>
-      </div>
-      <div class="admin-in-out">
-        <button (click)="logout()" class="btn btn-danger">Logout</button>
       </div>
     </div>
   </ng-container>

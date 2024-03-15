@@ -12,6 +12,7 @@ import {
 import { map, mergeMap, of, tap, withLatestFrom } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogInfoComponent } from '../reusable/dialog-info/dialog-info.component';
+import { Tickets, adminTicketColumns, clientColumns, description, footerColumns, ticketColumns, userColumns, userTicketColumns } from '../components/userlist/tabledata';
 
 @Injectable()
 export class TicketsEffect {
@@ -21,26 +22,14 @@ export class TicketsEffect {
       withLatestFrom(this.chatservice.UserLoginData),
       mergeMap(([{ params }, userId]) => {
         return this.getTableData(params, userId?._id).pipe(
-          map((tableData: any) => {
-            return loadTableSuccess({ tableData });
+          map(({ data, columns }) => {
+            return loadTableSuccess({ data, columns });
           }),
         );
       }),
     ),
   );
 
-  loadDeleteCall$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(loadDeleteApi),
-      mergeMap(({ data }) => {
-        return this.deleteCall(data).pipe(
-          map((ticketsData: any) => {
-            return loadTicketsSuccess({ ticketsData });
-          }),
-        );
-      }),
-    ),
-  );
 
   loadTickets$ = createEffect(() =>
     this.actions$.pipe(
@@ -56,9 +45,7 @@ export class TicketsEffect {
     ),
   );
 
-  private deleteCall(data: any) {
-    return of([[]]);
-  }
+
   openDialog$ = createEffect(
     () =>
       this.actions$.pipe(
@@ -90,22 +77,29 @@ export class TicketsEffect {
       case 'user list':
         return this.chatservice
           .getAllUsers()
-          .pipe(map((users) => users.filter((user: any) => !user.isAdmin)));
+          .pipe(map((users) => ({ data: users.filter((user: any) => !user.isAdmin), columns: userColumns })));
       case 'helped tickets':
-        return this.chatservice.get(`/tickets/helped-tickets/${userId}`);
+        const columns: any = [...ticketColumns, ...description]
+        return this.chatservice.get(`/tickets/helped-tickets/${userId}`).pipe(map((res) => ({ data: res, columns })));
       case 'today tickets':
-        return this.chatservice.get('/tickets/pending-tickets');
+        return this.chatservice.get('/tickets/pending-tickets').pipe(map((data) => ({ data, columns: [...Tickets, ...adminTicketColumns] })));
       case 'client list':
-        return this.chatservice.getAllClients();
+        return this.chatservice.getAllClients().pipe(map((data) => ({ data, columns: clientColumns })));
       case 'user tickets':
-        return this.chatservice.get(`/tickets/user/pending-tickets/${userId}`);
+        return this.chatservice.get(`/tickets/user/pending-tickets/${userId}`).pipe(map((data) => ({
+          data, columns: [
+            ...ticketColumns,
+            ...footerColumns,
+            ...userTicketColumns,
+          ]
+        })));
       default:
-        return of([]);
+        return of({ data: [], columns: [] });
     }
   }
   constructor(
     private chatservice: ChatService,
     private actions$: Actions,
     private dialog: MatDialog,
-  ) {}
+  ) { }
 }

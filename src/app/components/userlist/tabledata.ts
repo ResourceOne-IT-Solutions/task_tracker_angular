@@ -211,7 +211,7 @@ export const adminTicketColumns = [
   {
     columnDef: 'Closed',
     header: 'Closed',
-    cell: (element: any) => (element.isClosed ? 'Closed' : 'Close'),
+    cell: (element: any) => (element.isClosed ? 'ReOpen' : 'Close'),
     isButton: true,
   },
 ];
@@ -265,7 +265,7 @@ export const userColumns = [
     columnDef: 'firstName',
     header: 'User Name',
     cell: (element: any) => `${getFullName(element)}`,
-    isMouseOver: true,
+    isTemplate :true    
   },
   {
     columnDef: 'email',

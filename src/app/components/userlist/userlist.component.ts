@@ -1,8 +1,7 @@
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { ChatService } from 'src/app/services/chat.service';
 import { Column } from '../dash-board/dash-board.component';
 import {
-  AbstractControl,
   FormBuilder,
   FormGroup,
   Validators,
@@ -17,19 +16,15 @@ import {
   adminTicketColumns,
   clientColumns,
   description,
-  description2,
   footerColumns,
   ticketColumns,
   userColumns,
   userTicketColumns,
 } from './tabledata';
 import { Store, select } from '@ngrx/store';
-import { getTableData, getUserData } from 'src/app/chat-store/table.selector';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { getTableConfig } from 'src/app/chat-store/table.selector';
 import { Observable } from 'rxjs';
-import { Chart } from 'chart.js';
-import { DialogInfoComponent } from 'src/app/reusable/dialog-info/dialog-info.component';
-import { loadTable, openDialog } from 'src/app/chat-store/table.actions';
+import { loadDeleteApi, loadTable, openDialog } from 'src/app/chat-store/table.actions';
 
 @Component({
   selector: 'app-userlist',
@@ -77,15 +72,6 @@ export class UserlistComponent {
   mailSuccessMsg: any;
   AssignedUser: any = '';
   tableData$!: Observable<any>;
-  userColumns: Array<Column> = userColumns;
-  clientColumns: Array<Column> = clientColumns;
-  ticketColumns: Array<Column> = [...Tickets, ...adminTicketColumns];
-  userTickets: Array<Column> = [
-    ...ticketColumns,
-    ...footerColumns,
-    ...userTicketColumns,
-  ];
-  helpedTickets: Array<Column> = [...ticketColumns, ...description];
   pieChartLabels: string[] = [
     'Closed',
     'Assigned',
@@ -114,6 +100,7 @@ export class UserlistComponent {
   mockTableData: any = [];
   showForm: boolean = false;
   close: any;
+  tableColumns: any;
   constructor(
     public chatservice: ChatService,
     private modalService: NgbModal,
@@ -123,6 +110,7 @@ export class UserlistComponent {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private store: Store,
+    private cdr :ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -155,9 +143,13 @@ export class UserlistComponent {
     this.chatservice.UserLoginData.subscribe((res: any) => {
       this.adminDetails = res;
     });
-    this.store.pipe(select(getTableData)).subscribe((res: any) => {
-      this.tableData = res;
-      this.mockTableData = res;
+    this.store.pipe(select(getTableConfig)).subscribe((res: any) => {
+      if(res.data && res.columns){
+        this.tableColumns = res.columns
+        this.tableData = res.data;
+        this.mockTableData = res;
+        console.log(this.tableData , this.tableColumns)
+      }
     });
   }
   // user form
@@ -181,6 +173,8 @@ export class UserlistComponent {
     this.location.back();
   }
 
+
+
   // search filter
   SearchUsers() {
     if (this.params.includes('tickets')) {
@@ -199,6 +193,43 @@ export class UserlistComponent {
             .indexOf(this.searchFilter.toLowerCase()) > -1,
       );
     }
+  }
+
+  // CODE MINIMIZATION
+
+  firstBtnClick(evt:any){
+    switch(this.params){
+      case 'user list':
+        return this.editUser(evt);
+      case 'client list':
+        return this.editClient(evt);
+      case 'user tickets':
+        return this.update(evt)
+      default:
+          return
+    }  
+  }
+  secondBtnClick(evt:any , name:any){
+    switch(this.params){
+      case 'user list':
+        return this.delete(evt , 'user');
+      case 'client list':
+        return this.delete(evt , 'client');
+      case 'user tickets':
+        return this.routeToTickets(evt)
+      default:
+          return
+    }  
+  }
+  nameClick(evt :any){
+    switch(this.params){
+      case 'user list':
+        return this.routeUserPage(evt);
+      case 'client list':
+        return this.routeToClientTickets(evt);
+      default:
+          return
+    } 
   }
 
   // Edit User
@@ -606,37 +637,8 @@ export class UserlistComponent {
     );
   }
   delete(data: any, user: any) {
-    const dialogRef = this.dialog.open(DialogModelComponent, {
-      data: {
-        message: `Are Sure You Want To Delete This ${user} ?`,
-        btn1: 'Yes',
-        btn2: 'No',
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result) {
-        this.chatservice.delete(`/${user}s/${data._id}`).subscribe(
-          (res: any) => {
-            this.tableData = this.tableData.filter(
-              (val: any) => val._id !== data._id,
-            );
-            this.store.dispatch(
-              openDialog({
-                message: `${user} Deleted Succesfully`,
-                title: `${user} deleted`,
-              }),
-            );
-          },
-          (err) => {
-            console.log(err, 'error');
-            this.store.dispatch(
-              openDialog({ message: err.error.error, title: 'Api Error' }),
-            );
-          },
-        );
-      }
-    });
+    console.log('delete')
+    this.store.dispatch(loadDeleteApi({data , name :user }))
   }
   phoneValidation(evt: any) {
     const inputChar = String.fromCharCode(evt.charCode);
