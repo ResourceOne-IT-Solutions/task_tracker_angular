@@ -24,3 +24,8 @@ export const isLoading = createSelector(
   featureState,
   (state) => state.isLoading,
 );
+
+export const updatedTableData = createSelector(
+  featureState ,
+  state => state.updateData
+)

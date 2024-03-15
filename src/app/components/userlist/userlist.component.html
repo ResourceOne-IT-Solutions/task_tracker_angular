@@ -45,13 +45,6 @@
                 Phone is Required
               </div>
             </div>
-            <label class="ms-2">Date Of Birth</label>
-            <input type="date" class="form-control m-2" formControlName="dob" />
-            <div class="text-danger mb-2 ps-2" *ngIf="userSubmitted && user['dob'].errors">
-              <div *ngIf="user['dob'].errors['required']">
-                Phone is Required
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -200,7 +193,7 @@
     <div class="modal-footer">
       <button class="btn btn-sm btn-danger" (click)="cancel(d)">Cancel</button>
       <button class="btn btn-danger" *ngIf="!close" (click)="updateUserTicket(d)">
-        Update
+        Update**
       </button>
       <button class="btn btn-sm btn-primary" *ngIf="close" (click)="closeTicket(d)">
         Close Ticket
@@ -281,11 +274,12 @@
     </div>
   </ng-template>
 
+  {{params}}
   <app-table *ngIf="tableData  && tableColumns" [data]="tableData" [tableColumns]="tableColumns"
     (firstBtnClick)="firstBtnClick($event)" (secondBtnClick)="secondBtnClick($event, 'client')"
     (nameClick)="nameClick($event)" (singleButtonClick)="singleButtonClick($event)"
     (thirdBtnClick)="ticketraise($event)" (descriptionClick)="gotodescription($event)">
-    <ng-template let-element>
+    <ng-template let-element >
       <img class="profileImage" src="{{ url }}/{{element.profileImageUrl}}" class="profileImage"
         crossorigin="anonymous" />
       <span matTooltip=" click here" aria-label="Displays a tooltip" style="cursor: pointer"
