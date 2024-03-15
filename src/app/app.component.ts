@@ -32,7 +32,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     window.addEventListener('online', this.updateOnlineStatus.bind(this));
     window.addEventListener('offline', this.updateOnlineStatus.bind(this));
-
     this.chatservice.UserLoginData.subscribe((res) => {
       this.currentUser = res;
     });
@@ -78,7 +77,6 @@ export class AppComponent implements OnInit {
         }
       });
   }
-
   private updateOnlineStatus(e: any): void {
     this.isOnline = e.type === 'online';
   }
