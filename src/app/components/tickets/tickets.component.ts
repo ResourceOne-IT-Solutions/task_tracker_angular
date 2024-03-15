@@ -176,6 +176,7 @@ export class TicketsComponent {
     this.searchText = '';
     this.selectedStatus = '';
     this.seletedDate = '';
+    this.seletedClient = '';
     this.ticketsData = this.mockTicketsData;
   }
   openPopup(content: any): void {

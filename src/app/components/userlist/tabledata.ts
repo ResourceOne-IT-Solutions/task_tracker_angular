@@ -265,7 +265,7 @@ export const userColumns = [
     columnDef: 'firstName',
     header: 'User Name',
     cell: (element: any) => `${getFullName(element)}`,
-    isTemplate :true    
+    isTemplate: true,
   },
   {
     columnDef: 'email',
@@ -315,7 +315,7 @@ export const usersStatusColumns = [
     columnDef: 'available',
     header: 'Name',
     cell: (element: any) => `${getFullName(element)}`,
-    isText: true,
+    isMouseOver: true,
   },
   {
     columnDef: 'designation',
@@ -328,6 +328,73 @@ export const usersStatusColumns = [
     header: 'profile pic',
     cell: (element: any) => `${element['profileImageUrl']}`,
     isImage: true,
+  },
+];
+export const UserBreaksTimings = [
+  {
+    columnDef: 'startDate',
+    header: 'Date',
+    cell: (element: any) => `${element['startDate']}`,
+    isText: true,
+  },
+  {
+    columnDef: 'Breaks',
+    header: 'Breaks',
+    cell: (element: any) => `${element['designation']}`,
+    isText: true,
+  },
+  {
+    columnDef: 'duration',
+    header: 'Duration',
+    cell: (element: any) => `${element['duration']}`,
+    isText: true,
+  },
+];
+
+export const UserLoginTimings = [
+  {
+    columnDef: 'date',
+    header: 'Date',
+    cell: (element: any) => {
+      const date = new Date(element['date']);
+      return `${date.toLocaleDateString()}`;
+    },
+    isText: true,
+  },
+  {
+    columnDef: 'inTime',
+    header: 'Login',
+    cell: (element: any) => `${element['inTime']}`,
+    isText: true,
+  },
+  {
+    columnDef: 'outTime',
+    header: 'Logout',
+    cell: (element: any) =>
+      `${element['outTime']}` ? `${element['outTime']}` : '--',
+    isText: true,
+  },
+  {
+    columnDef: 'Active',
+    header: 'Active',
+    cell: (element: any) => {
+      const inTime = new Date('2000-01-01 ' + `${element['inTime']}`);
+      const outTime = element['outTime']
+        ? new Date('2000-01-01 ' + `${element['outTime']}`)
+        : null;
+      if (outTime) {
+        const timeDifferenceMs = outTime.getTime() - inTime.getTime();
+        const hours = Math.floor(timeDifferenceMs / (1000 * 60 * 60));
+        const minutes = Math.floor(
+          (timeDifferenceMs % (1000 * 60 * 60)) / (1000 * 60),
+        );
+        const seconds = Math.floor((timeDifferenceMs % (1000 * 60)) / 1000);
+        return `${hours}:${minutes}:${seconds} seconds`;
+      } else {
+        return 'Invalid';
+      }
+    },
+    isText: true,
   },
 ];
 

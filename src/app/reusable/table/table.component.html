@@ -93,8 +93,10 @@
               </button>
             </span>
             <p *ngIf="disCol.isTemplate">
-              <ng-template [ngTemplateOutlet]="templateRef"
-              [ngTemplateOutletContext]="{$implicit: element}"></ng-template>
+              <ng-template
+                [ngTemplateOutlet]="templateRef"
+                [ngTemplateOutletContext]="{ $implicit: element }"
+              ></ng-template>
             </p>
             <p
               class="d-flex"
@@ -132,7 +134,7 @@
     </table>
   </div>
   <mat-paginator
-    *ngIf="dataSource"
+    *ngIf="dataSource && nextpaginator"
     [hidden]="!dataSource.data.length"
     [pageSizeOptions]="[5, 10, 25, 100]"
     [pageSize]="5"

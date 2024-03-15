@@ -8,7 +8,7 @@ export const loadTable = createAction(
 
 export const loadTableSuccess = createAction(
   'load table api success [Tickets Component]',
-  props<{ data :any  , columns :any}>(),
+  props<{ data: any; columns: any }>(),
 );
 
 export const loadUserData = createAction(
@@ -32,16 +32,17 @@ export const EmptyChatRequests = createAction(
 );
 export const loadDeleteApi = createAction(
   'user list load delete api [UserList Component]',
-  props<{ data: any , name :any }>(),
+  props<{ data: any; name: any }>(),
 );
 export const updateTableData = createAction(
   'update user client table [UserList Component]',
-  props<{ element :any }>(),
+  props<{ element: any }>(),
 );
 
 export const closeTicket = createAction(
-  'close ticket [UserList Component]' , props<{payload :any}>(),
-)
+  'close ticket [UserList Component]',
+  props<{ payload: any }>(),
+);
 export const openDialog = createAction(
   'open dialog [DialogInfo Component]',
   props<{ message: any; title: any }>(),
