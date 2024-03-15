@@ -113,7 +113,7 @@ export class ViewRequestPageComponent {
   }
   AdminRequests(data: any) {
     this.seletedRequests = data;
-    console.log(this.seletedRequests, '116::');
+    // console.log(this.seletedRequests, '116::');
   }
   goback() {
     this.location.back();

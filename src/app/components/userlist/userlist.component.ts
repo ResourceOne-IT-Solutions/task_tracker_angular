@@ -1,11 +1,7 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { ChatService } from 'src/app/services/chat.service';
 import { Column } from '../dash-board/dash-board.component';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -24,7 +20,11 @@ import {
 import { Store, select } from '@ngrx/store';
 import { getTableConfig } from 'src/app/chat-store/table.selector';
 import { Observable } from 'rxjs';
-import { loadDeleteApi, loadTable, openDialog } from 'src/app/chat-store/table.actions';
+import {
+  loadDeleteApi,
+  loadTable,
+  openDialog,
+} from 'src/app/chat-store/table.actions';
 
 @Component({
   selector: 'app-userlist',
@@ -110,7 +110,7 @@ export class UserlistComponent {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private store: Store,
-    private cdr :ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
@@ -144,11 +144,11 @@ export class UserlistComponent {
       this.adminDetails = res;
     });
     this.store.pipe(select(getTableConfig)).subscribe((res: any) => {
-      if(res.data && res.columns){
-        this.tableColumns = res.columns
+      if (res.data && res.columns) {
+        this.tableColumns = res.columns;
         this.tableData = res.data;
         this.mockTableData = res;
-        console.log(this.tableData , this.tableColumns)
+        console.log(this.tableData, this.tableColumns);
       }
     });
   }
@@ -173,8 +173,6 @@ export class UserlistComponent {
     this.location.back();
   }
 
-
-
   // search filter
   SearchUsers() {
     if (this.params.includes('tickets')) {
@@ -197,39 +195,39 @@ export class UserlistComponent {
 
   // CODE MINIMIZATION
 
-  firstBtnClick(evt:any){
-    switch(this.params){
+  firstBtnClick(evt: any) {
+    switch (this.params) {
       case 'user list':
         return this.editUser(evt);
       case 'client list':
         return this.editClient(evt);
       case 'user tickets':
-        return this.update(evt)
+        return this.update(evt);
       default:
-          return
-    }  
+        return;
+    }
   }
-  secondBtnClick(evt:any , name:any){
-    switch(this.params){
+  secondBtnClick(evt: any, name: any) {
+    switch (this.params) {
       case 'user list':
-        return this.delete(evt , 'user');
+        return this.delete(evt, 'user');
       case 'client list':
-        return this.delete(evt , 'client');
+        return this.delete(evt, 'client');
       case 'user tickets':
-        return this.routeToTickets(evt)
+        return this.routeToTickets(evt);
       default:
-          return
-    }  
+        return;
+    }
   }
-  nameClick(evt :any){
-    switch(this.params){
+  nameClick(evt: any) {
+    switch (this.params) {
       case 'user list':
         return this.routeUserPage(evt);
       case 'client list':
         return this.routeToClientTickets(evt);
       default:
-          return
-    } 
+        return;
+    }
   }
 
   // Edit User
@@ -637,8 +635,8 @@ export class UserlistComponent {
     );
   }
   delete(data: any, user: any) {
-    console.log('delete')
-    this.store.dispatch(loadDeleteApi({data , name :user }))
+    console.log('delete');
+    this.store.dispatch(loadDeleteApi({ data, name: user }));
   }
   phoneValidation(evt: any) {
     const inputChar = String.fromCharCode(evt.charCode);

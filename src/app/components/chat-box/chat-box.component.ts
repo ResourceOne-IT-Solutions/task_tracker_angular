@@ -225,6 +225,8 @@ export class ChatBoxComponent {
     this.UserSelected = group;
     this.isGroup = true;
     this.NoUser = false;
+    this.ChatBox = true;
+    this.isChat = !this.isChat;
     Object.keys(this.currentUser.newMessages).forEach((val: any) => {
       if (val.includes(group._id)) {
         delete this.currentUser.newMessages[val];

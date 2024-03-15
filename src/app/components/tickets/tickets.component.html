@@ -1,6 +1,6 @@
 <div class="tickets-main-section">
-  <div class="d-flex align-items-center justify-content-between tickets-head">
-    <div class="header-form-fields d-flex align-items-center">
+  <div class="d-flex align-items-end justify-content-between tickets-head">
+    <div class="header-form-fields d-flex">
       <div class="search">
         <label>Search UserName/ClientName</label>
         <input
@@ -11,54 +11,56 @@
           placeholder="Search Client Name"
         />
       </div>
-      <div class="dropdown">
-        <label>Filter By Status</label>
-        <mat-form-field>
-          <mat-select
-            name="countryString"
-            [(ngModel)]="selectedStatus"
-            (selectionChange)="filterByStatus($event.value)"
-          >
-            <mat-option value="" disabled class="hide"
-              >Select Status</mat-option
+      <div class="dropdown-list d-flex align-items-center">
+        <div class="dropdown">
+          <label>Filter By Status</label>
+          <mat-form-field>
+            <mat-select
+              name="countryString"
+              [(ngModel)]="selectedStatus"
+              (selectionChange)="filterByStatus($event.value)"
             >
-            <mat-option *ngFor="let status of statusData" [value]="status">{{
-              status
-            }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="dropdown">
-        <label>Filter By Date</label>
-        <mat-form-field>
-          <mat-select
-            name="countryString"
-            [(ngModel)]="seletedDate"
-            (selectionChange)="filterByDate($event.value)"
-          >
-            <mat-option value="" class="hide">Select Date</mat-option>
-            <mat-option *ngFor="let status of dateData" [value]="status">{{
-              status
-            }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="dropdown">
-        <label>Select Clients</label>
-        <mat-form-field>
-          <mat-select
-            name="countryString"
-            [(ngModel)]="seletedClient"
-            (selectionChange)="filterByClient()"
-          >
-            <mat-option value="" disabled class="hide"
-              >Select Client</mat-option
+              <mat-option value="" disabled class="hide"
+                >Select Status</mat-option
+              >
+              <mat-option *ngFor="let status of statusData" [value]="status">{{
+                status
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="dropdown">
+          <label>Filter By Date</label>
+          <mat-form-field>
+            <mat-select
+              name="countryString"
+              [(ngModel)]="seletedDate"
+              (selectionChange)="filterByDate($event.value)"
             >
-            <mat-option *ngFor="let status of ClientData" [value]="status">{{
-              status
-            }}</mat-option>
-          </mat-select>
-        </mat-form-field>
+              <mat-option value="" class="hide">Select Date</mat-option>
+              <mat-option *ngFor="let status of dateData" [value]="status">{{
+                status
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="dropdown">
+          <label>Select Clients</label>
+          <mat-form-field>
+            <mat-select
+              name="countryString"
+              [(ngModel)]="seletedClient"
+              (selectionChange)="filterByClient()"
+            >
+              <mat-option value="" disabled class="hide"
+                >Select Client</mat-option
+              >
+              <mat-option *ngFor="let status of ClientData" [value]="status">{{
+                status
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
       </div>
     </div>
     <div class="tickets-btn-group d-flex align-items-center">

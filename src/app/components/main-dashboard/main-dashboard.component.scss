@@ -1,6 +1,15 @@
 .main-container {
   background-color: #1b2a47;
   color: #fff;
+  padding-top: 60px;
+  app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    background-color: #1b2a47;
+  }
   .nav-section {
     width: 250px;
     display: block;
@@ -13,17 +22,19 @@
 }
 @media screen and (max-width: 768px) {
   .main-container {
+    padding-top: 92px;
     .main-board-content {
-      position: relative;
+      // position: relative;
       .nav-section {
         display: none;
       }
       .nav-section.collapsed {
         display: block;
-        position: absolute;
+        // position: absolute;
+        position: fixed;
         background: #1b2a47;
         z-index: 9;
-        top: 0;
+        top: 92px;
         left: 0;
         bottom: 0;
         transform: translateX(0);

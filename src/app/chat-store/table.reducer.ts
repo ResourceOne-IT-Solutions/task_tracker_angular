@@ -16,7 +16,7 @@ import { User } from '../interface/users';
 
 export interface UserState {
   isLoading: boolean;
-  tableConfig: {data:any , columns:any};
+  tableConfig: { data: any; columns: any };
   userList: User[];
   ticketsData: Task[];
   chatRequestData: any[];
@@ -24,7 +24,7 @@ export interface UserState {
 
 export const initialState: UserState = {
   isLoading: false,
-  tableConfig: {data:[] , columns :[]},
+  tableConfig: { data: [], columns: [] },
   userList: [],
   ticketsData: [],
   chatRequestData: [],
@@ -34,11 +34,11 @@ export const ticketsRuducer = createReducer(
   initialState,
   on(loadTable, (state, { params }) => ({
     ...state,
-    tableConfig: {data:[], columns:[]},
+    tableConfig: { data: [], columns: [] },
   })),
-  on(loadTableSuccess, (state, { data , columns }) => ({
+  on(loadTableSuccess, (state, { data, columns }) => ({
     ...state,
-    tableConfig :{ data , columns} ,
+    tableConfig: { data, columns },
   })),
   on(loadUserData, (state, { userList }) => ({
     ...state,
@@ -59,8 +59,13 @@ export const ticketsRuducer = createReducer(
   on(startLoading, (state) => ({ ...state, isLoading: true })),
   on(stopLoading, (state) => ({ ...state, isLoading: false })),
 
-  on(updateTableData , (state , {element })=> ({...state , tableConfig : {
-    data : state.tableConfig.data.filter((val:any)=> val._id !== element._id ),
-    columns : state.tableConfig.columns
-  }}))
+  on(updateTableData, (state, { element }) => ({
+    ...state,
+    tableConfig: {
+      data: state.tableConfig.data.filter(
+        (val: any) => val._id !== element._id,
+      ),
+      columns: state.tableConfig.columns,
+    },
+  })),
 );

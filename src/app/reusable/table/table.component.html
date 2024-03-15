@@ -93,8 +93,10 @@
               </button>
             </span>
             <p *ngIf="disCol.isTemplate">
-              <ng-template [ngTemplateOutlet]="templateRef"
-              [ngTemplateOutletContext]="{$implicit: element}"></ng-template>
+              <ng-template
+                [ngTemplateOutlet]="templateRef"
+                [ngTemplateOutletContext]="{ $implicit: element }"
+              ></ng-template>
             </p>
             <p
               class="d-flex"

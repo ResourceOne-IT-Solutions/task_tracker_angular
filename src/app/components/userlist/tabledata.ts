@@ -265,7 +265,7 @@ export const userColumns = [
     columnDef: 'firstName',
     header: 'User Name',
     cell: (element: any) => `${getFullName(element)}`,
-    isTemplate :true    
+    isTemplate: true,
   },
   {
     columnDef: 'email',
