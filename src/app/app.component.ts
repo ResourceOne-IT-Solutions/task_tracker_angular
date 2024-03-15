@@ -30,23 +30,22 @@ export class AppComponent implements OnInit {
     private store: Store,
     private swUpdate: SwUpdate,
   ) {
-    this.isOnline = false;
+    this.isOnline = true;
     this.modalVersion = false;
   }
   ngOnInit(): void {
-    this.updateOnlineStatus();
     window.addEventListener('online', this.updateOnlineStatus.bind(this));
     window.addEventListener('offline', this.updateOnlineStatus.bind(this));
-    if (this.swUpdate.isEnabled) {
-      this.swUpdate.versionUpdates.pipe(
-        filter(
-          (evt: any): evt is VersionReadyEvent => evt.type === 'VERSION_READY',
-        ),
-        map((evt: any) => {
-          this.modalVersion = true;
-        }),
-      );
-    }
+    // if (this.swUpdate.isEnabled) {
+    //   this.swUpdate.versionUpdates.pipe(
+    //     filter(
+    //       (evt: any): evt is VersionReadyEvent => evt.type === 'VERSION_READY',
+    //     ),
+    //     map((evt: any) => {
+    //       this.modalVersion = true;
+    //     }),
+    //   );
+    // }
 
     this.chatservice.UserLoginData.subscribe((res) => {
       this.currentUser = res;
@@ -94,7 +93,8 @@ export class AppComponent implements OnInit {
       });
   }
 
-  private updateOnlineStatus(): void {
-    this.isOnline = window.navigator.onLine;
+  private updateOnlineStatus(event: any): void {
+    console.log(event, '97::');
+    this.isOnline = event.type === 'online';
   }
 }
