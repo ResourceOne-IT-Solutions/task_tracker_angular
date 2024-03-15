@@ -1,11 +1,7 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { ChatService } from 'src/app/services/chat.service';
 import { Column } from '../dash-board/dash-board.component';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -22,9 +18,20 @@ import {
   userTicketColumns,
 } from './tabledata';
 import { Store, select } from '@ngrx/store';
-import { getTableConfig, updatedTableData } from 'src/app/chat-store/table.selector';
+import {
+  getTableConfig,
+  updatedTableData,
+} from 'src/app/chat-store/table.selector';
 import { Observable } from 'rxjs';
-import { closeTicket, loadDeleteApi, loadTable, loadUpdateTicketApi, loadUpdateUser, openDialog, raiseTicket } from 'src/app/chat-store/table.actions';
+import {
+  closeTicket,
+  loadDeleteApi,
+  loadTable,
+  loadUpdateTicketApi,
+  loadUpdateUser,
+  openDialog,
+  raiseTicket,
+} from 'src/app/chat-store/table.actions';
 
 @Component({
   selector: 'app-userlist',
@@ -110,7 +117,7 @@ export class UserlistComponent {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private store: Store,
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.url = this.chatservice.BE_URL + '/profile-images';
@@ -143,10 +150,10 @@ export class UserlistComponent {
     });
     this.store.pipe(select(getTableConfig)).subscribe((res: any) => {
       if (res.data && res.columns) {
-        this.tableColumns = res.columns
+        this.tableColumns = res.columns;
         this.tableData = res.data;
         this.mockTableData = res;
-        console.log(this.tableData, this.tableColumns)
+        console.log(this.tableData, this.tableColumns);
       }
     });
     this.store.pipe(select(updatedTableData)).subscribe((res: any) => {
@@ -161,7 +168,7 @@ export class UserlistComponent {
           status: '',
         });
       }
-    })
+    });
   }
   // user form
   get user() {
@@ -183,8 +190,6 @@ export class UserlistComponent {
   goback() {
     this.location.back();
   }
-
-
 
   // search filter
   SearchUsers() {
@@ -215,9 +220,9 @@ export class UserlistComponent {
       case 'client list':
         return this.editClient(evt);
       case 'user tickets':
-        return this.update(evt)
+        return this.update(evt);
       default:
-        return
+        return;
     }
   }
   secondBtnClick(evt: any, name: any) {
@@ -227,9 +232,9 @@ export class UserlistComponent {
       case 'client list':
         return this.delete(evt, 'client');
       case 'user tickets':
-        return this.routeToTickets(evt)
+        return this.routeToTickets(evt);
       default:
-        return
+        return;
     }
   }
   nameClick(evt: any) {
@@ -239,7 +244,7 @@ export class UserlistComponent {
       case 'client list':
         return this.routeToClientTickets(evt);
       default:
-        return
+        return;
     }
   }
 
@@ -260,7 +265,12 @@ export class UserlistComponent {
   updateUser(dismiss: any): void {
     this.userSubmitted = true;
     if (this.userForm.valid) {
-      this.store.dispatch(loadUpdateUser({formData : this.userForm.value , user :this.userDetails}))
+      this.store.dispatch(
+        loadUpdateUser({
+          formData: this.userForm.value,
+          user: this.userDetails,
+        }),
+      );
       dismiss();
       this.userForm.reset();
     }
@@ -491,8 +501,14 @@ export class UserlistComponent {
   updateUserTicket(dismiss: any) {
     this.updateSubmitted = true;
     if (this.updateForm.valid) {
-      this.store.dispatch(loadUpdateTicketApi({formData:this.updateForm.value , userId :this.userDetailsdata._id , admindetails:this.adminDetails}))
-      dismiss()
+      this.store.dispatch(
+        loadUpdateTicketApi({
+          formData: this.updateForm.value,
+          userId: this.userDetailsdata._id,
+          admindetails: this.adminDetails,
+        }),
+      );
+      dismiss();
     }
   }
   ticketraise(data: any) {
@@ -502,7 +518,9 @@ export class UserlistComponent {
   raiseTicket(dismiss: any) {
     this.raiseSubmitted = !this.raiseSubmitted;
     if (this.TicketRaised.length > 0) {
-      this.store.dispatch(raiseTicket({ user: this.adminDetails, content: this.TicketRaised }))
+      this.store.dispatch(
+        raiseTicket({ user: this.adminDetails, content: this.TicketRaised }),
+      );
       dismiss();
     }
     this.TicketRaised = '';
@@ -578,8 +596,8 @@ export class UserlistComponent {
     );
   }
   delete(data: any, user: any) {
-    console.log('delete')
-    this.store.dispatch(loadDeleteApi({ data, name: user }))
+    console.log('delete');
+    this.store.dispatch(loadDeleteApi({ data, name: user }));
   }
   phoneValidation(evt: any) {
     const inputChar = String.fromCharCode(evt.charCode);

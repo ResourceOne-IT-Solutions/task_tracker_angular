@@ -12,7 +12,16 @@ import {
 import { map, mergeMap, of, tap, withLatestFrom } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogInfoComponent } from '../reusable/dialog-info/dialog-info.component';
-import { Tickets, adminTicketColumns, clientColumns, description, footerColumns, ticketColumns, userColumns, userTicketColumns } from '../components/userlist/tabledata';
+import {
+  Tickets,
+  adminTicketColumns,
+  clientColumns,
+  description,
+  footerColumns,
+  ticketColumns,
+  userColumns,
+  userTicketColumns,
+} from '../components/userlist/tabledata';
 
 @Injectable()
 export class TicketsEffect {
@@ -30,7 +39,6 @@ export class TicketsEffect {
     ),
   );
 
-
   loadTickets$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadTickets),
@@ -44,7 +52,6 @@ export class TicketsEffect {
       }),
     ),
   );
-
 
   openDialog$ = createEffect(
     () =>
@@ -77,22 +84,43 @@ export class TicketsEffect {
       case 'user list':
         return this.chatservice
           .getAllUsers()
-          .pipe(map((users) => ({ data: users.filter((user: any) => !user.isAdmin), columns: userColumns })));
+          .pipe(
+            map((users) => ({
+              data: users.filter((user: any) => !user.isAdmin),
+              columns: userColumns,
+            })),
+          );
       case 'helped tickets':
-        const columns: any = [...ticketColumns, ...description]
-        return this.chatservice.get(`/tickets/helped-tickets/${userId}`).pipe(map((res) => ({ data: res, columns })));
+        const columns: any = [...ticketColumns, ...description];
+        return this.chatservice
+          .get(`/tickets/helped-tickets/${userId}`)
+          .pipe(map((res) => ({ data: res, columns })));
       case 'today tickets':
-        return this.chatservice.get('/tickets/pending-tickets').pipe(map((data) => ({ data, columns: [...Tickets, ...adminTicketColumns] })));
+        return this.chatservice
+          .get('/tickets/pending-tickets')
+          .pipe(
+            map((data) => ({
+              data,
+              columns: [...Tickets, ...adminTicketColumns],
+            })),
+          );
       case 'client list':
-        return this.chatservice.getAllClients().pipe(map((data) => ({ data, columns: clientColumns })));
+        return this.chatservice
+          .getAllClients()
+          .pipe(map((data) => ({ data, columns: clientColumns })));
       case 'user tickets':
-        return this.chatservice.get(`/tickets/user/pending-tickets/${userId}`).pipe(map((data) => ({
-          data, columns: [
-            ...ticketColumns,
-            ...footerColumns,
-            ...userTicketColumns,
-          ]
-        })));
+        return this.chatservice
+          .get(`/tickets/user/pending-tickets/${userId}`)
+          .pipe(
+            map((data) => ({
+              data,
+              columns: [
+                ...ticketColumns,
+                ...footerColumns,
+                ...userTicketColumns,
+              ],
+            })),
+          );
       default:
         return of({ data: [], columns: [] });
     }
@@ -101,5 +129,5 @@ export class TicketsEffect {
     private chatservice: ChatService,
     private actions$: Actions,
     private dialog: MatDialog,
-  ) { }
+  ) {}
 }
