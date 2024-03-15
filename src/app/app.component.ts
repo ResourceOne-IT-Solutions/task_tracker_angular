@@ -36,17 +36,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     window.addEventListener('online', this.updateOnlineStatus.bind(this));
     window.addEventListener('offline', this.updateOnlineStatus.bind(this));
-    // if (this.swUpdate.isEnabled) {
-    //   this.swUpdate.versionUpdates.pipe(
-    //     filter(
-    //       (evt: any): evt is VersionReadyEvent => evt.type === 'VERSION_READY',
-    //     ),
-    //     map((evt: any) => {
-    //       this.modalVersion = true;
-    //     }),
-    //   );
-    // }
-
     this.chatservice.UserLoginData.subscribe((res) => {
       this.currentUser = res;
     });
@@ -94,7 +83,6 @@ export class AppComponent implements OnInit {
   }
 
   private updateOnlineStatus(event: any): void {
-    console.log(event, '97::');
     this.isOnline = event.type === 'online';
   }
 }
