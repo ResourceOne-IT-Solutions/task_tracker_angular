@@ -10,7 +10,6 @@ import { DialogInfoComponent } from './reusable/dialog-info/dialog-info.componen
 import { Store } from '@ngrx/store';
 import { chatRequests, openDialog } from './chat-store/table.actions';
 import { isLoading } from './chat-store/table.selector';
-import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -20,7 +19,6 @@ export class AppComponent implements OnInit {
   currentUser: any;
   isLoading: any;
   isOnline: boolean;
-  modalVersion: boolean;
 
   constructor(
     private route: Router,
@@ -28,10 +26,8 @@ export class AppComponent implements OnInit {
     private idleservice: IdleTimeService,
     private dialog: MatDialog,
     private store: Store,
-    private swUpdate: SwUpdate,
   ) {
     this.isOnline = true;
-    this.modalVersion = false;
   }
   ngOnInit(): void {
     window.addEventListener('online', this.updateOnlineStatus.bind(this));
@@ -81,8 +77,7 @@ export class AppComponent implements OnInit {
         }
       });
   }
-
-  private updateOnlineStatus(event: any): void {
-    this.isOnline = event.type === 'online';
+  private updateOnlineStatus(e: any): void {
+    this.isOnline = e.type === 'online';
   }
 }

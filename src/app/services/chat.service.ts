@@ -6,7 +6,6 @@ import {
   Observable,
   catchError,
   map,
-  of,
   switchMap,
   throwError,
   timer,

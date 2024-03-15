@@ -68,6 +68,8 @@ export class ChatBoxComponent {
   url: string = '';
   activeButton: string = 'button1';
   chatButtons = ['Users', 'Groups'];
+  userChatList = true;
+  isChat = true;
   constructor(
     public chatservice: ChatService,
     private location: Location,
@@ -78,6 +80,13 @@ export class ChatBoxComponent {
     this.today = Date.now();
   }
   ngOnInit() {
+    const ismobile = window.innerWidth;
+    if (ismobile <= 768) {
+      this.userChatList = true;
+      this.NoUser = false;
+    } else {
+      console.log('desktop');
+    }
     this.url = this.chatservice.BE_URL + '/profile-images';
     this.loader.show();
     this.chatservice.UserLoginData.subscribe((res: any) => {
@@ -188,6 +197,7 @@ export class ChatBoxComponent {
     this.UserSelected = user;
     this.NoUser = false;
     this.ChatBox = true;
+    this.isChat = !this.isChat;
     Object.keys(this.currentUser.newMessages).forEach((val: any) => {
       if (val.includes(user._id)) {
         delete this.currentUser.newMessages[val];
@@ -197,6 +207,7 @@ export class ChatBoxComponent {
       key: 'updateUser',
       data: this.currentUser,
     });
+    this.chatservice.UserLogin(this.currentUser);
     const roomId = this.genarateRoomId(user._id, this.currentUser._id);
     this.chatservice.sendSocketData({
       key: 'joinRoom',
@@ -308,6 +319,8 @@ export class ChatBoxComponent {
     this.UserSelected = {};
     this.NoUser = true;
     this.ChatBox = false;
+    this.userChatList = true;
+    this.isChat = !this.isChat;
   }
 
   SelectedImage(evt: any) {

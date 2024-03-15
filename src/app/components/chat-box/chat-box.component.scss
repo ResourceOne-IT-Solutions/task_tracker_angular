@@ -360,3 +360,28 @@
     }
   }
 }
+
+@media screen and (max-width: 768px) {
+  .menu-chat {
+    &.open {
+      .user-chat-list {
+        width: 100%;
+        display: block;
+      }
+
+      .user-chat-msg {
+        display: none;
+      }
+    }
+    &.close {
+      .user-chat-list {
+        display: none;
+      }
+
+      .user-chat-msg {
+        display: block;
+        width: 100%;
+      }
+    }
+  }
+}

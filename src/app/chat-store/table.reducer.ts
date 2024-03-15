@@ -8,6 +8,7 @@ import {
   loadUserData,
   startLoading,
   stopLoading,
+  updateTableData,
 } from './table.actions';
 import { Task } from '../interface/tickets';
 import { state } from '@angular/animations';
@@ -15,7 +16,7 @@ import { User } from '../interface/users';
 
 export interface UserState {
   isLoading: boolean;
-  tableData: Task[];
+  tableConfig: {data:any , columns:any};
   userList: User[];
   ticketsData: Task[];
   chatRequestData: any[];
@@ -23,7 +24,7 @@ export interface UserState {
 
 export const initialState: UserState = {
   isLoading: false,
-  tableData: [],
+  tableConfig: {data:[] , columns :[]},
   userList: [],
   ticketsData: [],
   chatRequestData: [],
@@ -33,11 +34,11 @@ export const ticketsRuducer = createReducer(
   initialState,
   on(loadTable, (state, { params }) => ({
     ...state,
-    tableData: [],
+    tableConfig: {data:[], columns:[]},
   })),
-  on(loadTableSuccess, (state, { tableData }) => ({
+  on(loadTableSuccess, (state, { data , columns }) => ({
     ...state,
-    tableData,
+    tableConfig :{ data , columns} ,
   })),
   on(loadUserData, (state, { userList }) => ({
     ...state,
@@ -57,4 +58,9 @@ export const ticketsRuducer = createReducer(
   })),
   on(startLoading, (state) => ({ ...state, isLoading: true })),
   on(stopLoading, (state) => ({ ...state, isLoading: false })),
+
+  on(updateTableData , (state , {element })=> ({...state , tableConfig : {
+    data : state.tableConfig.data.filter((val:any)=> val._id !== element._id ),
+    columns : state.tableConfig.columns
+  }}))
 );

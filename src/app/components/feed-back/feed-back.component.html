@@ -7,81 +7,54 @@
     <form action="" [formGroup]="feedBackForm">
       <div class="form-field">
         <p class="fw-medium">Content :</p>
-        <textarea
-          class="form-control border-black"
-          formControlName="content"
-          name=""
-          id=""
-          cols="30"
-          rows="4"
-        ></textarea>
-        <p
-          class="text-danger"
-          *ngIf="
+        <textarea class="form-control border-black" formControlName="content" name="" id="" cols="30"
+          rows="4"></textarea>
+        <p class="text-danger" *ngIf="
             submitted && feedBackForm.controls?.['content']?.status == 'INVALID'
-          "
-        >
+          ">
           Please Select an Issue Type
         </p>
       </div>
       <div class="form-field">
         <p class="fw-medium">Issue Type :</p>
-        <select
-          class="form-select border-black"
-          name=""
-          id=""
-          formControlName="SelectIssue"
-        >
+        <select class="form-select border-black" name="" id="" formControlName="SelectIssue">
           <option value="">Select an Issue Type</option>
           <option [value]="issue" *ngFor="let issue of IssueType">
             {{ issue }}
           </option>
         </select>
 
-        <p
-          class="text-danger"
-          *ngIf="
+        <p class="text-danger" *ngIf="
             submitted &&
             feedBackForm.controls?.['SelectIssue']?.status == 'INVALID'
-          "
-        >
+          ">
           Please Select an Issue Type
         </p>
       </div>
       <div class="form-field form-control form-label">
         File :
-        <input
-          type="file"
-          accept="image/*"
-          multiple
-          formControlName="file"
-          (change)="SelectedImage($event)"
-        />
+        <input type="file" accept="image/*" multiple formControlName="file" (change)="SelectedImage($event)" />
       </div>
     </form>
     <button class="btn btn-info" (click)="SubmitFeedBack()">Submit</button>
   </div>
 </div>
-<div
-  class="check-feedback-container"
-  *ngIf="params == 'feed-back-list' && !FullDetails"
->
+<div class="check-feedback-container" *ngIf="params == 'feed-back-list' && !FullDetails">
   <button class="btn btn-danger" (click)="gotoback()">Back</button>
-  <app-table
-    class="table"
-    [data]="feedBackData"
-    [tableColumns]="feedbackcolumns"
-    (detailsClick)="GotoFullDetails($event)"
-  ></app-table>
+  <app-table class="table" [data]="feedBackData" [tableColumns]="feedbackcolumns"
+    (detailsClick)="GotoFullDetails($event)">
+    <ng-template let-element>
+      <div class='feed-back' *ngIf="element.files.length > 1">
+        <img src=data:{{element.files[0].mimetype}};base64,{{element.files[0].buffer}}>
+        <span *ngIf="element.files.length">{{element.files.length - 1}} more</span>
+      </div>
+      <img *ngIf="element.files.length < 1" src=data:{{element.files[0].mimetype}};base64,{{element.files[0].buffer}} alt='no image'>
+    </ng-template>
+  </app-table>
 </div>
 <div *ngIf="FullDetails" class="feedback-details-container">
-  <ngx-spinner
-    bdColor="rgba(0,0,0,0.32)"
-    size="large"
-    color="#8652d5"
-    type="ball-clip-rotate-multiple"
-    [fullScreen]="false"
-  >
+  <ngx-spinner bdColor="rgba(0,0,0,0.32)" size="large" color="#8652d5" type="ball-clip-rotate-multiple"
+    [fullScreen]="false">
   </ngx-spinner>
   <button class="btn btn-danger" (click)="gotoback()">Back</button>
   <h3 class="text-center fs-2 fw-lighter">

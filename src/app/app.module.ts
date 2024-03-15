@@ -53,6 +53,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { HeaderComponent } from './components/header/header.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { ModelCloseDirective } from './directives/model-close.directive';
+import { UserListEffects } from './chat-store/user-list.effect';
 @NgModule({
   declarations: [
     AppComponent,
@@ -79,6 +81,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     PieChartComponent,
     ForgotpasswordComponent,
     HeaderComponent,
+    ModelCloseDirective,
   ],
   imports: [
     BrowserModule,
@@ -106,7 +109,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     NgxSpinnerModule,
     MatMenuModule,
     StoreModule.forRoot({ tickets: ticketsRuducer }),
-    EffectsModule.forRoot([TicketsEffect]),
+    EffectsModule.forRoot([TicketsEffect , UserListEffects]),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable

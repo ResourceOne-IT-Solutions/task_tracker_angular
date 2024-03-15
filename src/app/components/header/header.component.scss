@@ -45,7 +45,7 @@
       }
 
       .admin-name {
-        margin: 0;
+        margin: 10px;
         font-size: 14px;
         font-weight: bold;
         line-height: 20px;
@@ -90,6 +90,10 @@
             }
           }
         }
+      }
+      .admin-in-out {
+        width: 50%;
+        margin: auto;
       }
     }
   }
