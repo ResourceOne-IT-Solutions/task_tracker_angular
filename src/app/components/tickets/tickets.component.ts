@@ -24,6 +24,7 @@ export class TicketsComponent {
   dateData: any = ['today', 'month', '3months', 'year'];
   mockTicketsData: any = [];
   seletedDate: string = '';
+  seletedClient: string = '';
   selectedTicket: any;
   isTicket = true;
   statusData: any = [
@@ -39,6 +40,7 @@ export class TicketsComponent {
   ticketDetails: any;
   isFilterDate: boolean = false;
   paramId: string = '';
+  ClientData: any = [];
   constructor(
     private chatservice: ChatService,
     private modalService: NgbModal,
@@ -52,6 +54,9 @@ export class TicketsComponent {
     this.store.select(getTicketsData).subscribe((res: any) => {
       this.ticketsData = res;
       this.mockTicketsData = this.ticketsData;
+      this.ClientData = [
+        ...new Set(this.mockTicketsData.map((val: any) => val.client.name)),
+      ];
     });
   }
   gotodescription(data: any) {
@@ -103,6 +108,11 @@ export class TicketsComponent {
     } else {
       this.ticketsData = this.filterDates(this.seletedDate);
     }
+  }
+  filterByClient() {
+    this.ticketsData = this.mockTicketsData.filter(
+      (val: any) => val.client.name === this.seletedClient,
+    );
   }
   filterByNames(tickets: any) {
     return tickets.filter(

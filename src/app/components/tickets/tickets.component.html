@@ -43,6 +43,23 @@
           </mat-select>
         </mat-form-field>
       </div>
+      <div class="dropdown">
+        <label>Select Clients</label>
+        <mat-form-field>
+          <mat-select
+            name="countryString"
+            [(ngModel)]="seletedClient"
+            (selectionChange)="filterByClient()"
+          >
+            <mat-option value="" disabled class="hide"
+              >Select Client</mat-option
+            >
+            <mat-option *ngFor="let status of ClientData" [value]="status">{{
+              status
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
     </div>
     <div class="tickets-btn-group d-flex align-items-center">
       <button class="btn btn-primary" (click)="ResetFilter()">
