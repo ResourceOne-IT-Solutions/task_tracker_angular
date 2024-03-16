@@ -221,5 +221,6 @@
     class="usersStatus"
     [data]="userStatusData"
     [tableColumns]="userColumns"
+    (nameClick)="ClickUserName($event, d)"
   ></app-table>
 </ng-template>

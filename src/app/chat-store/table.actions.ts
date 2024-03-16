@@ -56,7 +56,6 @@ export const closeTicket = createAction(
   'close ticket [UserList Component]',
   props<{ payload: any }>(),
 );
-
 export const ticketClosed = createAction(
   'ticket closed successfully [UserList Component]',
   props<{ element: any }>(),

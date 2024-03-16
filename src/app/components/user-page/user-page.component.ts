@@ -19,6 +19,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { User } from 'src/app/interface/users';
 import { Store } from '@ngrx/store';
 import { openDialog } from 'src/app/chat-store/table.actions';
+import { UserBreaksTimings, UserLoginTimings } from '../userlist/tabledata';
 
 @Component({
   selector: 'app-user-page',
@@ -81,6 +82,8 @@ export class UserPageComponent implements OnInit {
   ];
   url: any;
   UserPiechart: any = [];
+  UserBreaks: Array<Column> = [...UserBreaksTimings];
+  UserLogin: Array<Column> = [...UserLoginTimings];
   constructor(
     public chatservice: ChatService,
     private route: ActivatedRoute,

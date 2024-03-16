@@ -72,6 +72,24 @@
         </div>
       </div>
     </div>
+    <div class="d-flex justify-content-around m-3" *ngIf="isAdminView">
+      <div class="usersLBtimmings">
+        <p class="fs-5 fw-normal">Break Timings</p>
+        <app-table
+          [nextpaginator]="false"
+          [data]="currentUser.breakTime"
+          [tableColumns]="UserBreaks"
+        ></app-table>
+      </div>
+      <div class="usersLBtimmings">
+        <p class="fs-5 fw-normal">Login Timings</p>
+        <app-table
+          [data]="currentUser.loginTimings"
+          [tableColumns]="UserLogin"
+          [nextpaginator]="false"
+        ></app-table>
+      </div>
+    </div>
   </div>
 
   <div class="employeTicket d-flex">
