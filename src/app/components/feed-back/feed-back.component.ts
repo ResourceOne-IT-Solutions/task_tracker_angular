@@ -49,7 +49,7 @@ export class FeedBackComponent {
       columnDef: 'file',
       header: 'Images',
       cell: (element: any) => {
-        return element
+        return element;
       },
       isTemplate: true,
     },

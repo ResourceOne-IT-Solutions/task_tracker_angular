@@ -265,7 +265,7 @@ export const userColumns = [
     columnDef: 'firstName',
     header: 'User Name',
     cell: (element: any) => `${getFullName(element)}`,
-    isTemplate :true    
+    isTemplate: true,
   },
   {
     columnDef: 'email',
@@ -290,12 +290,6 @@ export const userColumns = [
     header: 'Employee Id',
     cell: (element: any) => `${element['empId']}`,
     isText: true,
-  },
-  {
-    columnDef: 'profileImageUrl',
-    header: 'Profile Pic',
-    cell: (element: any) => `${element['profileImageUrl']}`,
-    isImage: true,
   },
   {
     columnDef: 'dob',

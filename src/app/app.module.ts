@@ -109,7 +109,7 @@ import { UserListEffects } from './chat-store/user-list.effect';
     NgxSpinnerModule,
     MatMenuModule,
     StoreModule.forRoot({ tickets: ticketsRuducer }),
-    EffectsModule.forRoot([TicketsEffect , UserListEffects]),
+    EffectsModule.forRoot([TicketsEffect, UserListEffects]),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable
