@@ -18,12 +18,19 @@ import {
   userTicketColumns,
 } from './tabledata';
 import { Store, select } from '@ngrx/store';
-import { getTableConfig } from 'src/app/chat-store/table.selector';
+import {
+  getTableConfig,
+  updatedTableData,
+} from 'src/app/chat-store/table.selector';
 import { Observable } from 'rxjs';
 import {
+  closeTicket,
   loadDeleteApi,
   loadTable,
+  loadUpdateTicketApi,
+  loadUpdateUser,
   openDialog,
+  raiseTicket,
 } from 'src/app/chat-store/table.actions';
 
 @Component({
@@ -110,7 +117,6 @@ export class UserlistComponent {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private store: Store,
-    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
@@ -122,7 +128,6 @@ export class UserlistComponent {
       lname: ['', Validators.required],
       email: ['', Validators.required],
       phone: ['', Validators.required],
-      dob: ['', Validators.required],
     });
     this.clientForm = this.fb.group({
       location: ['', Validators.required],
@@ -149,6 +154,19 @@ export class UserlistComponent {
         this.tableData = res.data;
         this.mockTableData = res;
         console.log(this.tableData, this.tableColumns);
+      }
+    });
+    this.store.pipe(select(updatedTableData)).subscribe((res: any) => {
+      if (Object.keys(res).length > 0) {
+        this.userSubmitted = false;
+        this.updateSubmitted = false;
+        this.tableData = this.tableData.map((element: any) =>
+          element._id === res._id ? res : element,
+        );
+        this.updateForm.reset();
+        this.updateForm.patchValue({
+          status: '',
+        });
       }
     });
   }
@@ -240,7 +258,6 @@ export class UserlistComponent {
       lname: userData.lastName,
       email: userData.email,
       phone: userData.mobile,
-      dob: new Date(userData.dob).toISOString().split('T')[0],
     });
     this.userDetails = userData;
   }
@@ -248,29 +265,12 @@ export class UserlistComponent {
   updateUser(dismiss: any): void {
     this.userSubmitted = true;
     if (this.userForm.valid) {
-      const Data = {
-        firstName: this.userForm.value.fname,
-        lastName: this.userForm.value.lname,
-        email: this.userForm.value.email,
-        mobile: this.userForm.value.phone,
-        designation: this.userDetails.designation,
-      };
-      const payload = {
-        id: this.userDetails._id,
-        data: Data,
-      };
-      this.chatservice.UpdateUsers(payload).subscribe((res: any) => {
-        this.tableData = this.tableData.map((element: any) =>
-          element._id === res._id ? res : element,
-        );
-        this.userSubmitted = false;
-        this.store.dispatch(
-          openDialog({
-            message: 'User Update Successfully',
-            title: 'User Update',
-          }),
-        );
-      });
+      this.store.dispatch(
+        loadUpdateUser({
+          formData: this.userForm.value,
+          user: this.userDetails,
+        }),
+      );
       dismiss();
       this.userForm.reset();
     }
@@ -501,45 +501,14 @@ export class UserlistComponent {
   updateUserTicket(dismiss: any) {
     this.updateSubmitted = true;
     if (this.updateForm.valid) {
-      const ticketpayload = {
-        id: this.userDetailsdata._id,
-        data: {
-          ...this.updateForm.value,
-          updatedBy: {
-            name: this.chatservice.getFullName(this.adminDetails),
-            id: this.adminDetails._id,
-          },
-        },
-      };
-      this.chatservice.updateTicket(ticketpayload).subscribe(
-        (res: any) => {
-          this.tableData = this.tableData.map((val: any) => {
-            if (val._id === res._id) {
-              val = res;
-              return res;
-            }
-            return val;
-          });
-          this.updateSubmitted = false;
-          this.store.dispatch(
-            openDialog({
-              message: 'Ticket Update Successfully',
-              title: 'Ticket Update',
-            }),
-          );
-          dismiss();
-          this.updateForm.reset();
-          this.updateForm.patchValue({
-            status: '',
-          });
-        },
-        (err: any) => {
-          this.updateError = err.error.error;
-          this.store.dispatch(
-            openDialog({ message: this.updateError, title: 'Api Error' }),
-          );
-        },
+      this.store.dispatch(
+        loadUpdateTicketApi({
+          formData: this.updateForm.value,
+          userId: this.userDetailsdata._id,
+          admindetails: this.adminDetails,
+        }),
       );
+      dismiss();
     }
   }
   ticketraise(data: any) {
@@ -549,17 +518,9 @@ export class UserlistComponent {
   raiseTicket(dismiss: any) {
     this.raiseSubmitted = !this.raiseSubmitted;
     if (this.TicketRaised.length > 0) {
-      const raisePayload = {
-        sender: {
-          name: this.chatservice.getFullName(this.adminDetails),
-          id: this.adminDetails._id,
-        },
-        content: this.TicketRaised,
-      };
-      this.chatservice.sendSocketData({
-        key: 'raiseTicket',
-        data: raisePayload,
-      });
+      this.store.dispatch(
+        raiseTicket({ user: this.adminDetails, content: this.TicketRaised }),
+      );
       dismiss();
     }
     this.TicketRaised = '';

@@ -236,6 +236,7 @@ export class ChatBoxComponent {
       key: 'updateUser',
       data: this.currentUser,
     });
+    this.chatservice.UserLogin(this.currentUser);
     this.ChatBox = true;
     this.chatservice.sendSocketData({
       key: 'joinRoom',
