@@ -39,6 +39,7 @@ export class TableComponent {
   @Input() tableData: any[] = [];
   @Output() userDetails = new EventEmitter();
   @Output() singleButtonClick = new EventEmitter();
+  @Input() nextpaginator = true;
   url: string = '';
   constructor(
     private loader: NgxSpinnerService,

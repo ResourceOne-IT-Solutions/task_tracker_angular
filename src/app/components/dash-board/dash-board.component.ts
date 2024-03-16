@@ -106,6 +106,7 @@ export class DashBoardComponent {
     private modalService: NgbModal,
     private store: Store,
     private idleSerive: IdleTimeService,
+    private route: ActivatedRoute,
   ) {}
   ngOnInit() {
     this.userData$ = this.chatservice.UserLoginData.pipe(
@@ -255,6 +256,12 @@ export class DashBoardComponent {
       }
     });
     this.openPopup(this.availableModel);
+  }
+  ClickUserName(user: any, dismiss: any) {
+    this.router.navigate(['./user', user._id], {
+      relativeTo: this.route,
+    });
+    dismiss();
   }
   closeModal(dismiss: any) {
     dismiss();
