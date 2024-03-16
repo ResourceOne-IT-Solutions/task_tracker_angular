@@ -82,28 +82,24 @@ export class TicketsEffect {
   private getTableData(params: string | undefined, userId: string | undefined) {
     switch (params) {
       case 'user list':
-        return this.chatservice
-          .getAllUsers()
-          .pipe(
-            map((users) => ({
-              data: users.filter((user: any) => !user.isAdmin),
-              columns: userColumns,
-            })),
-          );
+        return this.chatservice.getAllUsers().pipe(
+          map((users) => ({
+            data: users.filter((user: any) => !user.isAdmin),
+            columns: userColumns,
+          })),
+        );
       case 'helped tickets':
         const columns: any = [...ticketColumns, ...description];
         return this.chatservice
           .get(`/tickets/helped-tickets/${userId}`)
           .pipe(map((res) => ({ data: res, columns })));
       case 'today tickets':
-        return this.chatservice
-          .get('/tickets/pending-tickets')
-          .pipe(
-            map((data) => ({
-              data,
-              columns: [...Tickets, ...adminTicketColumns],
-            })),
-          );
+        return this.chatservice.get('/tickets/pending-tickets').pipe(
+          map((data) => ({
+            data,
+            columns: [...Tickets, ...adminTicketColumns],
+          })),
+        );
       case 'client list':
         return this.chatservice
           .getAllClients()

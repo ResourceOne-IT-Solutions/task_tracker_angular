@@ -22,6 +22,7 @@
           </div>
           <div
             class="card-more-info d-flex align-items-center justify-content-between"
+            matTooltip="Click Here"
             (click)="viewDetails('Available')"
           >
             <a>More details</a>
@@ -46,6 +47,7 @@
           </div>
           <div
             class="card-more-info d-flex align-items-center justify-content-between"
+            matTooltip="Click Here"
             (click)="viewDetails('Offline')"
           >
             <a>More details</a>
@@ -76,6 +78,7 @@
           </div>
           <div
             class="card-more-info d-flex align-items-center justify-content-between"
+            matTooltip="Click Here"
             (click)="viewDetails('Break')"
           >
             <a>More details</a>
@@ -100,6 +103,7 @@
           </div>
           <div
             class="card-more-info d-flex align-items-center justify-content-between"
+            matTooltip="Click Here"
             (click)="viewDetails('OnTicket')"
           >
             <a>More details</a>
@@ -124,11 +128,11 @@
           </div>
           <div
             class="card-more-info d-flex align-items-center justify-content-between"
+            (click)="viewDetails('Sleep')"
+            matTooltip="Click Here"
           >
             <a>More details</a>
-            <span (click)="viewDetails('Sleep')"
-              ><i class="fa-solid fa-arrow-right"></i
-            ></span>
+            <span><i class="fa-solid fa-arrow-right"></i></span>
           </div>
         </div>
       </div>

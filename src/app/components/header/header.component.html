@@ -2,7 +2,14 @@
   <button class="header-toggle-btn" (click)="memuClick()">
     <span><i class="fa-solid fa-bars"></i></span>
   </button>
-  <h1 class="title" (click)="gotDashBoard()">Resource One IT Solutions</h1>
+  <h1
+    class="title"
+    (click)="gotDashBoard()"
+    mat-raised-button
+    matTooltip=" Go to Dashboard"
+  >
+    Resource One IT Solutions
+  </h1>
   <ng-container>
     <div class="admin-info d-flex align-items-center">
       <div class="admin-status" *ngIf="isAdmin">

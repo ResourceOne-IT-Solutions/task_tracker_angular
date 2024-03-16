@@ -94,6 +94,11 @@
             border-bottom-left-radius: 12px;
             border-bottom-right-radius: 12px;
           }
+          .card-more-info:hover {
+            cursor: pointer;
+            color: #1e51dd;
+            background: antiquewhite;
+          }
 
           .card-title {
             margin: 0;

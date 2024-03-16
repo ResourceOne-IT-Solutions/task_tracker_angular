@@ -284,6 +284,7 @@ export class NavBarComponent {
           id: this.TicketCreationForm.value.client._id,
           mobile: this.TicketCreationForm.value.client.mobile,
           email: this.TicketCreationForm.value.client.email,
+          location: this.TicketCreationForm.value.client.location,
         },
         user: {
           name: '',
