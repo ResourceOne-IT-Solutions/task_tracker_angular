@@ -62,7 +62,6 @@ export const ticketsRuducer = createReducer(
   })),
   on(startLoading, (state) => ({ ...state, isLoading: true })),
   on(stopLoading, (state) => ({ ...state, isLoading: false })),
-
   on(delete_user_client, (state, { element }) => ({
     ...state,
     tableConfig: {

@@ -109,6 +109,10 @@
           .newmessage {
             margin: 0;
             font-weight: 500;
+            background: #00ff00;
+            border-radius: 50%;
+            padding: 4px 8px;
+            // margin-left: 10px
           }
 
           &:hover {
@@ -229,7 +233,7 @@
         height: calc(100vh - 268px);
         min-height: 160px;
         overflow: auto;
-        padding: 10px;
+        padding: 10px 20px;
         border-right: 2px solid #1b2a47;
         border-left: 2px solid #1b2a47;
         background: #dedede;
@@ -250,16 +254,32 @@
             width: fit-content;
             max-width: 80%;
 
+            &.receive {
+              p {
+                border-top-left-radius: 0;
+
+                span {
+                  &:nth-child(1) {
+                    border-top-left-radius: 0;
+                  }
+                }
+              }
+            }
+
             &.SendUser {
               margin-left: auto;
 
               p {
                 border-color: #005145;
+                border-top-right-radius: 0;
 
                 span {
                   &.message-content,
                   &.message-time {
                     background: #005145;
+                  }
+                  &:nth-child(1) {
+                    border-top-right-radius: 0;
                   }
                 }
               }

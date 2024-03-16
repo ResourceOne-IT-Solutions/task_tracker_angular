@@ -11,6 +11,11 @@
 
     .header-form-fields {
       gap: 10px;
+      flex-direction: column;
+
+      .dropdown-list {
+        gap: 10px;
+      }
 
       .search,
       .dropdown {
@@ -19,6 +24,7 @@
         label {
           display: block;
           margin-bottom: 4px;
+          font-weight: bold;
         }
       }
 

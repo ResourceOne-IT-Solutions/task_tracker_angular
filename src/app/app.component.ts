@@ -28,6 +28,7 @@ export class AppComponent implements OnInit {
     private store: Store,
   ) {
     this.isOnline = true;
+    this.isOnline = true;
   }
   ngOnInit(): void {
     window.addEventListener('online', this.updateOnlineStatus.bind(this));

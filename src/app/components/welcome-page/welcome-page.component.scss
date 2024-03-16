@@ -15,29 +15,20 @@
     justify-content: center;
     align-items: center;
     height: 100%;
-    p {
-      font-family: "Exo";
-      font-size: 6em;
-      margin: 0;
-      transform: skew(-15deg);
-      letter-spacing: 0.03em;
-      span {
-        background-image: linear-gradient(
-          #7a769f 25%,
-          #010b10 35%,
-          white 50%,
-          #d4ebeb 50%,
-          #4c96d5 55%,
-          #4a3b3b1a 75%
-        );
-        -webkit-text-stroke: 0.01em #94a0b9;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
+    h3 {
+      font-size: 3em;
+      margin: 10px 0;
+      line-height: 48px;
+      text-shadow: 2px 4px 20px #000;
     }
-
+    h1 {
+      font-size: 6em;
+      line-height: 86px;
+      margin: 10px 0;
+      text-shadow: 2px 4px 20px #000;
+    }
     .Loginbuttons {
-      margin: 46px 0 0 0;
+      margin: 20px 0;
     }
   }
 }
