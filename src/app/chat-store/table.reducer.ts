@@ -2,13 +2,15 @@ import { createReducer, on } from '@ngrx/store';
 import {
   EmptyChatRequests,
   chatRequests,
+  delete_user_client,
   loadTable,
   loadTableSuccess,
   loadTicketsSuccess,
+  loadUpdateSuccess,
   loadUserData,
   startLoading,
   stopLoading,
-  updateTableData,
+  ticketClosed,
 } from './table.actions';
 import { Task } from '../interface/tickets';
 import { state } from '@angular/animations';
@@ -20,6 +22,7 @@ export interface UserState {
   userList: User[];
   ticketsData: Task[];
   chatRequestData: any[];
+  updateData: any;
 }
 
 export const initialState: UserState = {
@@ -28,6 +31,7 @@ export const initialState: UserState = {
   userList: [],
   ticketsData: [],
   chatRequestData: [],
+  updateData: {},
 };
 
 export const ticketsRuducer = createReducer(
@@ -59,7 +63,7 @@ export const ticketsRuducer = createReducer(
   on(startLoading, (state) => ({ ...state, isLoading: true })),
   on(stopLoading, (state) => ({ ...state, isLoading: false })),
 
-  on(updateTableData, (state, { element }) => ({
+  on(delete_user_client, (state, { element }) => ({
     ...state,
     tableConfig: {
       data: state.tableConfig.data.filter(
@@ -67,5 +71,9 @@ export const ticketsRuducer = createReducer(
       ),
       columns: state.tableConfig.columns,
     },
+  })),
+  on(loadUpdateSuccess, (state, { element }) => ({
+    ...state,
+    updateData: element,
   })),
 );

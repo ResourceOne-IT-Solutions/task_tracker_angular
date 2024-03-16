@@ -292,12 +292,6 @@ export const userColumns = [
     isText: true,
   },
   {
-    columnDef: 'profileImageUrl',
-    header: 'Profile Pic',
-    cell: (element: any) => `${element['profileImageUrl']}`,
-    isImage: true,
-  },
-  {
     columnDef: 'dob',
     header: 'Date of Birth',
     cell: (element: any) => `${new Date(element['dob']).toLocaleString()}`,

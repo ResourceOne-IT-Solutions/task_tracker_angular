@@ -85,16 +85,6 @@
                 Phone is Required
               </div>
             </div>
-            <label class="ms-2">Date Of Birth</label>
-            <input type="date" class="form-control m-2" formControlName="dob" />
-            <div
-              class="text-danger mb-2 ps-2"
-              *ngIf="userSubmitted && user['dob'].errors"
-            >
-              <div *ngIf="user['dob'].errors['required']">
-                Phone is Required
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -313,7 +303,7 @@
         *ngIf="!close"
         (click)="updateUserTicket(d)"
       >
-        Update
+        Update**
       </button>
       <button
         class="btn btn-sm btn-primary"
