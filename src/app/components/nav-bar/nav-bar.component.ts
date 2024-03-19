@@ -202,6 +202,7 @@ export class NavBarComponent {
     return [year, month, day].join('-');
   }
   OpenTicketModel(modalTicket: any) {
+    this.router.navigate(['dashboard']);
     this.UserNavSelectedData = modalTicket;
     this.chatservice.getAllClients().subscribe((res: any) => {
       this.clientData = res;
@@ -225,7 +226,7 @@ export class NavBarComponent {
     });
   }
   openClientModel(ClientModal: any) {
-    console.log(this.clientModel, 'Client');
+    this.router.navigate(['dashboard']);
     this.UserNavSelectedData = ClientModal;
     this.submitted = false;
     this.openPopup(this.clientModel);
