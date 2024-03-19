@@ -84,6 +84,13 @@
           >{{ element.files.length - 1 }} more</span
         >
       </div>
+      <div class="feed-back" *ngIf="element.files.length <= 1">
+        <img
+        src="data:{{ element.files[0].mimetype }};base64,{{
+          element.files[0].buffer
+        }}"
+      />
+      </div>
       <img
         *ngIf="element.files.length < 1"
         src="data:{{ element.files[0].mimetype }};base64,{{
@@ -119,5 +126,4 @@
       <img src="data:image/jpeg;base64,{{ file.buffer }}" alt="NoImage" />
     </p>
   </div>
-  <!-- </div> -->
 </div>
