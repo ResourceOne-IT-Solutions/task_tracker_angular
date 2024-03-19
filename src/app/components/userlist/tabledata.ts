@@ -1,3 +1,4 @@
+import { getBreakTimings } from 'src/app/utils/util';
 import { Column } from '../dash-board/dash-board.component';
 
 export const ticketColumns: Array<Column> = [
@@ -77,6 +78,7 @@ export const footerColumns = [
     header: 'description',
     cell: (element: any) => `${element['description']}`,
     isText: true,
+    isLink: true,
   },
   {
     columnDef: 'status',
@@ -151,13 +153,19 @@ export const Tickets: Array<Column> = [
   {
     columnDef: 'description',
     header: 'description',
-    cell: (element: any) => `${element['description']}`,
+    cell: (element: any) => `${element['description'].substring(0, 20) + '..'}`,
     isText: true,
+    isLink: true,
   },
   {
     columnDef: 'comments',
     header: 'comments',
-    cell: (element: any) => `${element['comments'] || '--'}`,
+    cell: (element: any) => {
+      const description = element['comments'];
+      return description.length > 20
+        ? `${description.substring(0, 20)}..`
+        : description || '--';
+    },
     isText: true,
   },
   {
@@ -328,19 +336,25 @@ export const UserBreaksTimings = [
   {
     columnDef: 'startDate',
     header: 'Date',
-    cell: (element: any) => `${element['startDate']}`,
+    cell: (element: any) => `${element[0]}`,
     isText: true,
   },
   {
     columnDef: 'Breaks',
     header: 'Breaks',
-    cell: (element: any) => `${element['designation']}`,
+    cell: (element: any) => `${element[1].length}`,
     isText: true,
   },
   {
     columnDef: 'duration',
     header: 'Duration',
-    cell: (element: any) => `${element['duration']}`,
+    cell: (element: any) =>
+      `${getBreakTimings(
+        element[1].reduce(
+          (acc: number, obj: any) => acc + (obj?.duration || 0),
+          0,
+        ),
+      )}`,
     isText: true,
   },
 ];
@@ -383,7 +397,7 @@ export const UserLoginTimings = [
           (timeDifferenceMs % (1000 * 60 * 60)) / (1000 * 60),
         );
         const seconds = Math.floor((timeDifferenceMs % (1000 * 60)) / 1000);
-        return `${hours}:${minutes}:${seconds} seconds`;
+        return `${hours}:${minutes}:${seconds}`;
       } else {
         return 'Invalid';
       }

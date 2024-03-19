@@ -1,3 +1,16 @@
+export interface BreakTimeInterface {
+  startTime: string;
+  startDate: string;
+  endTime: string;
+  endDate: string;
+  type: string;
+}
+export interface LoginTimeInterface {
+  inTime: string;
+  date: string;
+  outTime?: string;
+  _id: string;
+}
 export interface User {
   createdBy: {
     name: string;
@@ -27,21 +40,10 @@ export interface User {
   progressTickets: number;
   assignedTickets: number;
   groups: string[];
-  breakTime: {
-    startTime: string;
-    startDate: string;
-    endTime: string;
-    endDate: string;
-    type: string;
-  }[];
+  breakTime: BreakTimeInterface[];
   gender: string;
   newMessages: Record<string, number>;
-  loginTimings: {
-    inTime: string;
-    date: string;
-    outTime?: string;
-    _id: string;
-  }[];
+  loginTimings: LoginTimeInterface[];
   createdAt: string;
   updatedAt: string;
   __v: number;

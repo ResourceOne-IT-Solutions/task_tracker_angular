@@ -16,11 +16,11 @@ import { TooltipPosition } from '@angular/material/tooltip';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DialogInfoComponent } from 'src/app/reusable/dialog-info/dialog-info.component';
 import { MatDialog } from '@angular/material/dialog';
-import { User } from 'src/app/interface/users';
+import { BreakTimeInterface, User } from 'src/app/interface/users';
 import { Store } from '@ngrx/store';
 import { openDialog } from 'src/app/chat-store/table.actions';
 import { UserBreaksTimings, UserLoginTimings } from '../userlist/tabledata';
-
+import { getBreakTimings } from 'src/app/utils/util';
 @Component({
   selector: 'app-user-page',
   templateUrl: './user-page.component.html',
@@ -84,6 +84,8 @@ export class UserPageComponent implements OnInit {
   UserPiechart: any = [];
   UserBreaks: Array<Column> = [...UserBreaksTimings];
   UserLogin: Array<Column> = [...UserLoginTimings];
+  getBreakTimings = getBreakTimings;
+  UserBreaktimmings: [string, BreakTimeInterface[]][] = [];
   constructor(
     public chatservice: ChatService,
     private route: ActivatedRoute,
@@ -96,6 +98,22 @@ export class UserPageComponent implements OnInit {
       this.isAdminView = true;
       this.chatservice.get(`/users/${this.paramId}`).subscribe((res: User) => {
         this.currentUser = res;
+        const breakimingsObj: Record<string, BreakTimeInterface[]> = {};
+        res.breakTime.forEach((val) => {
+          if (val.startDate in breakimingsObj) {
+            breakimingsObj[val.startDate].push(val);
+          } else {
+            breakimingsObj[val.startDate] = [];
+          }
+        });
+        this.UserBreaktimmings = Object.entries(breakimingsObj);
+        console.log(
+          this.currentUser.breakTime,
+          '100::::',
+          this.UserBreaktimmings,
+          '11000',
+          this.currentUser.UserBreaktimmings,
+        );
         this.breakLoginTimeings(this.currentUser);
         this.statusByDate = this.statusGroupedByDate();
       });

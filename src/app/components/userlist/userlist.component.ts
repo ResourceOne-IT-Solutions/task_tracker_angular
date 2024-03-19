@@ -153,7 +153,6 @@ export class UserlistComponent {
         this.tableColumns = res.columns;
         this.tableData = res.data;
         this.mockTableData = res;
-        console.log(this.tableData, this.tableColumns);
       }
     });
     this.store.pipe(select(updatedTableData)).subscribe((res: any) => {
@@ -596,7 +595,6 @@ export class UserlistComponent {
     );
   }
   delete(data: any, user: any) {
-    console.log('delete');
     this.store.dispatch(loadDeleteApi({ data, name: user }));
   }
   phoneValidation(evt: any) {

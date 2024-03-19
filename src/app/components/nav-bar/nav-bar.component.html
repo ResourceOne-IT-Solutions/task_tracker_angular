@@ -236,7 +236,7 @@
 
 <ng-template #ticketModel let-d="dismiss">
   <div class="modal-header p-2 m-0">
-    <h4 class="modal-title p-0 m-0">Creat Ticket</h4>
+    <h4 class="modal-title p-0 m-0">Create Ticket</h4>
   </div>
   <div class="modal-body m-2">
     <form [formGroup]="TicketCreationForm">
@@ -281,10 +281,10 @@
       >
         <div *ngIf="targetDate.errors['required']">Target Date is Required</div>
       </div>
-      <label class="ms-2">Description</label>
+      <label class="ms-2">Requirment</label>
       <textarea
         class="form-control m-2"
-        placeholder="description"
+        placeholder="Requirment"
         formControlName="description"
       ></textarea>
       <div
