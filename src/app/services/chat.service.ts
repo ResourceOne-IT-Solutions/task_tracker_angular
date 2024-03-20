@@ -337,7 +337,7 @@ export class ChatService {
         ) {
           this.handleTokenError();
         }
-        return EMPTY;
+        return throwError(error);
       }),
     );
   }
@@ -356,7 +356,7 @@ export class ChatService {
         ) {
           this.handleTokenError();
         }
-        return EMPTY;
+        return throwError(error);
       }),
     );
   }
@@ -375,7 +375,7 @@ export class ChatService {
         ) {
           this.handleTokenError();
         }
-        return EMPTY;
+        return throwError(error);
       }),
     );
   }
@@ -394,7 +394,7 @@ export class ChatService {
         ) {
           this.handleTokenError();
         }
-        return EMPTY;
+        return throwError(error);
       }),
     );
   }
