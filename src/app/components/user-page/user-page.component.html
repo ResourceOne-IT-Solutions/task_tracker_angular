@@ -79,6 +79,7 @@
           [nextpaginator]="false"
           [data]="UserBreaktimmings"
           [tableColumns]="UserBreaks"
+          (nameClick)="ShowBreaks($event)"
         ></app-table>
       </div>
       <div class="usersLBtimmings">
@@ -164,3 +165,20 @@
     </div>
   </div>
 </div>
+
+<!-- User Breaks -->
+
+<ng-template #userDetailsModel let-d="dismiss">
+  <div class="modal-header p-2 m-0">
+    <h4 class="modal-title p-0 m-0 fs-5">
+      Users Break Timings -- {{ BreakTimmings[0] }}
+    </h4>
+  </div>
+  <div class="modal-body p-2 m-0">
+    <app-table
+      [data]="BreakTimmings[1]"
+      [tableColumns]="UserBreakCoulmns"
+      (nameClick)="ShowBreaks($event)"
+    ></app-table>
+  </div>
+</ng-template>

@@ -152,7 +152,7 @@ export class UserlistComponent {
       if (res.data && res.columns) {
         this.tableColumns = res.columns;
         this.tableData = res.data;
-        this.mockTableData = res;
+        this.mockTableData = res.data;
       }
     });
     this.store.pipe(select(updatedTableData)).subscribe((res: any) => {
