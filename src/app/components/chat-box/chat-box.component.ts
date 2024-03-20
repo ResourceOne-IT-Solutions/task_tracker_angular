@@ -324,6 +324,7 @@ export class ChatBoxComponent {
     this.ChatBox = false;
     this.userChatList = true;
     this.isChat = !this.isChat;
+    this.chatservice.sendSocketData({ key: 'leaveRoom', data: this.RoomId });
   }
 
   SelectedImage(evt: any) {
