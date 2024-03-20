@@ -343,7 +343,7 @@ export const UserBreaksTimings = [
     columnDef: 'Breaks',
     header: 'Breaks',
     cell: (element: any) => `${element[1].length}`,
-    isText: true,
+    isMouseOver: true,
   },
   {
     columnDef: 'duration',
@@ -418,3 +418,44 @@ export function getFullName(data: any) {
   }
   return 'Invalid Name';
 }
+
+export const BreaksTimings = [
+  {
+    columnDef: 'status',
+    header: 'Break Type',
+    cell: (element: any) => `${element['status']}`,
+    isText: true,
+  },
+  {
+    columnDef: 'startTime',
+    header: 'Start',
+    cell: (element: any) => {
+      const startTime = new Date(element['startTime']);
+      const timeString = startTime.toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+      return timeString;
+    },
+    isText: true,
+  },
+  {
+    columnDef: 'endTime',
+    header: 'End',
+    cell: (element: any) => {
+      const startTime = new Date(element['endTime']);
+      const timeString = startTime.toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+      return timeString;
+    },
+    isText: true,
+  },
+  {
+    columnDef: 'duration',
+    header: 'Duration',
+    cell: (element: any) => `${getBreakTimings(element['duration'])}`,
+    isText: true,
+  },
+];

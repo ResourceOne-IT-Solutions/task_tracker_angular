@@ -275,6 +275,7 @@ export class NavBarComponent {
   cancel(dismiss: any) {
     dismiss();
     this.clientForm.reset();
+    this.UserNavSelectedData = '';
   }
   createTicket(dismiss: any) {
     this.submitTicketForm = true;

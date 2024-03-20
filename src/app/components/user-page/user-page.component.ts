@@ -19,7 +19,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { BreakTimeInterface, User } from 'src/app/interface/users';
 import { Store } from '@ngrx/store';
 import { openDialog } from 'src/app/chat-store/table.actions';
-import { UserBreaksTimings, UserLoginTimings } from '../userlist/tabledata';
+import {
+  BreaksTimings,
+  UserBreaksTimings,
+  UserLoginTimings,
+} from '../userlist/tabledata';
 import { getBreakTimings } from 'src/app/utils/util';
 @Component({
   selector: 'app-user-page',
@@ -28,6 +32,9 @@ import { getBreakTimings } from 'src/app/utils/util';
 })
 export class UserPageComponent implements OnInit {
   @HostListener('window: popstate', ['$event'])
+  @ViewChild('userDetailsModel', { static: false })
+  userDetailsModel: any;
+
   requestchat = false;
   isupdatestatus = false;
   Userstatus = true;
@@ -84,13 +91,16 @@ export class UserPageComponent implements OnInit {
   UserPiechart: any = [];
   UserBreaks: Array<Column> = [...UserBreaksTimings];
   UserLogin: Array<Column> = [...UserLoginTimings];
+  UserBreakCoulmns: Array<Column> = [...BreaksTimings];
   getBreakTimings = getBreakTimings;
   UserBreaktimmings: [string, BreakTimeInterface[]][] = [];
+  BreakTimmings: [string, BreakTimeInterface[]][] = [];
   constructor(
     public chatservice: ChatService,
     private route: ActivatedRoute,
     private store: Store,
     private dialog: MatDialog,
+    private modalService: NgbModal,
   ) {}
   ngOnInit(): void {
     this.paramId = this.route.snapshot.paramMap.get('id');
@@ -107,13 +117,6 @@ export class UserPageComponent implements OnInit {
           }
         });
         this.UserBreaktimmings = Object.entries(breakimingsObj);
-        console.log(
-          this.currentUser.breakTime,
-          '100::::',
-          this.UserBreaktimmings,
-          '11000',
-          this.currentUser.UserBreaktimmings,
-        );
         this.breakLoginTimeings(this.currentUser);
         this.statusByDate = this.statusGroupedByDate();
       });
@@ -207,6 +210,10 @@ export class UserPageComponent implements OnInit {
           };
         }
       });
+  }
+  ShowBreaks(data: any) {
+    this.modalService.open(this.userDetailsModel);
+    this.BreakTimmings = data;
   }
   loginTimeGroupedByDate() {
     const groupByTime = this.chatservice.groupByDate(
