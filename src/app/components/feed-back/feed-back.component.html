@@ -102,14 +102,6 @@
   </app-table>
 </div>
 <div *ngIf="FullDetails" class="feedback-details-container">
-  <ngx-spinner
-    bdColor="rgba(0,0,0,0.32)"
-    size="large"
-    color="#8652d5"
-    type="ball-clip-rotate-multiple"
-    [fullScreen]="false"
-  >
-  </ngx-spinner>
   <button class="btn btn-danger" (click)="gotoback()">Back</button>
   <h3 class="text-center fs-2 fw-lighter">
     Hey Hi {{ SelectedfeedBackData?.sender?.name }} Thanks you for Visiting..

@@ -2,7 +2,6 @@ import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { ChatService } from 'src/app/services/chat.service';
 
 @Component({
@@ -66,7 +65,6 @@ export class FeedBackComponent {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private location: Location,
-    private loader: NgxSpinnerService,
   ) {
     this.feedBackForm = this.fb.group({
       content: ['', Validators.required],
@@ -75,7 +73,6 @@ export class FeedBackComponent {
     });
   }
   ngOnInit() {
-    this.loader.show();
     this.params = this.route.snapshot.routeConfig?.path;
     this.chatservice.UserLoginData.subscribe((res) => {
       this.currentUser = res;
