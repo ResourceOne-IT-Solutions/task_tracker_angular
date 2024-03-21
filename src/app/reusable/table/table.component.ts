@@ -57,9 +57,6 @@ export class TableComponent {
   ngOnInit() {
     this.url = this.chatservice.BE_URL + '/profile-images';
     this.loader.show();
-    setTimeout(() => {
-      this.loader.hide();
-    }, 500);
     this.displayedColumns = this.tableColumns.map((c) => c.columnDef);
     this.dataSource = new MatTableDataSource(this.data);
   }
@@ -67,6 +64,7 @@ export class TableComponent {
     if (change['data']) {
       this.displayedColumns = this.tableColumns.map((c) => c.columnDef);
       this.dataSource.data = this.data;
+      this.loader.hide();
     }
   }
   ngAfterViewInit() {
