@@ -465,17 +465,14 @@ export class UserlistComponent {
       this.description = this.ticketDetails.description;
     } else if (data.name == 'Assign User' || data.name == 'Add Resource') {
       this.assignTicket(data.userDetails);
-    } else if (data.name === 'Close') {
-      // this.closeTicket(data.userDetails);
-      this.modelHeader = 'Close Ticket';
-
+    } else if (data.name === 'Close' || data.name === 'ReOpen') {
       this.openPopup(this.updateModel);
       this.userDetailsdata = data.userDetails;
       this.updateFormPatch(this.userDetailsdata);
 
       this.close = true;
       this.showForm = false;
-      this.modelHeader = 'Close Ticket';
+      this.modelHeader = data.name + ' Ticket';
     }
   }
   // patch value to update form
@@ -556,10 +553,11 @@ export class UserlistComponent {
 
   // close ticket
   closeTicket(dismiss: any) {
+    const isClosed = this.modelHeader.includes('Close')
     const ticketpayload = {
       id: this.userDetailsdata._id,
       data: {
-        isClosed: true,
+        isClosed,
         ...(this.showForm ? { ...this.updateForm.value } : {}),
         updatedBy: {
           name: this.chatservice.getFullName(this.adminDetails),
