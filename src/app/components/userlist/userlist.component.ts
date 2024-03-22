@@ -553,7 +553,7 @@ export class UserlistComponent {
 
   // close ticket
   closeTicket(dismiss: any) {
-    const isClosed = this.modelHeader.includes('Close')
+    const isClosed = this.modelHeader.includes('Close');
     const ticketpayload = {
       id: this.userDetailsdata._id,
       data: {

@@ -1,5 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { User } from 'src/app/interface/users';
 import { ChatService } from 'src/app/services/chat.service';
 import { IdleTimeService } from 'src/app/services/idle/idle-time.service';
@@ -26,12 +34,17 @@ export class HeaderComponent implements OnInit {
   url: string = '';
   isProfile: boolean = false;
   isCollapsed: boolean = true;
+  fileToUpload: any;
+  imageUrl: any;
   @Output() HamburgerClick: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @ViewChild('ticketModel', { static: false }) ticketModel: any;
+  fileUpload: any;
 
   constructor(
     private router: Router,
     private idle: IdleTimeService,
     public chatservice: ChatService,
+    public modalService: NgbModal,
   ) {}
 
   ngOnInit(): void {
@@ -39,6 +52,7 @@ export class HeaderComponent implements OnInit {
     this.chatservice.UserLogin(this.userDetails);
     this.chatservice.UserLoginData.subscribe((res: User | undefined) => {
       this.adminDetails = res;
+      console.log(this.adminDetails, '49::::');
     });
     this.url = this.chatservice.BE_URL + '/profile-images';
   }
@@ -92,6 +106,29 @@ export class HeaderComponent implements OnInit {
     this.chatservice.sendSocketData({ key: 'logout', data: logoutpayload.id });
     this.router.navigate(['/']);
   }
+
+  handleFileInput(event: any) {
+    this.fileUpload = event.target.files[0];
+    if (this.fileUpload) {
+      this.fileToUpload = this.fileUpload;
+      let reader = new FileReader();
+      reader.onload = (event: any) => {
+        this.imageUrl = event.target.result;
+      };
+      reader.readAsDataURL(this.fileToUpload);
+    }
+  }
+  edit_ProfileImg() {
+    this.modalService.open(this.ticketModel);
+  }
+  UploadImg(dismiss: any) {
+    const formData = new FormData();
+    formData.append('file', this.fileUpload);
+    formData.append('id', this.adminDetails._id);
+    this.chatservice.updateProfile(formData).subscribe();
+    dismiss();
+  }
+
   deleteTokens() {
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
@@ -125,5 +162,8 @@ export class HeaderComponent implements OnInit {
   }
   closeModel() {
     this.isProfile = false;
+  }
+  cancel(dismiss: any) {
+    dismiss();
   }
 }

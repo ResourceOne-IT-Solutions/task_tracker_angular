@@ -81,6 +81,10 @@ export class ChatService {
   UpdateUsers(data: any) {
     return this.put('/users/update', data);
   }
+  updateProfile(data: any) {
+    console.log(data, '85:::::');
+    return this.put('/users/update/profile-image', data);
+  }
 
   // client calls
 

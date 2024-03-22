@@ -49,11 +49,9 @@
             <p *ngIf="logintime.date === 'Today'">
               {{ logintime.date }} :
               <span *ngFor="let time of logintime.loginTime">
-                {{ time.inTime }} - login :{{
-                  time.outTime ? time.outTime : "***"
-                }}
-                - logout</span
-              >
+                login: {{ time.inTime }} - Logout:
+                {{ time.outTime ? time.outTime : "---" }}
+              </span>
             </p>
           </div>
         </div>
@@ -178,7 +176,6 @@
     <app-table
       [data]="BreakTimmings[1]"
       [tableColumns]="UserBreakCoulmns"
-      (nameClick)="ShowBreaks($event)"
     ></app-table>
   </div>
 </ng-template>
