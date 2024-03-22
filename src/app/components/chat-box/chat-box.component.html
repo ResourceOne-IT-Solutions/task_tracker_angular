@@ -29,9 +29,10 @@
     <div class="chat-list">
       <div *ngIf="!ChartUser" class="groups">
         <p
-          class="group-heading d-flex align-items-center justify-content-between"
+          class="group-heading d-flex align-items-center justify-content-between bg-body-secondary"
           (click)="openCreateGroupModel()"
           *ngIf="currentUser.isAdmin"
+          matTooltip="Click Here"
         >
           <span><i class="fa-solid fa-people-group"></i> Add New Group</span
           ><span class="groupModel"><i class="fa-solid fa-plus"></i></span>

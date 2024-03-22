@@ -2,88 +2,29 @@
   <button
     class="chat-btn"
     (click)="ChatBoxPage('chatPage')"
-    [ngClass]="UserNavSelectedData === 'chatPage' ? 'Selected_Navbar' : ''"
+    [ngClass]="UserNavSelectedData === 'chatPage' ? 'active' : ''"
   >
     Chat Box
     <span class="roomcount" *ngIf="roomCount > 0">{{ roomCount }}</span>
   </button>
   <ng-container *ngIf="!isAdmin; else admintemplete">
     <button
-      (click)="UserView_Request('ViewRequest')"
-      [ngClass]="UserNavSelectedData === 'ViewRequest' ? 'Selected_Navbar' : ''"
+      *ngFor="let userbtn of UserButtons"
+      (click)="UserNavBtn(userbtn)"
+      [class.active]="userbtn === activeButton"
     >
-      View Request User
-    </button>
-    <button
-      (click)="userTickets('UserTickets')"
-      [ngClass]="UserNavSelectedData === 'UserTickets' ? 'Selected_Navbar' : ''"
-    >
-      Tickets
-    </button>
-    <button
-      (click)="feedBack('feedBacks')"
-      [ngClass]="UserNavSelectedData === 'feedBacks' ? 'Selected_Navbar' : ''"
-    >
-      Feed Back
-    </button>
-    <button
-      (click)="Check_feedBack('CheckfeedBacks')"
-      [ngClass]="
-        UserNavSelectedData === 'CheckfeedBacks' ? 'Selected_Navbar' : ''
-      "
-    >
-      Check FeedBacks
+      {{ userbtn }}
     </button>
   </ng-container>
 </nav>
 
 <ng-template #admintemplete>
   <button
-    (click)="OpenTicketModel('TicketModal')"
-    [ngClass]="UserNavSelectedData === 'TicketModal' ? 'Selected_Navbar' : ''"
+    *ngFor="let Adminbtn of AdminButtons"
+    (click)="AdminNav(Adminbtn)"
+    [class.active]="Adminbtn === activeButton"
   >
-    Create Ticket
-  </button>
-  <button
-    (click)="CreateNewUser('NewUser')"
-    [ngClass]="UserNavSelectedData === 'NewUser' ? 'Selected_Navbar' : ''"
-  >
-    Add User
-  </button>
-  <button
-    (click)="openClientModel('ClientModal')"
-    [ngClass]="UserNavSelectedData === 'ClientModal' ? 'Selected_Navbar' : ''"
-  >
-    Add Client
-  </button>
-  <button
-    (click)="ViewTicket('viewTicket')"
-    [ngClass]="UserNavSelectedData === 'viewTicket' ? 'Selected_Navbar' : ''"
-  >
-    Tickets
-  </button>
-  <button
-    (click)="ViewRequest('Viewrequests')"
-    [ngClass]="UserNavSelectedData === 'Viewrequests' ? 'Selected_Navbar' : ''"
-  >
-    View Request
-    <span class="requestcount" *ngIf="requestCount && requestCount.length">
-      {{ requestCount.length }}</span
-    >
-  </button>
-  <button
-    (click)="feedBack('feedBacks')"
-    [ngClass]="UserNavSelectedData === 'feedBacks' ? 'Selected_Navbar' : ''"
-  >
-    Feed Back
-  </button>
-  <button
-    (click)="Check_feedBack('CheckfeedBacks')"
-    [ngClass]="
-      UserNavSelectedData === 'CheckfeedBacks' ? 'Selected_Navbar' : ''
-    "
-  >
-    Check FeedBacks
+    {{ Adminbtn }}
   </button>
 </ng-template>
 

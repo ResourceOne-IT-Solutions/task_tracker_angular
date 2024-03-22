@@ -11,11 +11,15 @@ export class FileRenderComponent {
   url: any;
   safeurl: any;
   FileContact: any;
+  currentUser: any;
   constructor(
     private chatservice: ChatService,
     private sanitizer: DomSanitizer,
   ) {}
   ngOnInit() {
+    this.chatservice.UserLoginData.subscribe((res: any) => {
+      this.currentUser = res;
+    });
     if (this.message.fileLink && this.message.type !== 'contact') {
       this.chatservice.getFile(this.message.fileLink).subscribe(
         (res: any) => {
@@ -52,5 +56,8 @@ export class FileRenderComponent {
     el.download = fileName;
     el.click();
     return url;
+  }
+  getMessageClass(message: any): string {
+    return this.currentUser._id === message.from.id ? 'SendUser' : 'receive';
   }
 }

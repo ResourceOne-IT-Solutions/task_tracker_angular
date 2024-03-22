@@ -45,6 +45,22 @@ export class NavBarComponent {
   public isCollapsed = false;
   url: string = '';
   UserNavSelectedData: any;
+  activeButton: string = '';
+  UserButtons = [
+    'View Request User',
+    'Tickets',
+    'Feed Back',
+    'Check FeedBacks',
+  ];
+  AdminButtons = [
+    'Create Ticket',
+    'Add User',
+    'Add Client',
+    'Tickets',
+    'View Request',
+    'Feed Back',
+    'Check FeedBacks',
+  ];
   constructor(
     private router: Router,
     public chatservice: ChatService,
@@ -157,37 +173,82 @@ export class NavBarComponent {
   OpenChatBox() {
     this.router.navigate(['Chat-Box'], { relativeTo: this.route });
   }
-  ViewRequest(request: any) {
-    this.UserNavSelectedData = request;
-    this.router.navigate(['view-requestPage'], { relativeTo: this.route });
+  OpenTicketModel(modalTicket: any) {
+    this.router.navigate(['dashboard']);
+    this.UserNavSelectedData = modalTicket;
+    this.chatservice.getAllClients().subscribe((res: any) => {
+      this.clientData = res;
+    });
+    this.submitTicketForm = false;
+    this.TicketCreationForm.controls['targetDate'].patchValue(
+      this.formatDate(),
+    );
+    this.modalService.open(this.ticketModel);
   }
-  ViewTicket(viewTicket: any) {
-    this.UserNavSelectedData = viewTicket;
-    this.router.navigate(['tickets'], { relativeTo: this.route });
+  openClientModel(ClientModal: any) {
+    this.UserNavSelectedData = ClientModal;
+    this.router.navigate(['dashboard']);
+    this.submitted = false;
+    this.openPopup(this.clientModel);
   }
-  UserView_Request(ViewRequest: any) {
-    this.UserNavSelectedData = ViewRequest;
-    this.router.navigate(['user-view-request'], { relativeTo: this.route });
+  AdminNav(data: any) {
+    switch (data) {
+      case 'Add User':
+        this.activeButton = 'Add User';
+        return this.router.navigate(['create-user'], {
+          relativeTo: this.route,
+        });
+      case 'Create Ticket':
+        this.activeButton = 'Create Ticket';
+        return this.OpenTicketModel(data);
+      case 'Add Client':
+        this.activeButton = 'Add Client';
+        return this.openClientModel(data);
+      case 'Tickets':
+        this.activeButton = 'Tickets';
+        return this.router.navigate(['tickets'], { relativeTo: this.route });
+      case 'View Request':
+        this.activeButton = 'View Request';
+        return this.router.navigate(['view-requestPage'], {
+          relativeTo: this.route,
+        });
+      case 'Feed Back':
+        this.activeButton = 'Feed Back';
+        return this.router.navigate(['feed-back'], { relativeTo: this.route });
+      case 'Check FeedBacks':
+        this.activeButton = 'Check FeedBacks';
+        return this.router.navigate(['feed-back-list'], {
+          relativeTo: this.route,
+        });
+      default:
+        return '';
+    }
   }
-  feedBack(suggetions: any) {
-    this.UserNavSelectedData = suggetions;
-    this.router.navigate(['feed-back'], { relativeTo: this.route });
-  }
-  Check_feedBack(checkfeedback: any) {
-    this.UserNavSelectedData = checkfeedback;
-    this.router.navigate(['feed-back-list'], { relativeTo: this.route });
+  UserNavBtn(data: any) {
+    switch (data) {
+      case 'View Request User':
+        this.activeButton = 'View Request User';
+        return this.router.navigate(['user-view-request'], {
+          relativeTo: this.route,
+        });
+      case 'Tickets':
+        this.activeButton = 'Tickets';
+        return this.router.navigate(['tickets'], { relativeTo: this.route });
+      case 'Feed Back':
+        this.activeButton = 'Feed Back';
+        return this.router.navigate(['feed-back'], { relativeTo: this.route });
+      case 'Check FeedBacks':
+        this.activeButton = 'Check FeedBacks';
+        return this.router.navigate(['feed-back-list'], {
+          relativeTo: this.route,
+        });
+      default:
+        return '';
+    }
   }
   ChatBoxPage(chatpage: any) {
     this.UserNavSelectedData = chatpage;
     this.router.navigate(['Chat-Box'], { relativeTo: this.route });
-  }
-  userTickets(Tickets: any) {
-    this.UserNavSelectedData = Tickets;
-    this.router.navigate(['tickets'], { relativeTo: this.route });
-  }
-  CreateNewUser(newUser: any) {
-    this.UserNavSelectedData = newUser;
-    this.router.navigate(['create-user'], { relativeTo: this.route });
   }
   gotDashBoard() {
     this.router.navigate(['dashboard']);
@@ -201,18 +262,7 @@ export class NavBarComponent {
     if (day.length < 2) day = '0' + day;
     return [year, month, day].join('-');
   }
-  OpenTicketModel(modalTicket: any) {
-    this.router.navigate(['dashboard']);
-    this.UserNavSelectedData = modalTicket;
-    this.chatservice.getAllClients().subscribe((res: any) => {
-      this.clientData = res;
-    });
-    this.submitTicketForm = false;
-    this.TicketCreationForm.controls['targetDate'].patchValue(
-      this.formatDate(),
-    );
-    this.modalService.open(this.ticketModel);
-  }
+
   SelectClient(data: any) {
     this.clientData.filter((val: any) => {
       if (
@@ -225,12 +275,7 @@ export class NavBarComponent {
       }
     });
   }
-  openClientModel(ClientModal: any) {
-    this.router.navigate(['dashboard']);
-    this.UserNavSelectedData = ClientModal;
-    this.submitted = false;
-    this.openPopup(this.clientModel);
-  }
+
   openPopup(content: any): void {
     this.modalService.open(content);
   }
