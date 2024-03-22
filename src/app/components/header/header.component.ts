@@ -52,7 +52,6 @@ export class HeaderComponent implements OnInit {
     this.chatservice.UserLogin(this.userDetails);
     this.chatservice.UserLoginData.subscribe((res: User | undefined) => {
       this.adminDetails = res;
-      console.log(this.adminDetails, '49::::');
     });
     this.url = this.chatservice.BE_URL + '/profile-images';
   }
@@ -125,7 +124,10 @@ export class HeaderComponent implements OnInit {
     const formData = new FormData();
     formData.append('file', this.fileUpload);
     formData.append('id', this.adminDetails._id);
-    this.chatservice.updateProfile(formData).subscribe();
+    this.chatservice.updateProfile(formData).subscribe((res: any) => {
+      this.adminDetails.profileImageUrl = res.profileImageUrl;
+      this.chatservice.UserLogin(this.adminDetails);
+    });
     dismiss();
   }
 

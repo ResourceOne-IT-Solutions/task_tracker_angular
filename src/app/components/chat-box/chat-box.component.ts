@@ -84,8 +84,6 @@ export class ChatBoxComponent {
     if (ismobile <= 768) {
       this.userChatList = true;
       this.NoUser = false;
-    } else {
-      console.log('desktop');
     }
     this.url = this.chatservice.BE_URL + '/profile-images';
     this.loader.show();
