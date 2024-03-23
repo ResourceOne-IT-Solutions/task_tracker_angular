@@ -107,7 +107,6 @@ export class NavBarComponent {
     });
     this.Status = this.userDetails.status;
     this.chatservice.getSocketData('statusUpdate').subscribe((res) => {
-      console.log(res, this.userDetails, '93:::');
       this.roomCount = Object.keys(this.userDetails.newMessages).length;
     });
     this.chatservice.getSocketData('notifications').subscribe((res: any) => {
