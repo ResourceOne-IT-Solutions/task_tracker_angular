@@ -57,16 +57,19 @@
         </div>
         <div class="status" *ngIf="breakTimes">
           <h3>Break Time</h3>
-          <p *ngFor="let status of breakTimes.status">
-            <span *ngIf="status.type === 'END'"
-              >Start :{{ status.startTime | date: "hh:mm a" }} - End :{{
-                status.endTime | date: "hh:mm a"
-              }}
-              :<b> Duration -</b>
-              {{ getBreakTimings(status.duration / 60) }}mints --
-              {{ status.status }}
-            </span>
-          </p>
+          <div *ngIf="this.breakTimes.date ==='Today'">
+            <p *ngFor="let status of breakTimes.status">
+              <span *ngIf="status.type === 'END'"
+                >Start :{{ status.startTime | date: "hh:mm a" }} - End :{{
+                  status.endTime | date: "hh:mm a"
+                }}
+                :<b> Duration -</b>
+                {{ getBreakTimings(status.duration / 60) }}mints --
+                {{ status.status }}
+              </span>
+            </p>
+          </div>
+          <span *ngIf="this.breakTimes.date !=='Today'"> Today No Breaks</span>
         </div>
       </div>
     </div>

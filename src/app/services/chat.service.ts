@@ -25,6 +25,10 @@ export class ChatService {
   RoleData = new BehaviorSubject('');
   chatRequest = new BehaviorSubject('');
   TotalUser = new BehaviorSubject('');
+  dashBoard = new BehaviorSubject(false);
+  ClickDashBoard(data:any){
+    this.dashBoard.next(data)
+  }
   private socket: Socket;
   getRoleData(role: any) {
     this.RoleData.next(role);
