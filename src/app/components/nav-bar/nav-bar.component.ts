@@ -47,12 +47,14 @@ export class NavBarComponent {
   UserNavSelectedData: any;
   activeButton: string = '';
   UserButtons = [
+    'Chat Box',
     'View Request User',
     'Tickets',
     'Feed Back',
     'Check FeedBacks',
   ];
   AdminButtons = [
+    'Chat Box',
     'Create Ticket',
     'Add User',
     'Add Client',
@@ -61,6 +63,7 @@ export class NavBarComponent {
     'Feed Back',
     'Check FeedBacks',
   ];
+  dashBoardRes: any;
   constructor(
     private router: Router,
     public chatservice: ChatService,
@@ -89,6 +92,9 @@ export class NavBarComponent {
     });
   }
   ngOnInit() {
+  //  console.log(this.modalService.open(this.ticketModel),'96::::::',this.ticketModel)
+  // this.ticketModel.subscribe((res:any)=> console.log(res,'97777797'));
+    this.chatservice.dashBoard.subscribe((res:any) =>this.dashBoardRes = res)
     this.url = this.chatservice.BE_URL + '/profile-images';
     this.store.select(getChatRequests).subscribe((res: any) => {
       this.requestCount = [...res];
@@ -191,7 +197,11 @@ export class NavBarComponent {
     this.openPopup(this.clientModel);
   }
   AdminNav(data: any) {
+    this.dashBoardRes = false;
     switch (data) {
+      case 'Chat Box':
+        this.activeButton = 'Chat Box';
+        return this.router.navigate(['Chat-Box'], { relativeTo: this.route })
       case 'Add User':
         this.activeButton = 'Add User';
         return this.router.navigate(['create-user'], {
@@ -224,7 +234,11 @@ export class NavBarComponent {
     }
   }
   UserNavBtn(data: any) {
+    this.dashBoardRes = false;
     switch (data) {
+      case 'Chat Box':
+        this.activeButton = 'Chat Box';
+        return this.router.navigate(['Chat-Box'], { relativeTo: this.route })
       case 'View Request User':
         this.activeButton = 'View Request User';
         return this.router.navigate(['user-view-request'], {
@@ -244,10 +258,6 @@ export class NavBarComponent {
       default:
         return '';
     }
-  }
-  ChatBoxPage(chatpage: any) {
-    this.UserNavSelectedData = chatpage;
-    this.router.navigate(['Chat-Box'], { relativeTo: this.route });
   }
   gotDashBoard() {
     this.router.navigate(['dashboard']);
@@ -276,7 +286,8 @@ export class NavBarComponent {
   }
 
   openPopup(content: any): void {
-    this.modalService.open(content);
+   const popup= this.modalService.open(content);
+   console.log(popup,'295::::')
   }
   newClient(dismiss: any) {
     this.submitted = true;
@@ -318,8 +329,9 @@ export class NavBarComponent {
   }
   cancel(dismiss: any) {
     dismiss();
+    console.log('336666')
     this.clientForm.reset();
-    this.UserNavSelectedData = '';
+   this.activeButton = '';
   }
   createTicket(dismiss: any) {
     this.submitTicketForm = true;

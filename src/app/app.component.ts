@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
   currentUser: any;
   isLoading: any;
   isOnline: boolean;
+  booleanValue: boolean = false;
 
   constructor(
     private route: Router,
@@ -31,6 +32,9 @@ export class AppComponent implements OnInit {
     this.isOnline = true;
   }
   ngOnInit(): void {
+    setTimeout(()=>{
+      this.booleanValue = true;
+    },2000)
     window.addEventListener('online', this.updateOnlineStatus.bind(this));
     window.addEventListener('offline', this.updateOnlineStatus.bind(this));
     this.chatservice.UserLoginData.subscribe((res) => {

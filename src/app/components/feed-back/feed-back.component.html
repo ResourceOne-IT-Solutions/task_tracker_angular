@@ -84,20 +84,16 @@
           >{{ element.files.length - 1 }} more</span
         >
       </div>
-      <div class="feed-back" *ngIf="element.files.length <= 1">
+      <div class="feed-back" *ngIf="element.files.length == 1">
         <img
           src="data:{{ element.files[0].mimetype }};base64,{{
             element.files[0].buffer
           }}"
         />
       </div>
-      <img
-        *ngIf="element.files.length < 1"
-        src="data:{{ element.files[0].mimetype }};base64,{{
-          element.files[0].buffer
-        }}"
-        alt="no image"
-      />
+      <div class="feed-back" *ngIf="element.files.length == 0">
+        <span>No Image</span>
+      </div>
     </ng-template>
   </app-table>
 </div>

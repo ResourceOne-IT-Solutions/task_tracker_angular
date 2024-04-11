@@ -39,6 +39,7 @@ export class HeaderComponent implements OnInit {
   @Output() HamburgerClick: EventEmitter<boolean> = new EventEmitter<boolean>();
   @ViewChild('ticketModel', { static: false }) ticketModel: any;
   fileUpload: any;
+  isDashBoard: boolean=false;
 
   constructor(
     private router: Router,
@@ -156,6 +157,8 @@ export class HeaderComponent implements OnInit {
     this.isProfile = !this.isProfile;
   }
   gotDashBoard() {
+    this.isDashBoard = true;
+    this.chatservice.ClickDashBoard(this.isDashBoard);
     this.router.navigate(['dashboard']);
   }
   memuClick() {
