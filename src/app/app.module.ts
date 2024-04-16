@@ -52,7 +52,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { HeaderComponent } from './components/header/header.component';
-import { ServiceWorkerModule } from '@angular/service-worker';
 import { ModelCloseDirective } from './directives/model-close.directive';
 import { UserListEffects } from './chat-store/user-list.effect';
 @NgModule({

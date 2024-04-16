@@ -70,8 +70,12 @@
             src="{{ url }}/{{ userDetails.profileImageUrl }}"
           />
           <h4 class="btn btn-danger" class="admin-name">
-            Profile:<span *ngIf="!isProfile"><i class="fa-solid fa-chevron-down"></i></span>
-            <span *ngIf="isProfile"><i class="fa-solid fa-chevron-up"></i></span>
+            Profile:<span *ngIf="!isProfile"
+              ><i class="fa-solid fa-chevron-down"></i
+            ></span>
+            <span *ngIf="isProfile"
+              ><i class="fa-solid fa-chevron-up"></i
+            ></span>
           </h4>
         </div>
         <div class="admin-profile-info" *ngIf="isProfile">

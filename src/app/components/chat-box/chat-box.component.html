@@ -239,9 +239,12 @@
               <i class="fa-solid fa-address-book"></i>
             </span>
           </div>
-          <span (click)="displayIcons = !displayIcons" class="file-icon" matTooltip="Click Here">{{
-            displayIcons ? "-" : "+"
-          }}</span>
+          <span
+            (click)="displayIcons = !displayIcons"
+            class="file-icon"
+            matTooltip="Click Here"
+            >{{ displayIcons ? "-" : "+" }}</span
+          >
 
           <input
             type="text"

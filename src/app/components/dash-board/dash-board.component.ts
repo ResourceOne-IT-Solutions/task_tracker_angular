@@ -25,6 +25,7 @@ import { TooltipPosition } from '@angular/material/tooltip';
 import { Observable, map } from 'rxjs';
 import { IdleTimeService } from 'src/app/services/idle/idle-time.service';
 import { usersStatusColumns } from '../userlist/tabledata';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-dash-board',
   templateUrl: './dash-board.component.html',
@@ -95,11 +96,11 @@ export class DashBoardComponent {
   availableUsers: any = [];
   UsersStatus: any;
   userStatusData: any = [];
-  info = ['Available', 'Offline', 'Break', 'On Ticket', 'Sleep'];
   modalHeaders: any;
   currentuser: any;
   userColumns: Array<Column> = [...usersStatusColumns];
-
+  loading: boolean = true;
+  cardLists: any = [];
   constructor(
     public chatservice: ChatService,
     private router: Router,
@@ -107,6 +108,7 @@ export class DashBoardComponent {
     private store: Store,
     private idleSerive: IdleTimeService,
     private route: ActivatedRoute,
+    private loader: NgxSpinnerService,
   ) {}
   ngOnInit() {
     this.userData$ = this.chatservice.UserLoginData.pipe(
@@ -170,7 +172,45 @@ export class DashBoardComponent {
       const users = this.UserListData.filter((val) => !val.isAdmin);
       this.availableUsers = users;
       this.UsersStatus = this.chatservice.getPieChartData(users);
+      const availableusers = `${this.UsersStatus?.Available ? this.UsersStatus?.Available : '0'}`;
+      const offlineUsers = `${this.UsersStatus?.Offline ? this.UsersStatus?.Offline : '0'}`;
+      const breakUsers = `${this.UsersStatus?.Break ? this.UsersStatus?.Break : '0'}`;
+      const onTicketUsers = `${this.UsersStatus?.['On Ticket'] ? this.UsersStatus?.['On Ticket'] : '0'}`;
+      const SleepUsers = `${this.UsersStatus?.Sleep ? this.UsersStatus?.Sleep : '0'}`;
       this.UserListlength = users.length;
+      this.cardLists = [
+        {
+          title: 'Available',
+          userstatus: `${availableusers}`,
+          userCount: `${this.UserListlength}`,
+          imageUrl: '/assets/images/Available.png',
+        },
+        {
+          title: 'Offline',
+          userstatus: `${offlineUsers}`,
+          userCount: `${this.UserListlength}`,
+          imageUrl: '/assets/images/Offline.png',
+        },
+        {
+          title: 'Break',
+          userstatus: `${breakUsers}`,
+          userCount: `${this.UserListlength}`,
+          imageUrl: '/assets/images/Breakuser.png',
+          image: '',
+        },
+        {
+          title: 'On Ticket',
+          userstatus: `${onTicketUsers}`,
+          userCount: `${this.UserListlength}`,
+          imageUrl: 'assets/images/Onticketuser.png',
+        },
+        {
+          title: 'Sleep',
+          userstatus: `${SleepUsers}`,
+          userCount: `${this.UserListlength}`,
+          imageUrl: '/assets/images/Sleepuser.png',
+        },
+      ];
       const statusData = this.chatservice.getPieChartData(users);
       const sortedValues: number[] = this.UserpieChartLabels.map(
         (label) => statusData[label] || 0,
@@ -247,6 +287,8 @@ export class DashBoardComponent {
   }
   // show userDetails Table
   viewDetails(userStatus: any) {
+    this.loader.show();
+    // this.loading =  isSpinner;
     this.modalHeaders = userStatus;
     this.modalHeaders += ' Users';
     this.userStatusData = this.availableUsers;
@@ -255,6 +297,16 @@ export class DashBoardComponent {
         return v;
       }
     });
+    if (this.userStatusData.length > 0) {
+      setTimeout(() => {
+        this.loader.hide();
+      });
+    } else if (this.userStatusData.length <= 0) {
+      setTimeout(() => {
+        this.loader.hide();
+      });
+    }
+
     this.openPopup(this.availableModel);
   }
   ClickUserName(user: any, dismiss: any) {

@@ -25,6 +25,7 @@ import {
   UserLoginTimings,
 } from '../userlist/tabledata';
 import { getBreakTimings } from 'src/app/utils/util';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-user-page',
   templateUrl: './user-page.component.html',
@@ -95,31 +96,54 @@ export class UserPageComponent implements OnInit {
   getBreakTimings = getBreakTimings;
   UserBreaktimmings: [string, BreakTimeInterface[]][] = [];
   BreakTimmings: [string, BreakTimeInterface[]][] = [];
+  isLoader = true;
   constructor(
     public chatservice: ChatService,
     private route: ActivatedRoute,
     private store: Store,
     private dialog: MatDialog,
     private modalService: NgbModal,
+    private loader: NgxSpinnerService,
   ) {}
   ngOnInit(): void {
+    this.loader.show();
     this.paramId = this.route.snapshot.paramMap.get('id');
     if (this.paramId) {
       this.isAdminView = true;
-      this.chatservice.get(`/users/${this.paramId}`).subscribe((res: User) => {
-        this.currentUser = res;
-        const breakimingsObj: Record<string, BreakTimeInterface[]> = {};
-        res.breakTime.forEach((val) => {
-          if (val.startDate in breakimingsObj) {
-            breakimingsObj[val.startDate].push(val);
-          } else {
-            breakimingsObj[val.startDate] = [];
+      this.chatservice.get(`/users/${this.paramId}`).subscribe(
+        (res: User) => {
+          this.currentUser = res;
+          const breakimingsObj: Record<string, BreakTimeInterface[]> = {};
+          res.breakTime.forEach((val) => {
+            if (val.startDate in breakimingsObj) {
+              breakimingsObj[val.startDate].push(val);
+            } else {
+              breakimingsObj[val.startDate] = [];
+            }
+          });
+          this.UserBreaktimmings = Object.entries(breakimingsObj);
+          if (this.UserBreaktimmings.length > 0) {
+            setTimeout(() => {
+              this.loader.hide();
+            });
+          } else if (this.UserBreaktimmings.length <= 0) {
+            setTimeout(() => {
+              this.loader.hide();
+            });
           }
-        });
-        this.UserBreaktimmings = Object.entries(breakimingsObj);
-        this.breakLoginTimeings(this.currentUser);
-        this.statusByDate = this.statusGroupedByDate();
-      });
+
+          this.breakLoginTimeings(this.currentUser);
+          this.statusByDate = this.statusGroupedByDate();
+        },
+        (error: any) => {
+          this.store.dispatch(
+            openDialog({
+              message: error.error.error,
+              title: 'Error pass valid id',
+            }),
+          );
+        },
+      );
     } else {
       this.chatservice.UserLoginData.subscribe((res: any) => {
         this.currentUser = res;
