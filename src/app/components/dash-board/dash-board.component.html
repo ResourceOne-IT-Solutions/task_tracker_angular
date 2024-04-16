@@ -4,132 +4,23 @@
     <div class="admin-status-cards">
       <h4>User Status :</h4>
       <div class="card-list d-flex">
-        <div class="card">
+        <div class="card" *ngFor="let card of cardLists">
           <div
             class="card-section d-flex align-items-center justify-content-between"
           >
             <div class="card-title">
-              <p>{{ info[0] }}</p>
+              <p>{{ card.title }}</p>
               <span
-                >{{ UsersStatus?.Available ? UsersStatus?.Available : "0" }} /
-                {{ UserListlength }}
+                >{{ card.userstatus }} /
+                {{ card.userCount }}
               </span>
             </div>
-            <img
-              class="card-img"
-              src="https://cdn-icons-png.flaticon.com/128/5582/5582975.png"
-            />
+            <img class="card-img" src="{{ card.imageUrl }}" />
           </div>
           <div
             class="card-more-info d-flex align-items-center justify-content-between"
             matTooltip="Click Here"
-            (click)="viewDetails('Available')"
-          >
-            <a>More details</a>
-            <span><i class="fa-solid fa-arrow-right"></i></span>
-          </div>
-        </div>
-        <div class="card">
-          <div
-            class="card-section d-flex align-items-center justify-content-between"
-          >
-            <div class="card-title">
-              <p>{{ info[1] }}</p>
-              <span
-                >{{ UsersStatus?.Offline ? UsersStatus?.Offline : "0" }}/
-                {{ UserListlength }}</span
-              >
-            </div>
-            <img
-              class="card-img"
-              src="https://cdn-icons-png.flaticon.com/128/5818/5818373.png"
-            />
-          </div>
-          <div
-            class="card-more-info d-flex align-items-center justify-content-between"
-            matTooltip="Click Here"
-            (click)="viewDetails('Offline')"
-          >
-            <a>More details</a>
-            <span><i class="fa-solid fa-arrow-right"></i></span>
-          </div>
-        </div>
-        <div class="card">
-          <div
-            class="card-section d-flex align-items-center justify-content-between"
-          >
-            <div class="card-title">
-              <p>{{ info[2] }}</p>
-              <span
-                >{{
-                  UsersStatus?.BreakFastBreak
-                    ? UsersStatus?.BreakFastBreak
-                    : "0" && UsersStatus?.LunchBreak
-                      ? UsersStatus?.LunchBreak
-                      : "0"
-                }}
-                / {{ UserListlength }}</span
-              >
-            </div>
-            <img
-              class="card-img"
-              src="https://cdn-icons-png.flaticon.com/128/10634/10634938.png"
-            />
-          </div>
-          <div
-            class="card-more-info d-flex align-items-center justify-content-between"
-            matTooltip="Click Here"
-            (click)="viewDetails('Break')"
-          >
-            <a>More details</a>
-            <span><i class="fa-solid fa-arrow-right"></i></span>
-          </div>
-        </div>
-        <div class="card">
-          <div
-            class="card-section d-flex align-items-center justify-content-between"
-          >
-            <div class="card-title">
-              <p>{{ info[3] }}</p>
-              <span
-                >{{ UsersStatus?.OnTicket ? UsersStatus?.OnTicket : "0" }} /
-                {{ UserListlength }}</span
-              >
-            </div>
-            <img
-              class="card-img"
-              src="https://cdn-icons-png.flaticon.com/128/10242/10242204.png"
-            />
-          </div>
-          <div
-            class="card-more-info d-flex align-items-center justify-content-between"
-            matTooltip="Click Here"
-            (click)="viewDetails('OnTicket')"
-          >
-            <a>More details</a>
-            <span><i class="fa-solid fa-arrow-right"></i></span>
-          </div>
-        </div>
-        <div class="card">
-          <div
-            class="card-section d-flex align-items-center justify-content-between"
-          >
-            <div class="card-title">
-              <p>{{ info[4] }}</p>
-              <span>
-                {{ UsersStatus?.Sleep ? UsersStatus?.Sleep : "0" }}/
-                {{ UserListlength }}</span
-              >
-            </div>
-            <img
-              class="card-img"
-              src="https://cdn-icons-png.flaticon.com/128/2455/2455146.png"
-            />
-          </div>
-          <div
-            class="card-more-info d-flex align-items-center justify-content-between"
-            (click)="viewDetails('Sleep')"
-            matTooltip="Click Here"
+            (click)="viewDetails(card.title)"
           >
             <a>More details</a>
             <span><i class="fa-solid fa-arrow-right"></i></span>

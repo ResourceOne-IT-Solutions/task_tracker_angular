@@ -1,13 +1,15 @@
 <nav class="navbar-btn-list" *ngIf="userDetails">
   <ng-container *ngIf="!isAdmin; else admintemplete">
     <button
-    *ngFor="let userbtn of UserButtons"
-    (click)="UserNavBtn(userbtn)"
-    [class.active]="!dashBoardRes ? userbtn === activeButton:''"
+      *ngFor="let userbtn of UserButtons"
+      (click)="UserNavBtn(userbtn)"
+      [class.active]="!dashBoardRes ? userbtn === activeButton : ''"
     >
-    {{ userbtn }}
-    <span class="roomcount" *ngIf="roomCount > 0 && userbtn === 'Chat Box'">{{ roomCount }}</span>
-  </button>
+      {{ userbtn }}
+      <span class="roomcount" *ngIf="roomCount > 0 && userbtn === 'Chat Box'">{{
+        roomCount
+      }}</span>
+    </button>
   </ng-container>
 </nav>
 
@@ -15,7 +17,7 @@
   <button
     *ngFor="let Adminbtn of AdminButtons"
     (click)="AdminNav(Adminbtn)"
-    [class.active]="!dashBoardRes?Adminbtn === activeButton:''"
+    [class.active]="!dashBoardRes ? Adminbtn === activeButton : ''"
   >
     {{ Adminbtn }}
   </button>

@@ -57,7 +57,7 @@
         </div>
         <div class="status" *ngIf="breakTimes">
           <h3>Break Time</h3>
-          <div *ngIf="this.breakTimes.date ==='Today'">
+          <div *ngIf="this.breakTimes.date === 'Today'">
             <p *ngFor="let status of breakTimes.status">
               <span *ngIf="status.type === 'END'"
                 >Start :{{ status.startTime | date: "hh:mm a" }} - End :{{
@@ -69,7 +69,7 @@
               </span>
             </p>
           </div>
-          <span *ngIf="this.breakTimes.date !=='Today'"> Today No Breaks</span>
+          <span *ngIf="this.breakTimes.date !== 'Today'"> Today No Breaks</span>
         </div>
       </div>
     </div>

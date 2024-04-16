@@ -25,17 +25,22 @@ export class TicketdescriptionComponent {
     private modalService: NgbModal,
     private location: Location,
     private store: Store,
-
   ) {}
   ngOnInit() {
     this.paramId = this.route.snapshot.paramMap.get('id');
-    this.chatservice.get(`/tickets/${this.paramId}`).subscribe((res: any) => {
-      this.description = res;
-    },  (err) => {
-      this.store.dispatch(
-        openDialog({ message: err.error.error, title: 'description id error' }),
-      );
-    });
+    this.chatservice.get(`/tickets/${this.paramId}`).subscribe(
+      (res: any) => {
+        this.description = res;
+      },
+      (err) => {
+        this.store.dispatch(
+          openDialog({
+            message: err.error.error,
+            title: 'description id error',
+          }),
+        );
+      },
+    );
     this.chatservice.UserLoginData.subscribe((res) => {
       this.CurrentUser = res;
     });

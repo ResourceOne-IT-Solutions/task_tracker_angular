@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit {
   @Output() HamburgerClick: EventEmitter<boolean> = new EventEmitter<boolean>();
   @ViewChild('ticketModel', { static: false }) ticketModel: any;
   fileUpload: any;
-  isDashBoard: boolean=false;
+  isDashBoard: boolean = false;
 
   constructor(
     private router: Router,

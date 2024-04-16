@@ -32,9 +32,9 @@ export class AppComponent implements OnInit {
     this.isOnline = true;
   }
   ngOnInit(): void {
-    setTimeout(()=>{
+    setTimeout(() => {
       this.booleanValue = true;
-    },2000)
+    }, 2000);
     window.addEventListener('online', this.updateOnlineStatus.bind(this));
     window.addEventListener('offline', this.updateOnlineStatus.bind(this));
     this.chatservice.UserLoginData.subscribe((res) => {
